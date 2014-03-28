@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>map-client</title>
+    <meta charset="utf-8">
+
+<!-- 
+    <link rel="stylesheet" type="text/css" href="ext-4.2.1/resources/css/ext-all-neptune.css">
+         -->
+    <link rel="stylesheet" type="text/css" href="src/main/webapp/resources/ext-theme-oep/oepTheme-all.css">
+
+    <link rel="stylesheet" type="text/css" href="src/main/webapp/resources/OpenEMap.css">  
+    <script type="text/javascript" src="ext-4.2.1/ext-debug.js"></script>
+    <script type="text/javascript" src="ext-4.2.1/ext-theme-neptune.js"></script>
+    <script type="text/javascript" src="ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
+    
+    <script src="http://maps.google.com/maps/api/js?v=3&amp;sensor=false"></script>
+    
+    <script type="text/javascript">
+	  Ext.Loader.setConfig({
+	    disableCaching: false,
+	    paths: {
+	        OpenEMap: 'src/main/javascript/'
+	    }
+	  });
+    </script> 
+    
+    <script type="text/javascript" src="OpenLayers-2.13.1/lib/OpenLayers.js"></script>
+    <script type="text/javascript" src="es5-shim.min.js"></script>
+    
+    <script type="text/javascript" src="src/main/javascript/OpenEMap.js"></script>
+    
+    <script type="text/javascript">
+	  Ext.onReady(function() {
+		
+		mapClient = Ext.create('OpenEMap.Client');
+		  
+		function init(name) {
+		    Ext.Ajax.request({
+		    	url: name,
+		    	success: function(response) {
+		    		var config = Ext.decode(response.responseText);
+		    		
+		    		var gui = {
+		    			map: {
+		    			    renderTo: 'map'
+		    			},
+		    			toolbar: {
+		    			},
+		    			zoomTools: {},
+		    			//legend: {},
+		    			layers: {
+		    			},
+		    		    searchFastighet: {
+		    				zoom: 10
+		    			},
+		    			searchCoordinate: {
+		    				renderTo: 'searchcoordinate',
+		    				listeners: {
+		    				    searchcomplete: function(e) {
+		    				        console.log('searchCoordinate searchcomplete ' + e);
+		    				    }
+		    				}
+		    			},
+		    			objectConfig: {},
+		    			baseLayers: {}
+		    		};
+		    	
+		    		mapClient.destroy();
+		    		mapClient.configure(config, {
+		    			gui: gui
+		    		});
+		    		
+		    		/*Ext.create('Ext.container.Viewport', {
+		                layout : 'fit',
+		                items : mapClient.gui.container
+		            });*/
+		    		
+		            /*
+		    		var style = new OpenLayers.Style();
+		    	      
+	    	          var ruleLow = new OpenLayers.Rule({
+	    	            symbolizer: {
+	    	              pointRadius: 10,
+	    	              fillColor: 'green',
+	    	              fillOpacity: 1
+	    	            },
+	    	            maxScaleDenominator: 10000
+	    	          });
+	    	      
+	    	          var ruleHigh = new OpenLayers.Rule({
+	    	            symbolizer: {
+	    	              pointRadius: 10,
+	    	              fillColor: 'red',
+	    	              fillOpacity: 1   
+	    	           },
+	    	           minScaleDenominator: 10000
+	    	          });
+	    	          
+	    	          var labels = new OpenLayers.Rule({
+	    	              filter: new OpenLayers.Filter.Comparison({
+	    	                  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+	    	                  property: "type",
+	    	                  value: "label",
+	    	              }),
+                            symbolizer: {
+                              label: "${label}"   
+                           }
+                          });
+	    	      
+	    	          style.addRules([ruleLow, ruleHigh, labels]);
+	    	      
+	    	          var styleMap = new OpenLayers.StyleMap(style);
+	    	          mapClient.drawLayer.styleMap = styleMap;
+	    	          
+	    	          mapClient.setSketchStyleMap(styleMap);*/
+	    	          
+	    	          
+	    	          var labels = new OpenLayers.Rule({
+                          filter: new OpenLayers.Filter.Comparison({
+                              type: OpenLayers.Filter.Comparison.EQUAL_TO,
+                              property: "type",
+                              value: "label",
+                          }),
+                            symbolizer: {
+                              pointRadius: 20,
+                              fillOpacity: 0,
+                              strokeOpacity: 0,
+                              label: "${label}"   
+                           }
+                          });
+	    	          
+	    	          mapClient.drawLayer.styleMap.styles['default'].addRules([labels]);
+	    	          
+	    	          mapClient.drawLayer.events.register('featuremodified', null, function() {
+	    	              console.log("featuremodified triggered");
+	    	          });
+		    	}
+		    });
+		}
+	    
+	    var combo = Ext.create('Ext.form.ComboBox',  {
+			renderTo: 'configcombo',
+			store: ['config.json',
+			        'riges.json',
+			        'eldstad.json',
+			        'situationsplan.json',
+			        'komplementbyggnad.json',
+			        'transformator.json',
+			        'forhandsbesked.json',
+			        'preview.json',
+			        'detaljplaner.json',
+			        'OSM.json'],
+			queryMode: 'local',
+			listeners: {
+				"select": function(combo, records) {
+					var record = records[0];
+					init('src/main/webapp/config/' + record.get(record.fields.get(0).name));
+				}
+			}
+		});
+	    
+	    var record = combo.store.getAt(0);
+	    combo.setValue(record);
+	    combo.fireEvent('select', combo, [record]);
+	  });
+    </script>
+    
+    <script type="text/javascript" src="src/main/javascript/locale/OpenEMap-lang-sv_SE.js"></script>
+</head>
+<body>
+
+<div id="configcombo" style="position: absolute; bottom: 0; left: 0"></div>
+
+<div id="toolbar"></div>
+<div id="map" style="position: absolute; left: 120px; width: 1200px; height: 650px"></div>
+<div id="layers"></div>
+<div id="searchfastighet"></div>
+<div id="searchcoordinate"></div>
+<div id="objectconfig"></div>
+
+<div id="map2" style="width: 1000px; height: 450px"></div>
+
+</body>
+</html>

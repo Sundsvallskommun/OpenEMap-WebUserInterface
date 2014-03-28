@@ -1,0 +1,4 @@
+
+# MapClient configuration
+
+...

@@ -1,0 +1,9 @@
+[
+  {
+    "name": "Components",
+    "groups": [{
+      "name": "OpenEMap",
+      "classes": ["OpenEMap.*"]
+    }]
+  }
+]

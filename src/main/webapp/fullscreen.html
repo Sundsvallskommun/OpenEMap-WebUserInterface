@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>map-client</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=9">
+
+    <link rel="stylesheet" type="text/css" href="resources/ext-theme-oep/oepTheme-all.css">
+    <link rel="stylesheet" type="text/css" href="resources/OpenEMap.css">  
+    <script type="text/javascript" src="/ext-4.2.1/ext-all.js"></script>
+    <script type="text/javascript" src="/ext-4.2.1/ext-theme-neptune.js"></script>
+    <script type="text/javascript" src="/ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
+    <script type="text/javascript" src="/OpenLayers-2.13.1/OpenLayers.js"></script>
+    <script type="text/javascript" src="geoext2-all.js"></script> 
+    <script type="text/javascript" src="es5-shim.min.js"></script>
+    <script type="text/javascript" src="OpenEMap-all.js"></script>
+    
+    <script type="text/javascript">
+	  Ext.onReady(function() {
+		
+		var mapClient = Ext.create('OpenEMap.Client');
+		  
+		function init(name) {
+		    Ext.Ajax.request({
+		    	url: name,
+		    	success: function(response) {
+		    		var config = Ext.decode(response.responseText);
+		    			    		
+		    		var gui = {
+		    			map: false,
+		    			toolbar: { },
+		    			zoomTools: {},
+		    			layers: { },
+		    			baseLayers: {},
+		    			searchFastighet: { },
+		    			objectConfig: { }
+		    		};
+		    				    	
+		    		mapClient.destroy();
+		    		mapClient.configure(config, {
+		    			gui: gui
+		    		});
+		    		
+		    		var labels = new OpenLayers.Rule({
+                        filter: new OpenLayers.Filter.Comparison({
+                            type: OpenLayers.Filter.Comparison.EQUAL_TO,
+                            property: "type",
+                            value: "label",
+                        }),
+                          symbolizer: {
+                            pointRadius: 20,
+                            fillOpacity: 0,
+                            strokeOpacity: 0,
+                            label: "${label}"   
+                         }
+                        });
+                    
+                    mapClient.drawLayer.styleMap.styles['default'].addRules([labels]);
+		    	}
+		    });
+		}
+	    
+	    var combo = Ext.create('Ext.form.ComboBox',  {
+			store: ['config.json',
+			        'riges.json',
+			        'eldstad.json',
+			        'situationsplan.json',
+			        'komplementbyggnad.json',
+			        'transformator.json',
+			        'forhandsbesked.json',
+			        'preview.json',
+                    'detaljplaner.json'],
+			queryMode: 'local',
+			listeners: {
+				"select": function(combo, records) {
+					var record = records[0];
+					init('config/' + record.get(record.fields.get(0).name));
+				}
+			}
+		});
+	    
+	    var w = Ext.create('Ext.window.Window', {
+	    	title: 'Config',
+	    	layout: 'form',
+			width: 200,
+			x: 10,
+			y: 10,
+			//autoHeight: true,
+			items: combo
+		});
+	    
+	    w.show();
+	  });
+    </script> 
+</head>
+<body>
+</body>
+</html>
