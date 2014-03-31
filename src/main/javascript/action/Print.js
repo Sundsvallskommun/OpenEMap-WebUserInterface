@@ -58,6 +58,10 @@ Ext.define('OpenEMap.action.Print', {
                 printExtent.show();
                 page = printExtent.addPage();
                 
+                printProvider.dpis.data.items[0].data.name = 'Låg';
+                printProvider.dpis.data.items[1].data.name = 'Medel';
+                printProvider.dpis.data.items[2].data.name = 'Hög';
+                
                 printDialog = new Ext.Window({
                     autoHeight : true,
                     width : 290,
@@ -84,7 +88,7 @@ Ext.define('OpenEMap.action.Print', {
                             displayField : 'name',
                             valueField : 'name',
                             queryMode: 'local',
-                            value: printProvider.layouts.first().get("name"),
+                            value : printProvider.layouts.getAt(6).get("name"),
                             listeners: {
                                 select: function(combo, records, eOpts) {
                                     var record = records[0];
