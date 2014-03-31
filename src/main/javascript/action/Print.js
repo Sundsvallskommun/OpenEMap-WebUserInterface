@@ -60,11 +60,11 @@ Ext.define('OpenEMap.action.Print', {
                 
                 printDialog = new Ext.Window({
                     autoHeight : true,
-                    width : 250,
+                    width : 290,
                     resizable: false,
                     layout : 'fit',
                     bodyPadding : '5 5 0',
-                    title: 'Print settings',
+                    title: 'Utskriftsinst&auml;llningar',
                     listeners: {
                         close: onClose
                     },
@@ -75,11 +75,11 @@ Ext.define('OpenEMap.action.Print', {
                             anchor : '100%'
                         },
                         fieldDefaults : {
-                            labelWidth : 75
+                            labelWidth : 120
                         },
                         items : [ {
                             xtype : 'combo',
-                            fieldLabel: 'Layout',
+                            fieldLabel: 'Pappersformat',
                             store : printProvider.layouts,
                             displayField : 'name',
                             valueField : 'name',
@@ -93,7 +93,7 @@ Ext.define('OpenEMap.action.Print', {
                             }
                         }, {
                             xtype : 'combo',
-                            fieldLabel: 'Resolution',
+                            fieldLabel: 'Kvalité',
                             store : printProvider.dpis,
                             displayField : 'name',
                             valueField : 'value',
@@ -107,7 +107,7 @@ Ext.define('OpenEMap.action.Print', {
                             }
                         }, {
                             xtype : 'combo',
-                            fieldLabel: 'Scale',
+                            fieldLabel: 'Skala',
                             store : printProvider.scales,
                             displayField : 'name',
                             valueField : 'value',
