@@ -30,7 +30,7 @@ Ext.define('OpenEMap.action.DeleteGeometry', {
         };
         
         config.iconCls = config.iconCls || 'action-deletegeometry';
-        config.tooltip = config.tooltip || 'Delete geometry';
+        config.tooltip = config.tooltip || 'Ta bort ritat objekt';
         
         this.callParent(arguments);
     }

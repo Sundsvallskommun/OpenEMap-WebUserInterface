@@ -115,7 +115,7 @@ Ext.define('OpenEMap.action.Identify', {
         });
         
         config.iconCls = config.iconCls || 'action-identify';
-        config.tooltip = config.tooltip || 'Identify';
+        config.tooltip = config.tooltip || 'Identifiera';
         config.toggleGroup = 'extraTools';
         
         this.callParent(arguments);

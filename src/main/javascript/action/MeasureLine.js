@@ -130,7 +130,7 @@ Ext.define('OpenEMap.action.MeasureLine', {
         });
         
         config.iconCls = config.iconCls || 'action-measureline';
-        config.tooltip = config.tooltip || 'Measure line';
+        config.tooltip = config.tooltip || 'Mät str&auml;cka';
         config.toggleGroup = 'extraTools';
         
         this.callParent(arguments);

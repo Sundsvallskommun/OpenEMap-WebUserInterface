@@ -9,7 +9,7 @@ Ext.define('OpenEMap.action.SelectGeometry', {
         config.control = mapPanel.selectControl;
         
         config.iconCls = config.iconCls || 'action-selectgeometry';
-        config.tooltip = config.tooltip || 'Select geometry';
+        config.tooltip = config.tooltip || 'V&auml;lj ritat objekt';
         config.toggleGroup = 'extraTools';
         
         this.callParent(arguments);

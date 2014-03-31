@@ -39,7 +39,7 @@ Ext.define('OpenEMap.action.Print', {
         };
         
         config.iconCls = config.iconCls || 'action-print';
-        config.tooltip = config.tooltip || 'Print';
+        config.tooltip = config.tooltip || 'Skriv ut';
         config.toggleGroup = 'extraTools';
         
         var Custom =  OpenLayers.Class(OpenLayers.Control, {

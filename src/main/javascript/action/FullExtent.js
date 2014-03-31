@@ -13,7 +13,7 @@ Ext.define('OpenEMap.action.FullExtent', {
         config.control = new OpenLayers.Control.ZoomToMaxExtent();
         
         config.iconCls = config.iconCls || 'action-fullextent';
-        config.tooltip = config.tooltip || 'Zoom to full extent';
+        config.tooltip = config.tooltip || 'Zooma till full utberedning';
         
         this.callParent(arguments);
     }

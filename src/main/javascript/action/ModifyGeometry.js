@@ -47,7 +47,7 @@ Ext.define('OpenEMap.action.ModifyGeometry', {
         config.control._mode = config.control.mode;
         
         config.iconCls = config.iconCls || 'action-modifygeometry';
-        config.tooltip = config.tooltip || 'Modify geometry';
+        config.tooltip = config.tooltip || '&Auml;ndra ritat objekt';
         config.toggleGroup = 'extraTools';
         
         this.callParent(arguments);

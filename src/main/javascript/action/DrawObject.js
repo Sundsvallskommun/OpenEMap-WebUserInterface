@@ -50,7 +50,7 @@ Ext.define('OpenEMap.action.DrawObject', {
         });
         
         config.iconCls = config.iconCls || 'action-drawobject';
-        config.tooltip = config.tooltip || 'Draw predefined object';
+        config.tooltip = config.tooltip || 'Rita f&ouml;rdefinierad form.';
         config.toggleGroup = 'extraTools';
         
         this.callParent(arguments);

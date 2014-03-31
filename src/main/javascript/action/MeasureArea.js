@@ -104,7 +104,7 @@ Ext.define('OpenEMap.action.MeasureArea', {
         });
         
         config.iconCls = config.iconCls || 'action-measurearea';
-        config.tooltip = config.tooltip || 'Measure area';
+        config.tooltip = config.tooltip || 'M&auml;t area';
         config.toggleGroup = 'extraTools';
         
         this.callParent(arguments);

@@ -55,7 +55,17 @@ Ext.define('OpenEMap.action.DrawGeometry', {
         config.control = new Control(layer, OpenLayers.Handler[config.geometry]);
                 
         config.iconCls = config.iconCls || 'action-drawgeometry';
-        config.tooltip = config.tooltip || 'Draw geometry';
+       
+       if (!config.tooltip){
+       		config.tooltip = config.geometry === 'Polygon' ? 'Rita område' :
+         		config.geometry === 'Path' ? 'Rita linje' :
+         		config.geometry === 'Point' ? 'Rita punkt' : 'Rita geometri';
+         		
+         	if (config.geometry === 'Point' && config.attributes && config.attributes.type && config.attributes.type === 'label'){
+         		config.tooltip = 'Placera ut text.';	
+         	}
+       }
+        
         config.toggleGroup = 'extraTools';
         
         this.callParent(arguments);

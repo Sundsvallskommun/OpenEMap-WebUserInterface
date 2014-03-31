@@ -107,7 +107,7 @@ Ext.define('OpenEMap.action.DetailReport', {
         });
         
         config.iconCls = config.iconCls || 'action-detailreport';
-        config.tooltip = config.tooltip || 'Detail report';
+        config.tooltip = config.tooltip || 'Detaljerad rapport';
         config.toggleGroup = 'extraTools';
         
         this.callParent(arguments);
