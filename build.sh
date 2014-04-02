@@ -1,8 +1,9 @@
 #!/bin/sh
 sencha compile --classpath=src/main/javascript,ext-4.2.1/src,geoext2/src exclude -all and include -namespace OpenEMap and include -file src/main/javascript/OpenEMap.js and concat --closure OpenEMap-all.js
 sencha compile --classpath=src/main/javascript,ext-4.2.1/src,geoext2/src exclude -all and include -namespace OpenEMap and include -file src/main/javascript/OpenEMap.js and concat OpenEMap-debug-all.js
-cp geoext2/geoext2-all.js geoext2-all.js
+cp geoext2/geoext2-all.js src/main/webapp/geoext2-all.js
 cp OpenEMap-all.js src/main/webapp/OpenEMap-all.js
+cp es5-shim.min.js src/main/webapp/es5-shim.min.js
 cp -r src/main/webapp/config ./
 cp -r src/main/webapp/resources ./
 rm OpenEMap-1.0.0.zip
