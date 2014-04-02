@@ -54,7 +54,7 @@ Ext.define('OpenEMap.action.MeasureLine', {
                 strokeWidth: 3,
                 strokeOpacity: 1,
                 strokeColor: "#666666",
-                strokeDashstyle: "dash"
+                strokeDashstyle: "solid"
             },
             "Polygon": {
                 strokeWidth: 2,
@@ -70,7 +70,7 @@ Ext.define('OpenEMap.action.MeasureLine', {
         ]);
         var styleMap = new OpenLayers.StyleMap({"default": style});
         
-        config.control = new OpenLayers.Control.Measure(OpenLayers.Handler.Path, {
+        config.control = new OpenLayers.Control.DynamicMeasure(OpenLayers.Handler.Path, {
             persist: true,
             handlerOptions: {
                 layerOptions: {
@@ -78,6 +78,8 @@ Ext.define('OpenEMap.action.MeasureLine', {
                 }
             }
         });
+        
+        config.control.maxSegments = null;
         
         var out = "";
         var count = 1;

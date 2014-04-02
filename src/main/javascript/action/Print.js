@@ -58,15 +58,29 @@ Ext.define('OpenEMap.action.Print', {
                 printExtent.show();
                 page = printExtent.addPage();
                 
-                printProvider.dpis.data.items[0].data.name = 'Låg';
-                printProvider.dpis.data.items[1].data.name = 'Medel';
-                printProvider.dpis.data.items[2].data.name = 'Hög';
+                
+                printProvider.dpis.data.items.forEach(function(d){
+                	var validDpi = false;
+                	if (d.data.name === '56'){
+                		validDpi = true;
+                		d.data.name = 'Låg';
+                	} 
+                	else if (d.data.name === '127'){
+                		validDpi = true;
+                		d.data.name = 'Medel';
+                	}
+                	else if (d.data.name === '254'){
+                		validDpi = true;
+                		d.data.name = 'Hög';
+                	} 
+                });
+                
                 
                 printProvider.layouts.data.items.forEach(function(p){
                 	if (/landscape$/.test(p.data.name)){
-                		p.data.name = p.data.name.replace('landscape', 'liggande');
+                		p.data.displayName = p.data.name.replace('landscape', 'liggande');
                 	} else if (/portrait$/.test(p.data.name)){
-                		p.data.name = p.data.name.replace('portrait', 'stående');	
+                		p.data.displayName = p.data.name.replace('portrait', 'stående');	
                 	}
                 });
                 
@@ -94,10 +108,11 @@ Ext.define('OpenEMap.action.Print', {
                             xtype : 'combo',
                             fieldLabel: 'Pappersformat',
                             store : printProvider.layouts,
-                            displayField : 'name',
+                            displayField : 'displayName',
                             valueField : 'name',
+                            itemId : 'printLayouts',
                             queryMode: 'local',
-                            value : printProvider.layouts.getAt(6).get("name"),
+                            value : printProvider.layouts.getAt(0).get("name"),
                             listeners: {
                                 select: function(combo, records, eOpts) {
                                     var record = records[0];
@@ -146,6 +161,10 @@ Ext.define('OpenEMap.action.Print', {
                 printDialog.show();
                 var scale = printDialog.down('#scale');
                 scale.select(page.scale);
+                
+                var printLayouts = printDialog.down('#printLayouts');
+                printLayouts.select(printLayouts.store.data.get(6));
+                
                 
                 printExtent.control.events.register('transformcomplete', null, onTransformComplete);
                 printExtent.control.events.register('transformcomplete', null, onTransformComplete);
