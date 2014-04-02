@@ -17,6 +17,7 @@ cd resources
 cp ~/Sites/6603517000-riges/OpenEMap-integrations/resources/OpenEMap.css OpenEMap.css
 cp -r ~/Sites/6603517000-riges/OpenEMap-integrations/resources/ext-theme-oep ./
 cp -r ~/Sites/6603517000-riges/OpenEMap-integrations/resources/resources ./ 
+cp -r ~/Sites/6603517000-riges/OpenEMap-integrations/resources/images ./
 
 cd ../../
 
