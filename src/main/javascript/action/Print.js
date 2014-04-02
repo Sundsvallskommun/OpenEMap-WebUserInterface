@@ -62,6 +62,15 @@ Ext.define('OpenEMap.action.Print', {
                 printProvider.dpis.data.items[1].data.name = 'Medel';
                 printProvider.dpis.data.items[2].data.name = 'Hög';
                 
+                printProvider.layouts.data.items.forEach(function(p){
+                	if (/landscape$/.test(p.data.name)){
+                		p.data.name = p.data.name.replace('landscape', 'liggande');
+                	} else if (/portrait$/.test(p.data.name)){
+                		p.data.name = p.data.name.replace('portrait', 'stående');	
+                	}
+                });
+                
+                
                 printDialog = new Ext.Window({
                     autoHeight : true,
                     width : 290,
