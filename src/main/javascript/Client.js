@@ -120,7 +120,6 @@ Ext.define('OpenEMap.Client', {
         });
         this.mapPanel = this.gui.mapPanel;
         this.drawLayer = this.gui.mapPanel.drawLayer;
-
     },
     /**
      * Helper method to add GeoJSON directly to the draw layer

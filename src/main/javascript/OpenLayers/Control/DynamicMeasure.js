@@ -18,7 +18,7 @@ Ext.define('OpenEMap.OpenLayers.Control.DynamicMeasure', { });
  *  - <OpenLayers.Control.Measure>
  */
 OpenLayers.Control.DynamicMeasure = OpenLayers.Class(
-                                                   OpenLayers.Control.Measure, {
+		OpenLayers.Control.Measure, {
 
     /**
      * APIProperty: accuracy
@@ -132,7 +132,7 @@ OpenLayers.Control.DynamicMeasure = OpenLayers.Class(
      *     drawing layer, only used if declared a <drawingLayer>.
      * Default is false.
      */
-    multi: false,
+    multi: true,
 
     /**
      * Property: layerSegments

@@ -221,5 +221,9 @@ Ext.define('OpenEMap.view.Map' ,{
             displayInLayerSwitcher: false,
             styleMap: this.parseStyle(searchStyle)
         });
+        
+        this.measureLayer = new OpenLayers.Layer.Vector('MeasureLayer',{
+        	displayInLayerSwitcher : false
+        });
     }
 });

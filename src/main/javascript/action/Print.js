@@ -162,8 +162,11 @@ Ext.define('OpenEMap.action.Print', {
                 var scale = printDialog.down('#scale');
                 scale.select(page.scale);
                 
+                var layoutId = 6;
                 var printLayouts = printDialog.down('#printLayouts');
-                printLayouts.select(printLayouts.store.data.get(6));
+                printLayouts.select(printLayouts.store.data.get(layoutId));
+                var currentPrintLayout = printLayouts.store.data.items[layoutId];
+                printProvider.setLayout(currentPrintLayout);
                 
                 
                 printExtent.control.events.register('transformcomplete', null, onTransformComplete);
