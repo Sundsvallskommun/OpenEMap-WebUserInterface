@@ -132,7 +132,7 @@ OpenLayers.Control.DynamicMeasure = OpenLayers.Class(
      *     drawing layer, only used if declared a <drawingLayer>.
      * Default is false.
      */
-    multi: true,
+    multi: false,
 
     /**
      * Property: layerSegments
@@ -393,6 +393,7 @@ OpenLayers.Control.DynamicMeasure = OpenLayers.Class(
 
                     options.styleMap = new OpenLayers.StyleMap({
                         'default': OpenLayers.Util.applyDefaults(style,
+                           
                                                       _defaultStyles[styleName])
                     });
                 }
@@ -468,6 +469,17 @@ OpenLayers.Control.DynamicMeasure = OpenLayers.Class(
      * geometry - {<OpenLayers.Geometry>}
      */
     callbackDone: function(geometry) {
+        /*if (geometry){
+             var newLayerSegments = [];
+             this.layerSegments.features.forEach(function deepCopyFeatures(f){
+                newLayerSegments.push(f.clone());
+             });
+             mapClient.mapPanel.measureLayer.addFeatures(newLayerSegments);
+
+             var newLayerLength = [this.layerLength.features[0].clone()];
+             mapClient.mapPanel.measureLayer.addFeatures(newLayerLength);
+         }*/
+
         this.measureComplete(geometry);
         if (!this.persist) {
             this.destroyLabels();
@@ -494,10 +506,11 @@ OpenLayers.Control.DynamicMeasure = OpenLayers.Class(
      * Method: callbackCancel
      */
     destroyLabels: function() {
-        this.layerSegments && this.layerSegments.destroyFeatures(
-                                                          null, {silent: true});
-        this.layerLength && this.layerLength.destroyFeatures(
-                                                          null, {silent: true});
+        
+        this.layerSegments && this.layerSegments.destroyFeatures(null, {silent: true});
+
+        this.layerLength && this.layerLength.destroyFeatures(null, {silent: true});
+        
         this.layerHeading && this.layerHeading.destroyFeatures(
                                                           null, {silent: true});
         this.layerArea && this.layerArea.destroyFeatures(null, {silent: true});
@@ -817,20 +830,20 @@ OpenLayers.Control.DynamicMeasure.styles = {
     },
     labelSegments: {
         label: '${measure} ${units}',
-        fontSize: '11px',
+        fontSize: '12px',
         fontColor: '#800517',
         fontFamily: 'Verdana',
-        labelOutlineColor: '#dddddd',
+        labelOutlineColor: '#eeeeee',
         labelAlign: 'cm',
         labelOutlineWidth: 2
     },
     labelLength: {
         label: '${measure} ${units}\n',
-        fontSize: '11px',
+        fontSize: '12px',
         fontWeight: 'bold',
         fontColor: '#800517',
         fontFamily: 'Verdana',
-        labelOutlineColor: '#dddddd',
+        labelOutlineColor: '#eeeeee',
         labelAlign: 'lb',
         labelOutlineWidth: 3
     },

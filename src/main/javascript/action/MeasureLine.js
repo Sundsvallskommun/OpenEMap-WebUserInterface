@@ -73,7 +73,7 @@ Ext.define('OpenEMap.action.MeasureLine', {
         config.control = new OpenLayers.Control.DynamicMeasure(OpenLayers.Handler.Path, {
             persist: true,
             maxSegments : null,
-            drawingLayer : mapClient.measureLayer,
+            //drawingLayer : mapClient.mapPanel.measureLayer,
             handlerOptions: {
                 layerOptions: {
                     styleMap: styleMap
@@ -116,6 +116,21 @@ Ext.define('OpenEMap.action.MeasureLine', {
         	var v = new OpenLayers.Feature.Vector();
         	v.geometry = event.geometry;
         	mapClient.mapPanel.measureLayer.addFeatures([v]);
+            var measureSegmentLayer = mapClient.map.layers.filter(function(l){return /labelSegment/.test(l.name);})[0];
+            var lengthFeatures = measureSegmentLayer.features.map(function(l){
+                return new OpenLayers.Feature.Vector(l.geometry.clone(), Ext.clone(l.attributes));
+            });
+
+            var lengthFeature = mapClient.map.layers.filter(function(l){
+                return /labelLength/.test(l.name);
+            })[0].features;
+
+            var length = new OpenLayers.Feature.Vector(lengthFeature[0].geometry.clone(), Ext.clone(lengthFeature[0].attributes));
+            lengthFeatures.push(length);
+            
+            mapClient.mapPanel.measureLayerSegmentsLayer.addFeatures(lengthFeatures);
+
+
         	
             // var units = event.units;
             // var order = event.order;

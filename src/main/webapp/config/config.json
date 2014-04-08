@@ -17,12 +17,12 @@
      */
     "layers": [
         {
-            "name": "Karta",
+            "name": "Foto",
             "wms": {
                 "url": "http://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
                 "params": {
-                    "layers": "Lantmateriet:topowebbkartan_nedtonad",
-                    "format": "image/png"
+                "layers": "Lantmateriet:ortofoto50cm",
+                "format": "image/png"
                 },
                 "options": {
                     "isBaseLayer": true,
@@ -31,12 +31,12 @@
             }
         },
         {
-            "name": "Foto",
+            "name": "Karta",
             "wms": {
                 "url": "http://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
                 "params": {
-                "layers": "Lantmateriet:ortofoto50cm",
-                "format": "image/png"
+                    "layers": "Lantmateriet:topowebbkartan_nedtonad",
+                    "format": "image/png"
                 },
                 "options": {
                     "isBaseLayer": true,
@@ -193,8 +193,9 @@
      * * tooltip  - Text to display in tooltip
      */
     "tools": [
-        "FullExtent", "Print",
-        "Identify", "DetailReport", "MeasureLine", "MeasureArea", {
+        "MeasureLine",
+        "Print", "DeleteGeometry" , "DeleteMeasure"
+        /*","FullExtent"Identify", "DetailReport", "MeasureLine", "MeasureArea", {
             "type": "DrawObject",
             "attributes": {
                 "Typ": "Hus",
@@ -236,6 +237,6 @@
                     }
                 }
             }
-        }, "ModifyGeometry", "SelectGeometry", "DeleteGeometry"
+        }, "ModifyGeometry", "SelectGeometry", "DeleteGeometry"*/
     ]
 }
