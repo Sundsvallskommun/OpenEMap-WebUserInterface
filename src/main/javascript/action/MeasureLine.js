@@ -146,7 +146,7 @@ Ext.define('OpenEMap.action.MeasureLine', {
         }
         
         config.control.events.on({
-            'measure': handleMeasurement,
+            'measure': handleMeasurement
             // 'measurepartial': handleMeasurements
         });
         
