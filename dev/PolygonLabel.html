@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="EN">
+	<head>
+	<style>
+		html,body {
+			height: 99%;
+			width: 99%;
+		}
+		#map {
+			width: 100%;
+			height: 100%;
+			border: 1px solid black;
+		}	
+	</style>
+	<script src='/libs/OpenLayers-2.13.1/OpenLayers.js'></script>
+	</head>
+	<body>
+		<div id='map'></div>
+		<script type="text/javascript">
+			var options = {
+    			projection: "EPSG:3014",
+    			maxExtent: new OpenLayers.Bounds(90000,6880000,190000,6990000),
+    			center: new OpenLayers.LonLat(150000,6922000)
+			};
+			var map = new OpenLayers.Map('map',options );
+			var wmscURL = [
+				"http://extmap.sundsvall.se/geoserver/wms?"
+			];
+			var topowebbKartan = new OpenLayers.Layer.WMS( 'Lantmateriet:topowebbkartan_nedtonad',wmscURL, {layers: 'Lantmateriet:topowebbkartan_nedtonad', format: 'image/png' }, {buffer: 1, isBaseLayer: true} );
+			map.addLayer(topowebbKartan);
+
+
+            // allow testing of specific renderers via "?renderer=Canvas", etc
+            var renderer = OpenLayers.Util.getParameters(window.location.href).renderer;
+            renderer = (renderer) ? [renderer] : OpenLayers.Layer.Vector.prototype.renderers;
+            
+            var style_green = {
+                strokeColor: "#000000",
+                strokeWidth: 2,
+                fillColor: "#00cc00",
+                fillOpacity: 0.50
+            };
+            var vectorLayer = new OpenLayers.Layer.Vector("Simple Geometry", {
+                    styleMap: new OpenLayers.StyleMap({'default':{
+                    // label with \n linebreaks
+                    label : "${langd}",
+                    fontColor: "#000000",
+                    fontSize: "12px",
+                    fontFamily: "Courier New, monospace",
+                    fontWeight: "bold",
+                    labelOutlineColor: "white",
+                    labelOutlineWidth: 3
+                }}),
+                renderers: renderer}
+            );
+            
+            function getCentr(geom) {
+            	var vert = geom.getVertices(true);
+            	var x1 = vert[0].x;
+            	var x2 = vert[1].x;
+            	var y1 = vert[0].y;
+            	var y2 = vert[1].y;
+            	var x = Math.min(x1,x2)+Math.abs((x1-x2)/2);
+            	var y = Math.min(y1,y2)+Math.abs((y1-y2)/2);
+            	centroid = new OpenLayers.Geometry.Point(x,y);
+            	return centroid;
+            }
+            
+            // create a polygon feature from a linear ring of points
+            var pointArray = Array();
+            pointArray.push(new OpenLayers.Geometry.Point(150005,6922000));
+            pointArray.push(new OpenLayers.Geometry.Point(150015,6922000));
+            pointArray.push(new OpenLayers.Geometry.Point(150015,6922010));
+            pointArray.push(new OpenLayers.Geometry.Point(150010,6922010));
+            pointArray.push(new OpenLayers.Geometry.Point(150010,6922005));
+            pointArray.push(new OpenLayers.Geometry.Point(150005,6922005));
+
+            var newPolygon = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.LinearRing(pointArray), null, style_green);
+			var vertPrev = null;
+			var vertStart = null;
+			var vert = null;
+			var centerPointArray = new Array();
+			for (var ix in newPolygon.geometry.getVertices()) {
+				if (vertPrev == null) {
+					vertStart=newPolygon.geometry.getVertices()[ix];
+					vertPrev=vertStart;				
+				}
+				else {
+					vert = newPolygon.geometry.getVertices()[ix];
+					var newLine = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.LineString([vertPrev, vert]));
+					var centroid = new OpenLayers.Feature.Vector(getCentr(newLine.geometry));
+					centroid.attributes.langd = newLine.geometry.getLength().toFixed(2);
+					centerPointArray.push(centroid);
+					vertPrev = vert;
+				}
+			};
+			var newLine = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.LineString([vertStart, vert]));
+			var centroid = new OpenLayers.Feature.Vector(getCentr(newLine.geometry));
+			centroid.attributes.langd = newLine.geometry.getLength().toFixed(2);
+			centerPointArray.push(centroid);
+		
+            map.addLayer(vectorLayer);
+            vectorLayer.addFeatures([newPolygon]);
+            vectorLayer.addFeatures(centerPointArray);
+			map.zoomToExtent(newPolygon.geometry.getBounds());
+		</script>
+	</body>
+</html>
