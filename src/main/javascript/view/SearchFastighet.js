@@ -61,6 +61,7 @@ Ext.define('OpenEMap.view.SearchFastighet', {
                 xtype : type,
                 mapPanel : this.mapPanel,
                 basePath: this.basePath,
+                filterMunicipalities : this.filterMunicipalities,
                 zoom: this.zoom,
                 resultPanel : grid
             };

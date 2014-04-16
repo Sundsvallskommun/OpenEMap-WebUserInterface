@@ -194,7 +194,7 @@
      */
     "tools": [
         "MeasureLine",
-        "Print", "DeleteGeometry" , "DeleteMeasure"
+        "Print", "DeleteMeasure"
         /*","FullExtent"Identify", "DetailReport", "MeasureLine", "MeasureArea", {
             "type": "DrawObject",
             "attributes": {
