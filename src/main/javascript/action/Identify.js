@@ -6,14 +6,48 @@
 Ext.define('OpenEMap.action.Identify', {
     extend: 'OpenEMap.action.Action',
     requires: ['OpenEMap.view.IdentifyResults'],
+    popup : null,
+    
+    getPopup : function(config){
+        if (this.popup){
+            this.popup.destroy();
+        }
+        this.popup = Ext.create('GeoExt.window.Popup', {
+            title: 'Sökresultat',
+            location: config.feature,
+            anchored: false,
+            unpinnable: false,
+            draggable: true,
+            map: config.mapPanel,
+            maximizable : false,
+            minimizable : false,
+            resizable: true,
+            width: 300,
+            height: 400,
+            layout: 'fit',
+            items: config.items,
+            collapsible: false,
+            x : 200,
+            y: 100,
+            listeners : {
+                close : function(){
+                    mapClient.mapPanel.searchLayer.removeAllFeatures();
+                }
+            }
+        });
+
+        return this.popup;
+    },
+
     
     constructor: function(config) {
-        
+        var self = this;
+
         var mapPanel = config.mapPanel;
         var layer = mapPanel.searchLayer;
         var map = config.map;
         var layers = config.layers;
-        
+
         var Click = OpenLayers.Class(OpenLayers.Control, {
             initialize: function(options) {
                 OpenLayers.Control.prototype.initialize.apply(
@@ -41,24 +75,8 @@ Ext.define('OpenEMap.action.Identify', {
                 var identifyResults = Ext.create('OpenEMap.view.IdentifyResults', {
                     mapPanel : mapPanel
                 });
-                
-                var popup = Ext.create('GeoExt.window.Popup', {
-                    title: 'Sökresultat',
-                    location: feature,
-                    anchored: false,
-                    unpinnable: false,
-                    draggable: true,
-                    map: mapPanel,
-                    maximizable : false,
-                    minimizable : false,
-                    resizable: true,
-                    width: 300,
-                    height: 400,
-                    layout: 'fit',
-                    items: identifyResults,
-                    collapsible: false
-                });
-                
+
+                var popup = self.getPopup({mapPanel : mapPanel, location: feature, items: identifyResults});
                 popup.show();
 
                 OpenEMap.requestLM({
