@@ -146,5 +146,61 @@ Ext.define('OpenEMap.Client', {
                 }
             }
         });
+    },
+    /**
+     * Enable additional labels for polygon edges
+     * NOTE: deactivation not yet implemented
+     * @param style hash of style properties that will override a default label style
+     */
+    toggleEdgeLabels: function(style) {
+        var styleOverride = style || {};
+        
+        var drawLabels = function() {
+            var createEdgeLabels = function(feature) {
+                var geometry = feature.geometry;
+                
+                if (geometry.CLASS_NAME != "OpenLayers.Geometry.Polygon") return [];
+                
+                var linearRing = geometry.components[0];
+                
+                var edgeLabels = linearRing.components.slice(0, linearRing.components.length-1).map(function(point, i) {
+                    var lineString = new OpenLayers.Geometry.LineString([linearRing.components[i], linearRing.components[i+1]]);
+                    var centroid = lineString.getCentroid({weighted: true});
+                    var style = Ext.applyIf(Ext.clone(styleOverride), {
+                        label: lineString.getLength().toFixed(0).toString() + " m",
+                        strokeColor: "#000000",
+                        strokeWidth: 3,
+                        labelAlign: 'cm'
+                    });
+                    var feature = new OpenLayers.Feature.Vector(centroid, null, style);
+                    return feature;
+                });
+                
+                return edgeLabels;
+            }
+            
+            var edgeLabels = this.drawLayer.features.map(createEdgeLabels).reduce(function(a, b) {
+                return a.concat(b);
+            });
+            
+            this.labelLayer.destroyFeatures();
+            this.labelLayer.addFeatures(edgeLabels);
+        };
+        
+        if (this.labelLayer == null) {
+            this.labelLayer = new OpenLayers.Layer.Vector();
+            this.map.addLayer(this.labelLayer);
+            
+            this.drawLayer.events.on({
+                "afterfeaturemodified": drawLabels,
+                "featuresadded": drawLabels,
+                "featuresremoved": drawLabels,
+                scope: this 
+            });
+        } else {
+            // TODO: disable edge labels
+        }
+        
+        drawLabels.apply(this);
     }
 });
