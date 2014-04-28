@@ -59,7 +59,7 @@
                     }
                 },
                 "wfs": {
-                    "url": "wfs",
+                    "url": "/wfs",
                     "featureType": "DetaljplanGallande_yta",
                     "featurePrefix": "RIGES"
                 }
@@ -79,7 +79,7 @@
                     }
                 },
                 "wfs": {
-                    "url": "wfs",
+                    "url": "/wfs",
                     "featureType": "AnvandningsBestammelser_yta",
                     "featurePrefix": "RIGES"
                 }
@@ -99,7 +99,7 @@
                     }
                 },
                 "wfs": {
-                    "url": "wfs",
+                    "url": "/wfs",
                     "featureType": "EgenskapsBestammelser_linje",
                     "featurePrefix": "RIGES"
                 }
@@ -119,7 +119,7 @@
                     }
                 },
                 "wfs": {
-                    "url": "wfs",
+                    "url": "/wfs",
                     "featureType": "EgenskapsBestammelser_linje",
                     "featurePrefix": "RIGES"
                 }
@@ -139,7 +139,7 @@
                     }
                 },
                 "wfs": {
-                    "url": "wfs",
+                    "url": "/wfs",
                     "featureType": "EgenskapsBestammelser_yta",
                     "featurePrefix": "RIGES"
                 },
@@ -172,7 +172,7 @@
         {
             "name" : "Administrativa Egenskaper",
             "wfs": {
-                "url": "wfs",
+                "url": "/wfs",
                 "featureType": "AdministrativaEgenskaper_yta",
                 "featurePrefix": "RIGES"
             }
@@ -193,9 +193,10 @@
      * * tooltip  - Text to display in tooltip
      */
     "tools": [
-        "MeasureLine",
+        "Identify"
+        /*"MeasureLine",
         "Print", "DeleteMeasure"
-        /*","FullExtent"Identify", "DetailReport", "MeasureLine", "MeasureArea", {
+        ","FullExtent"Identify", "DetailReport", "MeasureLine", "MeasureArea", {
             "type": "DrawObject",
             "attributes": {
                 "Typ": "Hus",
