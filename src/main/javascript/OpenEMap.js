@@ -1,3 +1,4 @@
+//@define OpenEMap
 Ext.ns('OpenEMap');
 
 Ext.apply(OpenEMap, {

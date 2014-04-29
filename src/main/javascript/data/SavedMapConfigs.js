@@ -1,3 +1,5 @@
+//@requires OpenEMap
+
 /**
  * Map configuration store
  * Store to list map configurations
