@@ -21,7 +21,7 @@ cd ..
 
 echo "building openemap"
 #sencha compile --classpath=src/main/javascript,ext-4.2.1/src,geoext2-2.0.0/src/GeoExt exclude -all and include -namespace OpenEMap and include -file src/main/javascript/OpenEMap.js and concat build/$1/OpenEMap-all.js
-sencha compile --classpath=../src/main/javascript,../ext-4.2.1/src,../geoext2-2.0.0/src/GeoExt exclude -all and include -namespace OpenEMap and include -file src/main/javascript/OpenEMap.js and --closure concat $1/OpenEMap-all.js
+sencha compile --classpath=../src/main/javascript,../ext-4.2.1/src,../geoext2-2.0.0/src/GeoExt exclude -all and include -namespace OpenEMap and include -file src/main/javascript/OpenEMap.js and concat -closure $1/OpenEMap-all.js
 echo "compressing..."
 
 tar -zcf $1.tar.gz $1
