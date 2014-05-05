@@ -24,9 +24,9 @@ sencha compile --classpath=../src/main/javascript,../../libs/ext-4.2.1/src,../..
 sencha compile --classpath=../src/main/javascript,../../libs/ext-4.2.1/src,../../geoext2-2.0.0/src/GeoExt exclude -all and include -namespace OpenEMap and include -file src/main/javascript/OpenEMap.js and concat -closure $1/OpenEMap-all.js
 echo "compressing..."
 
-#tar -zcf $1.tar.gz $1
+tar -zcf $1.tar.gz $1
 
 echo "cleaning up"
-# rm -r $1
+rm -r $1
 
 echo "done"

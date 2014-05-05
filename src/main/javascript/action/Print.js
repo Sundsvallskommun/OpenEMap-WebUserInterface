@@ -7,7 +7,7 @@ Ext.define('OpenEMap.action.Print', {
         var mapPanel = config.mapPanel;
         var printExtent = mapPanel.plugins[0];
         var printProvider = printExtent.printProvider;
-        printProvider.attribution = config.mapPanel.config.attribution.trim();
+        printProvider.customParams = {attribution: config.mapPanel.config.attribution.trim()};
         var printDialog = null;
         var page = null;
 
