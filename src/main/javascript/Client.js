@@ -179,12 +179,15 @@ Ext.define('OpenEMap.Client', {
                 return edgeLabels;
             }
             
-            var edgeLabels = this.drawLayer.features.map(createEdgeLabels).reduce(function(a, b) {
-                return a.concat(b);
-            });
-            
             this.labelLayer.destroyFeatures();
-            this.labelLayer.addFeatures(edgeLabels);
+            
+            var edgeLabelsArrays = this.drawLayer.features.map(createEdgeLabels);
+            if (edgeLabelsArrays.length > 0) {
+                var edgeLabels = edgeLabelsArrays.reduce(function(a, b) {
+                    return a.concat(b);
+                });
+                this.labelLayer.addFeatures(edgeLabels);
+            }
         };
         
         if (this.labelLayer == null) {
