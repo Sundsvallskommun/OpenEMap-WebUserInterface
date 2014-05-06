@@ -9,10 +9,10 @@ Ext.define('OpenEMap.action.DeleteMeasure', {
          config.control = new OpenLayers.Control.Button({
             trigger: function(){
                 
-                mapClient.mapPanel.measureLayer.removeAllFeatures();
-                mapClient.mapPanel.measureLayerSegmentsLayer.removeAllFeatures();
+                config.mapPanel.measureLayer.removeAllFeatures();
+                config.mapPanel.measureLayerSegmentsLayer.removeAllFeatures();
 
-                mapClient.mapPanel.map.layers.forEach(function(l){
+                config.mapPanel.map.layers.forEach(function(l){
                     if(l instanceof OpenLayers.Layer.Vector){
                         // To do clean up
                         if (/OpenLayers.Control.DynamicMeasure/.test(l.name)){
