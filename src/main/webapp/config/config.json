@@ -193,7 +193,21 @@
      * * tooltip  - Text to display in tooltip
      */
     "tools": [
-        "Identify", "Print"
+        "Identify", "Print", "MeasureLine", "DeleteMeasure", 
+        {
+            "type": "DrawGeometry",
+            "iconCls": "action-drawpoint",
+            "geometry": "Point",
+            "attributes": {
+                "type": "label",
+                "label": "Ny label",
+                "metadata": {
+                    "type": {
+                        "hidden": true
+                    }
+                }
+            }
+        }
         /*"MeasureLine",
         "Print", "DeleteMeasure"
         ","FullExtent"Identify", "DetailReport", "MeasureLine", "MeasureArea", {
