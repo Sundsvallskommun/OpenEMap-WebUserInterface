@@ -55,18 +55,23 @@ Ext.define('OpenEMap.action.DrawGeometry', {
                     this.featureAdded(feature);
                     this.events.triggerEvent("featureadded",{feature : feature});
                 }
-
-                if (isPoint){
-                    /*Ext.Msg.prompt('Name', 'Please enter your name:', function(btn, text){
-                        if (btn == 'ok'){
-                            console.log(this.feature);
-                        }
-                    });*/
-                }
             }
         });
         
         config.control = new Control(layer, OpenLayers.Handler[config.geometry]);
+
+        if (isPoint){
+            layer.events.register('beforefeatureadded', this, function(evt){
+                Ext.Msg.prompt('Text', 'Mata in text:', function(btn, text){
+                    if (btn == 'ok'){
+                        evt.feature.attributes.label = text;
+                        evt.feature.data.label = text;
+                        layer.redraw();
+                    }
+                });
+            
+            });
+        }
                 
         config.iconCls = config.iconCls || 'action-drawgeometry';
        

@@ -193,7 +193,7 @@
      * * tooltip  - Text to display in tooltip
      */
     "tools": [
-        "Identify", "Print", "MeasureLine", "DeleteMeasure", 
+        "Identify", "Print", "MeasureLine", "DeleteMeasure", "ModifyText", "ModifyGeometry",
         {
             "type": "DrawGeometry",
             "iconCls": "action-drawpoint",
