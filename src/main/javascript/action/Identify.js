@@ -31,7 +31,7 @@ Ext.define('OpenEMap.action.Identify', {
             y: 100,
             listeners : {
                 close : function(){
-                    mapClient.mapPanel.searchLayer.removeAllFeatures();
+                    config.mapPanel.searchLayer.removeAllFeatures();
                 }
             }
         });

@@ -193,7 +193,7 @@
      * * tooltip  - Text to display in tooltip
      */
     "tools": [
-        "Identify", "Print", "MeasureLine"
+        "Identify", "Print", "MeasureLine", "DeleteMeasure"
         /*"MeasureLine",
         "Print", "DeleteMeasure"
         ","FullExtent"Identify", "DetailReport", "MeasureLine", "MeasureArea", {
