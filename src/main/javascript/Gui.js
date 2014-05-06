@@ -22,7 +22,8 @@ Ext.define('OpenEMap.Gui', {
         this.map = config.map;
         this.orginalConfig = config.orginalConfig;
         this.serverStore = config.serverStore;
-        
+        this.filterMunicipalities = config.filterMunicipalities;
+
         // GUI defaults
         if (this.gui === undefined) {
             this.gui = {
@@ -205,7 +206,8 @@ Ext.define('OpenEMap.Gui', {
         
         this.searchFastighet = Ext.create('OpenEMap.view.SearchFastighet', Ext.apply({
             mapPanel : this.mapPanel,
-            basePath: this.config.basePath
+            basePath: this.config.basePath,
+            filterMunicipalities: this.filterMunicipalities 
         }, this.gui.searchFastighet));
         
         // NOTE: only create right panel if layers panel isn't rendered

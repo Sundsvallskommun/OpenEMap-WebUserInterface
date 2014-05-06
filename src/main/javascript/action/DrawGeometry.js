@@ -31,7 +31,13 @@ Ext.define('OpenEMap.action.DrawGeometry', {
     constructor: function(config) {
         var mapPanel = config.mapPanel;
         var layer = mapPanel.drawLayer;
-        
+
+        var isPoint =   config.geometry === 'Point' && 
+                        config.attributes && 
+                        config.attributes.type && 
+                        config.attributes.type === 'label';
+
+
         config.attributes = config.attributes || {};
         
         config.geometry = config.geometry || 'Polygon';
@@ -49,6 +55,14 @@ Ext.define('OpenEMap.action.DrawGeometry', {
                     this.featureAdded(feature);
                     this.events.triggerEvent("featureadded",{feature : feature});
                 }
+
+                if (isPoint){
+                    /*Ext.Msg.prompt('Name', 'Please enter your name:', function(btn, text){
+                        if (btn == 'ok'){
+                            console.log(this.feature);
+                        }
+                    });*/
+                }
             }
         });
         
@@ -61,7 +75,7 @@ Ext.define('OpenEMap.action.DrawGeometry', {
          		config.geometry === 'Path' ? 'Rita linje' :
          		config.geometry === 'Point' ? 'Rita punkt' : 'Rita geometri';
          		
-         	if (config.geometry === 'Point' && config.attributes && config.attributes.type && config.attributes.type === 'label'){
+         	if (isPoint){
          		config.tooltip = 'Placera ut text.';	
          	}
        }

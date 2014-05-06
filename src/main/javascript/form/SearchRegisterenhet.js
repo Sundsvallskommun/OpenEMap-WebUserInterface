@@ -7,7 +7,11 @@ Ext.define('OpenEMap.form.SearchRegisterenhet', {
     require: ['Ext.data.*',
               'Ext.form.*'],
     initComponent : function() {
-        var registeromrade = Ext.Object.fromQueryString(location.search).registeromrade;
+        //var registeromrade = Ext.Object.fromQueryString(location.search).registeromrade;
+        var registeromrade = null;
+        if (this.filterMunicipalities){
+            var registeromrade = this.filterMunicipalities.join(',');
+        }
         var layer = this.mapPanel.searchLayer;
         
         function doSearch(id) {
