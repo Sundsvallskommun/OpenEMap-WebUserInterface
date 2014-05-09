@@ -167,7 +167,7 @@ Ext.define('OpenEMap.Client', {
                     var lineString = new OpenLayers.Geometry.LineString([linearRing.components[i], linearRing.components[i+1]]);
                     var centroid = lineString.getCentroid({weighted: true});
                     var style = Ext.applyIf(Ext.clone(styleOverride), {
-                        label: lineString.getLength().toFixed(0).toString() + " m",
+                        label: lineString.getLength().toFixed(2).toString() + " m",
                         strokeColor: "#000000",
                         strokeWidth: 3,
                         labelAlign: 'cm'
@@ -196,6 +196,7 @@ Ext.define('OpenEMap.Client', {
             
             this.drawLayer.events.on({
                 "afterfeaturemodified": drawLabels,
+                "vertexmodified": drawLabels,
                 "featuresadded": drawLabels,
                 "featuresremoved": drawLabels,
                 scope: this 
