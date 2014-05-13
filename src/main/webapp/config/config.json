@@ -193,7 +193,7 @@
      * * tooltip  - Text to display in tooltip
      */
     "tools": [
-        "Identify", "Print", "MeasureLine", "DeleteMeasure", "ModifyText", "ModifyGeometry",
+        /*"Identify", "Print", "MeasureLine", "DeleteMeasure",*/ "ModifyText", "ModifyGeometry",
         {
             "type": "DrawGeometry",
             "iconCls": "action-drawpoint",
@@ -207,6 +207,14 @@
                     }
                 }
             }
+        },{
+            "type": "DrawGeometry",
+            "iconCls": "action-drawpolygon",
+            "geometry": "Polygon"
+        },{
+           "type": "DrawGeometry",
+            "iconCls": "action-drawpoint",
+            "geometry": "Point" 
         }
         /*"MeasureLine",
         "Print", "DeleteMeasure"
