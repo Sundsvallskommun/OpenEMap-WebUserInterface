@@ -73,6 +73,7 @@ Ext.define('OpenEMap.action.MeasureLine', {
         config.control = new OpenLayers.Control.DynamicMeasure(OpenLayers.Handler.Path, {
             persist: true,
             maxSegments : null,
+            accuracy: 2,
             //drawingLayer : mapClient.mapPanel.measureLayer,
             handlerOptions: {
                 layerOptions: {
