@@ -23,6 +23,20 @@
  */
 Ext.define('OpenEMap.action.DrawGeometry', {
     extend: 'OpenEMap.action.Action',
+
+    isText : function(feature){
+        if (feature){
+            var isPoint = feature.geometry === 'Point' || feature.geometry instanceof OpenLayers.Geometry.Point;
+            if (isPoint){
+                var isText =  feature.attributes && 
+                    feature.attributes.type && 
+                    feature.attributes.type === 'label';
+                return isText;
+            }
+        }
+        return false;
+    },
+
     /**
      * @param config
      * @param {string} config.typeAttribute string to write to new feature attribute type
@@ -31,11 +45,6 @@ Ext.define('OpenEMap.action.DrawGeometry', {
     constructor: function(config) {
         var mapPanel = config.mapPanel;
         var layer = mapPanel.drawLayer;
-
-        var isPoint =   config.geometry === 'Point' && 
-                        config.attributes && 
-                        config.attributes.type && 
-                        config.attributes.type === 'label';
 
 
         config.attributes = config.attributes || {};
@@ -60,8 +69,8 @@ Ext.define('OpenEMap.action.DrawGeometry', {
         
         config.control = new Control(layer, OpenLayers.Handler[config.geometry]);
 
-        if (isPoint){
-            layer.events.register('beforefeatureadded', this, function(evt){
+        layer.events.register('beforefeatureadded', this, function(evt){
+            if (this.isText(evt.feature)){
                 Ext.Msg.prompt('Text', 'Mata in text:', function(btn, text){
                     if (btn == 'ok'){
                         evt.feature.attributes.label = text;
@@ -69,9 +78,9 @@ Ext.define('OpenEMap.action.DrawGeometry', {
                         layer.redraw();
                     }
                 });
-            
-            });
-        }
+            }
+        });
+        
                 
         config.iconCls = config.iconCls || 'action-drawgeometry';
        
@@ -80,11 +89,10 @@ Ext.define('OpenEMap.action.DrawGeometry', {
          		config.geometry === 'Path' ? 'Rita linje' :
          		config.geometry === 'Point' ? 'Rita punkt' : 'Rita geometri';
          		
-         	if (isPoint){
+         	if (this.isText(config)){
          		config.tooltip = 'Placera ut text.';	
          	}
        }
-        
         config.toggleGroup = 'extraTools';
         
         this.callParent(arguments);
