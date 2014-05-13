@@ -790,8 +790,8 @@ OpenLayers.Control.DynamicMeasure = OpenLayers.Class(
      * measure - Array({*})
      */
     setMesureAttributes: function(attributes, measure) {
-        attributes.measure = OpenLayers.Number.format(
-                           Number(measure[0].toPrecision(this.accuracy)), null);
+        attributes.measure = OpenLayers.Number.format(measure[0].toFixed(2), null);
+                           //Number(measure[0].toPrecision(this.accuracy)), null);
         attributes.units = measure[1];
     },
 
