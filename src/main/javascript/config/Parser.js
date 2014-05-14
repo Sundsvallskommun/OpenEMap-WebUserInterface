@@ -36,6 +36,7 @@ Ext.define('OpenEMap.config.Parser', {
         options.projection = config.projection || options.projection;
         options.maxExtent = config.maxExtent;
         options.extent = config.extent;
+        options.municipalities = config.municipalities || options.municipalities;
         options.controls = options.controls.map(this.createControl);
         
         // allow to override/add other options from map property 
