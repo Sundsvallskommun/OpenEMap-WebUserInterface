@@ -1,5 +1,6 @@
 /**
  * Initializes GUI from configuration
+ * Initialize where to place the different GUI components, and if they should be floating components or 
  */
 Ext.define('OpenEMap.Gui', {
     activeAction: null,
@@ -193,6 +194,7 @@ Ext.define('OpenEMap.Gui', {
     },
     createPanels: function(items) {
         
+        // Checks whether the advanced or basic Layer control should be used
         if (this.gui.layers && this.gui.layers.type === 'advanced') {
             this.mapLayers = Ext.create('OpenEMap.view.layer.Advanced', Ext.apply({
                 mapPanel : this.mapPanel,
@@ -204,12 +206,14 @@ Ext.define('OpenEMap.Gui', {
             }, this.gui.layers));
         }
         
+        // Create SearchParcel control
         this.searchFastighet = Ext.create('OpenEMap.view.SearchFastighet', Ext.apply({
             mapPanel : this.mapPanel,
             basePath: this.config.basePath,
             filterMunicipalities: this.filterMunicipalities 
         }, this.gui.searchFastighet));
         
+        // Create Layer control
         // NOTE: only create right panel if layers panel isn't rendered
         // create right panel containing layers and search panels if no renderTo target is configured
         if (this.gui.layers && !this.gui.layers.renderTo) {
@@ -238,6 +242,7 @@ Ext.define('OpenEMap.Gui', {
             });
         }
         
+        // Create BaselLayers control
         // TODO: only create if config has baselayers
         if (!this.map.allOverlays && this.gui.baseLayers) {
             this.baseLayers = Ext.create("OpenEMap.view.BaseLayers", Ext.apply({
@@ -250,6 +255,7 @@ Ext.define('OpenEMap.Gui', {
             }, this.gui.baseLayers));
         }
         
+        // Create ZoomTool control
         if (this.gui.zoomTools && !this.gui.zoomTools.renderTo) {
             this.zoomTools = Ext.create('OpenEMap.view.ZoomTools', Ext.apply({
                 mapPanel : this.mapPanel,
@@ -258,7 +264,8 @@ Ext.define('OpenEMap.Gui', {
                 width: 36
             }, this.gui.zoomTools));
         }
-                
+        
+        // Create SearchCoordinate" control                
         // only create if renderTo
         if (this.gui.searchCoordinate && this.gui.searchCoordinate.renderTo) {
             this.searchCoordinate = Ext.create('OpenEMap.view.SearchCoordinate', Ext.apply({
@@ -266,6 +273,7 @@ Ext.define('OpenEMap.Gui', {
             }, this.gui.searchCoordinate));
         }
         
+        // Create Object config
         // only create if renderTo
         if (this.gui.objectConfig && this.gui.objectConfig.renderTo) {
             this.objectConfig = Ext.create('OpenEMap.view.ObjectConfig', Ext.apply({
