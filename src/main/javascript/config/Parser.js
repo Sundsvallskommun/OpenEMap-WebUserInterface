@@ -27,7 +27,8 @@ Ext.define('OpenEMap.config.Parser', {
             "resolutions": [280, 140, 70, 28, 14, 7, 4.2, 2.8, 1.4, 0.56, 0.28, 0.14, 0.112],
             "extent": [608114, 6910996, 641846, 6932596],
             "maxExtent": [487000.0, 6887000.0, 749144.0, 7149144.0],
-            "units": "m"
+            "units": "m",
+            "municipalities": ['Sundvsall', 'Timrå', 'Kramfors', 'Örnsköldsvik', 'Härnösand']
         };
         
         options.resolutions = config.resolutions || options.resolutions;
