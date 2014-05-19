@@ -170,16 +170,31 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
     * @return {Ext.data.Model} node
     */
     addWMSLegend: function(node) {
-        if(node.get('layer')) {
-            node.gx_wmslegend = Ext.create('GeoExt.container.WmsLegend',{
-                layerRecord: node,
-                showTitle: false,
-                hidden: true,
-                deferRender: true,
-                // custom class for css positioning
-                // see tree-legend.html
-                cls: "legend"
-            });
+        var layer = node.get('layer');
+    
+        if (layer) {
+            if (layer.legendURL) {
+                node.set('legendURL', layer.legendURL);
+                node.gx_urllegend = Ext.create('GeoExt.container.UrlLegend', {
+                    layerRecord: node,
+                    showTitle: false,
+                    hidden: true,
+                    deferRender: true,
+                    // custom class for css positioning
+                    // see tree-legend.html
+                    cls: "legend"
+                });
+            } else if (layer.CLASS_NAME == "OpenLayers.Layer.WMS") {
+                node.gx_wmslegend = Ext.create('GeoExt.container.WmsLegend', {
+                    layerRecord: node,
+                    showTitle: false,
+                    hidden: true,
+                    deferRender: true,
+                    // custom class for css positioning
+                    // see tree-legend.html
+                    cls: "legend"
+                });
+            }
         }
         return node;
     },

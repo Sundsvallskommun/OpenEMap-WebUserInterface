@@ -17,6 +17,8 @@ Ext.define('OpenEMap.model.GroupedLayerTreeModel' ,{
     	{ name: 'urlToMetadata' },
         { name: 'wms' },
     	{ name: 'wfs' },
-        { name: 'serverId' }
+        { name: 'serverId' },
+        
+        { name: 'legendURL' }
     ]
 });
