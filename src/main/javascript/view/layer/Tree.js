@@ -48,8 +48,8 @@ Ext.define('OpenEMap.view.layer.Tree' ,{
 
         this.on('cellclick', function(tree, td, cellIndex, node) {
             // Add legend if node have a wms legend and the node isnt removed
-            if(node.gx_wmslegend && node.store) {
-                var legend = node.gx_wmslegend;
+            if((node.gx_wmslegend || node.gx_urllegend) && node.store) {
+                var legend = node.gx_wmslegend || node.gx_urllegend;
                 if (legend.isHidden()) {
                     if (!legend.rendered) {
                         legend.render(td);
