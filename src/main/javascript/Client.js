@@ -195,7 +195,7 @@ Ext.define('OpenEMap.Client', {
             this.map.addLayer(this.labelLayer);
             
             this.drawLayer.events.on({
-                "afterfeaturemodified": drawLabels,
+                "featuremodified": drawLabels,
                 "vertexmodified": drawLabels,
                 "featuresadded": drawLabels,
                 "featuresremoved": drawLabels,
