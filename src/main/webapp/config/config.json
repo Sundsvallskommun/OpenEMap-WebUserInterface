@@ -275,7 +275,7 @@
         },
         "searchPlacenames" :{
             "options" : {
-                "municipalities" : ["2281"]
+                "municipalities" : ["2281", "2290"]
             }
         }
     }

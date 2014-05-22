@@ -57,12 +57,22 @@ Ext.define('OpenEMap.view.SearchFastighet', {
         });
         
         function defSearchCombo(type) {
+            var searchCriteria = null;
+            if (type === 'searchregisterenhet'){
+                searchCriteria = this.search && this.search.searchEstates ? this.search.searchEstates : null; 
+            }
+            else if (type === 'searchaddress'){
+                searchCriteria = this.search && this.search.searchAddresses ? this.search.searchAddresses : null;
+            }
+            else {
+                searchCriteria = this.search && this.search.searchPlacenames ? this.search.searchPlacenames : null;
+            }
+
             return {
                 xtype : type,
                 mapPanel : this.mapPanel,
                 basePath: this.basePath,
-                search : type ===  'searchregisterenhet' ? this.search.searchEstates : 
-                         type ===  'searchaddress' ? this.search.searchAddresses : this.search.searchPlacenames,
+                search : searchCriteria,
                 zoom: this.zoom,
                 resultPanel : grid
             };
