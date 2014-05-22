@@ -11,31 +11,7 @@
  
 Ext.define('OpenEMap.action.MeasureLine', {
     extend: 'OpenEMap.action.Action',
-    // statics: {
-        // measureWindow: null,
-        // createMeasureWindow: function(renderTo) {
-            // if (this.measureWindow) {
-                // this.measureWindow.update('');
-                // return;
-            // }
-            // this.measureWindow = Ext.create('Ext.window.Window', {
-                // title: 'Mätresultat',
-                // maximizable : false,
-                // minimizable : false,
-                // resizable: true,
-                // y : 80,
-                // x : 80,
-                // width: 200,
-                // height: 100,
-                // autoScroll: true,
-                // layout: 'fit',
-                // collapsible: false,
-                // //constrainHeader: true,
-                // renderTo: renderTo ? renderTo.getEl() : undefined,
-                // closeAction: 'hide'
-            // });
-        // }
-    // },
+    
     constructor: function(config) {
         
         var mapPanel = config.mapPanel;
@@ -80,76 +56,7 @@ Ext.define('OpenEMap.action.MeasureLine', {
                     styleMap: styleMap
                 }
             }
-        });
-        
-        var out = "";
-        var count = 1;
-        var reset = true;
-        // function handleMeasurements(event) {
-            // OpenEMap.action.MeasureLine.createMeasureWindow(mapPanel);
-            // OpenEMap.action.MeasureLine.measureWindow.show();
-//             
-            // var geometry = event.geometry;
-            // var units = event.units;
-            // var order = event.order;
-            // var measure = event.measure;
-            // //var out = "";
-            // if (reset) {
-                // out = "";
-                // count = 1;
-                // reset = false;
-            // }
-            // var p1 = geometry.components[geometry.components.length-2];
-            // var p2 = geometry.components[geometry.components.length-3];
-            // if (p1 === undefined || p2 === undefined) return;
-            // measure = p1.distanceTo(p2);
-            // units = "m";
-            // if(order == 1) {
-                // out += "Delsträcka " + count + " : " + measure.toFixed(3) + " " + units + "<br>";
-            // } else {
-                // out += "Delsträcka " + count + " : " + measure.toFixed(3) + " " + units + "<sup>2</" + "sup>" + "<br>";
-            // }
-            // OpenEMap.action.MeasureLine.measureWindow.update(out);
-            // count = count+1;
-        // }
-        
-        function handleMeasurement(event) {
-        	var v = new OpenLayers.Feature.Vector();
-        	v.geometry = event.geometry;
-        	mapPanel.measureLayer.addFeatures([v]);
-            var measureSegmentLayer = mapPanel.map.layers.filter(function(l){return /labelSegment/.test(l.name);})[0];
-            var lengthFeatures = measureSegmentLayer.features.map(function(l){
-                return new OpenLayers.Feature.Vector(l.geometry.clone(), Ext.clone(l.attributes));
-            });
-
-            var lengthFeature = mapPanel.map.layers.filter(function(l){
-                return /labelLength/.test(l.name);
-            })[0].features;
-
-            var length = new OpenLayers.Feature.Vector(lengthFeature[0].geometry.clone(), Ext.clone(lengthFeature[0].attributes));
-            lengthFeatures.push(length);
-            
-            mapPanel.measureLayerSegmentsLayer.addFeatures(lengthFeatures);
-
-
-        	
-            // var units = event.units;
-            // var order = event.order;
-            // var measure = event.measure;
-            // //var out = "";
-            // if(order == 1) {
-                // out += "Totalt: " + measure.toFixed(3) + " " + units + "<br>";
-            // } else {
-                // out += "Totalt: " + measure.toFixed(3) + " " + units + "<sup>2</" + "sup>" + "<br>";
-            // }
-            // OpenEMap.action.MeasureLine.measureWindow.update(out);
-            // reset = true;
-        }
-        
-        config.control.events.on({
-            'measure': handleMeasurement
-            // 'measurepartial': handleMeasurements
-        });
+        });        
         
         config.iconCls = config.iconCls || 'action-measureline';
         config.tooltip = config.tooltip || 'Mät str&auml;cka';

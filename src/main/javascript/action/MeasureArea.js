@@ -44,8 +44,10 @@ Ext.define('OpenEMap.action.MeasureArea', {
         ]);
         var styleMap = new OpenLayers.StyleMap({"default": style});
         
-        config.control = new OpenLayers.Control.Measure(OpenLayers.Handler.Polygon, {
-            persist: true,
+        config.control = new OpenLayers.Control.DynamicMeasure(OpenLayers.Handler.Polygon, {
+            //persist: true,
+            layerSegmentsOptions : null,
+            layerLengthOptions : null,
             handlerOptions: {
                 layerOptions: {
                     styleMap: styleMap
@@ -53,7 +55,7 @@ Ext.define('OpenEMap.action.MeasureArea', {
             }
         });
         
-        var out = "";
+        /*var out = "";
         var count = 1;
         var reset = true;
         function handleMeasurements(event) {
@@ -101,7 +103,7 @@ Ext.define('OpenEMap.action.MeasureArea', {
         config.control.events.on({
             'measure': handleMeasurement,
             'measurepartial': handleMeasurements
-        });
+        });*/
         
         config.iconCls = config.iconCls || 'action-measurearea';
         config.tooltip = config.tooltip || 'M&auml;t area';

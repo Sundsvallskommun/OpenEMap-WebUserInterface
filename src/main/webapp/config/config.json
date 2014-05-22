@@ -215,7 +215,7 @@
            "type": "DrawGeometry",
             "iconCls": "action-drawpoint",
             "geometry": "Point" 
-        }
+        },"MeasureArea"
         /*"MeasureLine",
         "Print", "DeleteMeasure"
         ","FullExtent"Identify", "DetailReport", "MeasureLine", "MeasureArea", {
