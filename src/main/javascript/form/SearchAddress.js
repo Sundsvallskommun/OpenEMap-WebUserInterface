@@ -9,8 +9,8 @@ Ext.define('OpenEMap.form.SearchAddress', {
     initComponent : function() {
         //var registeromrade = Ext.Object.fromQueryString(location.search).registeromrade;
         var registeromrade = null;
-        if (this.filterMunicipalities){
-            var registeromrade = this.filterMunicipalities.join(',');
+        if (this.search && this.search.options){
+            registeromrade = this.search.options.municipalities.join(',');
         }
         var layer = this.mapPanel.searchLayer;
         

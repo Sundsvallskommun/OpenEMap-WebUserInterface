@@ -261,5 +261,22 @@
                 }
             }
         }, "ModifyGeometry", "SelectGeometry", "DeleteGeometry"*/
-    ]
+    ],
+    "search" : {
+        "searchEstates" : {
+            "options" : {
+                "municipalities" : ["Sundsvall", "Timrå", "Kramfors"]
+            }
+        },
+        "searchAddresses" : {
+            "options" : {
+                "municipalities" : ["Sundsvall", "Timrå", "Kramfors"]
+            }
+        },
+        "searchPlacenames" :{
+            "options" : {
+                "municipalities" : ["2281"]
+            }
+        }
+    }
 }

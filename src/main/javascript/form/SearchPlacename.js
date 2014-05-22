@@ -9,8 +9,8 @@ Ext.define('OpenEMap.form.SearchPlacename', {
     initComponent : function() {
         //var kommunkod = Ext.Object.fromQueryString(location.search).kommunkod;
         var kommunkod = null;
-        if (this.filterMunicipalities){
-            var kommunkod = this.filterMunicipalities.join(',');
+         if (this.search && this.search.options){
+            kommunkod = this.search.options.municipalities.join(',');
         }
                 
         this.store = Ext.create('Ext.data.Store', {
