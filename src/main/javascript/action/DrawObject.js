@@ -57,7 +57,7 @@ Ext.define('OpenEMap.action.DrawObject', {
     },
     onClick: function(e) {
         var lonlat = this.mapPanel.map.getLonLatFromPixel(e.xy);
-        var config = this.objectConfigView ? this.objectConfigView.config : MapClient.view.ObjectConfig.config;
+        var config = this.objectConfigView ? this.objectConfigView.config : OpenEMap.view.ObjectConfig.config;
         config = Ext.clone(config);
         config.x = lonlat.lon;
         config.y = lonlat.lat;
