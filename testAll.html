@@ -1,0 +1,107 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>map-client</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=9">
+
+    <link rel="stylesheet" type="text/css" href="/libs/ext-theme-oep/oepTheme-all.css">
+    <link rel="stylesheet" type="text/css" href="resources/css/OpenEMap.css">  
+    <script type="text/javascript" src="/libs/ext-4.2.1/ext-all.js"></script>
+    <script type="text/javascript" src="/libs/ext-4.2.1/ext-theme-neptune.js"></script>
+    <script type="text/javascript" src="/libs/ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
+    <script type="text/javascript" src="/libs/OpenLayers-2.13.1/OpenLayers.js"></script>
+    <script type="text/javascript" src="/libs/geoext2-all.js"></script> 
+    <script type="text/javascript" src="/libs/es5-shim.min.js"></script>
+    <script type="text/javascript" src="OpenEMap-all.js"></script>
+    
+    <script type="text/javascript">
+	  Ext.onReady(function() {
+		
+		var mapClient = Ext.create('OpenEMap.Client');
+		  
+		function init(config) {
+		    			    		
+		    		var gui = {
+		    			map: false,
+		    			toolbar: { },
+		    			zoomTools: {},
+		    			layers: { },
+		    			baseLayers: {},
+		    			searchFastighet: {}
+		    			//objectConfig: { }
+		    		};
+		    				    	
+		    		mapClient.destroy();
+		    		mapClient.configure(Ext.clone(config), {
+		    			gui: gui
+		    		});
+		    		
+		    		var labels = new OpenLayers.Rule({
+                        filter: new OpenLayers.Filter.Comparison({
+                            type: OpenLayers.Filter.Comparison.EQUAL_TO,
+                            property: "type",
+                            value: "label",
+                        }),
+                          symbolizer: {
+                            pointRadius: 20,
+                            fillOpacity: 0,
+                            strokeOpacity: 0,
+                            label: "${label}"   
+                         }
+                        });
+                    
+                    mapClient.drawLayer.styleMap.styles['default'].addRules([labels]);
+		    	
+		    
+		}
+	    
+		init('../config/testAll.json');
+
+/*	    var combo = Ext.create('Ext.form.ComboBox',  {
+			queryMode: 'local',
+			listeners: {
+				"select": function(combo, records) {
+					var record = records[0];
+					init(records[0].raw);
+				}
+			}
+		});
+	    
+	    Ext.Ajax.request({
+			url : '/openemapadmin/configurations/configs',
+			method : 'GET',
+			success : function(evt){
+				var configs = JSON.parse(evt.responseText);
+				var configurations = Ext.create('Ext.data.Store',{
+					fields : ['name', 'configId'],
+					data :  configs
+				});
+				combo.store = configurations;
+				combo.queryMode = 'local';
+				combo.displayField = 'name';
+				combo.valueField = 'configId';
+			},
+			error : function(evt){
+				Ext.MessageBox.alert('Erro', 'Error getting configurations: ' + evt.message);
+			}
+		});
+	    
+	    var w = Ext.create('Ext.window.Window', {
+	    	title: 'Config',
+	    	layout: 'form',
+			width: 200,
+			x: 10,
+			y: 10,
+			items: combo
+		});
+	    
+	    w.show();
+*/
+	  });
+    </script> 
+</head>
+<body>
+</body>
+</html>
