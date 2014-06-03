@@ -122,6 +122,12 @@ Ext.define('OpenEMap.Client', {
         this.drawLayer = this.gui.mapPanel.drawLayer;
     },
     /**
+     * @return {String} JSON encoding of current map for MapFish Print module
+     */
+    encode: function() {
+        return JSON.stringify(this.mapPanel.encode());
+    },
+    /**
      * Helper method to add GeoJSON directly to the draw layer
      * 
      * @param {string} geojson
