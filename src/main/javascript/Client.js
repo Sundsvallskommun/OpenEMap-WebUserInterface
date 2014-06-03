@@ -10,7 +10,7 @@ Ext.define('OpenEMap.Client', {
                'OpenEMap.form.ZoomSelector',
                'OpenEMap.OpenLayers.Control.ModifyFeature',
                'OpenEMap.OpenLayers.Control.DynamicMeasure'],
-    version: '1.0.0',
+    version: '1.0.4',
     /**
      * OpenLayers Map instance
      * 
