@@ -32,9 +32,13 @@ Ext.define('OpenEMap.view.Map' ,{
             printProvider: printProvider
         });
         
-        this.encode = function(options) {
+        this.encode = function(layout) {
             var page = printExtent.addPage();
-            var json = printProvider.encode(printExtent.map, printExtent.pages, options);
+            if (layout) {
+                var record = printProvider.layouts.findRecord('name', layout);
+                printProvider.setLayout(record);
+            }
+            var json = printProvider.encode(printExtent.map, printExtent.pages);
             printExtent.removePage(page);
             return json;
         }

@@ -122,10 +122,11 @@ Ext.define('OpenEMap.Client', {
         this.drawLayer = this.gui.mapPanel.drawLayer;
     },
     /**
+     * @param {String=} Name of layout to use (default is to use first layout as reported by server)
      * @return {String} JSON encoding of current map for MapFish Print module
      */
-    encode: function() {
-        return JSON.stringify(this.mapPanel.encode());
+    encode: function(layout) {
+        return JSON.stringify(this.mapPanel.encode(layout));
     },
     /**
      * Helper method to add GeoJSON directly to the draw layer
