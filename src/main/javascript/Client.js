@@ -170,7 +170,9 @@ Ext.define('OpenEMap.Client', {
                 var linearRing = geometry.components[0];
                 
                 var edgeLabels = linearRing.components.slice(0, linearRing.components.length-1).map(function(point, i) {
-                    var lineString = new OpenLayers.Geometry.LineString([linearRing.components[i], linearRing.components[i+1]]);
+                    var start = linearRing.components[i].clone();
+                    var end = linearRing.components[i+1].clone();
+                    var lineString = new OpenLayers.Geometry.LineString([start, end]);
                     var centroid = lineString.getCentroid({weighted: true});
                     var style = Ext.applyIf(Ext.clone(styleOverride), {
                         label: lineString.getLength().toFixed(2).toString() + " m",
