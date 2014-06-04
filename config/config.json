@@ -1,60 +1,25 @@
 {
-	"name": "default",
-	"maxExtent": [487000.0, 6887000.0, 749144.0, 7149144.0],
-	"extent" : [608114, 6910996, 641846, 6932596],
-	"attribution": "SWECO Position AB",
-	/**
-	 * Set to true to clear draw layer before any new feature is added
-	 */
-	"autoClearDrawLayer": false,
-	/**
-	 * Set style on draw layer, accepts a single style or per geometry type and render intent
-	 *
-	 * Styling can be further customized by setting a custom StyleMap on MapClient.app.drawLayer
-	 */
-	/*"drawStyle" : {
-		"default": {
-            "Point": {
-        		pointRadius: 4,
-                graphicName: "square",
-                fillColor: "#ff0000",
-                fillOpacity: 0.25,
-                strokeColor: "#ff0000",
-                strokeWidth: 1
-        	},
-        	"Polygon": {
-	            strokeWidth: 1,
-            	strokeOpacity: 1,
-            	fillColor: "#0000ff",
-            	fillOpacity: 0.25,
-            	strokeColor: "#0000ff"
-            }
-        },
-        "select": {
-            strokeWidth: 2,
-            strokeOpacity: 1,
-            fillColor: "#ff00ff",
-            fillOpacity: 0.25,
-            strokeColor: "#ff0000"
-        },
-        "temporary": {
-            strokeWidth: 2,
-            strokeOpacity: 0.75,
-            fillColor: "#ff00ff",
-            fillOpacity: 0,
-            strokeColor: "#ff00ff"
-        }
-	},
-	/**
-	 * Layer definitions
-	 *
-	 * Assumes WMS.
-	 */
+    "name": "config",
+    "maxExtent": [487000.0, 6887000.0, 749144.0, 7149144.0],
+    "extent" : [617928, 6919152, 619456, 6920280],
+    "resolutions": [280, 140, 70, 28, 14, 7, 4.2, 2.8, 1.4, 0.56, 0.28, 0.14, 0.112, 0.056],
+    "projection": "EPSG:3006",
+    "units": "m",
+    "attribution": "Test av attribution",
+    /**
+     * Set to true to clear draw layer before any new feature is added
+     */
+    "autoClearDrawLayer": false,
+    /**
+     * Layer definitions
+     *
+     * Assumes WMS.
+     */
     "layers": [
         {
-            "name": "Orto",
+            "name": "Foto",
             "wms": {
-                "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
+                "url": "http://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
                 "params": {
                 "layers": "Lantmateriet:ortofoto50cm",
                 "format": "image/png"
@@ -66,136 +31,252 @@
             }
         },
         {
-            "name": "Topo",
+            "name": "Karta",
             "wms": {
-                "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
+                "url": "http://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
                 "params": {
                     "layers": "Lantmateriet:topowebbkartan_nedtonad",
                     "format": "image/png"
                 },
                 "options": {
-                	"isBaseLayer": true,
-                	"displayInLayerSwitcher": false
+                    "isBaseLayer": true,
+                    "displayInLayerSwitcher": false
                 }
             }
         },
-        {name: "Detaljplaner", group: [
         {
-            "name": "Planomr√•de",
-            "wms": {
-                "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
-                "params": {
-                    "layers": "RIGES:Planomrade",
-                    "format": "image/png",
-                    "transparent": true
+                "name": "PlanomrÂde",
+                "wms": {
+                    "url": "http://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
+                    "params": {
+                        "layers": "RIGES:Planomrade",
+                        "format": "image/png",
+                        "transparent": true
+                    },
+                    "options": {
+                        "isBaseLayer": false,
+                        "visibility": false
+                    }
                 },
-                "options": {
-                	"isBaseLayer": false,
-                	"visibility": false
+                "wfs": {
+                    "url": "/wfs",
+                    "featureType": "DetaljplanGallande_yta",
+                    "featurePrefix": "RIGES"
                 }
             },
-            "wfs": {
-                "url": "wfs",
-                "featureType": "DetaljplanGallande_yta",
-                "featurePrefix": "RIGES"
-            }
-        },
-        {
-			"name" : "Anv√§ndningsbest√§mmelse",
-			"wms": {
-    	        "url" : "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
-    	        "params": {
-    	            "layers": "RIGES:Anvandningsbestammelse",
-    	            "format" : "image/png",
-    	            "transparent" : true
-    	        },
-                "options": {
-                	"isBaseLayer": false,
-                	"visibility": false
-                }
-            },
-            "wfs": {
-                "url": "wfs",
-                "featureType": "AnvandningsBestammelser_yta",
-                "featurePrefix": "RIGES"
-            }
-		},
-        {
-            "name": "Egenskapsbest√§mmelse gr√§ns",
-            "wms": {
-                "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
-                "params": {
-                    "layers": "RIGES:EgenskapsBestammelser_linje",
-                    "format": "image/png",
-                    "transparent": true
+            {
+                "name" : "Anv‰ndningsbest‰mmelse",
+                "wms": {
+                    "url" : "http://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
+                    "params": {
+                        "layers": "RIGES:Anvandningsbestammelse",
+                        "format" : "image/png",
+                        "transparent" : true
+                    },
+                    "options": {
+                        "isBaseLayer": false,
+                        "visibility": false
+                    }
                 },
-                "options": {
-                    "isBaseLayer": false,
-                    "visibility": false
+                "wfs": {
+                    "url": "/wfs",
+                    "featureType": "AnvandningsBestammelser_yta",
+                    "featurePrefix": "RIGES"
                 }
             },
-            "wfs": {
-                "url": "wfs",
-                "featureType": "EgenskapsBestammelser_linje",
-                "featurePrefix": "RIGES"
-            }
-        },
-        {
-            "name": "Egenskapsbest√§mmelse yta",
-            "wms": {
-                "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
-                "params": {
-                    "layers": "RIGES:EgenskapsBestammelser_yta",
-                    "format": "image/png",
-                    "transparent": true
+            {
+                "name": "Egenskapsbest‰mmelse gr‰ns",
+                "wms": {
+                    "url": "http://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
+                    "params": {
+                        "layers": "RIGES:EgenskapsBestammelser_linje",
+                        "format": "image/png",
+                        "transparent": true
+                    },
+                    "options": {
+                        "isBaseLayer": false,
+                        "visibility": false
+                    }
                 },
-                "options": {
-                    "isBaseLayer": false,
-                    "visibility": false
+                "wfs": {
+                    "url": "/wfs",
+                    "featureType": "EgenskapsBestammelser_linje",
+                    "featurePrefix": "RIGES"
                 }
             },
-            "wfs": {
-                "url": "wfs",
-                "featureType": "EgenskapsBestammelser_yta",
-                "featurePrefix": "RIGES"
-            }
-        }]},
+            {
+                "name": "Verksamhet yta",
+                "wms": {
+                    "url": "http://extmaptest.sundsvall.se/geoserver/wms",
+                    "params": {
+                        "layers": "Verksamhet_yta",
+                        "format": "image/png",
+                        "transparent": true
+                    },
+                    "options": {
+                        "isBaseLayer": false,
+                        "visibility": true
+                    }
+                },
+                "wfs": {
+                    "url": "/wfs",
+                    "featureType": "EgenskapsBestammelser_linje",
+                    "featurePrefix": "RIGES"
+                }
+            },
+            {
+                "name": "Egenskapsbest‰mmelse yta",
+                "wms": {
+                    "url": "http://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
+                    "params": {
+                        "layers": "RIGES:EgenskapsBestammelser_yta",
+                        "format": "image/png",
+                        "transparent": true
+                    },
+                    "options": {
+                        "isBaseLayer": false,
+                        "visibility": false
+                    }
+                },
+                "wfs": {
+                    "url": "/wfs",
+                    "featureType": "EgenskapsBestammelser_yta",
+                    "featurePrefix": "RIGES"
+                },
+                "metadata": {
+                    "attributes": {
+                        "DESCRIPTIO": {
+                            "alias": "Beskrivning"
+                        },
+                        "REMARK": {
+                            "alias": "Kommentar"
+                        }
+                    }
+                }
+            },
+            {
+                "name": "Fastighetsgr‰nser",
+                "wms": {
+                    "url": "http://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
+                    "params": {
+                        "layers": "Lantmateriet:fastighet_granser",
+                        "format": "image/png",
+                        "transparent": true
+                    },
+                    "options": {
+                        "isBaseLayer": false,
+                        "visibility": false
+                    }
+                }
+            },
         {
             "name" : "Administrativa Egenskaper",
             "wfs": {
-                "url": "wfs",
+                "url": "/wfs",
                 "featureType": "AdministrativaEgenskaper_yta",
                 "featurePrefix": "RIGES"
             }
         }
     ],
-	/**
-	 * Map tools configuration
-	 *
-	 * Can contain multiple arrays, each array is a tool group to be separated in GUI.
-	 *
-	 * A tool configuration is either a string with the tool type name, or an configuration 
-	 * object with at least a property "type" containing the tool typename string. Common
-	 * additional properties that can be added to a tool configuration object are:
-	 * 
-	 * * maxScale - maximum scale to enable tool
-	 * * minScale - minimum scale to enable tool
-	 * * iconCls  - CSS class to define background image (icon)
-	 * * tooltip  - Text to display in tooltip
-	 */
-	"tools": [
-		"FullExtent", "Print",
-		"Identify", "MeasureLine", "MeasureArea", {
-			"type": "DrawObject",
-			"attributes": {
-				"Typ": "Hus"
-			}
-		}, {
-			"type": "DrawGeometry",
-			"attributes": {
-				"Typ": "Polygon"
-			}
-		}, "ModifyGeometry", "SelectGeometry"
-	]
+    /**
+     * Map tools configuration
+     *
+     * Can contain multiple arrays, each array is a tool group to be separated in GUI.
+     *
+     * A tool configuration is either a string with the tool type name, or an configuration 
+     * object with at least a property "type" containing the tool typename string. Common
+     * additional properties that can be added to a tool configuration object are:
+     * 
+     * * maxScale - maximum scale to enable tool
+     * * minScale - minimum scale to enable tool
+     * * iconCls  - CSS class to define background image (icon)
+     * * tooltip  - Text to display in tooltip
+     */
+    "tools": [
+        /*"Identify", "Print", "MeasureLine", "DeleteMeasure",*/"MeasureLine", "ModifyText", "ModifyGeometry",
+        {
+            "type": "DrawGeometry",
+            "iconCls": "action-drawpoint",
+            "geometry": "Point",
+            "attributes": {
+                "type": "label",
+                "label": "Ny label",
+                "metadata": {
+                    "type": {
+                        "hidden": true
+                    }
+                }
+            }
+        },{
+            "type": "DrawGeometry",
+            "iconCls": "action-drawpolygon",
+            "geometry": "Polygon"
+        },{
+           "type": "DrawGeometry",
+            "iconCls": "action-drawpoint",
+            "geometry": "Point" 
+        }
+        /*"MeasureLine",
+        "Print", "DeleteMeasure"
+        ","FullExtent"Identify", "DetailReport", "MeasureLine", "MeasureArea", {
+            "type": "DrawObject",
+            "attributes": {
+                "Typ": "Hus",
+                "Hidden": "Secret",
+                "metadata": {
+                    "Hidden": {
+                        "hidden": true
+                    }
+                }
+            }
+        }, {
+            "type": "DrawGeometry",
+            "iconCls": "action-drawpolygon",
+            "geometry": "Polygon"
+        }
+        
+        , {
+            "type": "DrawGeometry",
+            "iconCls": "action-drawline",
+            "geometry": "Path"
+        }
+        
+        , {
+            "type": "DrawGeometry",
+            "iconCls": "action-drawpoint",
+            "geometry": "Point"
+        }
+        
+        , {
+            "type": "DrawGeometry",
+            "iconCls": "action-drawpoint",
+            "geometry": "Point",
+            "attributes": {
+                "type": "label",
+                "label": "Ny label",
+                "metadata": {
+                    "type": {
+                        "hidden": true
+                    }
+                }
+            }
+        }, "ModifyGeometry", "SelectGeometry", "DeleteGeometry"*/
+    ],
+    "search" : {
+        "searchEstates" : {
+            "options" : {
+                "municipalities" : ["Sundsvall", "TimrÂ", "Kramfors"]
+            }
+        },
+        "searchAddresses" : {
+            "options" : {
+                "municipalities" : ["Sundsvall", "TimrÂ", "Kramfors"]
+            }
+        },
+        "searchPlacenames" :{
+            "options" : {
+                "municipalities" : ["2281", "2290"]
+            }
+        }
+    }
 }
-
