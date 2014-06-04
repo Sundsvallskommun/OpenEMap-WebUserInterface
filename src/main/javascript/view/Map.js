@@ -277,7 +277,8 @@ Ext.define('OpenEMap.view.Map' ,{
         
         this.drawLayer = new OpenLayers.Layer.Vector('Drawings', {
             displayInLayerSwitcher: false,
-            styleMap: this.parseStyle(config.drawStyle)
+            styleMap: this.parseStyle(config.drawStyle),
+            renderers: ["Canvas", "SVG", "VML"]
         });
         
         if (config.autoClearDrawLayer) {
@@ -331,7 +332,8 @@ Ext.define('OpenEMap.view.Map' ,{
         
         this.searchLayer = new OpenLayers.Layer.Vector('Searchresult', {
             displayInLayerSwitcher: false,
-            styleMap: this.parseStyle(searchStyle)
+            styleMap: this.parseStyle(searchStyle),
+            renderers: ["Canvas", "SVG", "VML"]
         });
 
         var measureStyle = {
@@ -389,7 +391,8 @@ Ext.define('OpenEMap.view.Map' ,{
         
         this.measureLayer = new OpenLayers.Layer.Vector('MeasureLayer',{
         	displayInLayerSwitcher : false,
-            styleMap : this.parseStyle(measureStyle)
+            styleMap : this.parseStyle(measureStyle),
+            renderers: ["Canvas", "SVG", "VML"]
         });
 
         this.measureLayerSegmentsLayer = new OpenLayers.Layer.Vector('MeasureLayerSegmentsLayer',{
