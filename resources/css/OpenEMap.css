@@ -2,6 +2,11 @@ ul, li {
 	list-style-type: none;
 }
 
+.olTileImage {
+    -webkit-transform: none !important;
+    -webkit-backface-visibility: visible !important;
+}
+
 /* Ext JS overrides */
 .legend {
     padding-left: 18px;
