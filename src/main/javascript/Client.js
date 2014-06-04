@@ -10,7 +10,7 @@ Ext.define('OpenEMap.Client', {
                'OpenEMap.form.ZoomSelector',
                'OpenEMap.OpenLayers.Control.ModifyFeature',
                'OpenEMap.OpenLayers.Control.DynamicMeasure'],
-    version: '1.0.0',
+    version: '1.0.4',
     /**
      * OpenLayers Map instance
      * 
@@ -122,6 +122,13 @@ Ext.define('OpenEMap.Client', {
         this.drawLayer = this.gui.mapPanel.drawLayer;
     },
     /**
+     * @param {String=} Name of layout to use (default is to use first layout as reported by server)
+     * @return {String} JSON encoding of current map for MapFish Print module
+     */
+    encode: function(layout) {
+        return JSON.stringify(this.mapPanel.encode(layout));
+    },
+    /**
      * Helper method to add GeoJSON directly to the draw layer
      * 
      * @param {string} geojson
@@ -163,7 +170,9 @@ Ext.define('OpenEMap.Client', {
                 var linearRing = geometry.components[0];
                 
                 var edgeLabels = linearRing.components.slice(0, linearRing.components.length-1).map(function(point, i) {
-                    var lineString = new OpenLayers.Geometry.LineString([linearRing.components[i], linearRing.components[i+1]]);
+                    var start = linearRing.components[i].clone();
+                    var end = linearRing.components[i+1].clone();
+                    var lineString = new OpenLayers.Geometry.LineString([start, end]);
                     var centroid = lineString.getCentroid({weighted: true});
                     var style = Ext.applyIf(Ext.clone(styleOverride), {
                         label: lineString.getLength().toFixed(2).toString() + " m",
