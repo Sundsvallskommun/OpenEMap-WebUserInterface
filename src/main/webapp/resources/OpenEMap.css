@@ -67,6 +67,11 @@ ul, li {
 .action-deletegeometry {
 	background-image: url("images/oep-tools-icons/erase.png");
 }
+
+.action-deleteallgeometries{
+    background-image: url("images/oep-tools-icons/erase_all.png");
+}
+
 .action-selectgeometry {
 	background-image: url("images/oep-tools-icons/mouse.png");
 }
