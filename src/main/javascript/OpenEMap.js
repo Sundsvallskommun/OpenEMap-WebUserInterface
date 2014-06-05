@@ -4,6 +4,12 @@ Ext.ns('OpenEMap');
 Ext.apply(OpenEMap, {
     lmUser: 'sundsvall',
     /**
+     * Base path to be used for mapfish print servlet requests
+     * 
+     * @property {string}
+     */
+    basePathMapFish: '/print/pdf',
+    /**
      * Base path to be used for all AJAX requests against search-lm REST API
      * 
      * @property {string}

@@ -9,7 +9,7 @@ Ext.define('OpenEMap.view.Map' ,{
         this.initDefaultLayers(config.config);
         
         var printProvider = Ext.create('GeoExt.data.MapfishPrintProvider', {
-            url: "/print/pdf",
+            url: OpenEMap.basePathMapFish,
             autoLoad: true,
             timeout: 60*1000,
             listeners: {
