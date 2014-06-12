@@ -120,6 +120,10 @@ Ext.define('OpenEMap.Client', {
         });
         this.mapPanel = this.gui.mapPanel;
         this.drawLayer = this.gui.mapPanel.drawLayer;
+        
+        if (this.gui.controlToActivate) {
+            this.gui.controlToActivate.activate();
+        }
     },
     /**
      * @param {String=} Name of layout to use (default is to use first layout as reported by server)
