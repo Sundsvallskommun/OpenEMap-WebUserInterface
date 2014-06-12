@@ -45,12 +45,7 @@ Ext.define('OpenEMap.form.SearchPlacename', {
                 var coords = fake.geometry.coordinates;
                 var switchedAxis = [coords[1], coords[0]];
                 this.mapPanel.map.setCenter(switchedAxis, this.zoom || 5);
-            },
-            'beforequery': function(queryPlan) {
-                if (kommunkod && queryPlan.query.match(kommunkod) === null) {
-                    queryPlan.query = kommunkod + ' ' + queryPlan.query;
-                }
-            },
+            }
             scope: this
         };
         
