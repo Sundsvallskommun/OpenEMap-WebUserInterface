@@ -140,6 +140,12 @@ Ext.define('OpenEMap.Client', {
     addGeoJSON: function(geojson) {
         var format = new OpenLayers.Format.GeoJSON();
         var feature = format.read(geojson, "Feature");
+        
+        if (feature.attributes.config) {
+            var objectFactory = Ext.create('OpenEMap.ObjectFactory');
+            feature = objectFactory.create(feature.attributes.config, feature.attributes);
+        }
+        
         this.drawLayer.addFeatures([feature]);
     },
     /**
