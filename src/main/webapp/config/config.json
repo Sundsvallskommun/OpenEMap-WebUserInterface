@@ -75,7 +75,8 @@
                     },
                     "options": {
                         "isBaseLayer": false,
-                        "visibility": false
+                        "visibility": false,
+                        "legendURL": "http://extmaptest.sundsvall.se/geoserver/gwc/service/wms?LAYERS=RIGES%3AAnvandningsbestammelse&FORMAT=image%2Fpng&TRANSPARENT=TRUE&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&STYLES=&SRS=EPSG%3A3006&BBOX=618891.2,6919614.4,619249.6,6919972.8&WIDTH=256&HEIGHT=256"
                     }
                 },
                 "wfs": {
@@ -193,74 +194,18 @@
      * * tooltip  - Text to display in tooltip
      */
     "tools": [
-        /*"Identify", "Print", "MeasureLine", "DeleteMeasure",*/"MeasureLine", "MeasureArea", "ModifyText", "ModifyGeometry",
-        {
-            "type": "DrawGeometry",
-            "iconCls": "action-drawpoint",
-            "geometry": "Point",
-            "attributes": {
-                "type": "label",
-                "label": "Ny label",
-                "metadata": {
-                    "type": {
-                        "hidden": true
-                    }
-                }
-            }
-        },{
-            "type": "DrawGeometry",
-            "iconCls": "action-drawpolygon",
-            "geometry": "Polygon"
-        },{
-           "type": "DrawGeometry",
-            "iconCls": "action-drawpoint",
-            "geometry": "Point" 
-        }
-        /*"MeasureLine",
-        "Print", "DeleteMeasure"
-        ","FullExtent"Identify", "DetailReport", "MeasureLine", "MeasureArea", {
-            "type": "DrawObject",
-            "attributes": {
-                "Typ": "Hus",
-                "Hidden": "Secret",
-                "metadata": {
-                    "Hidden": {
-                        "hidden": true
-                    }
-                }
-            }
-        }, {
-            "type": "DrawGeometry",
-            "iconCls": "action-drawpolygon",
-            "geometry": "Polygon"
-        }
-        
-        , {
-            "type": "DrawGeometry",
-            "iconCls": "action-drawline",
-            "geometry": "Path"
-        }
-        
-        , {
-            "type": "DrawGeometry",
-            "iconCls": "action-drawpoint",
-            "geometry": "Point"
-        }
-        
-        , {
-            "type": "DrawGeometry",
-            "iconCls": "action-drawpoint",
-            "geometry": "Point",
-            "attributes": {
-                "type": "label",
-                "label": "Ny label",
-                "metadata": {
-                    "type": {
-                        "hidden": true
-                    }
-                }
-            }
-        }, "ModifyGeometry", "SelectGeometry", "DeleteGeometry"*/
+        "FullExtent", "Print",
+		"Identify", "MeasureLine", "MeasureArea", {
+			"type": "DrawObject",
+			"attributes": {
+				"Typ": "Hus"
+			}
+		}, {
+			"type": "DrawGeometry",
+			"attributes": {
+				"Typ": "Polygon"
+			}
+		}, "ModifyGeometry", "SelectGeometry", "DeleteGeometry"
     ],
     "search" : {
         "searchEstates" : {
