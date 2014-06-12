@@ -45,7 +45,7 @@ Ext.define('OpenEMap.form.SearchPlacename', {
                 var coords = fake.geometry.coordinates;
                 var switchedAxis = [coords[1], coords[0]];
                 this.mapPanel.map.setCenter(switchedAxis, this.zoom || 5);
-            }
+            },
             scope: this
         };
         
