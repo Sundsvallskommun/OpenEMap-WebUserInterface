@@ -77,7 +77,7 @@ Ext.define('OpenEMap.view.IdentifyResults', {
         Object.keys(source).forEach(function(key) {
             var value = sourceConfig[key];
             if (value.match('http://') || value.match('//')) {
-                source[key] = '<a href="'+value+'">Länk</a>';
+                source[key] = '<a href="'+value+'" target="_blank">Länk</a>';
                 sourceConfig[key] = {
                     renderer: function(value) {return value;},
                     editor: Ext.create('Ext.form.DisplayField')
