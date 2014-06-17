@@ -7,10 +7,11 @@ Ext.define('OpenEMap.form.SearchRegisterenhet', {
     require: ['Ext.data.*',
               'Ext.form.*'],
     initComponent : function() {
-        //var registeromrade = Ext.Object.fromQueryString(location.search).registeromrade;
-        var registeromrade = null;
+        var registeromrade;
+        var zoom;
         if (this.search && this.search.options){
             registeromrade = this.search.options.municipalities.join(',');
+            zoom = this.search.options.zoom;
         }
         var layer = this.mapPanel.searchLayer;
         
@@ -24,8 +25,8 @@ Ext.define('OpenEMap.form.SearchRegisterenhet', {
                     var features = new OpenLayers.Format.GeoJSON().read(response.responseText);
                     layer.addFeatures(features);
                     var extent = layer.getDataExtent();
-                    if (this.zoom) {
-                        this.mapPanel.map.setCenter(extent.getCenterLonLat(), this.zoom);
+                    if (zoom) {
+                        this.mapPanel.map.setCenter(extent.getCenterLonLat(), zoom);
                     } else {
                         this.mapPanel.map.zoomToExtent(extent);
                     }

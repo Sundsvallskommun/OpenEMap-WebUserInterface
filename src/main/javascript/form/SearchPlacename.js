@@ -7,10 +7,11 @@ Ext.define('OpenEMap.form.SearchPlacename', {
     require: ['Ext.data.*',
               'Ext.form.*'],
     initComponent : function() {
-        //var kommunkod = Ext.Object.fromQueryString(location.search).kommunkod;
-        var kommunkod = null;
-         if (this.search && this.search.options){
+        var kommunkod;
+        var zoom = 5;
+        if (this.search && this.search.options) {
             kommunkod = this.search.options.municipalities.join(',');
+            zoom = this.search.options.zoom;
         }
                 
         this.store = Ext.create('Ext.data.Store', {
@@ -44,7 +45,7 @@ Ext.define('OpenEMap.form.SearchPlacename', {
                 var fake = records[0].raw;
                 var coords = fake.geometry.coordinates;
                 var switchedAxis = [coords[1], coords[0]];
-                this.mapPanel.map.setCenter(switchedAxis, this.zoom || 5);
+                this.mapPanel.map.setCenter(switchedAxis, zoom);
             },
             scope: this
         };

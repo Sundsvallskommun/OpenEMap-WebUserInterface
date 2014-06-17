@@ -7,10 +7,11 @@ Ext.define('OpenEMap.form.SearchAddress', {
     require: ['Ext.data.*',
               'Ext.form.*'],
     initComponent : function() {
-        //var registeromrade = Ext.Object.fromQueryString(location.search).registeromrade;
-        var registeromrade = null;
+        var registeromrade;
+        var zoom = 5;
         if (this.search && this.search.options){
             registeromrade = this.search.options.municipalities.join(',');
+            zoom = this.search.options.zoom;
         }
         var layer = this.mapPanel.searchLayer;
         
@@ -31,7 +32,7 @@ Ext.define('OpenEMap.form.SearchAddress', {
                     var point = new OpenLayers.Geometry.Point(x, y);
                     feature = new OpenLayers.Feature.Vector(point);
                     layer.addFeatures([feature]);
-                    this.mapPanel.map.setCenter([x,y], this.zoom || 5);
+                    this.mapPanel.map.setCenter([x,y], zoom);
                 },
                 failure: function() {
                     Ext.Msg.alert('Fel', 'Okänt.');

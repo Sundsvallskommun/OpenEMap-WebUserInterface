@@ -215,12 +215,14 @@
         },
         "searchAddresses" : {
             "options" : {
-                "municipalities" : ["Sundsvall", "Timrå", "Kramfors"]
+                "municipalities" : ["Sundsvall", "Timrå", "Kramfors"],
+                "zoom": 1
             }
         },
         "searchPlacenames" :{
             "options" : {
-                "municipalities" : ["2281", "2290"]
+                "municipalities" : ["2281", "2290"],
+                "zoom": 1
             }
         }
     }

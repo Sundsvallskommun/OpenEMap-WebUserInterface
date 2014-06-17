@@ -75,7 +75,8 @@
                     },
                     "options": {
                         "isBaseLayer": false,
-                        "visibility": false
+                        "visibility": false,
+                        "legendURL": "http://1.bp.blogspot.com/-TbFfLdVWU9c/UPedN95seHI/AAAAAAAAARM/dXoukWV8Oj8/s1600/banner.png"
                     }
                 },
                 "wfs": {
