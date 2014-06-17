@@ -173,6 +173,7 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
         var layer = node.get('layer');
     
         if (layer) {
+            if (Ext.isIE9) return node;
             if (layer.legendURL) {
                 node.set('legendURL', layer.legendURL);
                 node.gx_urllegend = Ext.create('GeoExt.container.UrlLegend', {

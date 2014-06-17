@@ -9,7 +9,6 @@ Ext.define('OpenEMap.view.SearchFastighet', {
                 'OpenEMap.form.SearchPlacename',
                 'GeoExt.selection.FeatureModel'],
     border: false,
-    zoom: undefined,
     initComponent : function() {
 
         if (!this.renderTo) {
@@ -57,12 +56,22 @@ Ext.define('OpenEMap.view.SearchFastighet', {
         });
         
         function defSearchCombo(type) {
+            var searchCriteria = null;
+            if (type === 'searchregisterenhet'){
+                searchCriteria = this.search && this.search.searchEstates ? this.search.searchEstates : null; 
+            }
+            else if (type === 'searchaddress'){
+                searchCriteria = this.search && this.search.searchAddresses ? this.search.searchAddresses : null;
+            }
+            else {
+                searchCriteria = this.search && this.search.searchPlacenames ? this.search.searchPlacenames : null;
+            }
+
             return {
                 xtype : type,
                 mapPanel : this.mapPanel,
                 basePath: this.basePath,
-                filterMunicipalities : this.filterMunicipalities,
-                zoom: this.zoom,
+                search : searchCriteria,
                 resultPanel : grid
             };
         }

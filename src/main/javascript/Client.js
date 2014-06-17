@@ -10,7 +10,7 @@ Ext.define('OpenEMap.Client', {
                'OpenEMap.form.ZoomSelector',
                'OpenEMap.OpenLayers.Control.ModifyFeature',
                'OpenEMap.OpenLayers.Control.DynamicMeasure'],
-    version: '1.0.0',
+    version: '1.0.4',
     /**
      * OpenLayers Map instance
      * 
@@ -116,11 +116,21 @@ Ext.define('OpenEMap.Client', {
             config: config,
             gui: options.gui,
             map: this.map,
-            filterMunicipalities : options.municipalities,
             orginalConfig: this.initialConfig
         });
         this.mapPanel = this.gui.mapPanel;
         this.drawLayer = this.gui.mapPanel.drawLayer;
+        
+        if (this.gui.controlToActivate) {
+            this.gui.controlToActivate.activate();
+        }
+    },
+    /**
+     * @param {String=} Name of layout to use (default is to use first layout as reported by server)
+     * @return {String} JSON encoding of current map for MapFish Print module
+     */
+    encode: function(layout) {
+        return JSON.stringify(this.mapPanel.encode(layout));
     },
     /**
      * Helper method to add GeoJSON directly to the draw layer
@@ -130,6 +140,12 @@ Ext.define('OpenEMap.Client', {
     addGeoJSON: function(geojson) {
         var format = new OpenLayers.Format.GeoJSON();
         var feature = format.read(geojson, "Feature");
+        
+        if (feature.attributes.config) {
+            var objectFactory = Ext.create('OpenEMap.ObjectFactory');
+            feature = objectFactory.create(feature.attributes.config, feature.attributes);
+        }
+        
         this.drawLayer.addFeatures([feature]);
     },
     /**
@@ -164,7 +180,9 @@ Ext.define('OpenEMap.Client', {
                 var linearRing = geometry.components[0];
                 
                 var edgeLabels = linearRing.components.slice(0, linearRing.components.length-1).map(function(point, i) {
-                    var lineString = new OpenLayers.Geometry.LineString([linearRing.components[i], linearRing.components[i+1]]);
+                    var start = linearRing.components[i].clone();
+                    var end = linearRing.components[i+1].clone();
+                    var lineString = new OpenLayers.Geometry.LineString([start, end]);
                     var centroid = lineString.getCentroid({weighted: true});
                     var style = Ext.applyIf(Ext.clone(styleOverride), {
                         label: lineString.getLength().toFixed(2).toString() + " m",
@@ -195,7 +213,7 @@ Ext.define('OpenEMap.Client', {
             this.map.addLayer(this.labelLayer);
             
             this.drawLayer.events.on({
-                "afterfeaturemodified": drawLabels,
+                "featuremodified": drawLabels,
                 "vertexmodified": drawLabels,
                 "featuresadded": drawLabels,
                 "featuresremoved": drawLabels,
