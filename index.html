@@ -68,7 +68,11 @@
 		});
 	    
 	    Ext.Ajax.request({
+<<<<<<< HEAD
 			url : '/openemapadmin/configs',
+=======
+			url : '/openemapadmin/configs/config',
+>>>>>>> ebcb8b4abee0c19c9d8b02ddeba9bd99c46f8150
 			method : 'GET',
 			success : function(evt){
 				var configs = JSON.parse(evt.responseText);
