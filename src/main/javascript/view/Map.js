@@ -399,5 +399,19 @@ Ext.define('OpenEMap.view.Map' ,{
             displayInLayerSwitcher : false,
             styleMap : this.parseStyle(measureStyle)
         });
+    },
+    setInitialExtent: function() {
+        var map = this.map;
+        if (!map.getCenter()) {
+            if (this.center || this.zoom ) {
+                // center and/or zoom?
+                map.setCenter(this.center, this.zoom);
+            } else if (this.extent instanceof OpenLayers.Bounds) {
+                // extent
+                map.zoomToExtent(this.extent, false);
+            }else {
+                map.zoomToMaxExtent();
+            }
+        }
     }
 });
