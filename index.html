@@ -14,7 +14,7 @@
     <script type="text/javascript" src="/libs/OpenLayers-2.13.1/OpenLayers.js"></script>
     <script type="text/javascript" src="/libs/geoext2-all.js"></script> 
     <script type="text/javascript" src="/libs/es5-shim.min.js"></script>
-    <script type="text/javascript" src="OpenEMap-all.js"></script>
+    <script type="text/javascript" src="OpenEMap-1.0.4.17-all.js"></script>
     
     <script type="text/javascript">
 	  Ext.onReady(function() {
@@ -68,7 +68,7 @@
 		});
 	    
 	    Ext.Ajax.request({
-			url : '/openemapadmin/configurations/configs',
+			url : '/openemapadmin/configs/config',
 			method : 'GET',
 			success : function(evt){
 				var configs = JSON.parse(evt.responseText);
