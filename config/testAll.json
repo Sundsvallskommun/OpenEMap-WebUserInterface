@@ -157,6 +157,7 @@
             "options": {
                 "visibility": true
             },
+            "expanded": false,
             "layers": [
                 {
                     "name": "Egenskapsbestämmelser",

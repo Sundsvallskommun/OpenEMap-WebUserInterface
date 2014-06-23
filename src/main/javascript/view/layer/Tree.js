@@ -34,6 +34,10 @@ Ext.define('OpenEMap.view.layer.Tree' ,{
                         olLayerRef.setVisibility(true);
                     }
                 });
+                // check parent if not root
+                if (!node.parentNode.isRoot()) {
+                    node.parentNode.set('checked', checked);
+                }
             } else {
                 node.cascadeBy(function(n){
                     // Loop this node and children
