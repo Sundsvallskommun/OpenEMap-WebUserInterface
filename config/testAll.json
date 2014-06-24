@@ -840,13 +840,13 @@
         "searchAddresses" : {
             "options" : {
                 "municipalities" : ["Sundsvall", "Timrå", "Härnösand", "Kramfors", "Örnsköldsvik"],
-                "zoom": 1
+                "zoom": 10
             }
         },
         "searchPlacenames" :{
             "options" : {
                 "municipalities" : ["2260", "2262", "2280", "2281", "2282", "2283", "2284", "2290"],
-                "zoom": 1
+                "zoom": 10
             }
         }
     }
