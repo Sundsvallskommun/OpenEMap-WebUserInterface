@@ -4,6 +4,8 @@ echo ..\release\%release_name%
 cd ..\release
 rd /s /q %release_name%
 del %release_name%.zip
+del ..\%release_name%-all.js
+del ..\%release_name%-all-debug.js
 md %release_name%
 cd %release_name%
 md config
