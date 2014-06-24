@@ -9,7 +9,7 @@ Ext.define('OpenEMap.view.Map' ,{
         this.initDefaultLayers(config.config);
         
         var printProvider = Ext.create('GeoExt.data.MapfishPrintProvider', {
-            url: "/print/pdf",
+            url: OpenEMap.basePathMapFish,
             autoLoad: true,
             timeout: 60*1000,
             listeners: {
@@ -31,6 +31,99 @@ Ext.define('OpenEMap.view.Map' ,{
         var printExtent = Ext.create('GeoExt.plugins.PrintExtent', {
             printProvider: printProvider
         });
+        
+        this.encode = function(layout) {
+            var page = printExtent.addPage();
+            if (layout) {
+                var record = printProvider.layouts.findRecord('name', layout);
+                printProvider.setLayout(record);
+            }
+            var json = printProvider.encode(printExtent.map, printExtent.pages);
+            printExtent.removePage(page);
+            return json;
+        }
+        
+        printProvider.encode = function(map, pages, options) {
+            if(map instanceof GeoExt.MapPanel) {
+                map = map.map;
+            }
+            pages = pages instanceof Array ? pages : [pages];
+            options = options || {};
+            if(this.fireEvent("beforeprint", this, map, pages, options) === false) {
+                return;
+            }
+
+            var jsonData = Ext.apply({
+                units: map.getUnits(),
+                srs: map.baseLayer.projection.getCode(),
+                layout: this.layout.get("name"),
+                dpi: this.dpi.get("value")
+            }, this.customParams);
+
+            var pagesLayer = pages[0].feature.layer;
+            var encodedLayers = [];
+
+            // ensure that the baseLayer is the first one in the encoded list
+            var layers = map.layers.concat();
+
+            Ext.Array.remove(layers, map.baseLayer);
+            Ext.Array.insert(layers, 0, [map.baseLayer]);
+
+            Ext.each(layers, function(layer){
+                if(layer !== pagesLayer && layer.getVisibility() === true) {
+                    var enc = this.encodeLayer(layer);
+                    enc && encodedLayers.push(enc);
+                }
+            }, this);
+            jsonData.layers = encodedLayers;
+
+            var encodedPages = [];
+            Ext.each(pages, function(page) {
+
+                encodedPages.push(Ext.apply({
+                    center: [page.center.lon, page.center.lat],
+                    scale: page.scale.get("value"),
+                    rotation: page.rotation
+                }, page.customParams));
+            }, this);
+            jsonData.pages = encodedPages;
+
+            if (options.overview) {
+                var encodedOverviewLayers = [];
+                Ext.each(options.overview.layers, function(layer) {
+                    var enc = this.encodeLayer(layer);
+                    enc && encodedOverviewLayers.push(enc);
+                }, this);
+                jsonData.overviewLayers = encodedOverviewLayers;
+            }
+
+            if(options.legend && !(this.fireEvent("beforeencodelegend", this, jsonData, options.legend) === false)) {
+                var legend = options.legend;
+                var rendered = legend.rendered;
+                if (!rendered) {
+                    legend = legend.cloneConfig({
+                        renderTo: document.body,
+                        hidden: true
+                    });
+                }
+                var encodedLegends = [];
+                legend.items && legend.items.each(function(cmp) {
+                    if(!cmp.hidden) {
+                        var encFn = this.encoders.legends[cmp.getXType()];
+                        // MapFish Print doesn't currently support per-page
+                        // legends, so we use the scale of the first page.
+                        encodedLegends = encodedLegends.concat(
+                            encFn.call(this, cmp, jsonData.pages[0].scale));
+                    }
+                }, this);
+                if (!rendered) {
+                    legend.destroy();
+                }
+                jsonData.legends = encodedLegends;
+            }
+            
+            return jsonData;
+        }
         
         config.plugins = [printExtent];
         
@@ -184,7 +277,8 @@ Ext.define('OpenEMap.view.Map' ,{
         
         this.drawLayer = new OpenLayers.Layer.Vector('Drawings', {
             displayInLayerSwitcher: false,
-            styleMap: this.parseStyle(config.drawStyle)
+            styleMap: this.parseStyle(config.drawStyle),
+            renderers: ["Canvas", "SVG", "VML"]
         });
         
         if (config.autoClearDrawLayer) {
@@ -238,7 +332,8 @@ Ext.define('OpenEMap.view.Map' ,{
         
         this.searchLayer = new OpenLayers.Layer.Vector('Searchresult', {
             displayInLayerSwitcher: false,
-            styleMap: this.parseStyle(searchStyle)
+            styleMap: this.parseStyle(searchStyle),
+            renderers: ["Canvas", "SVG", "VML"]
         });
 
         var measureStyle = {
@@ -296,7 +391,8 @@ Ext.define('OpenEMap.view.Map' ,{
         
         this.measureLayer = new OpenLayers.Layer.Vector('MeasureLayer',{
         	displayInLayerSwitcher : false,
-            styleMap : this.parseStyle(measureStyle)
+            styleMap : this.parseStyle(measureStyle),
+            renderers: ["Canvas", "SVG", "VML"]
         });
 
         this.measureLayerSegmentsLayer = new OpenLayers.Layer.Vector('MeasureLayerSegmentsLayer',{

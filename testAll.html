@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,18 +14,14 @@
     <script type="text/javascript" src="/libs/OpenLayers-2.13.1/OpenLayers.js"></script>
     <script type="text/javascript" src="/libs/geoext2-all.js"></script> 
     <script type="text/javascript" src="/libs/es5-shim.min.js"></script>
-    <script type="text/javascript" src="OpenEMap-1.0.4.17-all.js"></script>
+    <script type="text/javascript" src="OpenEMap-all.js"></script>
     
     <script type="text/javascript">
 	  Ext.onReady(function() {
 		
 		var mapClient = Ext.create('OpenEMap.Client');
 		  
-		function init(name) {
-		    Ext.Ajax.request({
-		    	url: name,
-		    	success: function(response) {
-		    		var config = Ext.decode(response.responseText);
+		function init(config) {
 		    			    		
 		    		var gui = {
 		    			map: false,
@@ -32,12 +29,12 @@
 		    			zoomTools: {},
 		    			layers: { },
 		    			baseLayers: {},
-		    			searchFastighet: { }
+		    			searchFastighet: {}
 		    			//objectConfig: { }
 		    		};
 		    				    	
 		    		mapClient.destroy();
-		    		mapClient.configure(config, {
+		    		mapClient.configure(Ext.clone(config), {
 		    			gui: gui
 		    		});
 		    		
@@ -56,27 +53,38 @@
                         });
                     
                     mapClient.drawLayer.styleMap.styles['default'].addRules([labels]);
-		    	}
-		    });
+		    	
+		    
 		}
 	    
-	    var combo = Ext.create('Ext.form.ComboBox',  {
-			store: ['config.json',
-			        '41.json',
-			        'riges.json',
-			        'eldstad.json',
-			        'situationsplan.json',
-			        'komplementbyggnad.json',
-			        'transformator.json',
-			        'forhandsbesked.json',
-			        'preview.json',
-                    'detaljplaner.json'],
+		init('config/testAll.json');
+
+/*	    var combo = Ext.create('Ext.form.ComboBox',  {
 			queryMode: 'local',
 			listeners: {
 				"select": function(combo, records) {
 					var record = records[0];
-					init('config/' + record.get(record.fields.get(0).name));
+					init(records[0].raw);
 				}
+			}
+		});
+	    
+	    Ext.Ajax.request({
+			url : '/openemapadmin/configurations/configs',
+			method : 'GET',
+			success : function(evt){
+				var configs = JSON.parse(evt.responseText);
+				var configurations = Ext.create('Ext.data.Store',{
+					fields : ['name', 'configId'],
+					data :  configs
+				});
+				combo.store = configurations;
+				combo.queryMode = 'local';
+				combo.displayField = 'name';
+				combo.valueField = 'configId';
+			},
+			error : function(evt){
+				Ext.MessageBox.alert('Erro', 'Error getting configurations: ' + evt.message);
 			}
 		});
 	    
@@ -86,11 +94,11 @@
 			width: 200,
 			x: 10,
 			y: 10,
-			//autoHeight: true,
 			items: combo
 		});
 	    
 	    w.show();
+*/
 	  });
     </script> 
 </head>

@@ -2,7 +2,7 @@
     "name": "config",
     "maxExtent": [487000.0, 6887000.0, 749144.0, 7149144.0],
     "extent" : [617928, 6919152, 619456, 6920280],
-    "resolutions": [280, 140, 70, 28, 14, 7, 4.2, 2.8, 1.4, 0.56, 0.28, 0.14, 0.112, 0.056],
+    "resolutions": [280, 140, 70, 28, 14, 7, 4.2, 2.8, 1.4, 0.56, 0.28, 0.14, 0.112],
     "projection": "EPSG:3006",
     "units": "m",
     "attribution": "Test av attribution",
@@ -45,7 +45,7 @@
             }
         },
         {
-                "name": "PlanomrÂde",
+                "name": "Planomr√•de",
                 "wms": {
                     "url": "http://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
                     "params": {
@@ -65,7 +65,7 @@
                 }
             },
             {
-                "name" : "Anv‰ndningsbest‰mmelse",
+                "name" : "Anv√§ndningsbest√§mmelse",
                 "wms": {
                     "url" : "http://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
                     "params": {
@@ -85,7 +85,7 @@
                 }
             },
             {
-                "name": "Egenskapsbest‰mmelse gr‰ns",
+                "name": "Egenskapsbest√§mmelse gr√§ns",
                 "wms": {
                     "url": "http://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
                     "params": {
@@ -125,7 +125,7 @@
                 }
             },
             {
-                "name": "Egenskapsbest‰mmelse yta",
+                "name": "Egenskapsbest√§mmelse yta",
                 "wms": {
                     "url": "http://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
                     "params": {
@@ -155,7 +155,7 @@
                 }
             },
             {
-                "name": "Fastighetsgr‰nser",
+                "name": "Fastighetsgr√§nser",
                 "wms": {
                     "url": "http://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
                     "params": {
@@ -193,7 +193,7 @@
      * * tooltip  - Text to display in tooltip
      */
     "tools": [
-        /*"Identify", "Print", "MeasureLine", "DeleteMeasure",*/"MeasureLine", "ModifyText", "ModifyGeometry",
+        /*"Identify", "Print", "MeasureLine", "DeleteMeasure",*/"DeleteAllFeatures", "MeasureLine", "ModifyText", "ModifyGeometry",
         {
             "type": "DrawGeometry",
             "iconCls": "action-drawpoint",
@@ -215,7 +215,7 @@
            "type": "DrawGeometry",
             "iconCls": "action-drawpoint",
             "geometry": "Point" 
-        }
+        },"MeasureArea"
         /*"MeasureLine",
         "Print", "DeleteMeasure"
         ","FullExtent"Identify", "DetailReport", "MeasureLine", "MeasureArea", {
@@ -261,22 +261,5 @@
                 }
             }
         }, "ModifyGeometry", "SelectGeometry", "DeleteGeometry"*/
-    ],
-    "search" : {
-        "searchEstates" : {
-            "options" : {
-                "municipalities" : ["Sundsvall", "TimrÂ", "Kramfors"]
-            }
-        },
-        "searchAddresses" : {
-            "options" : {
-                "municipalities" : ["Sundsvall", "TimrÂ", "Kramfors"]
-            }
-        },
-        "searchPlacenames" :{
-            "options" : {
-                "municipalities" : ["2281", "2290"]
-            }
-        }
-    }
+    ]
 }
