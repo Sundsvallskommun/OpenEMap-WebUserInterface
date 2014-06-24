@@ -54,7 +54,7 @@
                 "type": "R"
             },
             "tooltip": "Rita byggnad Rektangel",
-            "iconCls": "action-draw-R",
+            "iconCls": "action-draw-square",
             "disabled": false,
             "attributes": {
                 "state": "GEOMETRY",
@@ -72,7 +72,7 @@
                 "type": "O"
             },
             "tooltip": "Rita byggnad Oktagon",
-            "iconCls": "action-draw-O",
+            "iconCls": "action-draw-octagon",
             "disabled": false,
             "attributes": {
                 "state": "GEOMETRY",
@@ -90,7 +90,7 @@
                 "type": "L"
             },
             "tooltip": "Rita byggnad L-form",
-            "iconCls": "action-draw-L",
+            "iconCls": "action-draw-l",
             "disabled": false,
             "attributes": {
                 "state": "GEOMETRY",
@@ -108,7 +108,7 @@
                 "type": "D"
             },
             "tooltip": "Rita byggnad avfasad",
-            "iconCls": "action-draw-D",
+            "iconCls": "action-draw-d",
             "disabled": false,
             "attributes": {
                 "state": "GEOMETRY",

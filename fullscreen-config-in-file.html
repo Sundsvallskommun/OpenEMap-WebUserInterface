@@ -13,7 +13,7 @@
     <script type="text/javascript" src="/libs/OpenLayers-2.13.1/OpenLayers.js"></script>
     <script type="text/javascript" src="/libs/geoext2-all.js"></script> 
     <script type="text/javascript" src="/libs/es5-shim.min.js"></script>
-    <script type="text/javascript" src="OpenEMap-1.0.4.17-all.js"></script>
+    <script type="text/javascript" src="OpenEMap-1.2.0-rc.1-all.js"></script>
     
     <script type="text/javascript">
 	  Ext.onReady(function() {
@@ -75,7 +75,7 @@
 			listeners: {
 				"select": function(combo, records) {
 					var record = records[0];
-					init('config/' + record.get(record.fields.get(0).name));
+					init('/openemapadmin/configs/config/' + record.get(record.fields.get(0).name));
 				}
 			}
 		});
