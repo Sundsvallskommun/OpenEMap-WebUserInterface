@@ -64,6 +64,18 @@ ul, li {
 .action-drawtext {
 	background-image: url("../images/oep-tools-icons/bookmark_area.png");
 }
+.action-draw-l {
+	background-image: url("../images/oep-tools-icons/geometry_l.png");
+}
+.action-draw-octagon {
+	background-image: url("../images/oep-tools-icons/geometry_octagon.png");
+}
+.action-draw-square {
+	background-image: url("../images/oep-tools-icons/geometry_square.png");
+}
+.action-draw-d {
+	background-image: url("../images/oep-tools-icons/geometry_d.png");
+}
 .action-deletegeometry {
 	background-image: url("../images/oep-tools-icons/erase.png");
 }
