@@ -14,7 +14,7 @@
     <script type="text/javascript" src="/libs/OpenLayers-2.13.1/OpenLayers.js"></script>
     <script type="text/javascript" src="/libs/geoext2-all.js"></script> 
     <script type="text/javascript" src="/libs/es5-shim.min.js"></script>
-    <script type="text/javascript" src="OpenEMap-all.js"></script>
+    <script type="text/javascript" src="OpenEMap-1.2.0-rc.1-all.js"></script>
     
     <script type="text/javascript">
 	  Ext.onReady(function() {
@@ -29,8 +29,8 @@
 		    			zoomTools: {},
 		    			layers: { },
 		    			baseLayers: {},
-		    			searchFastighet: {}
-		    			//objectConfig: { }
+		    			searchFastighet: { },
+		    			objectConfig: { }
 		    		};
 		    				    	
 		    		mapClient.destroy();
@@ -53,52 +53,21 @@
                         });
                     
                     mapClient.drawLayer.styleMap.styles['default'].addRules([labels]);
-		    	
-		    
+			        mapClient.toggleEdgeLabels();
 		}
 	    
-		init('config/testAll.json');
-
-/*	    var combo = Ext.create('Ext.form.ComboBox',  {
-			queryMode: 'local',
-			listeners: {
-				"select": function(combo, records) {
-					var record = records[0];
-					init(records[0].raw);
-				}
-			}
-		});
-	    
-	    Ext.Ajax.request({
-			url : '/openemapadmin/configurations/configs',
+		Ext.Ajax.request({
+			// path to local file used as map config
+			url : 'config/testAll.json',
 			method : 'GET',
 			success : function(evt){
-				var configs = JSON.parse(evt.responseText);
-				var configurations = Ext.create('Ext.data.Store',{
-					fields : ['name', 'configId'],
-					data :  configs
-				});
-				combo.store = configurations;
-				combo.queryMode = 'local';
-				combo.displayField = 'name';
-				combo.valueField = 'configId';
+				var config = JSON.parse(evt.responseText);
+				init(config);
 			},
 			error : function(evt){
 				Ext.MessageBox.alert('Erro', 'Error getting configurations: ' + evt.message);
 			}
 		});
-	    
-	    var w = Ext.create('Ext.window.Window', {
-	    	title: 'Config',
-	    	layout: 'form',
-			width: 200,
-			x: 10,
-			y: 10,
-			items: combo
-		});
-	    
-	    w.show();
-*/
 	  });
     </script> 
 </head>
