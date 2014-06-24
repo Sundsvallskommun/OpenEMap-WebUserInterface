@@ -20,7 +20,7 @@ Ext.define('OpenEMap.action.DeleteAllFeatures', {
             }
         });
 
-        config.iconCls = config.iconCls || 'action-deleteallgeometries';
+        config.iconCls = config.iconCls || 'action-deleteallfeatures';
         config.tooltip = config.tooltip || 'Rensa kartan fr&aring;n ritade objekt.';
         
         this.callParent(arguments);
