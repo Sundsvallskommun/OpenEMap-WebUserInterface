@@ -56,7 +56,12 @@ Ext.define('OpenEMap.form.SearchRegisterenhet', {
             fields: [
                  {name: 'id', mapping: 'properties.objid'},
                  {name: 'name', mapping: 'properties.name'}
-             ]
+            ],
+            listeners: {
+                'beforeload': function(e) { this.disable(); },
+                'load': function(e) { this.enable(); },
+                scope: this
+            }
         });
         
         this.labelWidth = 60;
