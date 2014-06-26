@@ -400,6 +400,7 @@ OpenLayers.Control.DynamicMeasure = OpenLayers.Class(
                 var layer = new OpenLayers.Layer.Vector(
                                    _self.CLASS_NAME + ' ' + styleName, options);
                 _self.map.addLayer(layer);
+                _self.map.setLayerIndex(layer, 99);
                 return layer;
             };
             this.layerSegments =

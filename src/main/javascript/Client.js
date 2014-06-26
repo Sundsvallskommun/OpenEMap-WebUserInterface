@@ -274,3 +274,6 @@ Ext.apply(OpenEMap, {
         Ext.Ajax.request(config);
     }
 });
+
+
+OpenLayers.Layer.Vector.prototype.renderers = ["Canvas", "SVG", "VML"];

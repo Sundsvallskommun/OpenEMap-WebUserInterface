@@ -63,7 +63,7 @@ Ext.define('OpenEMap.view.Map' ,{
             var pagesLayer = pages[0].feature.layer;
             var encodedLayers = [];
 
-            // ensure that the baseLayer is the first one in the encoded list
+            // ensure that the baseLayer is the first one in the drawingLayer encoded list
             var layers = map.layers.concat();
 
             Ext.Array.remove(layers, map.baseLayer);
@@ -131,8 +131,6 @@ Ext.define('OpenEMap.view.Map' ,{
                 
         this.layers.add(this.searchLayer);
         this.layers.add(this.drawLayer);
-        this.layers.add(this.measureLayer);
-        this.layers.add(this.measureLayerSegmentsLayer);
         
         this.selectControl = new OpenLayers.Control.SelectFeature(this.drawLayer);
         this.map.addControl(this.selectControl);
@@ -277,8 +275,7 @@ Ext.define('OpenEMap.view.Map' ,{
         
         this.drawLayer = new OpenLayers.Layer.Vector('Drawings', {
             displayInLayerSwitcher: false,
-            styleMap: this.parseStyle(config.drawStyle),
-            renderers: ["Canvas", "SVG", "VML"]
+            styleMap: this.parseStyle(config.drawStyle)
         });
         
         if (config.autoClearDrawLayer) {
@@ -332,72 +329,7 @@ Ext.define('OpenEMap.view.Map' ,{
         
         this.searchLayer = new OpenLayers.Layer.Vector('Searchresult', {
             displayInLayerSwitcher: false,
-            styleMap: this.parseStyle(searchStyle),
-            renderers: ["Canvas", "SVG", "VML"]
-        });
-
-        var measureStyle = {
-            "Point": {
-                //pointRadius: 4,
-                //graphicName: 'square',
-                //fillColor: 'white',
-                //fillOpacity: 1,
-                //strokeWidth: 1,
-                //strokeOpacity: 1,
-                //strokeColor: '#333333', 
-                label: '${measure} ${units}',
-                fontSize: '12px',
-                fontColor: '#800517',
-                fontFamily: 'Verdana',
-                labelOutlineColor: '#eeeeee',
-                labelAlign: 'cm',
-                labelOutlineWidth: 2
-            },
-            "Line": {
-                strokeWidth: 3,
-                strokeOpacity: 1,
-                strokeColor: '#666666',
-                strokeDashstyle: 'solid'
-            },
-            "Polygon": {
-                strokeWidth: 2,
-                strokeOpacity: 1,
-                strokeColor: '#FFFFFF',
-                strokeDashstyle: 'solid',
-                fillColor: 'white',
-                fillOpacity: 0.3
-            },
-            labelSegments: {
-                label: '${measure} ${units}',
-                fontSize: '12px',
-                fontColor: '#800517',
-                fontFamily: 'Verdana',
-                labelOutlineColor: '#eeeeee',
-                labelAlign: 'cm',
-                labelOutlineWidth: 2
-            },    
-            labelLength: {
-                label: '${measure} ${units}\n',
-                fontSize: '12px',
-                fontWeight: 'bold',
-                fontColor: '#800517',
-                fontFamily: 'Verdana',
-                labelOutlineColor: '#eeeeee',
-                labelAlign: 'lb',
-                labelOutlineWidth: 3
-            }
-        };
-
-        
-        this.measureLayer = new OpenLayers.Layer.Vector('MeasureLayer',{
-        	displayInLayerSwitcher : false,
-            styleMap : this.parseStyle(measureStyle),
-            renderers: ["Canvas", "SVG", "VML"]
-        });
-
-        this.measureLayerSegmentsLayer = new OpenLayers.Layer.Vector('MeasureLayerSegmentsLayer',{
-            displayInLayerSwitcher : false,
-            styleMap : this.parseStyle(measureStyle)
+            styleMap: this.parseStyle(searchStyle)
         });
     },
     setInitialExtent: function() {

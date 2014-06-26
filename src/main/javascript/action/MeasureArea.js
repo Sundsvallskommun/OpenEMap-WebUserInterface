@@ -45,7 +45,6 @@ Ext.define('OpenEMap.action.MeasureArea', {
         var styleMap = new OpenLayers.StyleMap({"default": style});
         
         config.control = new OpenLayers.Control.DynamicMeasure(OpenLayers.Handler.Polygon, {
-            //persist: true,
             layerSegmentsOptions : null,
             layerLengthOptions : null,
             handlerOptions: {
