@@ -271,7 +271,7 @@ Ext.apply(OpenEMap, {
      */
     requestLM: function(config) {
         config.url = OpenEMap.basePathLM + config.url + '&lmuser=' + OpenEMap.lmUser;
-        return Ext.Ajax.request(config);
+        Ext.Ajax.request(config);
     }
 });
 
