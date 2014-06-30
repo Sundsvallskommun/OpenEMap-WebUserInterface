@@ -6,6 +6,7 @@ Ext.define('OpenEMap.form.SearchRegisterenhet', {
     alias: 'widget.searchregisterenhet',
     require: ['Ext.data.*',
               'Ext.form.*'],
+    queryDelay: 800,
     initComponent : function() {
         var registeromrade;
         var zoom;
