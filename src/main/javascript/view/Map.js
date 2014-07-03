@@ -131,6 +131,15 @@ Ext.define('OpenEMap.view.Map' ,{
                 
         this.layers.add(this.searchLayer);
         this.layers.add(this.drawLayer);
+        this.layers.add(this.measureLayer);
+        this.layers.add(this.measureLayerArea);
+        this.layers.add(this.measureLayerLength);
+        this.layers.add(this.measureLayerSegments);
+        
+        this.map.setLayerIndex(this.measureLayer, 98);
+        this.map.setLayerIndex(this.measureLayerArea, 98);
+        this.map.setLayerIndex(this.measureLayerLength, 98);
+        this.map.setLayerIndex(this.measureLayerSegments, 98);
         
         this.selectControl = new OpenLayers.Control.SelectFeature(this.drawLayer);
         this.map.addControl(this.selectControl);
@@ -330,6 +339,41 @@ Ext.define('OpenEMap.view.Map' ,{
         this.searchLayer = new OpenLayers.Layer.Vector('Searchresult', {
             displayInLayerSwitcher: false,
             styleMap: this.parseStyle(searchStyle)
+        });
+        
+        var defaultStyles = OpenLayers.Control.DynamicMeasure.styles;
+        
+        var style = new OpenLayers.Style(null, {rules: [
+            new OpenLayers.Rule({symbolizer: {
+                'Point': defaultStyles.Point,
+                'Line': defaultStyles.Line,
+                'Polygon': defaultStyles.Polygon
+            }})
+        ]});
+        var styleMap = new OpenLayers.StyleMap({"default": style});
+        
+        var createStyleMap = function(name) {
+            return new OpenLayers.StyleMap({ 'default': OpenLayers.Util.applyDefaults(null, defaultStyles[name])});
+        };
+        
+        this.measureLayer = new OpenLayers.Layer.Vector('MeasureLayer', {
+            displayInLayerSwitcher: false,
+            styleMap: styleMap
+        });
+        
+        this.measureLayerArea = new OpenLayers.Layer.Vector('MeasureLayerArea', {
+            displayInLayerSwitcher: false,
+            styleMap: createStyleMap('labelArea')
+        });
+        
+        this.measureLayerSegments = new OpenLayers.Layer.Vector('MeasureLayerSegments', {
+            displayInLayerSwitcher: false,
+            styleMap: createStyleMap('labelSegments')
+        });
+        
+        this.measureLayerLength = new OpenLayers.Layer.Vector('MeasureLayerLength', {
+            displayInLayerSwitcher: false,
+            styleMap: createStyleMap('labelLength')
         });
     },
     setInitialExtent: function() {

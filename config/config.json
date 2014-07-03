@@ -195,7 +195,7 @@
      */
     "tools": [
         "FullExtent", "Print",
-		"Identify", "MeasureLine", "MeasureArea", {
+		"Identify", "MeasureLine", "MeasureArea", "DeleteMeasure", {
 			"type": "DrawObject",
 			"attributes": {
 				"Typ": "Hus"

@@ -8,20 +8,15 @@ Ext.define('OpenEMap.action.DeleteMeasure', {
         
          config.control = new OpenLayers.Control.Button({
             trigger: function(){
-                
+            
                 config.mapPanel.measureLayer.removeAllFeatures();
-                config.mapPanel.measureLayerSegmentsLayer.removeAllFeatures();
+                config.mapPanel.measureLayerArea.removeAllFeatures();
+                config.mapPanel.measureLayerLength.removeAllFeatures();
+                config.mapPanel.measureLayerSegments.removeAllFeatures();
 
-                config.mapPanel.map.layers.forEach(function(l){
-                    if(l instanceof OpenLayers.Layer.Vector){
-                        // To do clean up
-                        if (/OpenLayers.Control.DynamicMeasure/.test(l.name)){
-                            l.removeAllFeatures();
-                        } else if (/Measure\i/.test(l.name)){
-                            l.removeAllFeatures();
-                        } else if (l.name === 'OpenLayers.Handler.Path'){
-                            l.removeAllFeatures();
-                        }
+                config.mapPanel.map.controls.forEach(function(c){
+                    if(c instanceof OpenLayers.Control.DynamicMeasure){
+                        c.deactivate();
                     }
                 });
             }
