@@ -26,8 +26,12 @@ NOTE: The above snippet assumes the use of release build including all dependenc
 
 NOTE: es5-shim is required for IE 8 compatibility only
 
-[API Docs old location](http://sweco.github.io/6603517000-riges/map-client/master/docs)
+## Documentation
 [Open eMap homepage](http://oemap.org)
+
+###API Docs 
+[1.1.0](http://oemap.org/doc/OpenEMapWebUserInterface/1.1.0/)
+[1.2.0](http://oemap.org/doc/OpenEMapWebUserInterface/1.2.0/)
 
 ## Development
 

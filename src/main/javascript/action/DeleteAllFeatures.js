@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Action for delete all features in map
  */
 Ext.define('OpenEMap.action.DeleteAllFeatures', {
