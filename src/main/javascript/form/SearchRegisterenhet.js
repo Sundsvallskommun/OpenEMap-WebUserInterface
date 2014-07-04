@@ -22,11 +22,13 @@ Ext.define('OpenEMap.form.SearchRegisterenhet', {
     alias: 'widget.searchregisterenhet',
     require: ['Ext.data.*',
               'Ext.form.*'],
+    queryDelay: 800,
     initComponent : function() {
-        //var registeromrade = Ext.Object.fromQueryString(location.search).registeromrade;
-        var registeromrade = null;
+        var registeromrade;
+        var zoom;
         if (this.search && this.search.options){
             registeromrade = this.search.options.municipalities.join(',');
+            zoom = this.search.options.zoom;
         }
         var layer = this.mapPanel.searchLayer;
         
@@ -40,8 +42,8 @@ Ext.define('OpenEMap.form.SearchRegisterenhet', {
                     var features = new OpenLayers.Format.GeoJSON().read(response.responseText);
                     layer.addFeatures(features);
                     var extent = layer.getDataExtent();
-                    if (this.zoom) {
-                        this.mapPanel.map.setCenter(extent.getCenterLonLat(), this.zoom);
+                    if (zoom) {
+                        this.mapPanel.map.setCenter(extent.getCenterLonLat(), zoom);
                     } else {
                         this.mapPanel.map.zoomToExtent(extent);
                     }
@@ -73,6 +75,17 @@ Ext.define('OpenEMap.form.SearchRegisterenhet', {
                  {name: 'name', mapping: 'properties.name'}
              ]
         });
+        
+        if (this.store.loading && this.store.lastOperation) {
+          var requests = Ext.Ajax.requests;
+          for (id in requests)
+            if (requests.hasOwnProperty(id) && requests[id].options == this.store.lastOperation.request) {
+              Ext.Ajax.abort(requests[id]);
+            }
+        }
+        this.store.on('beforeload', function(store, operation) {
+          store.lastOperation = operation;
+        }, this, { single: true });
         
         this.labelWidth = 60;
         this.displayField = 'name';

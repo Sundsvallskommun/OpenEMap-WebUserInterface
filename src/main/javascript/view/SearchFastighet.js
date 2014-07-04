@@ -25,7 +25,6 @@ Ext.define('OpenEMap.view.SearchFastighet', {
                 'OpenEMap.form.SearchPlacename',
                 'GeoExt.selection.FeatureModel'],
     border: false,
-    zoom: undefined,
     initComponent : function() {
 
         if (!this.renderTo) {
@@ -89,7 +88,6 @@ Ext.define('OpenEMap.view.SearchFastighet', {
                 mapPanel : this.mapPanel,
                 basePath: this.basePath,
                 search : searchCriteria,
-                zoom: this.zoom,
                 resultPanel : grid
             };
         }

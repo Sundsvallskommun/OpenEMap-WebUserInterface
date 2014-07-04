@@ -1,4 +1,4 @@
-{
+Ôªø{
     "configId": 64,
     "version": null,
     "extent": [
@@ -7,7 +7,7 @@
         733000,
         7102000
     ],
-    "attribution": "Kartan har ingen r‰ttsverkan du kan alltsÂ INTE se exakta gr‰nser i denna karttj‰nst ©Lantm‰teriet Geodatasamverkan_",
+    "attribution": "Kartan har ingen r√§ttsverkan du kan allts√• INTE se exakta gr√§nser i denna karttj√§nst ¬©Lantm√§teriet Geodatasamverkan_",
     "autoClearDrawLayer": null,
     "drawStyle": null,
     "tools": [
@@ -54,7 +54,7 @@
                 "type": "R"
             },
             "tooltip": "Rita byggnad Rektangel",
-            "iconCls": "action-draw-R",
+            "iconCls": "action-draw-square",
             "disabled": false,
             "attributes": {
                 "state": "GEOMETRY",
@@ -72,7 +72,7 @@
                 "type": "O"
             },
             "tooltip": "Rita byggnad Oktagon",
-            "iconCls": "action-draw-O",
+            "iconCls": "action-draw-octagon",
             "disabled": false,
             "attributes": {
                 "state": "GEOMETRY",
@@ -90,7 +90,7 @@
                 "type": "L"
             },
             "tooltip": "Rita byggnad L-form",
-            "iconCls": "action-draw-L",
+            "iconCls": "action-draw-l",
             "disabled": false,
             "attributes": {
                 "state": "GEOMETRY",
@@ -108,7 +108,7 @@
                 "type": "D"
             },
             "tooltip": "Rita byggnad avfasad",
-            "iconCls": "action-draw-D",
+            "iconCls": "action-draw-d",
             "disabled": false,
             "attributes": {
                 "state": "GEOMETRY",
@@ -121,7 +121,8 @@
         },
         "ModifyGeometry",
         "SelectGeometry",
-        "DeleteGeometry"
+        "DeleteGeometry",
+		"DeleteAllFeatures"
     ],
     "layers": [
         {
@@ -157,9 +158,10 @@
             "options": {
                 "visibility": true
             },
+            "expanded": false,
             "layers": [
                 {
-                    "name": "Egenskapsbest‰mmelser",
+                    "name": "Egenskapsbest√§mmelser",
                     "wms": {
                         "url": "http://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
                         "params": {
@@ -174,7 +176,7 @@
                     }
                 },
                 {
-                    "name": "Egenskapsbest‰mmelse yta",
+                    "name": "Egenskapsbest√§mmelse yta",
                     "wms": {
                         "url": "http://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
                         "params": {
@@ -189,7 +191,7 @@
                     }
                 },
                 {
-                    "name": "Anv‰ndningsbest‰mmelse",
+                    "name": "Anv√§ndningsbest√§mmelse",
                     "wms": {
                         "url": "http://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
                         "params": {
@@ -204,7 +206,7 @@
                     }
                 },
                 {
-                    "name": "Anv‰ndningsform",
+                    "name": "Anv√§ndningsform",
                     "wms": {
                         "url": "http://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
                         "params": {
@@ -219,7 +221,7 @@
                     }
                 },
                 {
-                    "name": "PlanomrÂde",
+                    "name": "Planomr√•de",
                     "wms": {
                         "url": "http://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
                         "params": {
@@ -236,7 +238,7 @@
             ]
         },
         {
-            "name": "Fastighetsgr‰nser",
+            "name": "Fastighetsgr√§nser",
             "wms": {
                 "url": "http://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
                 "params": {
@@ -251,7 +253,7 @@
             }
         },
         {
-            "name": "SammanhÂllen bebyggelse",
+            "name": "Sammanh√•llen bebyggelse",
             "wms": {
                 "url": "http://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
                 "params": {
@@ -266,7 +268,7 @@
             }
         },
         {
-            "name": "Utomplansbest‰mmelse",
+            "name": "Utomplansbest√§mmelse",
             "wms": {
                 "url": "http://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
                 "params": {
@@ -281,7 +283,7 @@
             }
         },
         {
-            "name": "Landsbygdsutveckling i strandn‰ra l‰gen(LIS)",
+            "name": "Landsbygdsutveckling i strandn√§ra l√§gen(LIS)",
             "wms": {
                 "url": "http://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
                 "params": {
@@ -326,7 +328,7 @@
             }
         },
         {
-            "name": "V‰ghÂllare",
+            "name": "V√§gh√•llare",
             "wms": {
                 "url": "http://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
                 "params": {
@@ -341,7 +343,7 @@
             }
         },
         {
-            "name": "Potentiellt fˆrorenade omrÂden",
+            "name": "Potentiellt f√∂rorenade omr√•den",
             "wms": {
                 "url": "http://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
                 "params": {
@@ -377,7 +379,7 @@
                     }
                 },
                 {
-                    "name": "KulturmiljˆvÂrd",
+                    "name": "Kulturmilj√∂v√•rd",
                     "wms": {
                         "url": "http://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
                         "params": {
@@ -392,7 +394,7 @@
                     }
                 },
                 {
-                    "name": "Natura 2000 FÂgeldirektivet",
+                    "name": "Natura 2000 F√•geldirektivet",
                     "wms": {
                         "url": "http://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
                         "params": {
@@ -422,7 +424,7 @@
                     }
                 },
                 {
-                    "name": "NaturvÂrd",
+                    "name": "Naturv√•rd",
                     "wms": {
                         "url": "http://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
                         "params": {
@@ -452,7 +454,7 @@
                     }
                 },
                 {
-                    "name": "Renn‰ring",
+                    "name": "Renn√§ring",
                     "wms": {
                         "url": "http://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
                         "params": {
@@ -572,7 +574,7 @@
                     }
                 },
                 {
-                    "name": "J‰rnv‰g anl‰ggning befintlig",
+                    "name": "J√§rnv√§g anl√§ggning befintlig",
                     "wms": {
                         "url": "http://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
                         "params": {
@@ -587,7 +589,7 @@
                     }
                 },
                 {
-                    "name": "J‰rnv‰g anl‰ggning framtida",
+                    "name": "J√§rnv√§g anl√§ggning framtida",
                     "wms": {
                         "url": "http://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
                         "params": {
@@ -602,7 +604,7 @@
                     }
                 },
                 {
-                    "name": "J‰rnv‰g befintlig",
+                    "name": "J√§rnv√§g befintlig",
                     "wms": {
                         "url": "http://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
                         "params": {
@@ -617,7 +619,7 @@
                     }
                 },
                 {
-                    "name": "J‰rnv‰g framtida",
+                    "name": "J√§rnv√§g framtida",
                     "wms": {
                         "url": "http://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
                         "params": {
@@ -632,7 +634,7 @@
                     }
                 },
                 {
-                    "name": "V‰gn‰t befintligt",
+                    "name": "V√§gn√§t befintligt",
                     "wms": {
                         "url": "http://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
                         "params": {
@@ -647,7 +649,7 @@
                     }
                 },
                 {
-                    "name": "V‰gn‰t framtida",
+                    "name": "V√§gn√§t framtida",
                     "wms": {
                         "url": "http://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
                         "params": {
@@ -664,13 +666,13 @@
             ]
         },
         {
-            "name": "Skyddade omrÂden",
+            "name": "Skyddade omr√•den",
             "options": {
                 "visibility": true
             },
             "layers": [
                 {
-                    "name": "Djur och v‰xtskyddsomrÂden",
+                    "name": "Djur och v√§xtskyddsomr√•den",
                     "wms": {
                         "url": "http://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
                         "params": {
@@ -740,7 +742,7 @@
             }
         },
         {
-            "name": "Egenskapsbest‰mmelser",
+            "name": "Egenskapsbest√§mmelser",
             "wfs": {
                 "url": "/wfs/",
                 "featureType": "EgenskapsBestammelser_yta",
@@ -764,7 +766,7 @@
             }
         },
         {
-            "name": "Egenskapsbest‰mmelser, linje",
+            "name": "Egenskapsbest√§mmelser, linje",
             "wfs": {
                 "url": "/wfs/",
                 "featureType": "EgenskapsBestammelser_linje",
@@ -772,7 +774,7 @@
             }
         },
         {
-            "name": "Anv‰ndningsbest‰mmelser",
+            "name": "Anv√§ndningsbest√§mmelser",
             "wfs": {
                 "url": "/wfs/",
                 "featureType": "AnvandningsBestammelser_yta",
@@ -780,7 +782,7 @@
             }
         },
         {
-            "name": "PlanomrÂde",
+            "name": "Planomr√•de",
             "wfs": {
                 "url": "/wfs/",
                 "featureType": "DetaljplanGallande_yta",
@@ -788,7 +790,7 @@
             }
         },
         {
-            "name": "SammanhÂllen bebyggelse",
+            "name": "Sammanh√•llen bebyggelse",
             "wfs": {
                 "url": "/wfs/",
                 "featureType": "SammanhallenBebyggelse_yta",
@@ -796,7 +798,7 @@
             }
         },
         {
-            "name": "Utomplansbest‰mmelser",
+            "name": "Utomplansbest√§mmelser",
             "wfs": {
                 "url": "/wfs/",
                 "featureType": "Utomplansbestammelser_yta",
@@ -832,17 +834,19 @@
     "search" : {
         "searchEstates" : {
             "options" : {
-                "municipalities" : ["Sundsvall", "TimrÂ", "Kramfors"]
+                "municipalities" : ["Sundsvall", "Timr√•", "H√§rn√∂sand", "Kramfors", "√ñrnsk√∂ldsvik"]
             }
         },
         "searchAddresses" : {
             "options" : {
-                "municipalities" : ["Sundsvall", "TimrÂ", "Kramfors"]
+                "municipalities" : ["Sundsvall", "Timr√•", "H√§rn√∂sand", "Kramfors", "√ñrnsk√∂ldsvik"],
+                "zoom": 10
             }
         },
         "searchPlacenames" :{
             "options" : {
-                "municipalities" : ["2281", "2290"]
+                "municipalities" : ["2260", "2262", "2280", "2281", "2282", "2283", "2284", "2290"],
+                "zoom": 10
             }
         }
     }

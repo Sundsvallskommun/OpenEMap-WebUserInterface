@@ -7,13 +7,13 @@
 <!-- 
     <link rel="stylesheet" type="text/css" href="ext-4.2.1/resources/css/ext-all-neptune.css">
          -->
-    <link rel="stylesheet" type="text/css" href="../src/main/webapp/resources/ext-theme-oep/oepTheme-all.css">
+    <link rel="stylesheet" type="text/css" href="../resources/ext-theme-oep/oepTheme-all.css">
 
-    <link rel="stylesheet" type="text/css" href="../src/main/webapp/resources/OpenEMap.css">
-    <script type="text/javascript" src="/OpenLayers-2.13.1/lib/OpenLayers.js"></script>  
-    <script type="text/javascript" src="/ext-4.2.1/ext-debug.js"></script>
-    <script type="text/javascript" src="/ext-4.2.1/ext-theme-neptune.js"></script>
-    <script type="text/javascript" src="/ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
+    <link rel="stylesheet" type="text/css" href="../resources/css/OpenEMap.css">
+    <script type="text/javascript" src="../OpenLayers-2.13.1/lib/OpenLayers.js"></script>  
+    <script type="text/javascript" src="../ext-4.2.1/ext-debug.js"></script>
+    <script type="text/javascript" src="../ext-4.2.1/ext-theme-neptune.js"></script>
+    <script type="text/javascript" src="../ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
     
     
     <script type="text/javascript">
@@ -21,7 +21,7 @@
 	    disableCaching: false,
 	    paths: {
 	        OpenEMap: '../src/main/javascript/',
-	        GeoExt: '../../geoext2-2.0.0/src/GeoExt/'
+	        GeoExt: '../../geoext2/src/GeoExt/'
 	    }
 	  });
     </script> 
@@ -29,10 +29,12 @@
     <script type="text/javascript" src="../es5-shim.min.js"></script>
     <!--script type="text/javascript" src="geoext2-all.js"></script-->
     
-    <script type="text/javascript" src="../src/main/javascript/OpenEMap.js"></script>
+    <script type="text/javascript" src="../src/main/javascript/Client.js"></script>
     
     <script type="text/javascript">
 	  Ext.onReady(function() {
+		
+		OpenEMap.basePathImages = '../resources/images/';
 		
 		mapClient = Ext.create('OpenEMap.Client');
 		  
@@ -47,9 +49,9 @@
 		    		config.options.municipalities = ['Sundvsall', 'Timrå'];
 		    		
 		    		var gui = {
-		    			map: {
-		    			    renderTo: 'map'
-		    			},
+		    			//map: {
+		    			//    renderTo: 'map'
+		    			//},
 		    			toolbar: {
 		    			},
 		    			zoomTools: {},
@@ -67,7 +69,7 @@
 		    				    }
 		    				}
 		    			},
-		    			// objectConfig: {x : 10, y: 10},
+		    			objectConfig: {x : 10, y: 10},
 		    			baseLayers: {}
 		    		};
 		    	
@@ -157,12 +159,13 @@
 			        'forhandsbesked.json',
 			        'preview.json',
 			        'detaljplaner.json',
-			        'OSM.json'],
+			        'OSM.json',
+			        'testAll.json'],
 			queryMode: 'local',
 			listeners: {
 				"select": function(combo, records) {
 					var record = records[0];
-					init('../src/main/webapp/config/' + record.get(record.fields.get(0).name));
+					init('../config/' + record.get(record.fields.get(0).name));
 				}
 			}
 		});

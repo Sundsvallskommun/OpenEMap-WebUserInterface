@@ -92,8 +92,7 @@ Ext.define('OpenEMap.view.IdentifyResults', {
         
         Object.keys(source).forEach(function(key) {
             var value = sourceConfig[key];
-            // Create a clickable link if the attribute contains a link
-			if (value.match('http://') || value.match('//')) {
+            if (value.match('http://') || value.match('//')) {
                 source[key] = '<a href="'+value+'" target="_blank">Länk</a>';
                 sourceConfig[key] = {
                     renderer: function(value) {return value;},
