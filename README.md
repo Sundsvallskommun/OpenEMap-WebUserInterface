@@ -31,6 +31,7 @@ NOTE: es5-shim is required for IE 8 compatibility only
 
 ###API Docs 
 [1.1.0](http://oemap.org/doc/OpenEMapWebUserInterface/1.1.0/)
+
 [1.2.0](http://oemap.org/doc/OpenEMapWebUserInterface/1.2.0/)
 
 ## Development
