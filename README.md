@@ -27,11 +27,10 @@ NOTE: The above snippet assumes the use of release build including all dependenc
 NOTE: es5-shim is required for IE 8 compatibility only
 
 ## Documentation
-[Open eMap homepage](http://oemap.org)
+![Open eMap homepage](http://oemap.org/img/logotyp.png)(http://oemap.org)
 
 ###API Docs 
 [1.1.0](http://oemap.org/doc/OpenEMapWebUserInterface/1.1.0/)
-
 [1.2.0](http://oemap.org/doc/OpenEMapWebUserInterface/1.2.0/)
 
 ## Development
@@ -45,6 +44,6 @@ Assumed external dependencies:
 ## Versioning
 
 Versioning should follow [Semantic versioning 2.00](http://semver.org/)
-This semantic starts at version 1.1.0.rc.1 (MAJOR.MINOR.PATCH.PRERELEASE)
+This semantic starts at version 1.1.0-rc.1 (MAJOR.MINOR.PATCH-PRERELEASE)
 Versioning uses the GitFlow model. Release branches are created as soon as a feature freeze is decided, and should be created for each new version with status of MAJOR, MINOR or PATCH. Pre releases are made within their respective release branch.
 
