@@ -27,7 +27,7 @@ NOTE: The above snippet assumes the use of release build including all dependenc
 NOTE: es5-shim is required for IE 8 compatibility only
 
 ##Homepage
-![Open eMap homepage]http://oemap.org/img/logotyp.png(http://oemap.org)
+[<a href="http://oemap.org"><img alt="Open eMap homepage" src="http://oemap.org/img/logotyp.png"></a>]
 
 ## Documentation
 ###API Docs 
