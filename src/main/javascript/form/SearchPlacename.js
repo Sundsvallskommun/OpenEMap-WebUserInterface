@@ -33,6 +33,17 @@ Ext.define('OpenEMap.form.SearchPlacename', {
              ]
         });
         
+        if (this.store.loading && this.store.lastOperation) {
+          var requests = Ext.Ajax.requests;
+          for (id in requests)
+            if (requests.hasOwnProperty(id) && requests[id].options == this.store.lastOperation.request) {
+              Ext.Ajax.abort(requests[id]);
+            }
+        }
+        this.store.on('beforeload', function(store, operation) {
+          store.lastOperation = operation;
+        }, this, { single: true });
+        
         this.labelWidth= 60;
         this.displayField= 'name';
         this.valueField= 'id';
