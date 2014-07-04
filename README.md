@@ -1,3 +1,4 @@
+<a href="http://oemap.org"><img alt="Open eMap homepage" src="http://oemap.org/img/logotyp.png"></a>
 # OpenEMap-WebUserInterface (map-client)
 
 Configurable map viewer
@@ -27,7 +28,7 @@ NOTE: The above snippet assumes the use of release build including all dependenc
 NOTE: es5-shim is required for IE 8 compatibility only
 
 ##Homepage
-[<a href="http://oemap.org"><img alt="Open eMap homepage" src="http://oemap.org/img/logotyp.png"></a>]
+<a href="http://oemap.org"><img alt="Open eMap homepage" src="http://oemap.org/img/logotyp.png" width="200"></a>
 
 ## Documentation
 ###API Docs 
