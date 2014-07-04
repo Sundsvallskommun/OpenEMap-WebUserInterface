@@ -1,5 +1,5 @@
 @echo off 
-set release_name=OpenEMap-1.1.0
+set release_name=OpenEMap-1.1.1
 echo ..\release\%release_name%
 cd ..\release
 rd /s /q %release_name%
