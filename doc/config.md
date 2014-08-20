@@ -2,39 +2,41 @@
 # MapClient configuration
 ## Base tags on the highest level of the configuration file
 ```json
-"configId": idOfTheConfig,
-"name": "nameOfTheConfig",
-"version": ?,
-"maxExtent": [
-	westing,
-	southing,
-	easting,
-	northing
-],
-"extent": [ 'initial extent
-	westing,
-	southing,
-	easting,
-	northing
-],
-"autoClearDrawLayer": ?,
-"attribution": "attributionToBeShownInMap",
-"drawStyle": ?,
-"resolutions": [ ' list of resolutions to be used in map
-        resolutionN,
-        resolution3,
-        resolution2,
-        resolution1,
-        resolution0
-    ],
-"units": "unitsToUseInMap"
-"projection": "epsgCodeForMapProjection"
-"username": ?,
-"hasListeners": ?,
-"events": ?,
-"options": ?,
-"layers": {layerObject}, ' List of layers in map. See details below
-"tools": {toolsObject} ' List of tools in map. See details below
+{
+	"configId": idOfTheConfig,
+	"name": "nameOfTheConfig",
+	"version": ?,
+	"maxExtent": [
+		westing,
+		southing,
+		easting,
+		northing
+	],
+	"extent": [ 'initial extent
+		westing,
+		southing,
+		easting,
+		northing
+	],
+	"autoClearDrawLayer": ?,
+	"attribution": "attributionToBeShownInMap",
+	"drawStyle": ?,
+	"resolutions": [ ' list of resolutions to be used in map
+			resolutionN,
+			resolution3,
+			resolution2,
+			resolution1,
+			resolution0
+		],
+	"units": "unitsToUseInMap"
+	"projection": "epsgCodeForMapProjection"
+	"username": ?,
+	"hasListeners": ?,
+	"events": ?,
+	"options": ?,
+	"layers": {layerObject}, ' List of layers in map. See details below
+	"tools": {toolsObject} ' List of tools in map. See details below
+}
 ```
 
 ## Specifying layers included in map. 
