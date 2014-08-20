@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*    
+    Copyright (C) 2014 Härnösands kommun
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+*/
+<span id='OpenEMap-view-SearchCoordinate'>/**
+</span> * @param {number} config.zoom Set to a zoom level to override the default
+ */
+Ext.define('OpenEMap.view.SearchCoordinate', {
+    extend : 'Ext.container.Container',
+<span id='OpenEMap-view-SearchCoordinate-cfg-layout'>    layout: 'column',
+</span><span id='OpenEMap-view-SearchCoordinate-cfg-defaults'>    defaults: {
+</span>        labelWidth: 20
+    },
+<span id='OpenEMap-view-SearchCoordinate-cfg-width'>    width: 300,
+</span><span id='OpenEMap-view-SearchCoordinate-cfg-border'>    border: false,
+</span><span id='OpenEMap-view-SearchCoordinate-property-zoom'>    zoom: 5,
+</span><span id='OpenEMap-view-SearchCoordinate-method-initComponent'>    initComponent : function(config) {
+</span>        this.items = [ {
+            itemId: 'e',
+            fieldLabel: 'E',
+            xtype : 'textfield',
+            columnWidth: 0.5
+        },{
+            itemId: 'n',
+            fieldLabel: 'N',
+            xtype : 'textfield',
+            columnWidth: 0.5
+        }, {
+            xtype: 'button',
+            text: 'Sök',
+            handler: function() {
+                var x = this.down('#e').getValue();
+                var y = this.down('#n').getValue();
+                this.mapPanel.map.setCenter([x, y], this.zoom);
+                this.fireEvent('searchcomplete', [x, y]);
+            },
+            scope: this
+        }];
+        
+<span id='OpenEMap-view-SearchCoordinate-event-searchcomplete'>        this.addEvents([/**
+</span>                         * @event searchcomplete
+                         * Fires after coordinate search is complete
+                         * @param {Array.&lt;Number&gt;} coordinate
+                         */
+                        'searchcomplete']);
+        
+        this.callParent(arguments);
+    }
+});</pre>
+</body>
+</html>
