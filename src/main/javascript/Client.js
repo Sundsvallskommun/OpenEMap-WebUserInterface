@@ -242,50 +242,54 @@ Ext.define('OpenEMap.Client', {
         drawLabels.apply(this);
     },
     /**
-     * Add markers to map
+     * Add vector layer to map
      * @param {string} geojson string containing array of objects to include as markers in map
      * @param {string} layername string containing the layers name 
      * @param {OpenLayers.Icon} icon icon to use for drawing the marker
      */
-    addMarkers: function(geojson, layername, icon, iconHighlight) {
+    addVectorLayer: function(geojson, layername, icon, iconHighlight) {
         if (geojson == null) {
-        	return "usage: addMarkers(geojson, layername, icon)";
+        	return "usage: addVectorLayer(geojson, layername, icon, iconHighlight)";
         }
         if (layername == null) {
-        	layername = "Markers";
+        	layername = "VectorLayer";
         } 
         if (icon == null) {
         	//TODO: create default icon;
         } 
         var format = new OpenLayers.Format.GeoJSON();
-        var feature = format.read(geojson, "Feature");
-	    if (feature == null) {
+        var features = format.read(geojson, "FeatureCollection");
+	    if (features == null) {
 	    	return "String is not a valid GeoJSON"
 	    } 
-        var htmlString = format.read(geojson, "HTML");
-	    if (htmlString == null) {
-	    	return "String is not a valid GeoJSON"
-	    } 
-        
-        this.drawLayer.addFeatures([feature]);
+ 
+	    var vectorLayer = new OpenLayers.Layer.Vector( layername );
+	  	this.map.addLayer(vectorLayer);
+ 
+		//var options = ?;
+		vectorLayer.addFeatures(features);
+		
+        // var htmlString = format.read(geojson, "HTML");
+	    // if (htmlString == null) {
+	    	// return "String is not a valid GeoJSON"
+	    // } 
+        // this.drawLayer.addFeatures([feature]);
 
-	    var markerLayer = new OpenLayers.Layer.Markers( layername );
-	    var markersArray = null;
-	    for each 
-	  	this.map.addLayer(markerLayer);
-
-		for ()					
-		  markerLayer.addMarker(new OpenLayers.Marker(new OpenLayers.LonLat(618884,6919743),icon));
-					  markerLayer.addMarker(new OpenLayers.Marker(new OpenLayers.LonLat(618704,6919783),icon.clone()));
-					  markerLayer.addMarker(new OpenLayers.Marker(new OpenLayers.LonLat(618824,6919603),icon.clone()));
-					  popup = new OpenLayers.Popup.FramedCloud("Larm1",
-					                     larm1LonLat,
-					                     new OpenLayers.Size(200,200),
-					                     "<html><body><b>Idag 18:06 - Brand ute terräng</b><br>Sundsvall<br>Timmervägen<br>Inga lågor, ser att det ryker efter järnvägen</body></html>",
-					                     iconSelected,
-					                     true);
-					
-					  mapClient.map.addPopup(popup);
+	    // var markerLayer = new OpenLayers.Layer.Markers( layername );
+	  	// this.map.addLayer(markerLayer);
+// 
+		// for (var feature in features) {					
+			// markerLayer.addMarker(new OpenLayers.Marker(feature.LonLat(),icon.clone()));
+	 	// }
+// 		
+		// popup = new OpenLayers.Popup.FramedCloud("Larm1",
+			// larm1LonLat,
+			// new OpenLayers.Size(200,200),
+			// "<html><body><b>Idag 18:06 - Brand ute terräng</b><br>Sundsvall<br>Timmervägen<br>Inga lågor, ser att det ryker efter järnvägen</body></html>",
+			// iconSelected,
+			// true);
+// 			
+		// mapClient.map.addPopup(popup);
 
     }
 });
