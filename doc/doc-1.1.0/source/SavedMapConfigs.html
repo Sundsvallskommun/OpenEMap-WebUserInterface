@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">//@requires OpenEMap
+
+<span id='OpenEMap-data-SavedMapConfigs'>/**
+</span> * Map configuration store
+ * Store to list map configurations
+ */
+
+Ext.define('OpenEMap.data.SavedMapConfigs' ,{
+    extend: 'Ext.data.Store',
+
+    requires: [
+        'OpenEMap.model.MapConfig'
+    ],
+
+<span id='OpenEMap-data-SavedMapConfigs-cfg-model'>    model: 'OpenEMap.model.MapConfig',
+</span>
+<span id='OpenEMap-data-SavedMapConfigs-cfg-storeId'>    storeId: 'savedMapConfigs',
+</span>
+<span id='OpenEMap-data-SavedMapConfigs-cfg-autoLoad'>    autoLoad: true,
+</span>
+<span id='OpenEMap-data-SavedMapConfigs-cfg-proxy'>    proxy: {
+</span>        type: 'rest',
+        appendId: true,
+        url: (OpenEMap &amp;&amp; OpenEMap.wsUrls &amp;&amp; OpenEMap.wsUrls.basePath) ? OpenEMap.wsUrls.basePath : '' + 
+        		(OpenEMap &amp;&amp; OpenEMap.wsUrls &amp;&amp; OpenEMap.wsUrls.configs) ? OpenEMap.wsUrls.configs : '',
+        reader: {
+            type: 'json',
+            root: 'configs'
+        },
+        writer: {            
+            type: 'json'
+        }
+    }
+});</pre>
+</body>
+</html>

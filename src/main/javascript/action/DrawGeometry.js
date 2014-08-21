@@ -1,3 +1,19 @@
+﻿/*    
+    Copyright (C) 2014 Härnösands kommun
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 /**
  * Action for draw geometry
  * 
@@ -23,6 +39,20 @@
  */
 Ext.define('OpenEMap.action.DrawGeometry', {
     extend: 'OpenEMap.action.Action',
+
+    isText : function(feature){
+        if (feature){
+            var isPoint = feature.geometry === 'Point' || feature.geometry instanceof OpenLayers.Geometry.Point;
+            if (isPoint){
+                var isText =  feature.attributes && 
+                    feature.attributes.type && 
+                    feature.attributes.type === 'label';
+                return isText;
+            }
+        }
+        return false;
+    },
+
     /**
      * @param config
      * @param {string} config.typeAttribute string to write to new feature attribute type
@@ -31,11 +61,6 @@ Ext.define('OpenEMap.action.DrawGeometry', {
     constructor: function(config) {
         var mapPanel = config.mapPanel;
         var layer = mapPanel.drawLayer;
-
-        var isPoint =   config.geometry === 'Point' && 
-                        config.attributes && 
-                        config.attributes.type && 
-                        config.attributes.type === 'label';
 
 
         config.attributes = config.attributes || {};
@@ -60,8 +85,8 @@ Ext.define('OpenEMap.action.DrawGeometry', {
         
         config.control = new Control(layer, OpenLayers.Handler[config.geometry]);
 
-        if (isPoint){
-            layer.events.register('beforefeatureadded', this, function(evt){
+        layer.events.register('beforefeatureadded', this, function(evt){
+            if (this.isText(evt.feature)){
                 Ext.Msg.prompt('Text', 'Mata in text:', function(btn, text){
                     if (btn == 'ok'){
                         evt.feature.attributes.label = text;
@@ -69,9 +94,9 @@ Ext.define('OpenEMap.action.DrawGeometry', {
                         layer.redraw();
                     }
                 });
-            
-            });
-        }
+            }
+        });
+        
                 
         config.iconCls = config.iconCls || 'action-drawgeometry';
        
@@ -80,11 +105,10 @@ Ext.define('OpenEMap.action.DrawGeometry', {
          		config.geometry === 'Path' ? 'Rita linje' :
          		config.geometry === 'Point' ? 'Rita punkt' : 'Rita geometri';
          		
-         	if (isPoint){
+         	if (this.isText(config)){
          		config.tooltip = 'Placera ut text.';	
          	}
        }
-        
         config.toggleGroup = 'extraTools';
         
         this.callParent(arguments);

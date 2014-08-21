@@ -1,5 +1,22 @@
+﻿/*    
+    Copyright (C) 2014 Härnösands kommun
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 /**
  * Initializes GUI from configuration
+ * Initialize where to place the different GUI components, and if they should be floating components or 
  */
 Ext.define('OpenEMap.Gui', {
     activeAction: null,
@@ -22,7 +39,7 @@ Ext.define('OpenEMap.Gui', {
         this.map = config.map;
         this.orginalConfig = config.orginalConfig;
         this.serverStore = config.serverStore;
-        this.filterMunicipalities = config.filterMunicipalities;
+        this.search = config.config.search;
 
         // GUI defaults
         if (this.gui === undefined) {
@@ -193,6 +210,7 @@ Ext.define('OpenEMap.Gui', {
     },
     createPanels: function(items) {
         
+        // Checks whether the advanced or basic Layer control should be used
         if (this.gui.layers && this.gui.layers.type === 'advanced') {
             this.mapLayers = Ext.create('OpenEMap.view.layer.Advanced', Ext.apply({
                 mapPanel : this.mapPanel,
@@ -204,12 +222,14 @@ Ext.define('OpenEMap.Gui', {
             }, this.gui.layers));
         }
         
+        // Create SearchParcel control
         this.searchFastighet = Ext.create('OpenEMap.view.SearchFastighet', Ext.apply({
             mapPanel : this.mapPanel,
             basePath: this.config.basePath,
-            filterMunicipalities: this.filterMunicipalities 
+            search: this.search 
         }, this.gui.searchFastighet));
         
+        // Create Layer control
         // NOTE: only create right panel if layers panel isn't rendered
         // create right panel containing layers and search panels if no renderTo target is configured
         if (this.gui.layers && !this.gui.layers.renderTo) {
@@ -238,6 +258,7 @@ Ext.define('OpenEMap.Gui', {
             });
         }
         
+        // Create BaselLayers control
         // TODO: only create if config has baselayers
         if (!this.map.allOverlays && this.gui.baseLayers) {
             this.baseLayers = Ext.create("OpenEMap.view.BaseLayers", Ext.apply({
@@ -250,6 +271,7 @@ Ext.define('OpenEMap.Gui', {
             }, this.gui.baseLayers));
         }
         
+        // Create ZoomTool control
         if (this.gui.zoomTools && !this.gui.zoomTools.renderTo) {
             this.zoomTools = Ext.create('OpenEMap.view.ZoomTools', Ext.apply({
                 mapPanel : this.mapPanel,
@@ -258,7 +280,8 @@ Ext.define('OpenEMap.Gui', {
                 width: 36
             }, this.gui.zoomTools));
         }
-                
+        
+        // Create SearchCoordinate" control                
         // only create if renderTo
         if (this.gui.searchCoordinate && this.gui.searchCoordinate.renderTo) {
             this.searchCoordinate = Ext.create('OpenEMap.view.SearchCoordinate', Ext.apply({
@@ -266,6 +289,7 @@ Ext.define('OpenEMap.Gui', {
             }, this.gui.searchCoordinate));
         }
         
+        // Create Object config
         // only create if renderTo
         if (this.gui.objectConfig && this.gui.objectConfig.renderTo) {
             this.objectConfig = Ext.create('OpenEMap.view.ObjectConfig', Ext.apply({

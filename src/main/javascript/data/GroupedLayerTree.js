@@ -1,3 +1,19 @@
+﻿/*    
+    Copyright (C) 2014 Härnösands kommun
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 /**
  * Grouped layer tree store
  * Ext.data.TreeStore extended to support OpenEMap layer configuration including layer groups
@@ -170,16 +186,32 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
     * @return {Ext.data.Model} node
     */
     addWMSLegend: function(node) {
-        if(node.get('layer')) {
-            node.gx_wmslegend = Ext.create('GeoExt.container.WmsLegend',{
-                layerRecord: node,
-                showTitle: false,
-                hidden: true,
-                deferRender: true,
-                // custom class for css positioning
-                // see tree-legend.html
-                cls: "legend"
-            });
+        var layer = node.get('layer');
+    
+        if (layer) {
+            if (Ext.isIE9) return node;
+            if (layer.legendURL) {
+                node.set('legendURL', layer.legendURL);
+                node.gx_urllegend = Ext.create('GeoExt.container.UrlLegend', {
+                    layerRecord: node,
+                    showTitle: false,
+                    hidden: true,
+                    deferRender: true,
+                    // custom class for css positioning
+                    // see tree-legend.html
+                    cls: "legend"
+                });
+            } else if (layer.CLASS_NAME == "OpenLayers.Layer.WMS") {
+                node.gx_wmslegend = Ext.create('GeoExt.container.WmsLegend', {
+                    layerRecord: node,
+                    showTitle: false,
+                    hidden: true,
+                    deferRender: true,
+                    // custom class for css positioning
+                    // see tree-legend.html
+                    cls: "legend"
+                });
+            }
         }
         return node;
     },

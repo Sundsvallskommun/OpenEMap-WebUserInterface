@@ -1,0 +1,62 @@
+{
+    "name": "Transformator",
+    "maxExtent": [
+        487000,
+        6887000,
+        749144,
+        7149144
+    ],
+    "autoClearDrawLayer": true,
+    "extent": [
+        608114,
+        6910996,
+        641846,
+        6932596
+    ],
+    "resolutions": [280, 140, 70, 28, 14, 7, 4.2, 2.8, 1.4, 0.56, 0.28, 0.14, 0.112],
+    "controls": [
+        "Navigation",
+        "KeyboardDefaults"
+    ],
+    "layers": [
+        {
+            "name": "Foto",
+            "url": "http://extmap.sundsvall.se/geoserver/gwc/service/wms",
+            "params": {
+                "layers": "Lantmateriet:ortofoto50cm",
+                "format": "image/png"
+            },
+            "options": {
+            	"isBaseLayer": true,
+            	"displayInLayerSwitcher": false
+            }
+        },
+        {
+            "name": "Karta",
+            "url": "http://extmap.sundsvall.se/geoserver/gwc/service/wms",
+            "params": {
+                "layers": "Lantmateriet:topowebbkartan_nedtonad",
+                "format": "image/png"
+            },
+            "options": {
+            	"isBaseLayer": true,
+            	"displayInLayerSwitcher": false
+            }
+        }
+    ],
+    "tools": [
+    	"MeasureLine", "MeasureArea",
+        {
+            "type": "DrawObject",
+            "objectConfig": {
+                "type": "R"
+            },
+            "tooltip": "Rita transformator",
+            "attributes": {
+            	"type": "Transformator"
+            }
+        }, {
+        	"type": "ModifyGeometry"
+        }
+    ]
+}

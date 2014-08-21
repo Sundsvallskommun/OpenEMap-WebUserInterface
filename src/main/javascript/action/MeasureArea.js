@@ -1,3 +1,19 @@
+﻿/*    
+    Copyright (C) 2014 Härnösands kommun
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 /**
  * Action that measure area.
  *{@img Measurearea.png measurearea}
@@ -13,96 +29,10 @@ Ext.define('OpenEMap.action.MeasureArea', {
         
         var mapPanel = config.mapPanel;
         
-        var sketchSymbolizers = {
-            "Point": {
-                pointRadius: 4,
-                graphicName: "square",
-                fillColor: "white",
-                fillOpacity: 1,
-                strokeWidth: 1,
-                strokeOpacity: 1,
-                strokeColor: "#333333"
-            },
-            "Line": {
-                strokeWidth: 3,
-                strokeOpacity: 1,
-                strokeColor: "#2969db",
-                strokeDashstyle: "dash"
-            },
-            "Polygon": {
-                strokeWidth: 3,
-                strokeOpacity: 1,
-                strokeColor: "#2969db",
-                strokeDashstyle: "dash",
-                fillColor: "#deecff",
-                fillOpacity: 0.4
-            }
-        };
-        var style = new OpenLayers.Style();
-        style.addRules([
-            new OpenLayers.Rule({symbolizer: sketchSymbolizers})
-        ]);
-        var styleMap = new OpenLayers.StyleMap({"default": style});
-        
-        config.control = new OpenLayers.Control.Measure(OpenLayers.Handler.Polygon, {
-            persist: true,
-            handlerOptions: {
-                layerOptions: {
-                    styleMap: styleMap
-                }
-            }
+        config.control = new OpenLayers.Control.DynamicMeasure(OpenLayers.Handler.Polygon, {
+            mapPanel: mapPanel
         });
-        
-        var out = "";
-        var count = 1;
-        var reset = true;
-        function handleMeasurements(event) {
-            OpenEMap.action.MeasureLine.createMeasureWindow(mapPanel);
-            OpenEMap.action.MeasureLine.measureWindow.show();
-            
-            var geometry = event.geometry;
-            var units = event.units;
-            var order = event.order;
-            var measure = event.measure;
-            //var out = "";
-            if (reset) {
-                out = "";
-                count = 1;
-                reset = false;
-            }
-            var p1 = geometry.components[geometry.components.length-2];
-            var p2 = geometry.components[geometry.components.length-3];
-            if (p1 === undefined || p2 === undefined) return;
-            measure = p1.distanceTo(p2);
-            units = "m";
-            if(order == 1) {
-                out += "Delsträcka " + count + " : " + measure.toFixed(3) + " " + units + "<br>";
-            } else {
-                out += "Delsträcka " + count + " : " + measure.toFixed(3) + " " + units + "<sup>2</" + "sup>" + "<br>";
-            }
-            OpenEMap.action.MeasureLine.measureWindow.update(out);
-            count = count+1;
-        }
-        
-        function handleMeasurement(event) {
-            var units = event.units;
-            var order = event.order;
-            var measure = event.measure;
-            //var out = "";
-            if(order == 1) {
-                out += "Totalt: " + measure.toFixed(3) + " " + units + "<br>";
-            } else {
-                out += "Totalt: " + measure.toFixed(3) + " " + units + "<sup>2</" + "sup>" + "<br>";
-            }
-            OpenEMap.action.MeasureLine.measureWindow.update(out);
-            reset = true;
-        }
-        
-        config.control.events.on({
-            'measure': handleMeasurement,
-            'measurepartial': handleMeasurements
-        });
-        
+
         config.iconCls = config.iconCls || 'action-measurearea';
         config.tooltip = config.tooltip || 'M&auml;t area';
         config.toggleGroup = 'extraTools';

@@ -1,3 +1,19 @@
+﻿/*    
+    Copyright (C) 2014 Härnösands kommun
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 /**
  * Parser for configuration JSON
  * Set defaults, initializes OpenLayers and Ext JS stuff.
@@ -27,7 +43,8 @@ Ext.define('OpenEMap.config.Parser', {
             "resolutions": [280, 140, 70, 28, 14, 7, 4.2, 2.8, 1.4, 0.56, 0.28, 0.14, 0.112],
             "extent": [608114, 6910996, 641846, 6932596],
             "maxExtent": [487000.0, 6887000.0, 749144.0, 7149144.0],
-            "units": "m"
+            "units": "m",
+            "municipalities": ['Sundvsall', 'Timrå', 'Kramfors', 'Örnsköldsvik', 'Härnösand']
         };
         
         options.resolutions = config.resolutions || options.resolutions;
@@ -35,6 +52,7 @@ Ext.define('OpenEMap.config.Parser', {
         options.projection = config.projection || options.projection;
         options.maxExtent = config.maxExtent;
         options.extent = config.extent;
+        options.municipalities = config.municipalities || options.municipalities;
         options.controls = options.controls.map(this.createControl);
         
         // allow to override/add other options from map property 
@@ -201,8 +219,7 @@ Ext.define('OpenEMap.config.Parser', {
         }
         // Do the node have sublayers, iterate over them
         if(layer.layers) {
-            // Expand all groups
-            layer.expanded = true;
+            layer.expanded = layer.expanded == undefined ? true : layer.expanded;
             layer.layers.forEach(arguments.callee, this);
         } else {
             // If no sublayers, this is a leaf

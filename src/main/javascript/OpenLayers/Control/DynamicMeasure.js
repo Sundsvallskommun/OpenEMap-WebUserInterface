@@ -33,7 +33,7 @@ OpenLayers.Control.DynamicMeasure = OpenLayers.Class(
      *     measurement is started, the control is deactivated, or <cancel> is
      *     called. Default is true.
      */
-    persist: true,
+    persist: false,
 
     /**
      * APIProperty: styles
@@ -400,6 +400,7 @@ OpenLayers.Control.DynamicMeasure = OpenLayers.Class(
                 var layer = new OpenLayers.Layer.Vector(
                                    _self.CLASS_NAME + ' ' + styleName, options);
                 _self.map.addLayer(layer);
+                _self.map.setLayerIndex(layer, 99);
                 return layer;
             };
             this.layerSegments =
@@ -469,16 +470,14 @@ OpenLayers.Control.DynamicMeasure = OpenLayers.Class(
      * geometry - {<OpenLayers.Geometry>}
      */
     callbackDone: function(geometry) {
-        /*if (geometry){
-             var newLayerSegments = [];
-             this.layerSegments.features.forEach(function deepCopyFeatures(f){
-                newLayerSegments.push(f.clone());
-             });
-             mapClient.mapPanel.measureLayer.addFeatures(newLayerSegments);
-
-             var newLayerLength = [this.layerLength.features[0].clone()];
-             mapClient.mapPanel.measureLayer.addFeatures(newLayerLength);
-         }*/
+        var feature = new OpenLayers.Feature.Vector(geometry);
+        this.mapPanel.measureLayer.addFeatures([feature.clone()]);
+        var clone = function(e) { return e.clone(); };
+        if (this.layerArea) {
+            this.mapPanel.measureLayerArea.addFeatures(this.layerArea.features.map(clone));
+        }
+        this.mapPanel.measureLayerLength.addFeatures(this.layerLength.features.map(clone));
+        this.mapPanel.measureLayerSegments.addFeatures(this.layerSegments.features.map(clone));
 
         this.measureComplete(geometry);
         if (!this.persist) {
@@ -496,7 +495,7 @@ OpenLayers.Control.DynamicMeasure = OpenLayers.Class(
         );
         if (proceed !== false) {
             feature.state = OpenLayers.State.INSERT;
-            this.drawingLayer.addFeatures([feature]);
+            //this.drawingLayer.addFeatures(this.layerArea.features.map(function(feature) { return feature.clone(); }));
             this.featureAdded && this.featureAdded(feature);// for compatibility
             this.events.triggerEvent('featureadded', {feature: feature});
         }
@@ -790,8 +789,8 @@ OpenLayers.Control.DynamicMeasure = OpenLayers.Class(
      * measure - Array({*})
      */
     setMesureAttributes: function(attributes, measure) {
-        attributes.measure = OpenLayers.Number.format(
-                           Number(measure[0].toPrecision(this.accuracy)), null);
+        attributes.measure = OpenLayers.Number.format(measure[0].toFixed(2), null);
+                           //Number(measure[0].toPrecision(this.accuracy)), null);
         attributes.units = measure[1];
     },
 

@@ -1,3 +1,19 @@
+﻿/*    
+    Copyright (C) 2014 Härnösands kommun
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 /**
  * Combobox that searches from LM with type ahead.
  */
@@ -6,11 +22,13 @@ Ext.define('OpenEMap.form.SearchRegisterenhet', {
     alias: 'widget.searchregisterenhet',
     require: ['Ext.data.*',
               'Ext.form.*'],
+    queryDelay: 800,
     initComponent : function() {
-        //var registeromrade = Ext.Object.fromQueryString(location.search).registeromrade;
-        var registeromrade = null;
-        if (this.filterMunicipalities){
-            var registeromrade = this.filterMunicipalities.join(',');
+        var registeromrade;
+        var zoom;
+        if (this.search && this.search.options){
+            registeromrade = this.search.options.municipalities.join(',');
+            zoom = this.search.options.zoom;
         }
         var layer = this.mapPanel.searchLayer;
         
@@ -24,8 +42,8 @@ Ext.define('OpenEMap.form.SearchRegisterenhet', {
                     var features = new OpenLayers.Format.GeoJSON().read(response.responseText);
                     layer.addFeatures(features);
                     var extent = layer.getDataExtent();
-                    if (this.zoom) {
-                        this.mapPanel.map.setCenter(extent.getCenterLonLat(), this.zoom);
+                    if (zoom) {
+                        this.mapPanel.map.setCenter(extent.getCenterLonLat(), zoom);
                     } else {
                         this.mapPanel.map.zoomToExtent(extent);
                     }
@@ -57,6 +75,17 @@ Ext.define('OpenEMap.form.SearchRegisterenhet', {
                  {name: 'name', mapping: 'properties.name'}
              ]
         });
+        
+        if (this.store.loading && this.store.lastOperation) {
+          var requests = Ext.Ajax.requests;
+          for (id in requests)
+            if (requests.hasOwnProperty(id) && requests[id].options == this.store.lastOperation.request) {
+              Ext.Ajax.abort(requests[id]);
+            }
+        }
+        this.store.on('beforeload', function(store, operation) {
+          store.lastOperation = operation;
+        }, this, { single: true });
         
         this.labelWidth = 60;
         this.displayField = 'name';

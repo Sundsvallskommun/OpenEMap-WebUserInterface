@@ -10,10 +10,10 @@ mkdir $1
 cp ../index.html $1
 cp ../index-with-config.html $1
 
-mkdir build/$1/resources
-cp resources/OpenEMap.css $1/resources/OpenEMap.css
-cp -r ~/Sites/6603517000-riges/OpenEMap-integrations/resources/resources/ $1/resources
-cp -r ~/Sites/6603517000-riges/OpenEMap-integrations/resources/images/ $1/images
+mkdir $1
+cp -r ../resources $1/resources
+#cp -r ~/Sites/6603517000-riges/OpenEMap-integrations/resources/resources/ $1/resources
+#cp -r ~/Sites/6603517000-riges/OpenEMap-integrations/resources/images/ $1/images
 
 
 echo "building openemap"

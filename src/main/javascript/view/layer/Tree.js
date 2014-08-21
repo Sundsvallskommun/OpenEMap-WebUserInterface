@@ -1,3 +1,19 @@
+﻿/*    
+    Copyright (C) 2014 Härnösands kommun
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 /**
  * 
  */
@@ -24,6 +40,8 @@ Ext.define('OpenEMap.view.layer.Tree' ,{
         }
 
         this.on('checkchange', function(node, checked, eOpts) {
+            var parent = node.parentNode;
+        
             if(checked) {
                 // Loop this node and children
                 node.cascadeBy(function(n){
@@ -34,6 +52,10 @@ Ext.define('OpenEMap.view.layer.Tree' ,{
                         olLayerRef.setVisibility(true);
                     }
                 });
+                // check parent if not root
+                if (!parent.isRoot()) {
+                    parent.set('checked', checked);
+                }
             } else {
                 node.cascadeBy(function(n){
                     // Loop this node and children
@@ -43,13 +65,17 @@ Ext.define('OpenEMap.view.layer.Tree' ,{
                         olLayerRef.setVisibility(false);
                     }
                 });
+                // uncheck parent if not root and its children are unchecked
+                if (!parent.isRoot() && !parent.childNodes.some(function(node) { return node.get('checked'); })) {
+                    parent.set('checked', checked);
+                }
             }
         });
 
         this.on('cellclick', function(tree, td, cellIndex, node) {
             // Add legend if node have a wms legend and the node isnt removed
-            if(node.gx_wmslegend && node.store) {
-                var legend = node.gx_wmslegend;
+            if((node.gx_wmslegend || node.gx_urllegend) && node.store) {
+                var legend = node.gx_wmslegend || node.gx_urllegend;
                 if (legend.isHidden()) {
                     if (!legend.rendered) {
                         legend.render(td);

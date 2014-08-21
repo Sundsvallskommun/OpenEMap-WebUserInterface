@@ -1,3 +1,19 @@
+﻿/*    
+    Copyright (C) 2014 Härnösands kommun
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 /**
  * Combobox that searches from LM with type ahead.
  */
@@ -7,10 +23,11 @@ Ext.define('OpenEMap.form.SearchPlacename', {
     require: ['Ext.data.*',
               'Ext.form.*'],
     initComponent : function() {
-        //var kommunkod = Ext.Object.fromQueryString(location.search).kommunkod;
-        var kommunkod = null;
-        if (this.filterMunicipalities){
-            var kommunkod = this.filterMunicipalities.join(',');
+        var kommunkod;
+        var zoom = 5;
+        if (this.search && this.search.options) {
+            kommunkod = this.search.options.municipalities.join(',');
+            zoom = this.search.options.zoom;
         }
                 
         this.store = Ext.create('Ext.data.Store', {
@@ -32,6 +49,17 @@ Ext.define('OpenEMap.form.SearchPlacename', {
              ]
         });
         
+        if (this.store.loading && this.store.lastOperation) {
+          var requests = Ext.Ajax.requests;
+          for (id in requests)
+            if (requests.hasOwnProperty(id) && requests[id].options == this.store.lastOperation.request) {
+              Ext.Ajax.abort(requests[id]);
+            }
+        }
+        this.store.on('beforeload', function(store, operation) {
+          store.lastOperation = operation;
+        }, this, { single: true });
+        
         this.labelWidth= 60;
         this.displayField= 'name';
         this.valueField= 'id';
@@ -44,12 +72,7 @@ Ext.define('OpenEMap.form.SearchPlacename', {
                 var fake = records[0].raw;
                 var coords = fake.geometry.coordinates;
                 var switchedAxis = [coords[1], coords[0]];
-                this.mapPanel.map.setCenter(switchedAxis, this.zoom || 5);
-            },
-            'beforequery': function(queryPlan) {
-                if (kommunkod && queryPlan.query.match(kommunkod) === null) {
-                    queryPlan.query = kommunkod + ' ' + queryPlan.query;
-                }
+                this.mapPanel.map.setCenter(switchedAxis, zoom);
             },
             scope: this
         };
