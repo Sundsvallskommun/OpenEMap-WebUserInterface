@@ -26,6 +26,7 @@ Integrate into HTML page using the following snippet:
     var mapClient = Ext.create('OpenEMap.Client');
     mapClient.configure(config);
     </script>
+    
 	<div id="toolbar"></div>
 	<div id="map" style="position: absolute; left: 120px; width: 100%; height: 650px" class="popup"></div>
 	<div id="layers"></div>
