@@ -245,9 +245,9 @@ Ext.define('OpenEMap.Client', {
      * Add vector layer to map
      * @param {string} geojson string containing array of objects to include as markers in map
      * @param {string} layername string containing the layers name 
-     * @param {OpenLayers.Icon} icon icon to use for drawing the marker
+     * @param {OpenLayers.Feature.Vector.style} layer style
      */
-    addVectorLayer: function(geojson, layername, icon, iconHighlight) {
+    addVectorLayer: function(geojson, layername, style) {
         if (geojson == null) {
         	return "usage: addVectorLayer(geojson, layername, icon, iconHighlight)";
         }
@@ -263,7 +263,11 @@ Ext.define('OpenEMap.Client', {
 	    	return "String is not a valid GeoJSON"
 	    } 
  
-	    var vectorLayer = new OpenLayers.Layer.Vector( layername );
+        // allow testing of specific renderers via "?renderer=Canvas", etc
+        var renderer = OpenLayers.Util.getParameters(window.location.href).renderer;
+        renderer = (renderer) ? [renderer] : OpenLayers.Layer.Vector.prototype.renderers;
+		
+	    var vectorLayer = new OpenLayers.Layer.Vector( layername, {style: style, renderers: renderer} );
 	  	this.map.addLayer(vectorLayer);
  
 		//var options = ?;
