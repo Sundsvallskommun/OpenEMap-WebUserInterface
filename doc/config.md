@@ -34,8 +34,9 @@
 	"hasListeners": ?,
 	"events": ?,
 	"options": ?,
-	"layers": {layerObject}, ' List of layers in map. See details below
-	"tools": {toolsObject} ' List of tools in map. See details below
+	"layers": {layerObject}, ' Layers available in map. See details below
+	"tools": {toolsObject} ' Tools available in map. See details below
+	"search": {searchObject} ' Searches that can be made in app. See details below
 }
 ```
 
