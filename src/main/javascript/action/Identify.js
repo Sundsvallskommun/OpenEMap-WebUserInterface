@@ -17,7 +17,10 @@
 /**
  * Identify action
  * 
- * TODO: Should be generic, is now hardcoded against search-lm parcels
+ * @param config
+ * @param {string} config.useRegisterenhet wheter or not to use identify on registerenhet 
+ * @param {string} config.tolerance tolerance to use when identifying in map. Defaults to 5 meter. 
+ *                 Creates a bounding box with the specified tolerance as sidelengths
  */
 Ext.define('OpenEMap.action.Identify', {
     extend: 'OpenEMap.action.Action',
@@ -63,6 +66,14 @@ Ext.define('OpenEMap.action.Identify', {
         var layer = mapPanel.searchLayer;
         var map = config.map;
         var layers = config.layers;
+        
+        // Defaults to identify registerenhet
+        if (config.useRegisterenhet == null) {
+        	config.useRegisterenhet = true;
+        }
+        
+        // Defaults to 5 meter tolerance
+        config.tolerance = config.tolerance || 5.0;  
 
         var Click = OpenLayers.Class(OpenLayers.Control, {
             initialize: function(options) {
@@ -76,6 +87,10 @@ Ext.define('OpenEMap.action.Identify', {
                 );
             },
             onClick: function(evt) {
+		        // Flag to set if any of the searches return hits, so we can tell the user if the search doesn't return any hits
+		        var hits = false;  
+                
+                // Show graphhic for start loading
                 mapPanel.setLoading(true);
                 layer.destroyFeatures();
                 
@@ -84,7 +99,16 @@ Ext.define('OpenEMap.action.Identify', {
                 var x = lonlat.lon;
                 var y = lonlat.lat;
                 
+                // Create search bounds for identify
                 var point = new OpenLayers.Geometry.Point(x, y);
+                var lowerLeft = point.clone();
+                var upperRight = point.clone();
+                lowerLeft.move(-config.tolerance/2,-config.tolerance/2);
+                upperRight.move(config.tolerance/2,config.tolerance/2);
+                var bounds = new OpenLayers.Bounds();
+                bounds.extend(lowerLeft);
+                bounds.extend(upperRight);
+
                 var feature = new OpenLayers.Feature.Vector(point);
                 layer.addFeatures([feature]);
                 
@@ -95,28 +119,29 @@ Ext.define('OpenEMap.action.Identify', {
                 var popup = self.getPopup({mapPanel : mapPanel, location: feature, items: identifyResults});
                 popup.show();
 
-				//TODO - check whether or not to identify parcel
-				if map.
-                OpenEMap.requestLM({
-                    url: 'registerenheter?x=' + x + '&y=' + y,
-                    success: function(response) {
-                        var registerenhet = Ext.decode(response.responseText);
-
-                        var feature = new OpenLayers.Feature.Vector(point, {
-                            name: registerenhet.name
-                        });
-                        identifyResults.addResult([feature], {name:"Fastigheter"});
-                    },
-                    failure: function(response) {
-                        Ext.Msg.alert('Fel', response.statusText);
-                    },
-                    callback: function() {
-                        mapPanel.setLoading(false);
-                    }
-                });
-                
+				// Identify registerenhet
+				if (config.useRegisterenhet) {
+	                OpenEMap.requestLM({
+	                    url: 'registerenheter?x=' + x + '&y=' + y,
+	                    success: function(response) {
+	                        var registerenhet = Ext.decode(response.responseText);
+	
+	                        var feature = new OpenLayers.Feature.Vector(point, {
+	                            name: registerenhet.name
+	                        });
+	                        identifyResults.addResult([feature], {name:"Fastigheter"});
+	                        hits = true;
+	                    },
+	                    failure: function(response) {
+	                        Ext.Msg.alert('Fel i fastighetstjänsten', 'Kontakta systemadministratör<br>Felkod: ' + response.status + ' ' + response.statusText);
+	                    }
+	                });
+                }
+               
+               // Identify WFS-layers in map
                 var parser = Ext.create('OpenEMap.config.Parser');
                
+                // TODO - only return layers that are visible 
                 var wfsLayers =  parser.extractWFS(layers);
                 
                 var wfsIdentify = function(wfsLayer) {
@@ -130,19 +155,28 @@ Ext.define('OpenEMap.action.Identify', {
                     protocol.read({
                         filter: new OpenLayers.Filter({
                             type: OpenLayers.Filter.Spatial.BBOX,
-                            value: point.getBounds()
+                            value: bounds
                         }),
                         callback: function(response) {
                             var features = response.features;
                             if (features && features.length>0) {
                                 identifyResults.addResult(features, wfsLayer);
                                 layer.addFeatures(features);
+                                hits = true;
                             }
                         }
                     });
                 };
                 
                 wfsLayers.forEach(wfsIdentify);
+             	
+				// Show message if there are no hits
+				if (!hits) {
+					identifyResults.addResult([], {name:"Inga träffar"});
+				}
+             	   
+                // Hide graphhic for loading
+				mapPanel.setLoading(false);
             }
         });
         
