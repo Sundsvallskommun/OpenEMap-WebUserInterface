@@ -19,8 +19,8 @@
  * 
  * @param config
  * @param {string} config.useRegisterenhet wheter or not to use identify on registerenhet 
- * @param {string} config.tolerance tolerance to use when identifying in map. Defaults to 5 meter. 
- *                 Creates a bounding box with the specified tolerance as sidelengths
+ * @param {string} config.tolerance tolerance to use when identifying in map. Radius in image pixels. Defaults to 3 pixels.
+ *                 Creates a bounding box with the specified tolerance as sidelength. 
  */
 Ext.define('OpenEMap.action.Identify', {
     extend: 'OpenEMap.action.Action',
@@ -73,7 +73,7 @@ Ext.define('OpenEMap.action.Identify', {
         }
         
         // Defaults to 5 meter tolerance
-        config.tolerance = config.tolerance || 5.0;  
+        config.tolerance = config.tolerance || 3;  
 
         var Click = OpenLayers.Class(OpenLayers.Control, {
             initialize: function(options) {
@@ -87,28 +87,30 @@ Ext.define('OpenEMap.action.Identify', {
                 );
             },
             onClick: function(evt) {
-		        // Flag to set if any of the searches return hits, so we can tell the user if the search doesn't return any hits
-		        var hits = false;  
-                
                 // Show graphhic for start loading
                 mapPanel.setLoading(true);
                 layer.destroyFeatures();
                 
                 var lonlat = map.getLonLatFromPixel(evt.xy);
-                
                 var x = lonlat.lon;
                 var y = lonlat.lat;
                 
+				var lowerLeftImage = {};
+				var upperRightImage = {};
+				upperRightImage.x = evt.xy.x+config.tolerance;
+                lowerLeftImage.x = evt.xy.x-config.tolerance;
+                upperRightImage.y = evt.xy.y+config.tolerance;
+                lowerLeftImage.y = evt.xy.y-config.tolerance;
+                var lowerLeftLonLat = map.getLonLatFromPixel(lowerLeftImage);
+                var upperRightLonLat = map.getLonLatFromPixel(upperRightImage);
+
                 // Create search bounds for identify
                 var point = new OpenLayers.Geometry.Point(x, y);
-                var lowerLeft = point.clone();
-                var upperRight = point.clone();
-                lowerLeft.move(-config.tolerance/2,-config.tolerance/2);
-                upperRight.move(config.tolerance/2,config.tolerance/2);
+                
                 var bounds = new OpenLayers.Bounds();
-                bounds.extend(lowerLeft);
-                bounds.extend(upperRight);
-
+                bounds.extend(lowerLeftLonLat);
+                bounds.extend(upperRightLonLat);
+				
                 var feature = new OpenLayers.Feature.Vector(point);
                 layer.addFeatures([feature]);
                 
@@ -130,7 +132,6 @@ Ext.define('OpenEMap.action.Identify', {
 	                            name: registerenhet.name
 	                        });
 	                        identifyResults.addResult([feature], {name:"Fastigheter"});
-	                        hits = true;
 	                    },
 	                    failure: function(response) {
 	                        Ext.Msg.alert('Fel i fastighetstjänsten', 'Kontakta systemadministratör<br>Felkod: ' + response.status + ' ' + response.statusText);
@@ -147,7 +148,7 @@ Ext.define('OpenEMap.action.Identify', {
                 var wfsIdentify = function(wfsLayer) {
                     var options = Ext.apply({
                         version: "1.1.0",
-                        srsName: map.projection,
+                        srsName: map.projection
                     }, wfsLayer.wfs);
                     
                     var protocol = new OpenLayers.Protocol.WFS(options);
@@ -162,7 +163,6 @@ Ext.define('OpenEMap.action.Identify', {
                             if (features && features.length>0) {
                                 identifyResults.addResult(features, wfsLayer);
                                 layer.addFeatures(features);
-                                hits = true;
                             }
                         }
                     });
@@ -170,11 +170,6 @@ Ext.define('OpenEMap.action.Identify', {
                 
                 wfsLayers.forEach(wfsIdentify);
              	
-				// Show message if there are no hits
-				if (!hits) {
-					identifyResults.addResult([], {name:"Inga träffar"});
-				}
-             	   
                 // Hide graphhic for loading
 				mapPanel.setLoading(false);
             }
