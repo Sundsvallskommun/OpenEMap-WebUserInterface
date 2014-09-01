@@ -3,7 +3,7 @@
 ## Base tags on the highest level of the configuration file
 ```json
 {
-	"configId": idOfTheConfig,
+	"configId": number: idOfTheConfig,
 	"name": "nameOfTheConfig",
 	"version": ?,
 	"maxExtent": [
