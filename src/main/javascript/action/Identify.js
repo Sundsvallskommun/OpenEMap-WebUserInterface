@@ -95,6 +95,8 @@ Ext.define('OpenEMap.action.Identify', {
                 var popup = self.getPopup({mapPanel : mapPanel, location: feature, items: identifyResults});
                 popup.show();
 
+				//TODO - check whether or not to identify parcel
+				if map.
                 OpenEMap.requestLM({
                     url: 'registerenheter?x=' + x + '&y=' + y,
                     success: function(response) {
@@ -120,7 +122,7 @@ Ext.define('OpenEMap.action.Identify', {
                 var wfsIdentify = function(wfsLayer) {
                     var options = Ext.apply({
                         version: "1.1.0",
-                        srsName: "EPSG:3006"
+                        srsName: map.projection,
                     }, wfsLayer.wfs);
                     
                     var protocol = new OpenLayers.Protocol.WFS(options);
