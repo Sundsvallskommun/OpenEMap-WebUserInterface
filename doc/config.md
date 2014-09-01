@@ -59,7 +59,7 @@ A layer can include a WMS-specifgication and a WFS-specification. WMS are used t
 		"options": {
 			"isBaseLayer": whetherTheLayerIsConsideredToBeABaseLayer,
 			"displayInLayerSwitcher": whetherToShowTheLayerInLayerSwitcher,
-			"visibility": whetherToShowLayerAtStartup
+			"visibility": whetherToShowLayerAtStartup,
 			"legendURL": "http://domainname/legend.png"
 		}
 	}
@@ -133,8 +133,8 @@ A layer can include a WMS-specifgication and a WFS-specification. WMS are used t
             "type": "Identify", ' Identify features in map
             "useRegisterenhet": whetherOrNotToUseRegisterenhet, ' turns on identifying real estate parcels
             "tolerance": toleranceInPixels ' defaults to radius 3 pixels
-	}
-        "MeasureLine", ' Meassure lengths
+	},
+       	"MeasureLine", ' Meassure lengths
         "MeasureArea", ' Meassure areas
         "DeleteMeasure", ' deletes all meassures in map
         { ' Draw polygons on map
