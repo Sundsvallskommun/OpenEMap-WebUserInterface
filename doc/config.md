@@ -28,14 +28,14 @@
 			resolution1,
 			resolution0
 		],
-	"units": "unitsToUseInMap"
-	"projection": "epsgCodeForMapProjection"
+	"units": "unitsToUseInMap",
+	"projection": "epsgCodeForMapProjection",
 	"username": ?,
 	"hasListeners": ?,
 	"events": ?,
 	"options": ?,
 	"layers": {layerObject}, ' Layers available in map. See details below
-	"tools": {toolsObject} ' Tools available in map. See details below
+	"tools": {toolsObject}, ' Tools available in map. See details below
 	"search": {searchObject} ' Searches that can be made in app. See details below
 }
 ```
