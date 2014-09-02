@@ -7,13 +7,13 @@
 <!-- 
     <link rel="stylesheet" type="text/css" href="ext-4.2.1/resources/css/ext-all-neptune.css">
          -->
-    <link rel="stylesheet" type="text/css" href="../resources/ext-theme-oep/oepTheme-all.css">
+    <link rel="stylesheet" type="text/css" href="../../libs/ext-theme-oep/oepTheme-all.css">
 
     <link rel="stylesheet" type="text/css" href="../resources/css/OpenEMap.css">
-    <script type="text/javascript" src="../OpenLayers-2.13.1/lib/OpenLayers.js"></script>  
-    <script type="text/javascript" src="../ext-4.2.1/ext-debug.js"></script>
-    <script type="text/javascript" src="../ext-4.2.1/ext-theme-neptune.js"></script>
-    <script type="text/javascript" src="../ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
+    <script type="text/javascript" src="../../libs/OpenLayers-2.13.1/lib/OpenLayers.js"></script>  
+    <script type="text/javascript" src="../../libs/ext-4.2.1/ext-debug.js"></script>
+    <script type="text/javascript" src="../../libs/ext-4.2.1/ext-theme-neptune.js"></script>
+    <script type="text/javascript" src="../../libs/ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
     
     
     <script type="text/javascript">
@@ -21,12 +21,12 @@
 	    disableCaching: false,
 	    paths: {
 	        OpenEMap: '../src/main/javascript/',
-	        GeoExt: '../../geoext2/src/GeoExt/'
+	        GeoExt: '../../libs/geoext-2.0.1/src/GeoExt'
 	    }
 	  });
     </script> 
     
-    <script type="text/javascript" src="../es5-shim.min.js"></script>
+    <script type="text/javascript" src="../../libs/es5-shim.min.js"></script>
     <!--script type="text/javascript" src="geoext2-all.js"></script-->
     
     <script type="text/javascript" src="../src/main/javascript/Client.js"></script>
@@ -80,51 +80,6 @@
 		    		delete config.options.municipalities;
 		    		delete config.options;
 		    		
-		    		/*Ext.create('Ext.container.Viewport', {
-		                layout : 'fit',
-		                items : mapClient.gui.container
-		            });*/
-		    		
-		            /*
-		    		var style = new OpenLayers.Style();
-		    	      
-	    	          var ruleLow = new OpenLayers.Rule({
-	    	            symbolizer: {
-	    	              pointRadius: 10,
-	    	              fillColor: 'green',
-	    	              fillOpacity: 1
-	    	            },
-	    	            maxScaleDenominator: 10000
-	    	          });
-	    	      
-	    	          var ruleHigh = new OpenLayers.Rule({
-	    	            symbolizer: {
-	    	              pointRadius: 10,
-	    	              fillColor: 'red',
-	    	              fillOpacity: 1   
-	    	           },
-	    	           minScaleDenominator: 10000
-	    	          });
-	    	          
-	    	          var labels = new OpenLayers.Rule({
-	    	              filter: new OpenLayers.Filter.Comparison({
-	    	                  type: OpenLayers.Filter.Comparison.EQUAL_TO,
-	    	                  property: "type",
-	    	                  value: "label",
-	    	              }),
-                            symbolizer: {
-                              label: "${label}"   
-                           }
-                          });
-	    	      
-	    	          style.addRules([ruleLow, ruleHigh, labels]);
-	    	      
-	    	          var styleMap = new OpenLayers.StyleMap(style);
-	    	          mapClient.drawLayer.styleMap = styleMap;
-	    	          
-	    	          mapClient.setSketchStyleMap(styleMap);*/
-	    	          
-	    	          
 	    	          var labels = new OpenLayers.Rule({
                           filter: new OpenLayers.Filter.Comparison({
                               type: OpenLayers.Filter.Comparison.EQUAL_TO,
@@ -150,7 +105,8 @@
 	    
 	    var combo = Ext.create('Ext.form.ComboBox',  {
 			renderTo: 'configcombo',
-			store: ['config.json',
+			store: ['config_EPSG3014.json',
+					'config.json',
 			        'riges.json',
 			        'eldstad.json',
 			        'situationsplan.json',
@@ -187,9 +143,6 @@
 <div id="layers"></div>
 <div id="searchfastighet"></div>
 <div id="searchcoordinate"></div>
-<div id="objectconfig"></div>
-
-<div id="map2" style="width: 1000px; height: 450px"></div>
 
 </body>
 </html>
