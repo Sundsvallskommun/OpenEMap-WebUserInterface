@@ -21,6 +21,18 @@ Integrate into HTML page using the following snippet:
     <script type="text/javascript" src="/libs/geoext2-all.js"></script> 
     <script type="text/javascript" src="/libs/es5-shim.min.js"></script>
     <script type="text/javascript" src="OpenEMap-all.js"></script>
+    
+    <script type="text/javascript">
+    var mapClient = Ext.create('OpenEMap.Client');
+    mapClient.configure(config);
+    </script>
+    
+	<div id="toolbar"></div>
+	<div id="map" style="position: absolute; left: 120px; width: 100%; height: 650px" class="popup"></div>
+	<div id="layers"></div>
+	<div id="searchfastighet"></div>
+	<div id="searchcoordinate"></div>
+	<div id="objectconfig"></div>
 ```
 
 NOTE: The above snippet assumes the use of release build including all dependencies
