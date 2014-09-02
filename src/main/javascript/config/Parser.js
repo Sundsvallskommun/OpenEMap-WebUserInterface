@@ -130,7 +130,7 @@ Ext.define('OpenEMap.config.Parser', {
         layers = this.extractLayers(layers);
         layers = layers.filter(function(layer){ return layer.vector; });
         return layers;
-    }
+    },
     getOptions: function(layer) {
         if (layer.wms) {
             return layer.wms.options;
