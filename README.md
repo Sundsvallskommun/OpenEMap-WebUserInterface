@@ -23,7 +23,7 @@ Integrate into HTML page using the following snippet:
     <script type="text/javascript" src="OpenEMap-all.js"></script>
     
     <script type="text/javascript">
-    var mapClient = Ext.create('OpenEMap.Client');
+    mapClient = Ext.create('OpenEMap.Client');
     mapClient.configure(config);
     </script>
     
