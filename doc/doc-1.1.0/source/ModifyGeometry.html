@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='OpenEMap-action-ModifyGeometry'>/**
+</span> * Action that modify geometry
+ * 
+ * Example configuration using experimental support in OL to customize drag and radius handles:
+ *    {
+ *      &quot;type&quot;: &quot;ModifyGeometry&quot;,
+ *      &quot;reshape&quot;: true,
+ *      &quot;tooltip&quot;: &quot;Redigera geometri&quot;,
+ *      &quot;options&quot;: {
+ *        &quot;dragHandleStyle&quot;: {
+ *          &quot;pointRadius&quot;: 8,
+ *          &quot;externalGraphic&quot;: &quot;css/images/arrow-move.png&quot;,
+ *          &quot;fillOpacity&quot;: 1
+ *        },
+ *        &quot;radiusHandleStyle&quot;: {
+ *          &quot;pointRadius&quot;: 8,
+ *          &quot;externalGraphic&quot;: &quot;css/images/arrow-circle.png&quot;,
+ *          &quot;fillOpacity&quot;: 1
+ *        }
+ *      }
+ *    } 
+ *    
+ * @param {boolean} config.drag Allow dragging of features
+ * @param {boolean} config.rotate Allow rotation of features
+ * @param {boolean} config.resize Allow resizing of features
+ * @param {boolean} config.reshape Allow reshaping of features
+ * @param {Object} config.options Additional options to send to OpenLayers.Control.ModifyFeature
+ */
+Ext.define('OpenEMap.action.ModifyGeometry', {
+    extend: 'OpenEMap.action.Action',
+<span id='OpenEMap-action-ModifyGeometry-method-constructor'>    constructor: function(config) {
+</span>        var mapPanel = config.mapPanel;
+        var layer = mapPanel.drawLayer;
+        
+        if (config.drag === undefined) config.drag = true;
+        if (config.rotate === undefined) config.rotate = true;
+        if (config.reshape === undefined) config.reshape = true;
+        
+        var mode = 0;
+        if (config.drag) mode = mode | OpenLayers.Control.ModifyFeature.DRAG;
+        if (config.rotate) mode = mode | OpenLayers.Control.ModifyFeature.ROTATE;
+        if (config.resize) mode = mode | OpenLayers.Control.ModifyFeature.RESIZE;
+        if (config.reshape) mode = mode | OpenLayers.Control.ModifyFeature.RESHAPE;
+        
+        var options = Ext.apply({mode: mode}, config.options);
+        config.control = new OpenLayers.Control.ModifyFeature(layer, options);
+        config.control._mode = config.control.mode;
+        
+        config.iconCls = config.iconCls || 'action-modifygeometry';
+        config.tooltip = config.tooltip || '&amp;Auml;ndra ritat objekt';
+        config.toggleGroup = 'extraTools';
+        
+        this.callParent(arguments);
+    }
+});
+</pre>
+</body>
+</html>

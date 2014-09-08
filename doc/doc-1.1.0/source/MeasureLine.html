@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='OpenEMap-action-MeasureLine'>/**
+</span> * Action that measure line.
+ * {@img Measureline.png measureline}
+ * 
+ * The example below is from configuration:
+ * 
+* The example below is from configuration adding the tool to MapClient.view.Map:
+ * 
+ *         &quot;tools&quot;: [ &quot;FullExtent&quot;, &quot;ZoomSelector&quot;, &quot;MeasureLine&quot;, &quot;MeasureArea&quot;]
+ */
+ 
+Ext.define('OpenEMap.action.MeasureLine', {
+    extend: 'OpenEMap.action.Action',
+<span id='OpenEMap-action-MeasureLine-method-constructor'>    // statics: {
+</span>        // measureWindow: null,
+        // createMeasureWindow: function(renderTo) {
+            // if (this.measureWindow) {
+                // this.measureWindow.update('');
+                // return;
+            // }
+            // this.measureWindow = Ext.create('Ext.window.Window', {
+                // title: 'Mätresultat',
+                // maximizable : false,
+                // minimizable : false,
+                // resizable: true,
+                // y : 80,
+                // x : 80,
+                // width: 200,
+                // height: 100,
+                // autoScroll: true,
+                // layout: 'fit',
+                // collapsible: false,
+                // //constrainHeader: true,
+                // renderTo: renderTo ? renderTo.getEl() : undefined,
+                // closeAction: 'hide'
+            // });
+        // }
+    // },
+    constructor: function(config) {
+        
+        var mapPanel = config.mapPanel;
+        
+        var sketchSymbolizers = {
+            &quot;Point&quot;: {
+                pointRadius: 4,
+                graphicName: &quot;square&quot;,
+                fillColor: &quot;white&quot;,
+                fillOpacity: 1,
+                strokeWidth: 1,
+                strokeOpacity: 1,
+                strokeColor: &quot;#333333&quot;
+            },
+            &quot;Line&quot;: {
+                strokeWidth: 3,
+                strokeOpacity: 1,
+                strokeColor: &quot;#666666&quot;,
+                strokeDashstyle: &quot;solid&quot;
+            },
+            &quot;Polygon&quot;: {
+                strokeWidth: 2,
+                strokeOpacity: 1,
+                strokeColor: &quot;#666666&quot;,
+                fillColor: &quot;white&quot;,
+                fillOpacity: 0.3
+            }
+        };
+        var style = new OpenLayers.Style();
+        style.addRules([
+            new OpenLayers.Rule({symbolizer: sketchSymbolizers})
+        ]);
+        var styleMap = new OpenLayers.StyleMap({&quot;default&quot;: style});
+        
+        config.control = new OpenLayers.Control.DynamicMeasure(OpenLayers.Handler.Path, {
+            persist: true,
+            maxSegments : null,
+            accuracy: 2,
+            //drawingLayer : mapClient.mapPanel.measureLayer,
+            handlerOptions: {
+                layerOptions: {
+                    styleMap: styleMap
+                }
+            }
+        });
+        
+        var out = &quot;&quot;;
+        var count = 1;
+        var reset = true;
+        // function handleMeasurements(event) {
+            // OpenEMap.action.MeasureLine.createMeasureWindow(mapPanel);
+            // OpenEMap.action.MeasureLine.measureWindow.show();
+//             
+            // var geometry = event.geometry;
+            // var units = event.units;
+            // var order = event.order;
+            // var measure = event.measure;
+            // //var out = &quot;&quot;;
+            // if (reset) {
+                // out = &quot;&quot;;
+                // count = 1;
+                // reset = false;
+            // }
+            // var p1 = geometry.components[geometry.components.length-2];
+            // var p2 = geometry.components[geometry.components.length-3];
+            // if (p1 === undefined || p2 === undefined) return;
+            // measure = p1.distanceTo(p2);
+            // units = &quot;m&quot;;
+            // if(order == 1) {
+                // out += &quot;Delsträcka &quot; + count + &quot; : &quot; + measure.toFixed(3) + &quot; &quot; + units + &quot;&lt;br&gt;&quot;;
+            // } else {
+                // out += &quot;Delsträcka &quot; + count + &quot; : &quot; + measure.toFixed(3) + &quot; &quot; + units + &quot;&lt;sup&gt;2&lt;/&quot; + &quot;sup&gt;&quot; + &quot;&lt;br&gt;&quot;;
+            // }
+            // OpenEMap.action.MeasureLine.measureWindow.update(out);
+            // count = count+1;
+        // }
+        
+        function handleMeasurement(event) {
+        	var v = new OpenLayers.Feature.Vector();
+        	v.geometry = event.geometry;
+        	mapPanel.measureLayer.addFeatures([v]);
+            var measureSegmentLayer = mapPanel.map.layers.filter(function(l){return /labelSegment/.test(l.name);})[0];
+            var lengthFeatures = measureSegmentLayer.features.map(function(l){
+                return new OpenLayers.Feature.Vector(l.geometry.clone(), Ext.clone(l.attributes));
+            });
+
+            var lengthFeature = mapPanel.map.layers.filter(function(l){
+                return /labelLength/.test(l.name);
+            })[0].features;
+
+            var length = new OpenLayers.Feature.Vector(lengthFeature[0].geometry.clone(), Ext.clone(lengthFeature[0].attributes));
+            lengthFeatures.push(length);
+            
+            mapPanel.measureLayerSegmentsLayer.addFeatures(lengthFeatures);
+
+
+        	
+            // var units = event.units;
+            // var order = event.order;
+            // var measure = event.measure;
+            // //var out = &quot;&quot;;
+            // if(order == 1) {
+                // out += &quot;Totalt: &quot; + measure.toFixed(3) + &quot; &quot; + units + &quot;&lt;br&gt;&quot;;
+            // } else {
+                // out += &quot;Totalt: &quot; + measure.toFixed(3) + &quot; &quot; + units + &quot;&lt;sup&gt;2&lt;/&quot; + &quot;sup&gt;&quot; + &quot;&lt;br&gt;&quot;;
+            // }
+            // OpenEMap.action.MeasureLine.measureWindow.update(out);
+            // reset = true;
+        }
+        
+        config.control.events.on({
+            'measure': handleMeasurement
+            // 'measurepartial': handleMeasurements
+        });
+        
+        config.iconCls = config.iconCls || 'action-measureline';
+        config.tooltip = config.tooltip || 'Mät str&amp;auml;cka';
+        config.toggleGroup = 'extraTools';
+        
+        this.callParent(arguments);
+    }
+});
+</pre>
+</body>
+</html>
