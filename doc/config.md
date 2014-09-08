@@ -1,6 +1,7 @@
 
 # MapClient configuration
 ## Base tags on the highest level of the configuration file
+Example of a complete config file [testAll.json](testAll.json)
 ```json
 {
 	"configId": idOfTheConfig,
