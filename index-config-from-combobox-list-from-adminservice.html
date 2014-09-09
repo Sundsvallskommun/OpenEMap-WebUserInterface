@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <!--
     Copyright (C) 2014 Härnösands kommun
 
@@ -14,8 +15,10 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-
-<!DOCTYPE html>
+<!--
+	Integration file that uses a combobox to make the user choose config file. 
+	The combobox populates from the list of available configs in Open eMap Admin service
+-->
 <html>
 <head>
     <title>map-client</title>
@@ -44,8 +47,8 @@
 		    			zoomTools: {},
 		    			layers: { },
 		    			baseLayers: {},
-		    			searchFastighet: { },
-		    			objectConfig: { }
+		    			searchFastighet: {}
+		    			//objectConfig: { }
 		    		};
 		    				    	
 		    		mapClient.destroy();
@@ -68,21 +71,49 @@
                         });
                     
                     mapClient.drawLayer.styleMap.styles['default'].addRules([labels]);
-			        mapClient.toggleEdgeLabels();
+		    	
+		    
 		}
 	    
-		Ext.Ajax.request({
-			// path to local file used as map config
-			url : 'config/testAll.json',
-			method : 'GET',
-			success : function(evt){
-				var config = JSON.parse(evt.responseText);
-				init(config);
-			},
-			error : function(evt){
-				Ext.MessageBox.alert('Erro', 'Error getting configurations: ' + evt.message);
+	    var combo = Ext.create('Ext.form.ComboBox',  {
+			queryMode: 'local',
+			listeners: {
+				"select": function(combo, records) {
+					var record = records[0];
+					init(records[0].raw);
+				}
 			}
 		});
+	    
+	    Ext.Ajax.request({
+			url : '/openemapadmin/configs/',
+			method : 'GET',
+			success : function(evt){
+				var configs = JSON.parse(evt.responseText);
+				var configurations = Ext.create('Ext.data.Store',{
+					fields : ['name', 'configId'],
+					data :  configs
+				});
+				combo.store = configurations;
+				combo.queryMode = 'local';
+				combo.displayField = 'name';
+				combo.valueField = 'configId';
+			},
+			error : function(evt){
+				Ext.MessageBox.alert('Error', 'Error getting configurations: ' + evt.message);
+			}
+		});
+	    
+	    var w = Ext.create('Ext.window.Window', {
+	    	title: 'Config',
+	    	layout: 'form',
+			width: 200,
+			x: 10,
+			y: 10,
+			items: combo
+		});
+	    
+	    w.show();
 	  });
     </script> 
 </head>
