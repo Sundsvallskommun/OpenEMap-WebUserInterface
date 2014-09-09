@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='OpenEMap-action-Identify'>/**
+</span> * Identify action
+ * 
+ * TODO: Should be generic, is now hardcoded against search-lm parcels
+ */
+Ext.define('OpenEMap.action.Identify', {
+    extend: 'OpenEMap.action.Action',
+    requires: ['OpenEMap.view.IdentifyResults'],
+<span id='OpenEMap-action-Identify-property-popup'>    popup : null,
+</span>    
+<span id='OpenEMap-action-Identify-method-getPopup'>    getPopup : function(config){
+</span>        if (this.popup){
+            this.popup.destroy();
+        }
+        this.popup = Ext.create('GeoExt.window.Popup', {
+            title: 'Sökresultat',
+            location: config.feature,
+            anchored: false,
+            unpinnable: false,
+            draggable: true,
+            map: config.mapPanel,
+            maximizable : false,
+            minimizable : false,
+            resizable: true,
+            width: 300,
+            height: 400,
+            layout: 'fit',
+            items: config.items,
+            collapsible: false,
+            x : 200,
+            y: 100,
+            listeners : {
+                close : function(){
+                    config.mapPanel.searchLayer.removeAllFeatures();
+                }
+            }
+        });
+
+        return this.popup;
+    },
+
+    
+<span id='OpenEMap-action-Identify-method-constructor'>    constructor: function(config) {
+</span>        var self = this;
+
+        var mapPanel = config.mapPanel;
+        var layer = mapPanel.searchLayer;
+        var map = config.map;
+        var layers = config.layers;
+
+        var Click = OpenLayers.Class(OpenLayers.Control, {
+            initialize: function(options) {
+                OpenLayers.Control.prototype.initialize.apply(
+                    this, arguments
+                );
+                this.handler = new OpenLayers.Handler.Click(
+                    this, {
+                        'click': this.onClick
+                    }, this.handlerOptions
+                );
+            },
+            onClick: function(evt) {
+                mapPanel.setLoading(true);
+                layer.destroyFeatures();
+                
+                var lonlat = map.getLonLatFromPixel(evt.xy);
+                
+                var x = lonlat.lon;
+                var y = lonlat.lat;
+                
+                var point = new OpenLayers.Geometry.Point(x, y);
+                var feature = new OpenLayers.Feature.Vector(point);
+                layer.addFeatures([feature]);
+                
+                var identifyResults = Ext.create('OpenEMap.view.IdentifyResults', {
+                    mapPanel : mapPanel
+                });
+
+                var popup = self.getPopup({mapPanel : mapPanel, location: feature, items: identifyResults});
+                popup.show();
+
+                OpenEMap.requestLM({
+                    url: 'registerenheter?x=' + x + '&amp;y=' + y,
+                    success: function(response) {
+                        var registerenhet = Ext.decode(response.responseText);
+
+                        var feature = new OpenLayers.Feature.Vector(point, {
+                            name: registerenhet.name
+                        });
+                        identifyResults.addResult([feature], {name:&quot;Fastigheter&quot;});
+                    },
+                    failure: function(response) {
+                        Ext.Msg.alert('Fel', response.statusText);
+                    },
+                    callback: function() {
+                        mapPanel.setLoading(false);
+                    }
+                });
+                
+                var parser = Ext.create('OpenEMap.config.Parser');
+               
+                var wfsLayers =  parser.extractWFS(layers);
+                
+                var wfsIdentify = function(wfsLayer) {
+                    var options = Ext.apply({
+                        version: &quot;1.1.0&quot;,
+                        srsName: &quot;EPSG:3006&quot;
+                    }, wfsLayer.wfs);
+                    
+                    var protocol = new OpenLayers.Protocol.WFS(options);
+                    
+                    protocol.read({
+                        filter: new OpenLayers.Filter({
+                            type: OpenLayers.Filter.Spatial.BBOX,
+                            value: point.getBounds()
+                        }),
+                        callback: function(response) {
+                            var features = response.features;
+                            if (features &amp;&amp; features.length&gt;0) {
+                                identifyResults.addResult(features, wfsLayer);
+                                layer.addFeatures(features);
+                            }
+                        }
+                    });
+                };
+                
+                wfsLayers.forEach(wfsIdentify);
+            }
+        });
+        
+        config.control = new Click({
+            type: OpenLayers.Control.TYPE_TOGGLE
+        });
+        
+        config.iconCls = config.iconCls || 'action-identify';
+        config.tooltip = config.tooltip || 'Identifiera';
+        config.toggleGroup = 'extraTools';
+        
+        this.callParent(arguments);
+    }
+});
+</pre>
+</body>
+</html>

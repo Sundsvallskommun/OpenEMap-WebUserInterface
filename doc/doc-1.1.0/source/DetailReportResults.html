@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='OpenEMap-view-DetailReportResults'>/**
+</span> * 
+ */
+Ext.define('OpenEMap.view.DetailReportResults', {
+    extend : 'Ext.view.View',
+<span id='OpenEMap-view-DetailReportResults-cfg-autoScroll'>    autoScroll : true,
+</span><span id='OpenEMap-view-DetailReportResults-cfg-padding'>    padding: 5,
+</span><span id='OpenEMap-view-DetailReportResults-property-geometry'>    geometry: null,
+</span><span id='OpenEMap-view-DetailReportResults-method-initComponent'>    initComponent : function() {
+</span>        this.store = Ext.create('GeoExt.data.FeatureStore', {
+            features: [],
+            fields: ['COUNT',
+                     'CATEGORY',
+                     'CLARIFICAT',
+                     'DESCRIPTIO',
+                     'REMARK',
+                     'MAPTEXT',
+                     'MAX',
+                     'MIN',
+                     'HEIGHT'
+                     ]
+        });
+        
+        this.tpl = new Ext.XTemplate(
+                '&lt;h3&gt;' + this.fbet + '&lt;/h3&gt;',
+                '&lt;h4&gt;' + this.aktbet + '&lt;/h4&gt;',
+                '&lt;tpl for=&quot;.&quot;&gt;',
+                    '&lt;div style=&quot;margin-bottom: 10px;&quot; class=&quot;thumb-wrap&quot;&gt;',
+                      '&lt;h4&gt;{COUNT}. {DESCRIPTIO}&lt;/h4&gt;',
+                      '&lt;p&gt;{REMARK}&lt;/p&gt;',
+                    '&lt;/div&gt;',
+                '&lt;/tpl&gt;'
+            );
+        this.itemSelector = 'div.thumb-wrap';
+
+        this.callParent(arguments);
+        
+        this.doSearch();
+    },
+    
+<span id='OpenEMap-view-DetailReportResults-method-doSearch'>    doSearch: function() {
+</span>        var store = this.store;
+        var layer = this.layer;
+        var geometry = this.geometry;
+        
+        layer.destroyFeatures();
+        
+        var options = Ext.apply({
+            url: &quot;wfs&quot;,
+            version: &quot;1.1.0&quot;,
+            srsName: &quot;EPSG:3006&quot;,
+            featureType: &quot;EgenskapsBestammelser_yta&quot;,
+            featurePrefix: &quot;RIGES&quot;
+        });
+        
+        var protocol = new OpenLayers.Protocol.WFS(options);
+        
+        protocol.read({
+            filter: new OpenLayers.Filter({
+                type: OpenLayers.Filter.Spatial.INTERSECTS,
+                value: geometry
+            }),
+            callback: function(response) {
+                var features = response.features;
+                if (!features) return;
+                features.forEach(function(feature) {
+                    feature.attributes.COUNT = store.getCount()+1;
+                    store.addFeatures([feature]);
+                });
+                layer.addFeatures(features);
+            }
+        });
+    },
+    
+<span id='OpenEMap-view-DetailReportResults-method-onSelect'>    onSelect: function(model, record, index) {
+</span>        var source = {};
+        var feature = record.raw.feature;
+        var layer = record.raw.layer;
+        
+        var filterAttributesMeta = function(key) {
+            if (layer.metadata.attributes[key]) {
+                var alias = layer.metadata.attributes[key].alias || key;
+                source[alias] = feature.attributes[key];
+            }
+        };
+        
+        if (feature) {
+            if (layer.metadata &amp;&amp; layer.metadata.attributes) {
+                Object.keys(feature.attributes).forEach(filterAttributesMeta);
+            } else {
+                source = feature.attributes;
+            }
+            this.mapPanel.searchLayer.selectedFeatures.forEach(function(feature) {
+                this.mapPanel.selectControl.unselect(feature);
+            }, this);
+            if (record.raw.feature.layer) {
+                this.mapPanel.selectControl.select(feature);
+            }
+        }
+    }
+});</pre>
+</body>
+</html>
