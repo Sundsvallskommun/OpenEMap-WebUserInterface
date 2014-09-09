@@ -41,7 +41,7 @@ Integrate into HTML page using the following snippet:
 
 NOTE: The above snippet assumes the use of release build including all dependencies. For sample build script see build directory.
 
-NOTE: Uses theme [SundsvallsKommun/ext-theme-oep](SundsvallsKommun/ext-theme-oep) for rendering
+NOTE: Uses theme [SundsvallsKommun/ext-theme-oep](/SundsvallsKommun/ext-theme-oep) for rendering
 
 NOTE: es5-shim.min.js is required for IE 8 compatibility only
 
