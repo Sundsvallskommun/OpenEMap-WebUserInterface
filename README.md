@@ -23,8 +23,12 @@ Integrate into HTML page using the following snippet:
     <script type="text/javascript" src="OpenEMap-all.js"></script>
     
     <script type="text/javascript">
-    mapClient = Ext.create('OpenEMap.Client');
-    mapClient.configure(config);
+	var mapClient = null;
+	Ext.onReady(function() {
+		mapClient = Ext.create('OpenEMap.Client');
+   		mapClient.destroy();
+		mapClient.configure(config);
+	}
     </script>
     
 	<div id="toolbar"></div>
@@ -35,9 +39,11 @@ Integrate into HTML page using the following snippet:
 	<div id="objectconfig"></div>
 ```
 
-NOTE: The above snippet assumes the use of release build including all dependencies
+NOTE: The above snippet assumes the use of release build including all dependencies. For sample build script see build directory.
 
-NOTE: es5-shim is required for IE 8 compatibility only
+NOTE: Uses theme [SundsvallsKommun/ext-theme-oep](SundsvallsKommun/ext-theme-oep) for rendering
+
+NOTE: es5-shim.min.js is required for IE 8 compatibility only
 
 ##Homepage
 <a href="http://oemap.org"><img alt="Open eMap homepage" src="http://oemap.org/img/logotyp.png" width="200"></a>
