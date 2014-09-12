@@ -15,9 +15,10 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 /**
- * Main map client class
+ * ###Main map client class
  *  
  * Typical use case is to call the method configure(config) where config is a valid configuration object (usually parsed from JSON).
+ * ###[Integration example](https://github.com/Sundsvallskommun/OpenEMap-WebUserInterface/blob/master/README.md)
  */
 Ext.define('OpenEMap.Client', {
     requires: ['GeoExt.data.MapfishPrintProvider',
