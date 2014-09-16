@@ -18,9 +18,9 @@
 		easting,
 		northing
 	],
-	"autoClearDrawLayer": ?,
+	"autoClearDrawLayer": whetherToDeleteExistingObjectWhenANewObjectIsDrawn, 
 	"attribution": "attributionToBeShownInMap",
-	"drawStyle": ?,
+	"drawStyle": OpenLayers.StyleUsedForDrawLayer,
 	"resolutions": [ ' list of resolutions to be used in map
 			resolutionN,
 			resolution3,
