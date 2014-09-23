@@ -169,6 +169,9 @@ Ext.define('OpenEMap.view.Map' ,{
                 emptyString: 'Mouse is not over map.'
             })
         );
+
+        // Define container for popup windows - initialize when first popupLayer is created. 
+        this.map.popup = [];
     },
     unselectAll: function() {
         this.drawLayer.selectedFeatures.forEach(function(feature) {
