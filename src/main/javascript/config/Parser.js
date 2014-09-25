@@ -134,6 +134,9 @@ Ext.define('OpenEMap.config.Parser', {
         layers = layers.filter(function(layer){ return layer.vector; });
         return layers;
     },
+    /**
+     * Process layers config to return a flat array with popupLayer definitions
+     */
     extractPopupLayers: function(layers) {
         layers = this.extractLayers(layers);
         layers = layers.filter(function(layer) {

@@ -25,9 +25,10 @@
  * an attribute whit that name that holds the information that should be shown in the popup. 
  * The layer may also contain popupAttributePrefix and popupAttributeSuffix that will be presented
  * as constant text before and after the popupTextAttribute
- * @param {Object} [config] configuration of the popup behaviour   
- * @param {Number} [config.tolerance=3] tolerance to use when identifying in map. Radius in image pixels.
- * @event popupfeatureselected fires event if a feature is found
+ * @param {Object} [config] Configuration of the popup behaviour   
+ * @param {Number} [config.tolerance=3] Tolerance to use when identifying in map. Radius in image pixels.
+ * @event popupfeatureselected Fires event if a feature is found
+ * @event popupfeatureunselected Fires when a previously selected feature gets unselected
  */
 Ext.define('OpenEMap.action.Popup', {
     extend: 'OpenEMap.action.Action',
@@ -94,8 +95,12 @@ Ext.define('OpenEMap.action.Popup', {
                 	var popupFeature = function(feature) {
                 		if (config.showOnlyFirstHit) {
 				    		// Remove highlight feature
-				    		feature.renderIntent = 'default';
-				    		feature.layer.drawFeature(feature);
+			    			if (feature.renderIntent == 'select') {
+					    		feature.renderIntent = 'default';
+					    		feature.layer.drawFeature(feature);
+						    	// Fire action "popupfeatureunselected" on the feature including layer and featureid
+						    	map.events.triggerEvent("popupfeatureunselected",{layer: popupLayer, featureid: feature.attributes[popupLayer.idAttribute]});
+					    	}
                 		}
 				    	if (!(hitFound && config.showOnlyFirstHit)) {
 	                		if (feature.geometry.intersects(bounds.toGeometry())) {
@@ -155,8 +160,10 @@ Ext.define('OpenEMap.action.Popup', {
         
         this.callParent(arguments);
     },
-    
-    // TODO cleanup on close?
+
+	/*
+	 * Cleanup on close
+	 */    
     destroy: function() {
         if (this.popup){
             this.popup.destroy();

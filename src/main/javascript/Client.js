@@ -233,26 +233,26 @@ Ext.define('OpenEMap.Client', {
     },
     /**
      * Helper method to add add a new vector layer to map 
-     * @param {string} geojson geojson with features that should be added to map 
-     * @param {string} layername 
-     * @param {OpenLayers.Feature.Vector.style} style Styling for features in the layer. Uses default style if not specified
-     * @param {string} [idAttribute] name of the attribute stored in each feture that holds the a unique id. Defaults to 'id'
-     * @param {string} [popupTextAttribute] name of the attribute stored in each feture that holds the information to be shown in a popup defaults to 'popupText'
-     * @param {string} [popupTextPrefix] prefix to be shown in popup before the value in popupTextAttribute 
-     * @param {string} [popupTextSuffix] suffix to be shown in popup before the value in popupTextAttribute
-     * @param {string} [popupTitleAttribute] for the popup 
-     * @return {OpenLayers.Layer} referns to the layer added. null if layer cant be created 
+     * @param {string} geojson GeoJSON with features that should be added to map 
+     * @param {string} layername Layer name 
+     * @param {string} [idAttribute='id'] Name of the attribute stored in each feture that holds the a unique id. Defaults to 'id'. Must be unique.
+     * @param {string} [popupTextAttribute='popupText'] Name of the attribute stored in each feture that holds the information to be shown in a popup defaults to 'popupText'
+     * @param {string} [popupTextPrefix=''] Prefix to be shown in popup before the value in popupTextAttribute 
+     * @param {string} [popupTextSuffix=''] Suffix to be shown in popup before the value in popupTextAttribute
+     * @param {string} [popupTitleAttribute=null] Title for the popup
+     * @param {OpenLayers.Feature.Vector.Stylemap} [stylemap=deafult style] Stylemap used when drawing features in the layer. Uses default style if not specified
+     * @param {string} [epsg='EPSG:3006'] Coordinate system reference according to EPSG-standard, defaults to 'EPSG:3006' (Sweref 99 TM) 
+     * @return {OpenLayers.Layer} Returns the layer added. null if layer cant be created
+     * @event popupfeatureselected fires when a feature is selected
+     * @event popupfeatureunselected fires when a previously selected feature gets unselected
      */
-    addPopupLayer: function(geojson, layername, style, idAttribute, popupTextAttribute, popupTextPrefix, popupTextSuffix, popupTitleAttribute, epsg) {
+    addPopupLayer: function(geojson, layername, idAttribute, popupTextAttribute, popupTextPrefix, popupTextSuffix, popupTitleAttribute, stylemap, epsg) {
         if (!geojson) {
         	return null;
         }
         if (!layername) {
         	// set default layer name 
         	layername = "VectorLayer";
-        } 
-        if (!style) {
-			var style = OpenLayers.Util.extend({}, OpenLayers.Feature.Vector.style['default']);
         } 
         if (!idAttribute) {
         	idAttribute = 'id';
@@ -271,34 +271,48 @@ Ext.define('OpenEMap.Client', {
 		if (!popupTitleAttribute) {
 			popupTitleAttribute =null;
 		}
+		if (!epsg) {
+			epsg = 'EPSG:3006';
+		} 
+		
         var format = new OpenLayers.Format.GeoJSON();
+
+/*      TODO - fix projection settings 
+ 		var fromProjection = epsg;
+        var toProjection = this.map.projection;
+        format.internalProjection = new OpenLayers.Projection(toProjection);
+        format.externalProjection = new OpenLayers.Projection(fromProjection);
+*/
         var features = format.read(geojson, "FeatureCollection");
 	    if (!features) {
 	    	return null;
-	    } 
+	    }
  
         // allow testing of specific renderers via "?renderer=Canvas", etc
         var renderer = OpenLayers.Util.getParameters(window.location.href).renderer;
         renderer = (renderer) ? [renderer] : OpenLayers.Layer.Vector.prototype.renderers;
 		
 	    // creating a vector layer with specific options that apply to popup layers
-	    var popupLayer = new OpenLayers.Layer.Vector(layername, {styleMap: style, renderers: renderer, idAttribute: idAttribute, popupTextAttribute: popupTextAttribute, popupTextPrefix: popupTextPrefix, popupTextSuffix: popupTextSuffix, popupTitleAttribute: popupTitleAttribute} );
+	    var popupLayer = new OpenLayers.Layer.Vector(layername, {renderers: renderer, idAttribute: idAttribute, popupTextAttribute: popupTextAttribute, popupTextPrefix: popupTextPrefix, popupTextSuffix: popupTextSuffix, popupTitleAttribute: popupTitleAttribute} );
+        if (stylemap) {
+			popupLayer.styleMap = stylemap;
+        } 
 	  	this.map.addLayer(popupLayer);
  
 		//var options = ?;
 		popupLayer.addFeatures(features);
  		features.forEach(function(feature) {
- 			feature.renderIntent="default";
+ 			feature.renderIntent='default';
  			popupLayer.drawFeature(feature);
 		});
- 		
+        
 		popupLayer.popup = [];
 	    return popupLayer;
     },
     /**
      * Helper method to remove a popup layer
-     * @param {OpenLayers.Layer.Vector} [layer] layer to remove
-     * @return {boolean} whether the removal was successfull or not
+     * @param {OpenLayers.Layer.Vector} [layer] Layer to remove
+     * @return {boolean} Whether the removal was successfull or not
      */
     removePopupLayer: function(layer) {
 		// remove any popup windows too
@@ -347,9 +361,9 @@ Ext.define('OpenEMap.Client', {
     /**
      * Search for a feature inside a popup layer and show a popup if it matches. 
      * @private 
-     * @param {OpenLayers.Layer.Vector} [popupLayer] layer to search for features
-     * @param {number} [featureId] feature-id to search for 
-     * @return It retruns false if no match is found or if there are more then one hit
+     * @param {OpenLayers.Layer.Vector} [popupLayer] Layer to search for features
+     * @param {number} [featureId] Feature-id to search for 
+     * @return Returns false if no match is found or if there are more then one hit
      */
     showPopupFeature: function(popupLayer, featureId) {
     	if (!popupLayer) {
@@ -369,8 +383,12 @@ Ext.define('OpenEMap.Client', {
                 var popupLayers = parser.extractPopupLayers(popupLayer.map.layers);
 				popupLayers.forEach(function(popupLayer) {
 		    		popupLayer.features.forEach(function(feature) {
-			    		feature.renderIntent = 'default';
-			    		feature.layer.drawFeature(feature);
+		    			if (feature.renderIntent == 'select') {
+				    		feature.renderIntent = 'default';
+				    		feature.layer.drawFeature(feature);
+					    	// Fire action "popupfeatureunselected" on the feature including layer and featureid
+					    	map.events.triggerEvent("popupfeatureunselected",{layer: popupLayer, featureid: features[0].attributes[popupLayer.idAttribute]});
+				    	}
 		    		});
 				});
 				

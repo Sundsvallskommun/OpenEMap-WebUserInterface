@@ -181,15 +181,17 @@ Ext.define('OpenEMap.Gui', {
         var width = 6; // padding
         tbar.forEach(function(item) {
             if (item){
-                if (item.constructor == String) {
-                    width += 1; // separator
-                } else if (item.width) {
-                    width += item.width;
-                } else {
-                    width += 24; // button
+                if (!item.hideFromToolbar) {
+	                if (item.constructor == String) {
+	                    width += 1; // separator
+	                } else if (item.width) {
+	                    width += item.width;
+	                } else {
+	                    width += 24; // button
+	                }
+	                // add spacing to next control
+	                width += 8;
                 }
-                // add spacing to next control
-                width += 8;
             }
         });
         width += 3; // padding
