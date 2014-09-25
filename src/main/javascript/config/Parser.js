@@ -137,7 +137,7 @@ Ext.define('OpenEMap.config.Parser', {
     extractPopupLayers: function(layers) {
         layers = this.extractLayers(layers);
         layers = layers.filter(function(layer) {
-        	if (layer.idAttribute && layer.popupAttribute) {
+        	if (layer.idAttribute && layer.popupTextAttribute) {
         		return true;
         	} else {
         		return false;

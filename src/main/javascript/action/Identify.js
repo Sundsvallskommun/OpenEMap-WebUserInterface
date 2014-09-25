@@ -17,10 +17,12 @@
 /**
  * Identify action
  * 
- * @param config
- * @param {string} config.useRegisterenhet wheter or not to use identify on registerenhet 
- * @param {string} config.tolerance tolerance to use when identifying in map. Radius in image pixels. Defaults to 3 pixels.
- *                 Creates a bounding box with the specified tolerance as sidelength. 
+ * @param [Object} config
+ * @param {string} config.feature 
+ * @param {string} config.mapPanel
+ * @param {string} config.items 
+ * @param {string} [config.useRegisterenhet=true] wheter or not to use identify on registerenhet 
+ * @param {string} [config.tolerance=3] tolerance to use when identifying in map. Radius in image pixels. 
  */
 Ext.define('OpenEMap.action.Identify', {
     extend: 'OpenEMap.action.Action',

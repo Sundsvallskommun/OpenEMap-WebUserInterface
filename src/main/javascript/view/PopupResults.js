@@ -31,11 +31,13 @@ Ext.define('OpenEMap.view.PopupResults', {
             this.popup.destroy();
         }
 	    this.popup = Ext.create('GeoExt.window.Popup', {
-			title: "Information om objekt",
+			title: config.title,
+			icon: config.icon,
 		    location: config.location,
 		    html: config.popupText,
 		    collapsible: true,
             anchored: true,
+            ancCls: 'popup-result-anchor',
             unpinnable: false,
             draggable: true,
             map: config.mapPanel,
@@ -44,22 +46,18 @@ Ext.define('OpenEMap.view.PopupResults', {
             resizable: true,
             layout: 'fit',
             collapsible: false,
+			feature: config.feature,
             listeners : {
-                close : function(){
-                	// TODO - clean up on close? Unselect features?
-			        if (this.popup) {
-			            this.popup.destroy();
+                beforeclose : function(){
+			        if (this) {
+			            this.destroy();
 			        }
+		            // Unhiglight feature
+		    		this.feature.renderIntent = 'default';
+		    		this.feature.layer.drawFeature(this.feature);
                 }
             }
 		});
 		return this.popup;
-    },
-    /**
-     * @param {OpenLayers.Feature.Vector} feature to show
-     */
-    showFeature: function(feature, layer) {
-		// TODO - Highlight feature in map
-		// TODO - Show popup with html
     }
 });
