@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * Copyright (c) 2008-2014 The Open Source Geospatial Foundation
+ *
+ * Published under the BSD license.
+ * See https://github.com/geoext/geoext2/blob/master/license.txt for the full
+ * text of the license.
+ */
+
+/*
+ * @requires GeoExt/container/LayerLegend.js
+ * @include GeoExt/FeatureRenderer.js
+ */
+
+<span id='GeoExt-container-VectorLegend'>/**
+</span> * Create a vector legend.
+ *
+ * @class GeoExt.container.VectorLegend
+ */
+Ext.define('GeoExt.container.VectorLegend', {
+    extend: 'GeoExt.container.LayerLegend',
+    alias: 'widget.gx_vectorlegend',
+    requires: [
+        'Ext.layout.container.Column',
+        'GeoExt.FeatureRenderer'
+    ],
+    alternateClassName: 'GeoExt.VectorLegend',
+
+    statics: {
+<span id='GeoExt-container-VectorLegend-static-method-supports'>        /**
+</span>         * Checks whether the given layer record supports a vector legend.
+         *
+         * @param {GeoExt.data.LayerRecord} layerRecord Record containing a
+         *     vector layer.
+         * @return {Number} Either `1` when vector legends are supported or `0`.
+         */
+        supports: function(layerRecord) {
+            return layerRecord.getLayer() instanceof OpenLayers.Layer.Vector ? 1 : 0;
+        }
+    },
+
+<span id='GeoExt-container-VectorLegend-cfg-layerRecord'>    /**
+</span>     * The record containing a vector layer that this legend will be based on.
+     * One of `#layerRecord`, `#layer`,  or `#rules` must be specified in
+     * the config.
+     *
+     * @cfg {GeoExt.data.LayerRecord}
+     */
+    layerRecord: null,
+
+<span id='GeoExt-container-VectorLegend-cfg-layer'>    /**
+</span>     * The layer that this legend will be based on.  One of `#layer`,
+     * `#rules`, or `#layerRecord` must be specified in the config.
+     *
+     * @cfg {OpenLayers.Layer.Vector}
+     */
+    layer: null,
+
+<span id='GeoExt-container-VectorLegend-cfg-rules'>    /**
+</span>     * List of rules.  One of `#rules`, `#layer`, or `#layerRecord` must be
+     * specified in the config.  The `#symbolType` property must also be
+     * provided if only `#rules` are given in the config.
+     *
+     * @cfg {Array}
+     */
+    rules: null,
+
+<span id='GeoExt-container-VectorLegend-cfg-symbolType'>    /**
+</span>     * The symbol type for legend swatches.  Must be one of `&quot;Point&quot;`, `&quot;Line&quot;`,
+     * or `&quot;Polygon&quot;`.  If not provided, the `#layer` or `#layerRecord` config
+     * property must be specified, and the geometry type of the first feature
+     * found on the layer will be used. If a rule does not have a symbolizer for
+     * `#symbolType`, we look at the symbolizers for the rule, and see if it has
+     * a `&quot;Point&quot;`, `&quot;Line&quot;` or `&quot;Polygon&quot;` symbolizer, which we use for
+     * rendering a swatch of the respective geometry type.
+     *
+     * @cfg {String}
+     */
+    symbolType: null,
+
+<span id='GeoExt-container-VectorLegend-cfg-untitledPrefix'>    /**
+</span>     * The prefix to use as a title for rules with no title or name. Prefix will
+     * be appended with a number that corresponds to the index of the rule (1
+     * for first rule).
+     *
+     * @cfg {String}
+     */
+    untitledPrefix: &quot;Untitled &quot;,
+
+<span id='GeoExt-container-VectorLegend-cfg-clickableSymbol'>    /**
+</span>     * Set cursor style to &quot;pointer&quot; for symbolizers.  Register for the
+     * `#symbolclick` event to handle clicks.  Note that click events are fired
+     * regardless of this value.  If `false`, no cursor style will be set.
+     *
+     * @cfg {Boolean}
+     */
+    clickableSymbol: false,
+
+<span id='GeoExt-container-VectorLegend-cfg-clickableTitle'>    /**
+</span>     * Set cursor style to &quot;pointer&quot; for rule titles.  Register for the
+     * `#titleclick` event to handle clicks.  Note that click events are fired
+     * regardless of this value.  If `false`, no cursor style will be set.
+     *
+     * @cfg {Boolean}
+     */
+    clickableTitle: false,
+
+<span id='GeoExt-container-VectorLegend-cfg-selectOnClick'>    /**
+</span>     * Set to true if a rule should be selected by clicking on the symbol or
+     * title. Selection will trigger the `#ruleselected` event, and a click on
+     * a selected rule will unselect it and trigger the `#ruleunselected` event.
+     *
+     * @cfg {Boolean}
+     */
+    selectOnClick: false,
+
+<span id='GeoExt-container-VectorLegend-cfg-enableDD'>    /**
+</span>     * Allow drag and drop of rules.
+     *
+     * @cfg {Boolean}
+     */
+    enableDD: false,
+
+<span id='GeoExt-container-VectorLegend-cfg-bodyBorder'>    /**
+</span>     * Show a border around the legend panel.
+     *
+     * @cfg {Boolean}
+     */
+    bodyBorder: false,
+
+<span id='GeoExt-container-VectorLegend-property-feature'>    /**
+</span>     * Cached feature for rendering.
+     *
+     * @property {OpenLayers.Feature.Vector}
+     * @private
+     */
+    feature: null,
+
+<span id='GeoExt-container-VectorLegend-property-selectedRule'>    /**
+</span>     * The rule that is currently selected.
+     *
+     * @property {OpenLayers.Rule}
+     * @private
+     */
+    selectedRule: null,
+
+<span id='GeoExt-container-VectorLegend-property-currentScaleDenominator'>    /**
+</span>     * The current scale denominator of any map associated with this legend. Use
+     * `#setCurrentScaleDenominator` to change this.  If not set, an entry for
+     * each rule will be rendered.  If set, only rules that apply for the given
+     * scale will be rendered.
+     *
+     * @property {Number}
+     * @private
+     */
+    currentScaleDenominator: null,
+
+<span id='GeoExt-container-VectorLegend-method-initComponent'>    /**
+</span>     * Initializes this VectorLegend.
+     */
+    initComponent: function(){
+        var me = this;
+        me.callParent();
+
+        if (this.layerRecord) {
+            this.layer = this.layerRecord.getLayer();
+            if (this.layer.map) {
+                this.map = this.layer.map;
+                this.currentScaleDenominator = this.layer.map.getScale();
+                this.layer.map.events.on({
+                    &quot;zoomend&quot;: this.onMapZoom,
+                    scope: this
+                });
+            }
+        }
+
+        // determine symbol type
+        if (!this.symbolType) {
+            if (this.feature) {
+                this.symbolType = this.symbolTypeFromFeature(this.feature);
+            } else if (this.layer) {
+                if (this.layer.features.length &gt; 0) {
+                    var feature = this.layer.features[0].clone();
+                    feature.attributes = {};
+                    this.feature = feature;
+                    this.symbolType = this.symbolTypeFromFeature(this.feature);
+                } else {
+                    this.layer.events.on({
+                        featuresadded: this.onFeaturesAdded,
+                        scope: this
+                    });
+                }
+            }
+        }
+
+        // set rules if not provided
+        if (this.layer &amp;&amp; this.feature &amp;&amp; !this.rules) {
+            this.setRules();
+        }
+
+        this.rulesContainer = new Ext.container.Container({
+            autoEl: {}
+        });
+
+        this.add(this.rulesContainer);
+
+        this.addEvents(
+<span id='GeoExt-container-VectorLegend-event-titleclick'>            /**
+</span>             * Fires when a rule title is clicked.
+             *
+             * @event titleclick
+             * @param {GeoExt.VectorLegend} comp This component.
+             * @param {OpenLayers.Rule} rule The rule whose title was clicked.
+             */
+            &quot;titleclick&quot;,
+
+<span id='GeoExt-container-VectorLegend-event-symbolclick'>            /**
+</span>             * Fires when a rule symbolizer is clicked.
+             *
+             * @event symbolclick
+             * @param {GeoExt.VectorLegend} comp This component.
+             * @param {OpenLayers.Rule} rule The rule whose symbol was clicked.
+             */
+            &quot;symbolclick&quot;,
+
+<span id='GeoExt-container-VectorLegend-event-ruleclick'>            /**
+</span>             * Fires when a rule entry is clicked (fired with symbolizer or
+             * title click).
+             *
+             * @event ruleclick
+             * @param {GeoExt.VectorLegend} comp This component.
+             * @param {OpenLayers.Rule} rule The rule that was clicked.
+             */
+            &quot;ruleclick&quot;,
+
+<span id='GeoExt-container-VectorLegend-event-ruleselected'>            /**
+</span>             * Fires when a rule is clicked and `selectOnClick` is set to
+             * `true`.
+             *
+             * @event ruleselected
+             * @param {GeoExt.VectorLegend} comp This component.
+             * @param {OpenLayers.Rule} rule The rule that was selected.
+             */
+            &quot;ruleselected&quot;,
+
+<span id='GeoExt-container-VectorLegend-event-ruleunselected'>            /**
+</span>             * Fires when the selected rule is clicked and `#selectOnClick`
+             * is set to `true`, or when a rule is unselected by selecting a
+             * different one.
+             *
+             * @event ruleunselected
+             * @param {GeoExt.VectorLegend} comp This component.
+             * @param {OpenLayers.Rule} rule The rule that was unselected.
+             */
+            &quot;ruleunselected&quot;,
+
+<span id='GeoExt-container-VectorLegend-event-rulemoved'>            /**
+</span>             * Fires when a rule is moved.
+             *
+             * @event rulemoved
+             * @param {GeoExt.VectorLegend} comp This component.
+             * @param {OpenLayers.Rule} rule The rule that was moved.
+             */
+            &quot;rulemoved&quot;
+        );
+
+        this.update();
+
+    },
+
+<span id='GeoExt-container-VectorLegend-method-onMapZoom'>   /**
+</span>    * Listener for map zoomend.
+    *
+    * @private
+    */
+    onMapZoom: function() {
+        this.setCurrentScaleDenominator(
+            this.layer.map.getScale()
+        );
+    },
+
+<span id='GeoExt-container-VectorLegend-method-symbolTypeFromFeature'>    /**
+</span>     * Determine the symbol type given a feature.
+     *
+     * @param {OpenLayers.Feature.Vector} feature
+     * @private
+     */
+    symbolTypeFromFeature: function(feature) {
+        var match = feature.geometry.CLASS_NAME.match(/Point|Line|Polygon/);
+        return (match &amp;&amp; match[0]) || &quot;Point&quot;;
+    },
+
+<span id='GeoExt-container-VectorLegend-method-onFeaturesAdded'>    /**
+</span>     * Set as a one time listener for the `featuresadded` event on the layer if
+     * it was provided with no features originally.
+     *
+     * @private
+     */
+    onFeaturesAdded: function() {
+        this.layer.events.un({
+            featuresadded: this.onFeaturesAdded,
+            scope: this
+        });
+        var feature = this.layer.features[0].clone();
+        feature.attributes = {};
+        this.feature = feature;
+        this.symbolType = this.symbolTypeFromFeature(this.feature);
+        if (!this.rules) {
+            this.setRules();
+        }
+        this.update();
+    },
+
+<span id='GeoExt-container-VectorLegend-method-setRules'>    /**
+</span>     * Sets the `#rules` property for this.  This is called when the component
+     * is constructed without rules.  Rules will be derived from the layer's
+     * style map if it has one.
+     *
+     * @private
+     */
+    setRules: function() {
+        var style = this.layer.styleMap &amp;&amp; this.layer.styleMap.styles[&quot;default&quot;];
+        if (!style) {
+            style = new OpenLayers.Style();
+        }
+        if (style.rules.length === 0) {
+            this.rules = [
+                new OpenLayers.Rule({
+                    title: style.title,
+                    symbolizer: style.createSymbolizer(this.feature)
+                })
+            ];
+        } else {
+            this.rules = style.rules;
+        }
+    },
+
+<span id='GeoExt-container-VectorLegend-method-setCurrentScaleDenominator'>    /**
+</span>     * Set the current scale denominator. This will hide entries for any rules
+     * that don't apply at the current scale.
+     *
+     * @param {Number} scale The scale denominator.
+     */
+    setCurrentScaleDenominator: function(scale) {
+        if (scale !== this.currentScaleDenominator) {
+            this.currentScaleDenominator = scale;
+            this.update();
+        }
+    },
+
+<span id='GeoExt-container-VectorLegend-method-getRuleEntry'>    /**
+</span>     * Get the item corresponding to the rule.
+     *
+     * @param {OpenLayers.Rule} rule
+     * @return {Ext.Container}
+     * @private
+     */
+    getRuleEntry: function(rule) {
+        var idxOfRule = Ext.Array.indexOf(this.rules, rule);
+        return this.rulesContainer.items.get(idxOfRule);
+    },
+
+<span id='GeoExt-container-VectorLegend-method-addRuleEntry'>    /**
+</span>     * Add a new rule entry in the rules container. This method does not add the
+     * rule to the rules array.
+     *
+     * @param {OpenLayers.Rule} rule The rule to add.
+     * @param {Boolean} noDoLayout Don't call doLayout after adding rule.
+     * @private
+     */
+    addRuleEntry: function(rule, noDoLayout) {
+        this.rulesContainer.add(this.createRuleEntry(rule));
+        if (!noDoLayout) {
+            this.doLayout();
+        }
+    },
+
+<span id='GeoExt-container-VectorLegend-method-removeRuleEntry'>    /**
+</span>     * Remove a rule entry from the rules container, this method assumes the
+     * rule is in the rules array, and it does not remove the rule from the
+     * rules array.
+     *
+     * @param {OpenLayers.Rule} rule The rule to remove.
+     * @param {Boolean} noDoLayout Don't call doLayout after removing rule.
+     * @private
+     */
+    removeRuleEntry: function(rule, noDoLayout) {
+        var ruleEntry = this.getRuleEntry(rule);
+        if (ruleEntry) {
+            this.rulesContainer.remove(ruleEntry);
+            if (!noDoLayout) {
+                this.doLayout();
+            }
+        }
+    },
+
+<span id='GeoExt-container-VectorLegend-method-selectRuleEntry'>    /**
+</span>     * Selects a rule entry by adding a CSS class.
+     *
+     * Fires the #ruleselected event.
+     *
+     * @param {OpenLayers.Rule} rule The rule whose entry shall be selected.
+     * @private
+     */
+    selectRuleEntry: function(rule) {
+        var newSelection = rule != this.selectedRule;
+        if (this.selectedRule) {
+            this.unselect();
+        }
+        if (newSelection) {
+            var ruleEntry = this.getRuleEntry(rule);
+            ruleEntry.body.addClass(&quot;x-grid3-row-selected&quot;);
+            this.selectedRule = rule;
+            this.fireEvent(&quot;ruleselected&quot;, this, rule);
+        }
+    },
+
+<span id='GeoExt-container-VectorLegend-method-unselect'>    /**
+</span>     * Unselects all rule entries by removing a CSS class.
+     *
+     * Fires the #ruleunselected event for every rule item.
+     *
+     * @private
+     */
+    unselect: function() {
+        this.rulesContainer.items.each(function(item, i) {
+            if (this.rules[i] == this.selectedRule) {
+                item.body.removeClass(&quot;x-grid3-row-selected&quot;);
+                this.selectedRule = null;
+                this.fireEvent(&quot;ruleunselected&quot;, this, this.rules[i]);
+            }
+        }, this);
+    },
+
+<span id='GeoExt-container-VectorLegend-method-createRuleEntry'>    /**
+</span>     * Creates the rule entry for the given OpenLayers.Rule and bind appropriate
+     * event listeners to select rule entries on click (see #selectRuleEntry).
+     *
+     * @param {OpenLayers.Rule} rule
+     * @return {Ext.panel.Panel}
+     * @private
+     */
+    createRuleEntry: function(rule) {
+        var applies = true;
+        if (this.currentScaleDenominator != null) {
+            if (rule.minScaleDenominator) {
+                applies = applies &amp;&amp; (this.currentScaleDenominator &gt;= rule.minScaleDenominator);
+            }
+            if (rule.maxScaleDenominator) {
+                applies = applies &amp;&amp; (this.currentScaleDenominator &lt; rule.maxScaleDenominator);
+            }
+        }
+        return {
+            xtype: &quot;panel&quot;,
+            layout: &quot;column&quot;,
+            border: false,
+            hidden: !applies,
+            bodyStyle: this.selectOnClick ? {cursor: &quot;pointer&quot;} : undefined,
+            defaults: {
+                border: false
+            },
+            items: [
+                this.createRuleRenderer(rule),
+                this.createRuleTitle(rule)
+            ],
+            listeners: {
+                render: function(comp){
+                    this.selectOnClick &amp;&amp; comp.getEl().on({
+                        click: function(comp){
+                            this.selectRuleEntry(rule);
+                        },
+                        scope: this
+                    });
+                    if (this.enableDD == true) {
+                        this.addDD(comp);
+                    }
+                },
+                scope: this
+            }
+        };
+    },
+
+<span id='GeoExt-container-VectorLegend-method-createRuleRenderer'>    /**
+</span>     * Create a renderer for the rule.
+     *
+     * @param {OpenLayers.Rule} rule
+     * @return {GeoExt.FeatureRenderer}
+     * @private
+     */
+    createRuleRenderer: function(rule) {
+        var types = [this.symbolType, &quot;Point&quot;, &quot;Line&quot;, &quot;Polygon&quot;];
+        var type, haveType;
+        var symbolizers = rule.symbolizers;
+        var i, len;
+        if (!symbolizers) {
+            // TODO: remove this when OpenLayers.Symbolizer is used everywhere
+            var symbolizer = rule.symbolizer;
+            for (i=0, len=types.length; i&lt;len; ++i) {
+                type = types[i];
+                if (symbolizer[type]) {
+                    symbolizer = symbolizer[type];
+                    haveType = true;
+                    break;
+                }
+            }
+            symbolizers = [symbolizer];
+        } else {
+            var Type;
+            outer: for (i=0, ii=types.length; i&lt;ii; ++i) {
+                type = types[i];
+                Type = OpenLayers.Symbolizer[type];
+                if (Type) {
+                    for (var j=0, jj=symbolizers.length; j&lt;jj; ++j) {
+                        if (symbolizers[j] instanceof Type) {
+                            haveType = true;
+                            break outer;
+                        }
+                    }
+                }
+            }
+        }
+        return {
+            xtype: &quot;gx_renderer&quot;,
+            symbolType: haveType ? type : this.symbolType,
+            symbolizers: symbolizers,
+            style: this.clickableSymbol ? {cursor: &quot;pointer&quot;} : undefined,
+            listeners: {
+                click: function() {
+                    if (this.clickableSymbol) {
+                        this.fireEvent(&quot;symbolclick&quot;, this, rule);
+                        this.fireEvent(&quot;ruleclick&quot;, this, rule);
+                    }
+                },
+                scope: this
+            }
+        };
+    },
+
+<span id='GeoExt-container-VectorLegend-method-createRuleTitle'>    /**
+</span>     * Create a title component for the rule.
+     *
+     * @param {OpenLayers.Rule} rule
+     * @return {Ext.Component}
+     * @private
+     */
+    createRuleTitle: function(rule) {
+        return {
+            cls: &quot;x-form-item&quot;,
+            style: &quot;padding: 0.2em 0.5em 0;&quot;, // TODO: css
+            bodyStyle: Ext.applyIf({background: &quot;transparent&quot;},
+                this.clickableTitle ? {cursor: &quot;pointer&quot;} : undefined),
+            html: this.getRuleTitle(rule),
+            listeners: {
+                render: function(comp) {
+                    this.clickableTitle &amp;&amp; comp.getEl().on({
+                        click: function() {
+                            this.fireEvent(&quot;titleclick&quot;, this, rule);
+                            this.fireEvent(&quot;ruleclick&quot;, this, rule);
+                        },
+                        scope: this
+                    });
+                },
+                scope: this
+            }
+        };
+    },
+
+<span id='GeoExt-container-VectorLegend-method-addDD'>    /**
+</span>     * Adds drag &amp; drop functionality to a rule entry.
+     *
+     * @param {Ext.Component} component
+     * @private
+     */
+    addDD: function(component) {
+        var ct = component.ownerCt;
+        var panel = this;
+        new Ext.dd.DragSource(component.getEl(), {
+            ddGroup: ct.id,
+            onDragOut: function(e, targetId) {
+                var target = Ext.getCmp(targetId);
+                target.removeClass(&quot;gx-ruledrag-insert-above&quot;);
+                target.removeClass(&quot;gx-ruledrag-insert-below&quot;);
+                return Ext.dd.DragZone.prototype.onDragOut.apply(this, arguments);
+            },
+            onDragEnter: function(e, targetId) {
+                var target = Ext.getCmp(targetId);
+                var cls;
+                var sourcePos = Ext.Array.indexOf(ct.items, component);
+                var targetPos = Ext.Array.indexOf(ct.items, target);
+                if (sourcePos &gt; targetPos) {
+                    cls = &quot;gx-ruledrag-insert-above&quot;;
+                } else if (sourcePos &lt; targetPos) {
+                    cls = &quot;gx-ruledrag-insert-below&quot;;
+                }
+                cls &amp;&amp; target.addClass(cls);
+                return Ext.dd.DragZone.prototype.onDragEnter.apply(this, arguments);
+            },
+            onDragDrop: function(e, targetId) {
+                var indexOf = Ext.Array.indexOf,
+                    idxOfComp = indexOf(ct.items, component),
+                    idxOfTarget = indexOf(ct.items, Ext.getCmp(targetId));
+                panel.moveRule(idxOfComp, idxOfTarget);
+                return Ext.dd.DragZone.prototype.onDragDrop.apply(this, arguments);
+            },
+            getDragData: function(e) {
+                var sourceEl = e.getTarget(&quot;.x-column-inner&quot;);
+                if(sourceEl) {
+                    var d = sourceEl.cloneNode(true);
+                    d.id = Ext.id();
+                    return {
+                        sourceEl: sourceEl,
+                        repairXY: Ext.fly(sourceEl).getXY(),
+                        ddel: d
+                    };
+                }
+            }
+        });
+        new Ext.dd.DropTarget(component.getEl(), {
+            ddGroup: ct.id,
+            notifyDrop: function() {
+                return true;
+            }
+        });
+    },
+
+<span id='GeoExt-container-VectorLegend-method-update'>    /**
+</span>     * Update rule titles and symbolizers.
+     */
+    update: function() {
+        this.callParent(arguments);
+        if (this.symbolType &amp;&amp; this.rules) {
+            this.rulesContainer.removeAll(false);
+            for (var i=0, ii=this.rules.length; i&lt;ii; ++i) {
+                this.addRuleEntry(this.rules[i], true);
+            }
+            this.doLayout();
+            // make sure that the selected rule is still selected after update
+            if (this.selectedRule) {
+                this.getRuleEntry(this.selectedRule).body.addClass(&quot;x-grid3-row-selected&quot;);
+            }
+        }
+    },
+
+<span id='GeoExt-container-VectorLegend-method-updateRuleEntry'>    /**
+</span>     * Update the renderer and the title of a rule.
+     *
+     * @param {OpenLayers.Rule} rule
+     * @private
+     */
+    updateRuleEntry: function(rule) {
+        var ruleEntry = this.getRuleEntry(rule);
+        if (ruleEntry) {
+            ruleEntry.removeAll();
+            ruleEntry.add(this.createRuleRenderer(rule));
+            ruleEntry.add(this.createRuleTitle(rule));
+            ruleEntry.doLayout();
+        }
+    },
+
+<span id='GeoExt-container-VectorLegend-method-moveRule'>    /**
+</span>     * Called while dragging/dropping. Moves the rule specified by sourcePos to
+     * targetPos and fires the rulemoved event.
+     *
+     * @private
+     */
+    moveRule: function(sourcePos, targetPos) {
+        var srcRule = this.rules[sourcePos];
+        this.rules.splice(sourcePos, 1);
+        this.rules.splice(targetPos, 0, srcRule);
+        this.update();
+        this.fireEvent(&quot;rulemoved&quot;, this, srcRule);
+    },
+
+<span id='GeoExt-container-VectorLegend-method-getRuleTitle'>    /**
+</span>     * Get a rule title by a rule-object.
+     *
+     * @return {String}
+     * @private
+     */
+    getRuleTitle: function(rule) {
+        var title = rule.title || rule.name || &quot;&quot;;
+        if (!title &amp;&amp; this.untitledPrefix) {
+            title = this.untitledPrefix + (Ext.Array.indexOf(this.rules, rule) + 1);
+        }
+        return title;
+    },
+
+<span id='GeoExt-container-VectorLegend-method-beforeDestroy'>    /**
+</span>     * Unbind various event listeners and deletes #layer, #map and #rules
+     * properties.
+     */
+    beforeDestroy: function() {
+        if (this.layer) {
+            if (this.layer.events) {
+                this.layer.events.un({
+                    featuresadded: this.onFeaturesAdded,
+                    scope: this
+                });
+            }
+            if (this.layer.map &amp;&amp; this.layer.map.events) {
+                this.layer.map.events.un({
+                    &quot;zoomend&quot;: this.onMapZoom,
+                    scope: this
+                });
+            }
+        }
+        delete this.layer;
+        delete this.map;
+        delete this.rules;
+        this.callParent(arguments);
+    },
+
+<span id='GeoExt-container-VectorLegend-method-onStoreRemove'>    /**
+</span>     * Handler for remove event of the layerStore.
+     *
+     * @param {Ext.data.Store} store The store from which the record was
+     *     removed.
+     * @param {Ext.data.Record} record The record object corresponding
+     *     to the removed layer.
+     * @param {Integer} index The index in the store.
+     * @private
+     */
+    onStoreRemove: function(store, record, index) {
+        if (record.getLayer() === this.layer) {
+            if (this.map &amp;&amp; this.map.events) {
+                this.map.events.un({
+                    &quot;zoomend&quot;: this.onMapZoom,
+                    scope: this
+                });
+            }
+        }
+    },
+
+<span id='GeoExt-container-VectorLegend-method-onStoreAdd'>    /**
+</span>     * Handler for add event of the layerStore.
+     *
+     * @param {Ext.data.Store} store The store to which the record was
+     *     added.
+     * @param {Ext.data.Record[]} records The record object(s) corresponding
+     *     to the added layer(s).
+     * @param {Integer} index The index in the store at which the record
+     *     was added.
+     * @private
+     */
+    onStoreAdd: function(store, records, index) {
+        for (var i=0, len=records.length; i&lt;len; i++) {
+            var record = records[i];
+            if (record.getLayer() === this.layer) {
+                if (this.layer.map &amp;&amp; this.layer.map.events) {
+                    this.layer.map.events.on({
+                        &quot;zoomend&quot;: this.onMapZoom,
+                        scope: this
+                    });
+                }
+            }
+       }
+    }
+
+}, function() {
+    GeoExt.container.LayerLegend.types[&quot;gx_vectorlegend&quot;] =
+        GeoExt.container.VectorLegend;
+});
+</pre>
+</body>
+</html>

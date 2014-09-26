@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='OpenEMap-model-GroupedLayerTreeModel'>/**
+</span> * OpenEMap layer configuration model
+ * Adds layer configuration specific fields
+ */
+
+Ext.define('OpenEMap.model.GroupedLayerTreeModel' ,{
+    extend: 'Ext.data.Model',
+
+<span id='OpenEMap-model-GroupedLayerTreeModel-property-fields'>    fields: [ 
+</span>    	{ name: 'text', type: 'string' },
+    	{ name: 'checkedGroup', type: 'string' },
+    	{ name: 'layer' },
+
+        { name: 'layerId' },
+    	{ name: 'name', type: 'string' },
+        { name: 'isSearchable' },
+    	{ name: 'urlToMetadata' },
+        { name: 'wms' },
+    	{ name: 'wfs' },
+        { name: 'serverId' },
+        
+        { name: 'legendURL' }
+    ]
+});
+</pre>
+</body>
+</html>
