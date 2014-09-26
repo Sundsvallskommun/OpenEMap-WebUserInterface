@@ -232,7 +232,7 @@ Ext.define('OpenEMap.Client', {
         drawLabels.apply(this);
     },
     /**
-     * Helper method to add add a new vector layer to map 
+     * Helper method to add add a new vector layer to map.
      * @param {string} geojson GeoJSON with features that should be added to map 
      * @param {string} layername Layer name 
      * @param {string} [idAttribute='id'] Name of the attribute stored in each feture that holds the a unique id. Defaults to 'id'. Must be unique.

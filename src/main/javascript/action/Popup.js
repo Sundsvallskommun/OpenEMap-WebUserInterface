@@ -19,7 +19,7 @@
  */
 
 /** 
- * @title Popup action
+ * Popup action
  * @abstract This action is triggered when a feature of an vectorPopup layer is clicked in the map.
  * A vectorPopup layer must contain an property named popupTextAttribute. Each feature shall have
  * an attribute whit that name that holds the information that should be shown in the popup. 
