@@ -17,6 +17,9 @@
 //@define OpenEMap
 Ext.ns('OpenEMap');
 
+/*Proj4js.defs["EPSG:3006"] = "+proj=utm +zone=33 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs";
+Proj4js.defs["EPSG:3014"] = "+proj=tmerc +lat_0=0 +lon_0=17.25 +k=1 +x_0=150000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs";
+*/
 Ext.apply(OpenEMap, {
     lmUser: 'sundsvall',
     /**
