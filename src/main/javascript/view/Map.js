@@ -161,7 +161,7 @@ Ext.define('OpenEMap.view.Map' ,{
         this.map.addControl(this.selectControl);
 
         // Show coordinates in lower right corner of map
-        this.map.addControl(
+/*        this.map.addControl(
             new OpenLayers.Control.MousePosition({
                 prefix: '',
                 separator: ' | ',
@@ -169,7 +169,7 @@ Ext.define('OpenEMap.view.Map' ,{
                 emptyString: 'Mouse is not over map.'
             })
         );
-
+*/
         // Define container for popup windows - initialize when first popupLayer is created. 
         this.map.popup = [];
     },
