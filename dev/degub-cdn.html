@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>map-client</title>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" type="text/css" href="http://riges.swecosundsvall.se/ext-4.2.1/resources/css/ext-all-neptune.css">
+    
+    <script type="text/javascript" src="http://riges.swecosundsvall.se/ext-4.2.1/ext-all.js"></script>
+    <script type="text/javascript" src="http://riges.swecosundsvall.se/ext-4.2.1/ext-theme-neptune.js"></script>
+    <script type="text/javascript" src="http://riges.swecosundsvall.se/ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
+    
+    <script type="text/javascript">
+	  Ext.Loader.setConfig({
+	    disableCaching: false,
+	    paths: {
+	      MapClient: 'src/main/javascript'
+	    }
+	  });
+    </script> 
+    
+    <script type="text/javascript" src="http://riges.swecosundsvall.se/OpenLayers-2.13.1/OpenLayers.js"></script>
+    <script type="text/javascript" src="http://riges.swecosundsvall.se/map-client/geoext2.js"></script>
+    
+    <link rel="stylesheet" type="text/css" href="css/map-client.css">
+    <script type="text/javascript" src="src/main/javascript/App.js"></script>
+    
+    <script type="text/javascript">
+	  Ext.onReady(function() {
+		
+		function init(name) {
+		    Ext.Ajax.request({
+		    	url: name,
+		    	success: function(response) {
+		    		var config = Ext.decode(response.responseText);
+		    			    		
+		    		config.gui = {
+		    			map: {
+		    				renderTo: 'map'
+		    			},
+		    			toolbar: {
+		    				renderTo: 'toolbar'
+		    			},
+		    			zoomTools: {},
+		    			layers: {
+		    				renderTo: 'layers'
+		    			},
+		    			searchFastighet: {
+		    				renderTo: 'searchfastighet'
+		    			},
+		    			searchCoordinate: {
+		    				renderTo: 'searchcoordinate'
+		    			},
+		    			//objectConfig: {},
+		    			baseLayers: {}
+		    		};
+		    	
+		    		if (MapClient.app) MapClient.app.destroy();
+		    		MapClient.app.configure(config);
+		    	}
+		    });
+		}
+	    
+	    var combo = Ext.create('Ext.form.ComboBox',  {
+			renderTo: 'configcombo',
+			store: ['config.json',
+			        'riges.json',
+			        'eldstad.json',
+			        'situationsplan.json',
+			        'komplementbyggnad.json',
+			        'transformator.json',
+			        'forhandsbesked.json',
+			        'preview.json'],
+			queryMode: 'local',
+			listeners: {
+				"select": function(combo, records) {
+					var record = records[0];
+					init('config/' + record.get(record.fields.get(0).name));
+				}
+			}
+		});
+	    
+	    var record = combo.store.getAt(6);
+	    combo.setValue(record);
+	    combo.fireEvent('select', combo, [record]);
+	  });
+    </script>
+</head>
+<body>
+
+<div id="configcombo"></div>
+
+<div id="toolbar"></div>
+<div id="map" style="width: 1000px; height: 450px"></div>
+<div id="layers"></div>
+<div id="searchfastighet"></div>
+<div id="searchcoordinate"></div>
+<div id="objectconfig"></div>
+
+</body>
+</html>

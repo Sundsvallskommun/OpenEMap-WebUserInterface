@@ -1,4 +1,4 @@
-﻿/*    
+/*    
     Copyright (C) 2014 Härnösands kommun
 
     This program is free software: you can redistribute it and/or modify
@@ -24,6 +24,7 @@ Ext.define('OpenEMap.Client', {
                'OpenEMap.Gui',
                'OpenEMap.config.Parser',
                'OpenEMap.form.ZoomSelector',
+               'OpenEMap.view.PopupResults',
                'OpenEMap.OpenLayers.Control.ModifyFeature',
                'OpenEMap.OpenLayers.Control.DynamicMeasure'],
     version: '1.0.4',
@@ -86,16 +87,6 @@ Ext.define('OpenEMap.Client', {
      */
     drawLayer: null,
     /**
-     * Clean up rendered elements
-     */
-    destroy: function() {
-        if (this.map) {
-            this.map.controls.forEach(function(control) { control.destroy(); });
-            this.map.controls = null;
-        }
-        if (this.gui) this.gui.destroy();
-    },
-    /**
      * Configure map
      * 
      * If this method is to be used multiple times, make sure to call destroy before calling it.
@@ -117,13 +108,12 @@ Ext.define('OpenEMap.Client', {
      * 
      * For more information about the possible config properties for Ext JS components see Ext.container.Container.
      */
-    configure: function(config, options) {
+     configure: function(config, options) {
         options = Ext.apply({}, options);
         
         this.initialConfig = Ext.clone(config);
         
         Ext.tip.QuickTipManager.init();
-        
         
         var parser = Ext.create('OpenEMap.config.Parser');
 
@@ -240,6 +230,211 @@ Ext.define('OpenEMap.Client', {
         }
         
         drawLabels.apply(this);
+    },
+    /**
+     * Helper method to add add a new vector layer to map.
+     * @param {string} geojson GeoJSON with features that should be added to map 
+     * @param {string} layername Layer name 
+     * @param {string} [idAttribute='id'] Name of the attribute stored in each feture that holds the a unique id. Defaults to 'id'. Must be unique.
+     * @param {string} [popupTextAttribute='popupText'] Name of the attribute stored in each feture that holds the information to be shown in a popup defaults to 'popupText'
+     * @param {string} [popupTextPrefix=''] Prefix to be shown in popup before the value in popupTextAttribute 
+     * @param {string} [popupTextSuffix=''] Suffix to be shown in popup before the value in popupTextAttribute
+     * @param {string} [popupTitleAttribute=null] Title for the popup
+     * @param {OpenLayers.Feature.Vector.Stylemap} [stylemap=deafult style] Stylemap used when drawing features in the layer. Uses default style if not specified
+     * @param {string} [epsg='EPSG:3006'] Coordinate system reference according to EPSG-standard, defaults to 'EPSG:3006' (Sweref 99 TM) 
+     * @return {OpenLayers.Layer} Returns the layer added. null if layer cant be created
+     * @event popupfeatureselected fires when a feature is selected
+     * @event popupfeatureunselected fires when a previously selected feature gets unselected
+     */
+    addPopupLayer: function(geojson, layername, idAttribute, popupTextAttribute, popupTextPrefix, popupTextSuffix, popupTitleAttribute, stylemap, epsg) {
+        if (!geojson) {
+        	return null;
+        }
+        if (!layername) {
+        	// set default layer name 
+        	layername = "VectorLayer";
+        } 
+        if (!idAttribute) {
+        	idAttribute = 'id';
+        }
+        
+        if (!popupTextAttribute) {
+        	popupTextAttribute = 'popupText';
+        }
+
+		if (!popupTextPrefix) {
+			popupTextPrefix ='';
+		}
+		if (!popupTextSuffix) {
+			popupTextSuffix = '';
+		}
+		if (!popupTitleAttribute) {
+			popupTitleAttribute =null;
+		}
+		if (!epsg) {
+			epsg = 'EPSG:3006';
+		} 
+		
+        var format = new OpenLayers.Format.GeoJSON();
+
+/*      TODO - fix projection settings 
+ 		var fromProjection = epsg;
+        var toProjection = this.map.projection;
+        format.internalProjection = new OpenLayers.Projection(toProjection);
+        format.externalProjection = new OpenLayers.Projection(fromProjection);
+*/
+        var features = format.read(geojson, "FeatureCollection");
+	    if (!features) {
+	    	return null;
+	    }
+ 
+        // allow testing of specific renderers via "?renderer=Canvas", etc
+        var renderer = OpenLayers.Util.getParameters(window.location.href).renderer;
+        renderer = (renderer) ? [renderer] : OpenLayers.Layer.Vector.prototype.renderers;
+		
+	    // creating a vector layer with specific options that apply to popup layers
+	    var popupLayer = new OpenLayers.Layer.Vector(layername, {renderers: renderer, idAttribute: idAttribute, popupTextAttribute: popupTextAttribute, popupTextPrefix: popupTextPrefix, popupTextSuffix: popupTextSuffix, popupTitleAttribute: popupTitleAttribute} );
+        if (stylemap) {
+			popupLayer.styleMap = stylemap;
+        } 
+	  	this.map.addLayer(popupLayer);
+ 
+		//var options = ?;
+		popupLayer.addFeatures(features);
+ 		features.forEach(function(feature) {
+ 			feature.renderIntent='default';
+ 			popupLayer.drawFeature(feature);
+		});
+        
+		popupLayer.popup = [];
+	    return popupLayer;
+    },
+    /**
+     * Helper method to remove a popup layer
+     * @param {OpenLayers.Layer.Vector} [layer] Layer to remove
+     * @return {boolean} Whether the removal was successfull or not
+     */
+    removePopupLayer: function(layer) {
+		// remove any popup windows too
+		if (layer.popup) { 
+			// Remove any popup window
+			layer.popup.forEach(function(p) {
+				p.destroy();
+				p = null;
+			});
+			layer.popup = [];
+    	}
+    	// Remove the layer
+		mapClient.map.removeLayer(layer);
+	    return true;
+    },
+    /**
+     * Show popup for a feature
+     * @private 
+     * @param {OpenLayers.Layer.Vector} [popupLayer] layer to search for features
+     * @param {OpenLayers.Feature} [feature] feature to show popup on
+     * @event popupfeatureselected fires event if a feature is found
+     */
+	showPopupFeaturePopup: function(popupLayer, feature) {
+    	// Destroy previously created popup
+    	if (popupLayer.popup) { 
+			// Remove any popup window
+			popupLayer.popup.forEach(function(item) {item.destroy();});
+    	}
+
+    	// get text to populate popup 
+    	var popupText = popupLayer.popupTextPrefix+feature.attributes[popupLayer.popupTextAttribute]+popupLayer.popupTextSuffix;
+    	var popupTitle = '';
+    	if (popupLayer.popupTitleAttribute) {
+    		popupTitle = feature.attributes[popupLayer.popupTitleAttribute];
+    	}
+
+    	// Create popup 
+    	var popup = new OpenEMap.view.PopupResults({mapPanel : this.gui.mapPanel, location: feature, popupText: popupText, feature: feature, title: popupTitle});
+
+		// Show popup
+        popup.show();
+		
+		// Adds popup to array of popups in map  
+        popupLayer.popup.push(popup);
+	},
+    /**
+     * Search for a feature inside a popup layer and show a popup if it matches. 
+     * @private 
+     * @param {OpenLayers.Layer.Vector} [popupLayer] Layer to search for features
+     * @param {number} [featureId] Feature-id to search for 
+     * @return Returns false if no match is found or if there are more then one hit
+     */
+    showPopupFeature: function(popupLayer, featureId) {
+    	if (!popupLayer) {
+    		return false;
+    	}
+   	
+    	var features = popupLayer.getFeaturesByAttribute(popupLayer.idAttribute, featureId);
+    	// Check if there are any features matching id
+    	if (features) {
+    		// Check if there are more then one feature matching id
+    		if (features.length == 1) {
+	    		// Shows the first feature matching the id
+	    		this.showPopupFeaturePopup(popupLayer, features[0]);
+
+	    		// Remove highlight feature
+                var parser = Ext.create('OpenEMap.config.Parser');
+                var popupLayers = parser.extractPopupLayers(popupLayer.map.layers);
+				popupLayers.forEach(function(popupLayer) {
+		    		popupLayer.features.forEach(function(feature) {
+		    			if (feature.renderIntent == 'select') {
+				    		feature.renderIntent = 'default';
+				    		feature.layer.drawFeature(feature);
+					    	// Fire action "popupfeatureunselected" on the feature including layer and featureid
+					    	map.events.triggerEvent("popupfeatureunselected",{layer: popupLayer, featureid: features[0].attributes[popupLayer.idAttribute]});
+				    	}
+		    		});
+				});
+				
+	    		// Highlight feature
+	    		features[0].renderIntent = 'select';
+	    		features[0].layer.drawFeature(features[0]);
+
+		    	// Fire action "popupfeatureselected" on the feature including layer and featureid
+		    	map.events.triggerEvent("popupfeatureselected",{layer: popupLayer, featureid: features[0].attributes[popupLayer.idAttribute]});
+	    		return true;
+    		} else {
+    			return false;
+    		}    		
+    	} else {
+    		return false;
+    	}
+    },
+    /**
+     * Helper method to destroy all popup layers 
+     */
+    destroyPopupLayers: function() {
+        var parser = Ext.create('OpenEMap.config.Parser');
+    	var popupLayers = parser.extractPopupLayers(this.map.layers);
+		if (popupLayers) {
+			// Remove popup layers
+			popupLayers.forEach(function(layer) {
+				this.mapClient.removePopupLayer(layer);
+			});
+		}
+	    return true;
+    },
+    /**
+     * Clean up rendered elements
+     */
+    destroy: function() {
+        if (this.map) {
+        	if (this.map.controls) {
+	            this.map.controls.forEach(function(control) { control.destroy(); });
+	            this.map.controls = null;
+            }
+	        if (this.map.layers) {
+				// Remove popup layers
+				this.mapClient.destroyPopupLayers();
+	        }
+        }
+        if (this.gui) this.gui.destroy();
     }
 });
 

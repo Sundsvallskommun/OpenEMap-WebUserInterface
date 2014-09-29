@@ -159,6 +159,19 @@ Ext.define('OpenEMap.view.Map' ,{
         
         this.selectControl = new OpenLayers.Control.SelectFeature(this.drawLayer);
         this.map.addControl(this.selectControl);
+
+        // Show coordinates in lower right corner of map
+/*        this.map.addControl(
+            new OpenLayers.Control.MousePosition({
+                prefix: '',
+                separator: ' | ',
+                numDigits: 2,
+                emptyString: 'Mouse is not over map.'
+            })
+        );
+*/
+        // Define container for popup windows - initialize when first popupLayer is created. 
+        this.map.popup = [];
     },
     unselectAll: function() {
         this.drawLayer.selectedFeatures.forEach(function(feature) {

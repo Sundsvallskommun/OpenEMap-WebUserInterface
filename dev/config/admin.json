@@ -1,0 +1,41 @@
+{
+    "name": "Eldstad",
+    "maxExtent": [
+        487000,
+        6887000,
+        749144,
+        7149144
+    ],
+    "autoClearDrawLayer": true,
+    "extent": [
+        608114,
+        6910996,
+        641846,
+        6932596
+    ],
+    "layers": [
+        {
+            "name": "Topo",
+            "url": "http://extmap.sundsvall.se/geoserver/gwc/service/wms",
+            "params": {
+                "layers": "Lantmateriet:topowebbkartan_nedtonad",
+                "format": "image/png"
+            },
+            "options": {
+            	"isBaseLayer": true,
+            	"displayInLayerSwitcher": false
+            }
+        
+        }
+    ],
+    "tools": [ {
+            "type": "DrawObject",
+            "objectConfig": {
+                "type": "R"
+            },
+            "tooltip": "Draw extent"
+        }, {
+        	"type": "ModifyGeometry"
+        }
+    ]
+}

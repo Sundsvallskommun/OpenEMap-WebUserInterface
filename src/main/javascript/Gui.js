@@ -148,24 +148,27 @@ Ext.define('OpenEMap.Gui', {
 
                 if (type == 'ZoomSelector') {
                     return Ext.create('OpenEMap.form.ZoomSelector', {map: this.map});
+                } else if (type == 'DrawObject') {
+                     config.objectConfigView = this.objectConfig;
+                } else if (type == 'Identify') {
+                    config.basePath = basePath;
+                    config.layers = layers;
+                } else if (type == 'Popup') {
+                    config.layers = layers;
+					if ((config.showOnlyFirstHit === undefined) || (config.showOnlyFirstHit === null)) {
+						config.showOnlyFirstHit = true;
+	                }
+				}
+				
+                var action = Ext.create('OpenEMap.action.' + type, config);
+                if (config.activate && action.control) {
+                    this.controlToActivate = action.control;
                 }
-                else {
-                    if (type == 'DrawObject') {
-                        config.objectConfigView = this.objectConfig;
-                    } else if (type == 'Identify') {
-                        config.basePath = basePath;
-                        config.layers = layers;
-                    }
-                    var action = Ext.create('OpenEMap.action.' + type, config);
-                    if (config.activate && action.control) {
-                        this.controlToActivate = action.control;
-                    }
-                    var button = Ext.create('Ext.button.Button', action);
-                    button.on('toggle', this.onToggle, this);
-                    return button;
-                }
+                var button = Ext.create('Ext.button.Button', action);
+                button.on('toggle', this.onToggle, this);
+                return button;
             }
-        };
+        }
         
         if (!this.config.tools) {
             this.config.tools = [];
@@ -178,15 +181,17 @@ Ext.define('OpenEMap.Gui', {
         var width = 6; // padding
         tbar.forEach(function(item) {
             if (item){
-                if (item.constructor == String) {
-                    width += 1; // separator
-                } else if (item.width) {
-                    width += item.width;
-                } else {
-                    width += 24; // button
+                if (!item.hideFromToolbar) {
+	                if (item.constructor == String) {
+	                    width += 1; // separator
+	                } else if (item.width) {
+	                    width += item.width;
+	                } else {
+	                    width += 24; // button
+	                }
+	                // add spacing to next control
+	                width += 8;
                 }
-                // add spacing to next control
-                width += 8;
             }
         });
         width += 3; // padding

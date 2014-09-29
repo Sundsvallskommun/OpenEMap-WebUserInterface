@@ -121,9 +121,32 @@ Ext.define('OpenEMap.config.Parser', {
 
         return layers;
     },
+    /**
+     * Extracts WFS-layers
+     */
     extractWFS: function(layers) {
         layers = this.extractLayers(layers);
         layers = layers.filter(function(layer){ return layer.wfs; });
+        return layers;
+    },
+    extractVector: function(layers) {
+        layers = this.extractLayers(layers);
+        layers = layers.filter(function(layer){ return layer.vector; });
+        return layers;
+    },
+    /**
+     * Process layers config to return a flat array with popupLayer definitions
+     */
+    extractPopupLayers: function(layers) {
+        layers = this.extractLayers(layers);
+        layers = layers.filter(function(layer) {
+        	if (layer.idAttribute && layer.popupTextAttribute) {
+        		return true;
+        	} else {
+        		return false;
+        	} 
+    	});
+    	layers = layers.filter(function(layer){return layer.visibility;});
         return layers;
     },
     getOptions: function(layer) {

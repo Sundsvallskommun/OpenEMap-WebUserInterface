@@ -1,0 +1,20 @@
+{
+    name: "OSM",
+    autoClearDrawLayer: true,
+    //projection: 'EPSG:3857',
+    layers: [
+        {name: 'OSM', osm: {options: {isBaseLayer: true}}},
+        //{name: 'Google', google: {options: {isBaseLayer: true}}}
+        {name: 'Bing', bing: {options: { key: '...', type: 'Road', isBaseLayer: true}}}
+    ],
+    tools: [
+        {
+            type: 'DrawGeometry',
+            geometry: 'Polygon'
+        },
+        {
+            type: 'ModifyGeometry',
+            reshape: true
+        }
+    ]
+}

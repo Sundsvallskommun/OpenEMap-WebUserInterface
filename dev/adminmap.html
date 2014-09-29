@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<meta http-equiv="X-UA-Compatible" content="IE=9">
+<head>
+<link rel="stylesheet"
+	href="ext-4.2.1/resources/css/ext-all-neptune.css" type="text/css"></link>
+	<link rel="Stylesheet" href="http://riges.swecosundsvall.se/map-client/resources/map-client.css"/>
+<script type="text/javascript" src="ext-4.2.1/ext-all.js"></script>
+<script type="text/javascript" src="/OpenLayers-2.13.1/OpenLayers.js"></script>
+<script type="text/javascript" src="geoext2.js"></script>
+<script type="text/javascript" src="map-client-debug-all.js"></script>
+<script type="text/javascript">
+	Ext.onReady(function() {
+
+				mapClient = new MapClient();
+				
+				function init(name) {
+					Ext.Ajax.request({
+						url : name,
+						success : function(response) {
+							var config = Ext.decode(response.responseText);
+							var gui = {
+								map : {renderTo : 'map'},
+								toolbar : {},
+								zoomTools : {}
+							};
+
+							mapClient.destroy();
+
+							mapClient.configure(config, {
+								gui : gui
+							});
+						}
+					});
+				}
+				init('admin.json');
+			});
+</script>
+</head>
+<body>
+	<div id="map" style="width: 600px; height: 400px;"></div>
+</body>
+</html>
