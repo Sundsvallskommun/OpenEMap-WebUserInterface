@@ -14,6 +14,10 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+/**
+ * @class OpenEMap.view.layer.TreeFilter
+ */
+
 Ext.define('OpenEMap.view.layer.TreeFilter', {
     extend: 'Ext.AbstractPlugin', 
     alias: 'plugin.treefilter', 

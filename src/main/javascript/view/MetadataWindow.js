@@ -195,7 +195,7 @@ Ext.define('OpenEMap.view.MetadataWindow' ,{
 
     /**
     * Parse text element for specific node
-    * @param {object}   node    xml-node
+    * @param {Object} [node] xml-node
     */
     parseMetadataTextTag: function (node) {
         var text = null;
@@ -217,8 +217,8 @@ Ext.define('OpenEMap.view.MetadataWindow' ,{
 
     /**
     * Get groups for specific metadata node key. If no matching group place it in rest.
-    * @param {string}   str         string to group
-    * @param {object}   group_by    object to group by
+    * @param {string} [str] string to group
+    * @param {Object} [group_by] object to group by
     **/
     getGroups: function(str, group_by) {
         var groups = [];
@@ -237,10 +237,10 @@ Ext.define('OpenEMap.view.MetadataWindow' ,{
 
     /**
     * Iterates over metadata json to convert to renderable html
-    * @param {object}   node            xml-node
-    * @param {object}   result          resulting object
-    * @param {object}   group_by        object to group by
-    * @param {string}   parent_node_tag parent tag name
+    * @param {Object} [node] xml-node
+    * @param {Object} [result] resulting object
+    * @param {Object} [group_by] object to group by
+    * @param {string} [parent_node_tag] parent tag name
     */
     metadataIterator: function(node, result, group_by, parent_node_tag) {
         // Node tag
@@ -276,8 +276,8 @@ Ext.define('OpenEMap.view.MetadataWindow' ,{
 
     /**
     * Parse metadata-json-response into html
-    * @param  {object}   json    json response object
-    * @return {object}   result  grouped result object  
+    * @param  {Object} [json] json response object
+    * @return {Object} [result] grouped result object  
     */
     parseMetadata: function(json) {
         var result = {};

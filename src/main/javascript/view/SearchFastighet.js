@@ -15,6 +15,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 /**
+ * @param {Object} [config] config object to set properties on cretaion
  * @param {number} config.zoom Set to a zoom level to override default zooming behaviour and always zoom to the desired level
  */
 Ext.define('OpenEMap.view.SearchFastighet', {

@@ -243,8 +243,6 @@ Ext.define('OpenEMap.Client', {
      * @param {OpenLayers.Feature.Vector.Stylemap} [stylemap=deafult style] Stylemap used when drawing features in the layer. Uses default style if not specified
      * @param {string} [epsg='EPSG:3006'] Coordinate system reference according to EPSG-standard, defaults to 'EPSG:3006' (Sweref 99 TM) 
      * @return {OpenLayers.Layer} Returns the layer added. null if layer cant be created
-     * @event popupfeatureselected fires when a feature is selected
-     * @event popupfeatureunselected fires when a previously selected feature gets unselected
      */
     addPopupLayer: function(geojson, layername, idAttribute, popupTextAttribute, popupTextPrefix, popupTextSuffix, popupTitleAttribute, stylemap, epsg) {
         if (!geojson) {
@@ -333,7 +331,6 @@ Ext.define('OpenEMap.Client', {
      * @private 
      * @param {OpenLayers.Layer.Vector} [popupLayer] layer to search for features
      * @param {OpenLayers.Feature} [feature] feature to show popup on
-     * @event popupfeatureselected fires event if a feature is found
      */
 	showPopupFeaturePopup: function(popupLayer, feature) {
     	// Destroy previously created popup
@@ -360,7 +357,6 @@ Ext.define('OpenEMap.Client', {
 	},
     /**
      * Search for a feature inside a popup layer and show a popup if it matches. 
-     * @private 
      * @param {OpenLayers.Layer.Vector} [popupLayer] Layer to search for features
      * @param {number} [featureId] Feature-id to search for 
      * @return Returns false if no match is found or if there are more then one hit
@@ -462,9 +458,7 @@ Ext.apply(OpenEMap, {
     basePathImages: 'resources/images/',
 
     /**
-     * WS paths to be used for AJAX requests
-     * 
-     * @property {object}
+     * @property {Object} [wsUrls] WS paths to be used for AJAX requests
      */
     wsUrls: {
         basePath:   '/openemapadmin/',
@@ -488,3 +482,15 @@ Ext.apply(OpenEMap, {
 
 
 OpenLayers.Layer.Vector.prototype.renderers = ["Canvas", "SVG", "VML"];
+	/**
+	 * @event popupfeatureselected 
+	 * fires when a feature in a popup layer is selected
+	 * @param {OpenLayers.layer} layer popup layer
+	 * @param {number} featureid id of selected feature 
+	 */
+	/**
+	 * @event popupfeatureunselected 
+	 * fires when a previously selected feature in a popup layer gets unselected
+	 * @param {OpenLayers.layer} layer popup layer
+	 * @param {number} featureid id of unselected feature 
+	 */

@@ -17,10 +17,10 @@
 /**
  * Identify action
  * 
- * @param [Object} config
- * @param {string} config.feature 
- * @param {string} config.mapPanel
- * @param {string} config.items 
+ * @param {Object} [config] config object to set properties on cretaion
+ * @param {string} [config.feature] not used?
+ * @param {string} [config.mapPanel] mapPanel to add popup window on
+ * @param {string} [config.items] items to show in result window
  * @param {string} [config.useRegisterenhet=true] wheter or not to use identify on registerenhet 
  * @param {string} [config.tolerance=3] tolerance to use when identifying in map. Radius in image pixels. 
  */

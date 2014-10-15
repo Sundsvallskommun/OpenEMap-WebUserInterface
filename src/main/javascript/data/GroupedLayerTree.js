@@ -53,7 +53,7 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
     
     /**
     * Returns all layers as OpenEMap layer configuration tree.
-    * @return {object} layerConfig  OpenEMap layer configuration
+    * @return {Object} layerConfig  OpenEMap layer configuration
     */
     getLayerConfiguration: function() {
         var layerConfig = [];
