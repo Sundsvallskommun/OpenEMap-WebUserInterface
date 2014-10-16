@@ -2,6 +2,8 @@
  * Published under MIT license. */
 
 /**
+ * @class OpenEMap.OpenLayers.Control.DynamicMeasure
+ *
  * @requires OpenLayers/Control/Measure.js
  * @requires OpenLayers/Rule.js
  * @requires OpenLayers/StyleMap.js

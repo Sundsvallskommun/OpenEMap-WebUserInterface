@@ -16,9 +16,9 @@
 */
 /**
  * Base class for adding common functionality upon GeoExt.Action
- * 
- * @param {string} config.minScale disable tool below this scale
- * @param {string} config.maxScale disable tool above this scale
+ * @param {Object} [config] configuration object setting common action properties on cretaion of an action
+ * @param {string} [config.minScale] disable tool below this scale
+ * @param {string} [config.maxScale] disable tool above this scale
  */
 Ext.define('OpenEMap.action.Action', {
     extend: 'GeoExt.Action',

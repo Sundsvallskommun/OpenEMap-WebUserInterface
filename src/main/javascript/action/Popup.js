@@ -14,21 +14,18 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-/**
- * @author Anders Erlandsson, Sundsvalls kommun 
- */
-
 /** 
- * Popup action
- * @abstract This action is triggered when a feature of an vectorPopup layer is clicked in the map.
+ * @class OpenEMap.action.Popup
+ * @author Anders Erlandsson, Sundsvalls kommun 
+ * This action is triggered when a feature of an vectorPopup layer is clicked in the map.
  * A vectorPopup layer must contain an property named popupTextAttribute. Each feature shall have
- * an attribute whit that name that holds the information that should be shown in the popup. 
+ * an attribute whit that name that holds the information that should be shown in the popup.
+ * A vectorPopup layer must also contain an property named idAttribute. Each feature shall have
+ * an attribute whit that name that holds a unique id.
  * The layer may also contain popupAttributePrefix and popupAttributeSuffix that will be presented
  * as constant text before and after the popupTextAttribute
  * @param {Object} [config] Configuration of the popup behaviour   
  * @param {Number} [config.tolerance=3] Tolerance to use when identifying in map. Radius in image pixels.
- * @event popupfeatureselected Fires event if a feature is found
- * @event popupfeatureunselected Fires when a previously selected feature gets unselected
  */
 Ext.define('OpenEMap.action.Popup', {
     extend: 'OpenEMap.action.Action',
@@ -109,6 +106,10 @@ Ext.define('OpenEMap.action.Popup', {
 						    	var popupTitle = '';
 						    	if (popupLayer.popupTitleAttribute) {
 						    		popupTitle = feature.attributes[popupLayer.popupTitleAttribute];
+						    	}
+						    	
+						    	if (feature.geometry.getVertices().length == 1) {
+						    		clkFeature = feature.clone();
 						    	}
 						    	// Create popup 
 						    	var popup = new OpenEMap.view.PopupResults({mapPanel : mapPanel, location: clkFeature, popupText: popupText, feature: feature, title: popupTitle});

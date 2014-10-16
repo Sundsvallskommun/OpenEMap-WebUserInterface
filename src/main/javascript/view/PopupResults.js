@@ -14,11 +14,9 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-/**
- * @author Anders Erlandsson, Sundsvalls kommun 
- */
 /** 
- * PopupResults
+ * @class OpenEMap.view.PopupResults
+ * @author Anders Erlandsson, Sundsvalls kommun 
  * 
  * Holds the definition for popup window that shows when a feature in a popup layer is
  * selected
@@ -42,30 +40,29 @@ Ext.define('OpenEMap.view.PopupResults', {
 	 * @param {String} [config.popupText] Text to show in the body of the popup. Can be formatted as HTML. Must be URLEncoded
 	 * @param {OpenEMap.view.Map} [config.mapPanel] 
 	 * @param {OpenLayers.Feature.Vector} [feature] Feature that this popup is connected to
-	 * @event popupfeatureselected Fires event if a feature is found
-	 * @event popupfeatureunselected Fires when a previously selected feature gets unselected
 	 */
    constructor: function(config) {
         if (this.popup) {
             this.popup.destroy();
         }
 	    this.popup = Ext.create('GeoExt.window.Popup', {
-			title: config.title,
-			icon: config.icon,
-		    location: config.location,
-		    html: config.popupText,
-		    collapsible: true,
+            ancCls: 'gx-popup-anc',
             anchored: true,
-            ancCls: 'popup-result-anchor',
-            unpinnable: false,
-            draggable: true,
+            anchorPosition: 'bottom-left',
+            animCollapse: true,
+            collapsible: false,
+            draggable: false,
+			feature: config.feature,
+		    html: config.popupText,
+			icon: config.icon,
+            layout: 'fit',
+		    location: config.location,
             map: config.mapPanel,
             maximizable : false,
             minimizable : false,
-            resizable: true,
-            layout: 'fit',
-            collapsible: false,
-			feature: config.feature,
+            resizable: false,
+			title: config.title,
+            unpinnable: false,
             listeners : {
                 beforeclose : function(){
 			        if (this) {

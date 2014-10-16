@@ -15,7 +15,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 /**
- * @param {number} config.zoom Set to a zoom level to override the default
+ * @param {Object} [config] config object to set properties on cretaion
+ * @param {number} [config.zoom] Set to a zoom level to override the default
  */
 Ext.define('OpenEMap.view.SearchCoordinate', {
     extend : 'Ext.container.Container',

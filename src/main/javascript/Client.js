@@ -242,13 +242,12 @@ Ext.define('OpenEMap.Client', {
      * @param {string} [popupTitleAttribute=null] Title for the popup
      * @param {OpenLayers.Feature.Vector.Stylemap} [stylemap=deafult style] Stylemap used when drawing features in the layer. Uses default style if not specified
      * @param {string} [epsg='EPSG:3006'] Coordinate system reference according to EPSG-standard, defaults to 'EPSG:3006' (Sweref 99 TM) 
+     * @param {Boolean} [zoomToBounds=true] Flags whether map should be zoomed to extent of features when the layer is added, defaults to true
      * @return {OpenLayers.Layer} Returns the layer added. null if layer cant be created
-     * @event popupfeatureselected fires when a feature is selected
-     * @event popupfeatureunselected fires when a previously selected feature gets unselected
      */
-    addPopupLayer: function(geojson, layername, idAttribute, popupTextAttribute, popupTextPrefix, popupTextSuffix, popupTitleAttribute, stylemap, epsg) {
+    addPopupLayer: function(geojson, layername, idAttribute, popupTextAttribute, popupTextPrefix, popupTextSuffix, popupTitleAttribute, stylemap, epsg, zoomToBounds) {
         if (!geojson) {
-        	return null;
+			Ext.Error.raise('GeoJSON-string is null.');
         }
         if (!layername) {
         	// set default layer name 
@@ -274,45 +273,68 @@ Ext.define('OpenEMap.Client', {
 		if (!epsg) {
 			epsg = 'EPSG:3006';
 		} 
-		
+		if (!Proj4js.defs[epsg])
+		{
+			Ext.Error.raise('Unknown coordinate system: ' + epsg + '\nAdd coordinate system to array \'Proj4js.def\'.');
+		}
+		if (zoomToBounds == null) {
+			zoomToBounds = true;
+		} 
+
         var format = new OpenLayers.Format.GeoJSON();
 
-/*      TODO - fix projection settings 
+		//  Projection settings 
  		var fromProjection = epsg;
         var toProjection = this.map.projection;
         format.internalProjection = new OpenLayers.Projection(toProjection);
         format.externalProjection = new OpenLayers.Projection(fromProjection);
-*/
+
         var features = format.read(geojson, "FeatureCollection");
 	    if (!features) {
-	    	return null;
+			Ext.Error.raise('Can not read features from GeoJSON due to malformed syntax.' );
 	    }
- 
+ 		
         // allow testing of specific renderers via "?renderer=Canvas", etc
         var renderer = OpenLayers.Util.getParameters(window.location.href).renderer;
         renderer = (renderer) ? [renderer] : OpenLayers.Layer.Vector.prototype.renderers;
 		
 	    // creating a vector layer with specific options that apply to popup layers
 	    var popupLayer = new OpenLayers.Layer.Vector(layername, {renderers: renderer, idAttribute: idAttribute, popupTextAttribute: popupTextAttribute, popupTextPrefix: popupTextPrefix, popupTextSuffix: popupTextSuffix, popupTitleAttribute: popupTitleAttribute} );
+	    if (!popupLayer){
+			Ext.Error.raise('Can not create popup layer: ' + layername);
+	    }
+
+		// Creates stylemap to use when drawing features of popup layer
         if (stylemap) {
 			popupLayer.styleMap = stylemap;
-        } 
+        }
+        
+        // Add layer to map 
 	  	this.map.addLayer(popupLayer);
  
-		//var options = ?;
+		// Add features to layer
 		popupLayer.addFeatures(features);
+		
+		// Set feature render intent an draws them
+		var featureBounds = new OpenLayers.Bounds();
  		features.forEach(function(feature) {
  			feature.renderIntent='default';
+ 			featureBounds.extend(feature.geometry.getBounds());
  			popupLayer.drawFeature(feature);
 		});
-        
+		
 		popupLayer.popup = [];
+		
+		// Zoom to bounds of all features
+		if (zoomToBounds) {
+			popupLayer.map.zoomToExtent(featureBounds);
+		}
+
 	    return popupLayer;
     },
     /**
      * Helper method to remove a popup layer
      * @param {OpenLayers.Layer.Vector} [layer] Layer to remove
-     * @return {boolean} Whether the removal was successfull or not
      */
     removePopupLayer: function(layer) {
 		// remove any popup windows too
@@ -326,14 +348,12 @@ Ext.define('OpenEMap.Client', {
     	}
     	// Remove the layer
 		mapClient.map.removeLayer(layer);
-	    return true;
     },
     /**
      * Show popup for a feature
      * @private 
      * @param {OpenLayers.Layer.Vector} [popupLayer] layer to search for features
      * @param {OpenLayers.Feature} [feature] feature to show popup on
-     * @event popupfeatureselected fires event if a feature is found
      */
 	showPopupFeaturePopup: function(popupLayer, feature) {
     	// Destroy previously created popup
@@ -360,14 +380,15 @@ Ext.define('OpenEMap.Client', {
 	},
     /**
      * Search for a feature inside a popup layer and show a popup if it matches. 
-     * @private 
      * @param {OpenLayers.Layer.Vector} [popupLayer] Layer to search for features
      * @param {number} [featureId] Feature-id to search for 
-     * @return Returns false if no match is found or if there are more then one hit
      */
     showPopupFeature: function(popupLayer, featureId) {
     	if (!popupLayer) {
-    		return false;
+			Ext.Error.raise('Popup layer undefined.');
+    	}
+    	if (!featureId) {
+			Ext.Error.raise('Feature id undefined.');
     	}
    	
     	var features = popupLayer.getFeaturesByAttribute(popupLayer.idAttribute, featureId);
@@ -398,12 +419,11 @@ Ext.define('OpenEMap.Client', {
 
 		    	// Fire action "popupfeatureselected" on the feature including layer and featureid
 		    	map.events.triggerEvent("popupfeatureselected",{layer: popupLayer, featureid: features[0].attributes[popupLayer.idAttribute]});
-	    		return true;
     		} else {
-    			return false;
+				Ext.Error.raise('More then one feature with specified id: ' + featureId);
     		}    		
     	} else {
-    		return false;
+			Ext.Error.raise('No feature with specified id: ' + featureId);
     	}
     },
     /**
@@ -418,7 +438,6 @@ Ext.define('OpenEMap.Client', {
 				this.mapClient.removePopupLayer(layer);
 			});
 		}
-	    return true;
     },
     /**
      * Clean up rendered elements
@@ -462,9 +481,7 @@ Ext.apply(OpenEMap, {
     basePathImages: 'resources/images/',
 
     /**
-     * WS paths to be used for AJAX requests
-     * 
-     * @property {object}
+     * @property {Object} [wsUrls] WS paths to be used for AJAX requests
      */
     wsUrls: {
         basePath:   '/openemapadmin/',
@@ -488,3 +505,15 @@ Ext.apply(OpenEMap, {
 
 
 OpenLayers.Layer.Vector.prototype.renderers = ["Canvas", "SVG", "VML"];
+	/**
+	 * @event popupfeatureselected 
+	 * fires when a feature in a popup layer is selected
+	 * @param {OpenLayers.layer} layer popup layer
+	 * @param {number} featureid id of selected feature 
+	 */
+	/**
+	 * @event popupfeatureunselected 
+	 * fires when a previously selected feature in a popup layer gets unselected
+	 * @param {OpenLayers.layer} layer popup layer
+	 * @param {number} featureid id of unselected feature 
+	 */

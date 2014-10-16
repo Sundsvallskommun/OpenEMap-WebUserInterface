@@ -21,30 +21,30 @@ Ext.ns('OpenEMap');
 Proj4js.defs["EPSG:3014"] = "+proj=tmerc +lat_0=0 +lon_0=17.25 +k=1 +x_0=150000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs";
 */
 Ext.apply(OpenEMap, {
+    /**
+     * @property {string} 
+     * Default user for calls to LM:s webservices
+     */
     lmUser: 'sundsvall',
     /**
+     * @property {string} 
      * Base path to be used for mapfish print servlet requests
-     * 
-     * @property {string}
      */
     basePathMapFish: '/print/pdf',
     /**
+     * @property {string} 
      * Base path to be used for all AJAX requests against search-lm REST API
-     * 
-     * @property {string}
      */
     basePathLM: '/search/lm/',
     /**
+     * @property {string} 
      * Base path to be used for all image resources
-     * 
-     * @property {string}
      */
     basePathImages: 'resources/images/',
 
     /**
+     * @property {Object} 
      * WS paths to be used for AJAX requests
-     * 
-     * @property {object}
      */
     wsUrls: {
         basePath:   '/openemapadmin/',
