@@ -107,6 +107,10 @@ Ext.define('OpenEMap.action.Popup', {
 						    	if (popupLayer.popupTitleAttribute) {
 						    		popupTitle = feature.attributes[popupLayer.popupTitleAttribute];
 						    	}
+						    	
+						    	if (feature.geometry.getVertices().length == 1) {
+						    		clkFeature = feature.clone();
+						    	}
 						    	// Create popup 
 						    	var popup = new OpenEMap.view.PopupResults({mapPanel : mapPanel, location: clkFeature, popupText: popupText, feature: feature, title: popupTitle});
 						
