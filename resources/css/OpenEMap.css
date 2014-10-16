@@ -163,3 +163,13 @@ ul, li {
 	bottom:0px;
 	right:0px;
 }
+
+.gx-popup {
+    overflow: visible;
+}
+.gx-popup-anc {
+    background: transparent url(../images/anchor.png) no-repeat 0 0;
+    height: 16px;
+    width: 31px;
+    position: absolute;
+}
