@@ -105,6 +105,7 @@ Ext.define('OpenEMap.Client', {
      * @param {Object} options.gui.objectConfig A generic form to configure feature attributes similar to a PropertyList
      * @param {Object} options.gui.zoomTools Zoom slider and buttons intended to be used as a floating control
      * @param {Object} options.gui.searchFastighet Search "fastighet" control
+     * @param {Object} options.gui.showCoordinate Simple control to show map coordinates 
      * 
      * For more information about the possible config properties for Ext JS components see Ext.container.Container.
      */

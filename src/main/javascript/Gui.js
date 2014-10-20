@@ -28,6 +28,7 @@ Ext.define('OpenEMap.Gui', {
                'OpenEMap.view.ObjectConfig',
                'OpenEMap.view.SearchCoordinate',
                'OpenEMap.view.SearchFastighet',
+               'OpenEMap.view.ShowCoordinate',
                'OpenEMap.view.ZoomTools',
                'GeoExt.container.WmsLegend',
                'GeoExt.container.UrlLegend',
@@ -51,7 +52,8 @@ Ext.define('OpenEMap.Gui', {
                 "layers": {},
                 "searchFastighet": {},
                 "objectConfig": {},
-                "searchCoordinate": false
+                "searchCoordinate": false,
+                "showCoordinate": false
             };
         }
         
@@ -103,6 +105,7 @@ Ext.define('OpenEMap.Gui', {
         if (this.mapLayers) this.mapLayers.destroy();
         if (this.searchFastighet) this.searchFastighet.destroy();
         if (this.searchCoordinate) this.searchCoordinate.destroy();
+        if (this.showCoordinate) this.showCoordinate.destroy();
         if (this.toolbar) this.toolbar.destroy();
         if (this.leftPanel) this.leftPanel.destroy();
         if (this.rightPanel) this.rightPanel.destroy();
@@ -316,6 +319,24 @@ Ext.define('OpenEMap.Gui', {
                 items: this.objectConfig
             }, this.gui.objectConfig));
             this.objectConfigWindow.show();
+        }
+
+        // Create Show Coordinate control
+        if (this.gui.showCoordinate && this.gui.showCoordinate.renderTo) {
+            this.showCoordinate = Ext.create('OpenEMap.view.ShowCoordinate', Ext.apply({
+                mapPanel : this.mapPanel,
+                cls: 'show-coordinate',
+			    setCoord: function(e) {
+			    	var lonlat = this.getLonLatFromPixel(e.xy);
+			    	var e = parent.mapClient.gui.showCoordinate.getComponent('e');
+			    	var n = parent.mapClient.gui.showCoordinate.getComponent('n');
+			    	e.setValue(Math.round(lonlat.lon));
+			    	n.setValue(Math.round(lonlat.lat));
+			    	
+			    }
+        	}, this.gui.showCoordinate));
+
+		    this.map.events.register("mousemove", this.map, this.showCoordinate.setCoord);
         }
     }
 });

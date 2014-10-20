@@ -29,19 +29,20 @@ Ext.define('OpenEMap.view.Map' ,{
             autoLoad: true,
             timeout: 60*1000,
             listeners: {
-                /*"loadcapabilities": function(printProvider, capabilities) {
-                    // NOTE: need to override to test locally...
-                    capabilities.createURL = "/print/pdf/create.json";
-                },*/
                 "encodelayer": function(printProvider, layer, encodedLayer) {
                     if (encodedLayer && encodedLayer.baseURL) {
                         encodedLayer.baseURL = encodedLayer.baseURL.replace('gwc/service/', '');
                     }
-                }/*,
+                }
+/*                "loadcapabilities": function(printProvider, capabilities) {
+                    // NOTE: need to override to test locally...
+                    capabilities.createURL = "/print/pdf/create.json";
+                }
                 "beforedownload": function(printProvider, url) {
                     console.log("beforedownload");
-                }*/
-            }
+                }
+*/
+               }
         });
         
         var printExtent = Ext.create('GeoExt.plugins.PrintExtent', {
