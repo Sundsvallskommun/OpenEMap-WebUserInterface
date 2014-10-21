@@ -31,10 +31,13 @@ Ext.define('OpenEMap.action.MeasureLine', {
     constructor: function(config) {
         
         var mapPanel = config.mapPanel;
+        if (config.accuracy == null) {
+        	config.accuracy = 2;
+        }
 
         config.control = new OpenLayers.Control.DynamicMeasure(OpenLayers.Handler.Path, {
             maxSegments : null,
-            accuracy: 2,
+            accuracy: config.accuracy,
             mapPanel: mapPanel
         });        
         

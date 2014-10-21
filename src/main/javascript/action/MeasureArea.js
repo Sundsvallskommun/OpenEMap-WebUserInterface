@@ -28,9 +28,13 @@ Ext.define('OpenEMap.action.MeasureArea', {
     constructor: function(config) {
         
         var mapPanel = config.mapPanel;
+        if (config.accuracy == null) {
+        	config.accuracy = 2;
+        }
         
         config.control = new OpenLayers.Control.DynamicMeasure(OpenLayers.Handler.Polygon, {
-            mapPanel: mapPanel
+            mapPanel: mapPanel, 
+            accuracy: config.accuracy
         });
 
         config.iconCls = config.iconCls || 'action-measurearea';

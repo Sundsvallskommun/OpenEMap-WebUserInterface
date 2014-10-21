@@ -134,9 +134,15 @@ A layer can include a WMS-specifgication and a WFS-specification. WMS are used t
             "type": "Identify", ' Identify features in map
             "useRegisterenhet": whetherOrNotToUseRegisterenhet, ' turns on identifying real estate parcels
             "tolerance": toleranceInPixels ' defaults to radius 3 pixels
-	},
-       	"MeasureLine", ' Meassure lengths
-        "MeasureArea", ' Meassure areas
+		},
+       	{ ' Meassure lengths
+       		"type": "MeasureLine", 
+       		"accuracy": "AccuracyOfMeasurements" 
+       	}, 
+       	{ ' Meassure areas
+       		"type": "MeasureArea", 
+       		"accuracy": "AccuracyOfMeasurements" 
+       	}, 
         "DeleteMeasure", ' deletes all meassures in map
         { ' Draw polygons on map
             "type": "DrawGeometry",
