@@ -137,11 +137,11 @@ A layer can include a WMS-specifgication and a WFS-specification. WMS are used t
 		},
        	{ ' Meassure lengths
        		"type": "MeasureLine", 
-       		"accuracy": "AccuracyOfMeasurements" 
+       		"accuracy": AccuracyOfMeasurements 
        	}, 
        	{ ' Meassure areas
        		"type": "MeasureArea", 
-       		"accuracy": "AccuracyOfMeasurements" 
+       		"accuracy": AccuracyOfMeasurements 
        	}, 
         "DeleteMeasure", ' deletes all meassures in map
         { ' Draw polygons on map
