@@ -397,9 +397,6 @@ Ext.define('OpenEMap.Client', {
     	if (features) {
     		// Check if there are more then one feature matching id
     		if (features.length == 1) {
-	    		// Shows the first feature matching the id
-	    		this.showPopupFeaturePopup(popupLayer, features[0]);
-
 	    		// Remove highlight feature
                 var parser = Ext.create('OpenEMap.config.Parser');
                 var popupLayers = parser.extractPopupLayers(popupLayer.map.layers);
@@ -409,17 +406,20 @@ Ext.define('OpenEMap.Client', {
 				    		feature.renderIntent = 'default';
 				    		feature.layer.drawFeature(feature);
 					    	// Fire action "popupfeatureunselected" on the feature including layer and featureid
-					    	map.events.triggerEvent("popupfeatureunselected",{layer: popupLayer, featureid: features[0].attributes[popupLayer.idAttribute]});
+					    	feature.layer.map.events.triggerEvent("popupfeatureunselected",{layer: popupLayer, featureid: feature.attributes[popupLayer.idAttribute]});
 				    	}
 		    		});
 				});
 				
+	    		// Shows the first feature matching the id
+	    		this.showPopupFeaturePopup(popupLayer, features[0]);
+
 	    		// Highlight feature
 	    		features[0].renderIntent = 'select';
 	    		features[0].layer.drawFeature(features[0]);
 
 		    	// Fire action "popupfeatureselected" on the feature including layer and featureid
-		    	map.events.triggerEvent("popupfeatureselected",{layer: popupLayer, featureid: features[0].attributes[popupLayer.idAttribute]});
+		    	features[0].layer.map.events.triggerEvent("popupfeatureselected",{layer: popupLayer, featureid: features[0].attributes[popupLayer.idAttribute]});
     		} else {
 				Ext.Error.raise('More then one feature with specified id: ' + featureId);
     		}    		
