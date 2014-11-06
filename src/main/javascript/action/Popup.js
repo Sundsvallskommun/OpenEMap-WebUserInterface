@@ -84,59 +84,58 @@ Ext.define('OpenEMap.action.Popup', {
                 var hitFound =  false;
                 var popupIdentify = function(popupLayer) {
                 	// identify features in popup layers
-			    	if (popupLayer.popup && config.showOnlyFirstHit) { 
+                	// Remove all popups for this layer
+			    	if (popupLayer.popup) { 
 						// Remove popup window
 						popupLayer.popup.forEach(function(p) {p.destroy();p = null;});
 						popupLayer.popup = [];
 			    	}
                 	var popupFeature = function(feature) {
-                		if (config.showOnlyFirstHit) {
-				    		// Remove highlight feature
+                		if (feature.geometry.intersects(bounds.toGeometry())) {
+					    	// get text to populate popup 
+                			var popupText = popupLayer.popupTextPrefix+feature.attributes[popupLayer.popupTextAttribute]+popupLayer.popupTextSuffix;
+					    	var popupTitle = '';
+					    	if (popupLayer.popupTitleAttribute) {
+					    		popupTitle = feature.attributes[popupLayer.popupTitleAttribute];
+					    	}
+					    	
+					    	if (feature.geometry.getVertices().length == 1) {
+					    		clkFeature = feature.clone();
+					    	}
+					    	// Create popup 
+					    	var popup = new OpenEMap.view.PopupResults({mapPanel : mapPanel, location: clkFeature, popupText: popupText, feature: feature, title: popupTitle});
+					
+							// Show popup
+					        popup.show();
+							
+							// TODO - move popup window from layer to feature
+							// Adds popup to array of popups in map  
+					        popupLayer.popup.push(popup);
+					        
+				    		// Highlight feature
+				    		feature.renderIntent = 'select';
+				    		feature.layer.drawFeature(feature);
+					    	
+					    	// Fire action "popupfeatureselected" on the feature including layer and featureid
+					    	map.events.triggerEvent("popupfeatureselected",{layer: popupLayer, featureid: feature.attributes[popupLayer.idAttribute]});
+		                	return true;
+				    	} else {
+				    		// Remove highlight feature if selected
 			    			if (feature.renderIntent == 'select') {
 					    		feature.renderIntent = 'default';
 					    		feature.layer.drawFeature(feature);
 						    	// Fire action "popupfeatureunselected" on the feature including layer and featureid
 						    	map.events.triggerEvent("popupfeatureunselected",{layer: popupLayer, featureid: feature.attributes[popupLayer.idAttribute]});
 					    	}
-                		}
-				    	if (!(hitFound && config.showOnlyFirstHit)) {
-	                		if (feature.geometry.intersects(bounds.toGeometry())) {
-						    	// get text to populate popup 
-	                			var popupText = popupLayer.popupTextPrefix+feature.attributes[popupLayer.popupTextAttribute]+popupLayer.popupTextSuffix;
-						    	var popupTitle = '';
-						    	if (popupLayer.popupTitleAttribute) {
-						    		popupTitle = feature.attributes[popupLayer.popupTitleAttribute];
-						    	}
-						    	
-						    	if (feature.geometry.getVertices().length == 1) {
-						    		clkFeature = feature.clone();
-						    	}
-						    	// Create popup 
-						    	var popup = new OpenEMap.view.PopupResults({mapPanel : mapPanel, location: clkFeature, popupText: popupText, feature: feature, title: popupTitle});
-						
-								// Show popup
-						        popup.show();
-								
-								// Adds popup to array of popups in map  
-						        popupLayer.popup.push(popup);
-						        
-					    		// Highlight feature
-					    		feature.renderIntent = 'select';
-					    		feature.layer.drawFeature(feature);
-						    	
-						    	// Fire action "popupfeatureselected" on the feature including layer and featureid
-						    	map.events.triggerEvent("popupfeatureselected",{layer: popupLayer, featureid: feature.attributes[popupLayer.idAttribute]});
-			                	return true;
-		                	} else  {
-		                		return false;	
-		                	}
+				    		return false;
 				    	}
                 	}
 					
 					// Loop throgh each feature in the layer
                 	var featureIndex=0;
-                	while (featureIndex < popupLayer.features.length) {
-                		hitFound = popupFeature(popupLayer.features[featureIndex]);
+                	var hitFoundInLayer = false;
+                	while ((featureIndex < popupLayer.features.length)  && (!(hitFoundInLayer && config.showOnlyFirstHit))) {
+                		hitFoundInLayer = popupFeature(popupLayer.features[featureIndex]);
                 		featureIndex++;	
                 	}
                 	return hitFound;
@@ -144,7 +143,7 @@ Ext.define('OpenEMap.action.Popup', {
                 
                 // Loop through each popupLayer
             	var layerIndex=0;
-            	while (layerIndex<popupLayers.length) {
+            	while ((layerIndex<popupLayers.length)  && (!(hitFound && config.showOnlyFirstHit))) {
             		hitFound = popupIdentify(popupLayers[layerIndex]);
             		layerIndex++;
             	}
