@@ -382,9 +382,10 @@ Ext.define('OpenEMap.Client', {
     /**
      * Search for a feature inside a popup layer and show a popup if it matches. 
      * @param {OpenLayers.Layer.Vector} [popupLayer] Layer to search for features
-     * @param {number} [featureId] Feature-id to search for 
+     * @param {number} [featureId] Feature-id to search for
+     * @param {boolean} [center] Whether to center over clicked position or not.  
      */
-    showPopupFeature: function(popupLayer, featureId) {
+    showPopupFeature: function(popupLayer, featureId, center) {
     	if (!popupLayer) {
 			Ext.Error.raise('Popup layer undefined.');
     	}
@@ -416,6 +417,10 @@ Ext.define('OpenEMap.Client', {
 
 	    		// Highlight feature
 	    		features[0].renderIntent = 'select';
+	    		if (center) {
+	    			var centerPoint = features[0].geometry.getCentroid();
+	    			features[0].layer.map.setCenter([centerPoint.x,centerPoint.y]);
+	    		}
 	    		features[0].layer.drawFeature(features[0]);
 
 		    	// Fire action "popupfeatureselected" on the feature including layer and featureid
