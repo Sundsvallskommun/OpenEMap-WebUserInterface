@@ -9,8 +9,11 @@
 	    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/libs/ext-4.2.1/ext-all.js"></script>
 	    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/libs/ext-4.2.1/ext-theme-neptune.js"></script>
 	    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/libs/ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
+	    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/libs/proj4js/proj4-compressed.js"></script>
+	    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/libs/proj4js/proj4_defs.js"></script>
 	    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/libs/geoext2-all.js"></script> 
 	    <script type="text/javascript" src="../OpenEMap-1.3.0-rc.3-all.js"></script>
+
 	    <script type="text/javascript" src="popupLayerGeojson.js"></script>
 	    <script type="text/javascript" src="popupLayerStyles.js"></script>
 	
@@ -42,11 +45,11 @@
 
 						// Listen to event for feature selected
 		               	mapClient.map.events.register('popupfeatureselected', this, function(arg) {
-		               		alert('Feature in layer ' + arg.layer.name + ' with id ' + arg.featureid + ' was selected.');
+		               		console.log('Feature in layer ' + arg.layer.name + ' with id ' + arg.featureid + ' was selected.');
 	               		});
 						// Listen to event for feature unselected
 		               	mapClient.map.events.register('popupfeatureunselected', this, function(arg) {
-		               		alert('Feature in layer ' + arg.layer.name + ' with id ' + arg.featureid + ' was unselected.');
+		               		console.log('Feature in layer ' + arg.layer.name + ' with id ' + arg.featureid + ' was unselected.');
 	               		});
 	               		// Showing brandlarm with id=1
 						mapClient.showPopupFeature(popupLayer, 1);
