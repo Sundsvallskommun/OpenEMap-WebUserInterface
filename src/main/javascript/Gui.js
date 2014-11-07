@@ -28,6 +28,7 @@ Ext.define('OpenEMap.Gui', {
                'OpenEMap.view.ObjectConfig',
                'OpenEMap.view.SearchCoordinate',
                'OpenEMap.view.SearchFastighet',
+//               'OpenEMap.view.Scalebar',
                'OpenEMap.view.ShowCoordinate',
                'OpenEMap.view.ZoomTools',
                'GeoExt.container.WmsLegend',
@@ -52,6 +53,7 @@ Ext.define('OpenEMap.Gui', {
                 "layers": {},
                 "searchFastighet": {},
                 "objectConfig": {},
+//                "scalebar": {},
                 "searchCoordinate": false,
                 "showCoordinate": false
             };
@@ -338,5 +340,16 @@ Ext.define('OpenEMap.Gui', {
 
 		    this.map.events.register("mousemove", this.map, this.showCoordinate.setCoord);
         }
+
+        // Create scalebar control
+/*        if (this.gui.scalebar && this.gui.scalebar.renderTo) {
+            this.showCoordinate = Ext.create('OpenEMap.view.Scalebar', Ext.apply({
+                mapPanel : this.mapPanel,
+                cls: 'scalebar',
+                x: 20,
+                y: 20
+        	}, this.gui.scalebar));
+        }
+*/
     }
 });
