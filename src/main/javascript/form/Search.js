@@ -44,17 +44,28 @@ Ext.define('OpenEMap.form.Search', {
             });
         }
         
-        this.store = Ext.create('Ext.data.Store', {
-            fields: ['id', 'name'],
-            data: [
-                { id: 1, name: 'Test 1' },
-                { id: 2, name: 'Test 2' }
-            ]
+        this.reader = Ext.create('Ext.data.reader.Json', {
+            //root: function(data) {
+            //    return data.hits.hits;
+            //},
+            root: 'hits.hits',
+            //record: '_source',
+            totalProperty: 'hits.total',
+            idProperty: '_id'
         });
-                
+        
+        this.store = Ext.create('Ext.data.Store', {
+            proxy: {
+                type: 'ajax',
+                url: '//10.26.90.160:9200/_search',
+                reader: this.reader
+            },
+            fields: ['_id', '_source'],
+        });
+        
         this.labelWidth = 60;
-        this.displayField = 'name';
-        this.valueField = 'id';
+        this.displayField = '_source.message';
+        this.valueField = '_id';
         this.queryParam ='q';
         //this.typeAhead = true;
         //this.forceSelection = true;
