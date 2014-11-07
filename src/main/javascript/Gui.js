@@ -26,6 +26,7 @@ Ext.define('OpenEMap.Gui', {
                'OpenEMap.view.IdentifyResults',
                'OpenEMap.view.Map',
                'OpenEMap.view.ObjectConfig',
+               'OpenEMap.view.SearchWindow',
                'OpenEMap.view.SearchCoordinate',
                'OpenEMap.view.SearchFastighet',
                'OpenEMap.view.ShowCoordinate',
@@ -332,11 +333,15 @@ Ext.define('OpenEMap.Gui', {
 			    	var n = parent.mapClient.gui.showCoordinate.getComponent('n');
 			    	e.setValue(Math.round(lonlat.lon));
 			    	n.setValue(Math.round(lonlat.lat));
-			    	
 			    }
         	}, this.gui.showCoordinate));
 
 		    this.map.events.register("mousemove", this.map, this.showCoordinate.setCoord);
         }
+        
+        this.searchWindow = Ext.create('OpenEMap.view.SearchWindow', {
+            mapPanel : this.mapPanel
+        });
+        this.searchWindow.show();
     }
 });
