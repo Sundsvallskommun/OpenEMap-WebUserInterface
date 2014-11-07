@@ -45,7 +45,7 @@ Ext.define('OpenEMap.form.Search', {
         }
         
         this.store = Ext.create('Ext.data.Store', {
-            fields: ['id'],
+            fields: ['id', 'name'],
             data: [
                 { id: 1, name: 'Test 1' },
                 { id: 2, name: 'Test 2' }
@@ -56,17 +56,17 @@ Ext.define('OpenEMap.form.Search', {
         this.displayField = 'name';
         this.valueField = 'id';
         this.queryParam ='q';
-        this.typeAhead = true;
-        this.forceSelection = true;
+        //this.typeAhead = true;
+        //this.forceSelection = true;
         
         this.listeners = {
             'select':  function(combo, records) {
-                doSearch.call(this, records[0].data.fnr, records[0].data.x, records[0].data.y);
+                //doSearch.call(this, records[0].data.fnr, records[0].data.x, records[0].data.y);
             },
             'beforequery': function(queryPlan) {
-                if (registeromrade && queryPlan.query.match(registeromrade) === null) {
+                /*if (registeromrade && queryPlan.query.match(registeromrade) === null) {
                     queryPlan.query = registeromrade + ' ' + queryPlan.query;
-                }
+                }*/
             },
             scope: this
         };

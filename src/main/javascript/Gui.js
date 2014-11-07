@@ -83,6 +83,16 @@ Ext.define('OpenEMap.Gui', {
         if (this.rightPanel) items.push(this.rightPanel);
         if (this.baseLayers) items.push(this.baseLayers);
         
+        this.search = Ext.create('OpenEMap.form.Search', {
+            mapPanel : this.mapPanel,
+            width: 300,
+            style: {
+                right: '40%'
+            },
+            y: 70
+        });
+        items.push(this.search);
+        
         // create map rendered to a target element or as viewport depending on config
         if (this.gui.map) {
             var element = this.gui.map.renderTo ? Ext.get(this.gui.map.renderTo) : undefined;
@@ -338,10 +348,5 @@ Ext.define('OpenEMap.Gui', {
 
 		    this.map.events.register("mousemove", this.map, this.showCoordinate.setCoord);
         }
-        
-        this.searchWindow = Ext.create('OpenEMap.view.SearchWindow', {
-            mapPanel : this.mapPanel
-        });
-        this.searchWindow.show();
     }
 });
