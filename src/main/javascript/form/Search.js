@@ -25,18 +25,17 @@ Ext.define('OpenEMap.form.Search', {
               'Ext.form.*'],
     initComponent : function() {
         var layer = this.mapPanel.searchLayer;
-        
-        this.reader = Ext.create('Ext.data.reader.Json', {
-            root: 'hits.hits',
-            totalProperty: 'hits.total',
-            idProperty: '_id'
-        });
-        
+
         this.store = Ext.create('Ext.data.Store', {
             proxy: {
                 type: 'ajax',
                 url: '//localhost:9200/_search',
-                reader: this.reader
+                reader: {
+                    type: 'json',
+                    root: 'hits.hits',
+                    totalProperty: 'hits.total',
+                    idProperty: '_id'
+                }
             },
             fields: [
                 { name: 'type', mapping: '_type' },
@@ -45,12 +44,17 @@ Ext.define('OpenEMap.form.Search', {
             ]
         });
         
-        this.labelWidth = 60;
         this.displayField = 'hit';
         this.valueField = 'id';
         this.queryParam ='q';
         this.typeAhead = true;
         this.forceSelection = true;
+        this.allowBlank = false;
+        this.allowOnlyWhitespace = false;
+        this.minChars = 4;
+        this.minLength = 4;
+        this.preventMark = true;
+        this.hideTrigger = true;
         
         this.listeners = {
             'select':  function(combo, records) {
