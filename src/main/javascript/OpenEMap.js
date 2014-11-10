@@ -38,6 +38,11 @@ Ext.apply(OpenEMap, {
     basePathLM: '/search/lm/',
     /**
      * @property {string} 
+     * Base path to be used for all AJAX requests against Elasticsearch REST API
+     */
+    basePathES: '/search/es/',
+    /**
+     * @property {string} 
      * Base path to be used for all image resources
      */
     basePathImages: 'resources/images/',

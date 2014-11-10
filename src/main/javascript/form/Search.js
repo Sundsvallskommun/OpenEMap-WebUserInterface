@@ -26,30 +26,8 @@ Ext.define('OpenEMap.form.Search', {
     initComponent : function() {
         var layer = this.mapPanel.searchLayer;
         
-        // TODO: need to do requests on input
-        // TODO: 
-        function doSearch() {
-            Ext.Ajax.request({
-                url: '',
-                success: function(response) {
-                    
-                },
-                failure: function() {
-                    Ext.Msg.alert('Fel', 'Okänt.');
-                },
-                callback: function() {
-                    this.mapPanel.setLoading(false);
-                },
-                scope: this
-            });
-        }
-        
         this.reader = Ext.create('Ext.data.reader.Json', {
-            //root: function(data) {
-            //    return data.hits.hits;
-            //},
             root: 'hits.hits',
-            //record: '_source',
             totalProperty: 'hits.total',
             idProperty: '_id'
         });
@@ -57,27 +35,30 @@ Ext.define('OpenEMap.form.Search', {
         this.store = Ext.create('Ext.data.Store', {
             proxy: {
                 type: 'ajax',
-                url: '//10.26.90.160:9200/_search',
+                url: '//localhost:9200/_search',
                 reader: this.reader
             },
-            fields: ['_id', '_source'],
+            fields: [
+                { name: 'type', mapping: '_type' },
+                { name: 'hit', mapping: '_source.message' },
+                { name: 'geometry', mapping: '_source.geometry' }
+            ]
         });
         
         this.labelWidth = 60;
-        this.displayField = '_source.message';
-        this.valueField = '_id';
+        this.displayField = 'hit';
+        this.valueField = 'id';
         this.queryParam ='q';
-        //this.typeAhead = true;
-        //this.forceSelection = true;
+        this.typeAhead = true;
+        this.forceSelection = true;
         
         this.listeners = {
             'select':  function(combo, records) {
-                //doSearch.call(this, records[0].data.fnr, records[0].data.x, records[0].data.y);
+                // TODO: if geometry, parse it, add to searchLayer and zoom it
+                // records[0].data
             },
             'beforequery': function(queryPlan) {
-                /*if (registeromrade && queryPlan.query.match(registeromrade) === null) {
-                    queryPlan.query = registeromrade + ' ' + queryPlan.query;
-                }*/
+                queryPlan.query = queryPlan.query + '*'
             },
             scope: this
         };
