@@ -46,7 +46,8 @@ Ext.define('OpenEMap.view.PopupResults', {
             this.popup.destroy();
         }
 	    this.popup = Ext.create('GeoExt.window.Popup', {
-            ancCls: 'gx-popup-anc',
+            ancCls: 'oep-popup-anc',
+            popupCls: 'oep-popup',
             anchored: true,
             anchorPosition: 'bottom-left',
             animCollapse: true,
