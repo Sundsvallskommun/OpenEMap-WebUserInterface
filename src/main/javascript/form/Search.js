@@ -24,12 +24,13 @@ Ext.define('OpenEMap.form.Search', {
     require: ['Ext.data.*',
               'Ext.form.*'],
     initComponent : function() {
+        var map = this.mapPanel.map;
         var layer = this.mapPanel.searchLayer;
 
         this.store = Ext.create('Ext.data.Store', {
             proxy: {
                 type: 'ajax',
-                url: '//localhost:9200/_search',
+                url: OpenEMap.basePathES + '_search',
                 reader: {
                     type: 'json',
                     root: 'hits.hits',
@@ -39,7 +40,7 @@ Ext.define('OpenEMap.form.Search', {
             },
             fields: [
                 { name: 'type', mapping: '_type' },
-                { name: 'hit', mapping: '_source.message' },
+                { name: 'hit', mapping: '_source.properties.AKTBET' },
                 { name: 'geometry', mapping: '_source.geometry' }
             ]
         });
@@ -58,8 +59,15 @@ Ext.define('OpenEMap.form.Search', {
         
         this.listeners = {
             'select':  function(combo, records) {
-                // TODO: if geometry, parse it, add to searchLayer and zoom it
-                // records[0].data
+                var geojson = records[0].data.geometry;
+                var format = new OpenLayers.Format.GeoJSON({
+                    ignoreExtraDims: true
+                });
+                var geometry = format.read(geojson, 'Geometry');
+                var feature = new OpenLayers.Feature.Vector(geometry);
+                layer.destroyFeatures();
+                layer.addFeatures([feature]);
+                map.zoomToExtent(feature.geometry.getBounds());
             },
             'beforequery': function(queryPlan) {
                 queryPlan.query = queryPlan.query + '*'
