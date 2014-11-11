@@ -16,7 +16,7 @@
 */
 /**
  * Initializes GUI from configuration
- * Initialize where to place the different GUI components, and if they should be floating components or 
+ * Initialize where to place the different GUI components, and if they should be floating components or not 
  */
 Ext.define('OpenEMap.Gui', {
     activeAction: null,
@@ -334,11 +334,14 @@ Ext.define('OpenEMap.Gui', {
             this.objectConfigWindow.show();
         }
 
-        // Create Show Coordinate control
+        // Create Show Coordinate control - only show coordinates if renderTo is set
         if (this.gui.showCoordinate && this.gui.showCoordinate.renderTo) {
-            this.showCoordinate = Ext.create('OpenEMap.view.ShowCoordinate', Ext.apply({
+        	if (!this.cls) {
+        		this.cls = 'oep-show-coordinate';
+        	} 
+        	var cfg = {
                 mapPanel : this.mapPanel,
-                cls: 'show-coordinate',
+                cls : this.cls,
 			    setCoord: function(e) {
 			    	var lonlat = this.getLonLatFromPixel(e.xy);
 			    	var e = parent.mapClient.gui.showCoordinate.getComponent('e');
@@ -346,7 +349,8 @@ Ext.define('OpenEMap.Gui', {
 			    	e.setValue(Math.round(lonlat.lon));
 			    	n.setValue(Math.round(lonlat.lat));
 			    }
-        	}, this.gui.showCoordinate));
+        	}
+            this.showCoordinate = Ext.create('OpenEMap.view.ShowCoordinate', Ext.apply(cfg, this.gui.showCoordinate));
 
 		    this.map.events.register("mousemove", this.map, this.showCoordinate.setCoord);
         }

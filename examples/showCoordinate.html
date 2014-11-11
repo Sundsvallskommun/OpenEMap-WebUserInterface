@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Open eMap - Show coordinate example</title>
+
+	    <link rel="stylesheet" type="text/css" href="https://kartatest.e-tjansteportalen.se/libs/ext-theme-oep/oepTheme-all.css">
+	    <link rel="stylesheet" type="text/css" href="../resources/css/OpenEMap.css">
+	
+	    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/libs/OpenLayers-2.13.1/lib/OpenLayers.js"></script>  
+	    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/libs/ext-4.2.1/ext-all.js"></script>
+	    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/libs/ext-4.2.1/ext-theme-neptune.js"></script>
+	    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/libs/ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
+	    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/libs/proj4js/proj4-compressed.js"></script>
+	    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/libs/proj4js/proj4_defs.js"></script>
+	    <script type="text/javascript">
+		  Ext.Loader.setConfig({
+		    disableCaching: false,
+		    paths: {
+		        OpenEMap: '../src/main/javascript',
+		        GeoExt: '../../libs/geoext-2.0.1/src/GeoExt'
+		    }
+		  });
+	    </script> 
+
+<!--	    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/libs/geoext2-all.js"></script> 
+	    <script type="text/javascript" src="../OpenEMap-1.3.0-rc.3-all.js"></script>
+-->	
+
+	    <script type="text/javascript">
+		Ext.onReady(function() {
+		    mapClient = Ext.create('OpenEMap.Client');
+			function init(name) {
+				Ext.Ajax.request({
+					url : name,
+					success : function(response) {
+						var config = Ext.decode(response.responseText);
+	
+						var gui = {
+							map : {
+								renderTo : 'map'
+							},
+							showCoordinate : {
+								renderTo : 'showcoordinate'
+							},
+							zoomTools : {}
+						};
+	
+						mapClient.destroy();
+						mapClient.configure(config, {
+							gui : gui
+						});
+					}
+				});
+			}
+			
+			init('popupLayerConfig.json');
+		});
+	    </script>
+	</head>
+	<body>
+    <div id="map" style="position: absolute; width: 100%; height: 100%"></div>
+    <div id="showcoordinate" style="position: absolute; bottom: 0; left: 0" ></div>
+	</body>
+</html>

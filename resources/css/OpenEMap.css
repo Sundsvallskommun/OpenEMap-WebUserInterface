@@ -173,7 +173,7 @@ ul, li {
     width: 31px;
     position: absolute;
 }
-.show-coordinate {
+.oep-show-coordinate {
 	background: none;
 	background-color: none;
 	color: #000000;
