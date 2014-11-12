@@ -135,6 +135,10 @@ A layer can include a WMS-specifgication and a WFS-specification. WMS are used t
             "useRegisterenhet": whetherOrNotToUseRegisterenhet, ' turns on identifying real estate parcels
             "tolerance": toleranceInPixels ' defaults to radius 3 pixels
 		},
+        {
+            "type": "Popup", ' Show popup for features in "popupLayers"
+            "tolerance": toleranceInPixels ' defaults to radius 3 pixels
+		},
        	{ ' Meassure lengths
        		"type": "MeasureLine", 
        		"accuracy": AccuracyOfMeasurements 
