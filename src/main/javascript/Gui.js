@@ -356,14 +356,12 @@ Ext.define('OpenEMap.Gui', {
         }
 
         // Create scalebar control
-/*        if (this.gui.scalebar && this.gui.scalebar.renderTo) {
-            this.showCoordinate = Ext.create('OpenEMap.view.Scalebar', Ext.apply({
+        if (this.gui.scalebar) {
+        	// TODO - Defaults to lower left corner of map
+            this.scalebar = Ext.create('OpenEMap.view.Scalebar', Ext.apply({
                 mapPanel : this.mapPanel,
-                cls: 'scalebar',
-                x: 20,
-                y: 20
-        	}, this.gui.scalebar));
+                renderTo: this.renderTo
+            }, this.gui.scalebar));
         }
-*/
     }
 });
