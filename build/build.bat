@@ -1,4 +1,4 @@
-set release_name=OpenEMap-1.3.0-rc.3
+set release_name=OpenEMap-1.3.0-rc.4
 echo ..\release\%release_name%
 cd ..\release
 rd /s /q %release_name%
