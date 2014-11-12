@@ -48,6 +48,7 @@ Ext.define('OpenEMap.view.PopupResults', {
 	    this.popup = Ext.create('GeoExt.window.Popup', {
             ancCls: 'oep-popup-anc',
             popupCls: 'oep-popup',
+            bodyCls: 'oep-popup-body',
             anchored: true,
             anchorPosition: 'bottom-left',
             animCollapse: true,
@@ -59,6 +60,7 @@ Ext.define('OpenEMap.view.PopupResults', {
             layout: 'fit',
 		    location: config.location,
             map: config.mapPanel,
+            maxWidth: 300,
             maximizable : false,
             minimizable : false,
             resizable: false,

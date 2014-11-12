@@ -179,6 +179,9 @@ ul, li {
     width: 31px;
     position: absolute;
 }
+.oep-popup-body {
+    padding: 5px;
+}
 .oep-show-coordinate {
 	background: none;
 	background-color: none;
