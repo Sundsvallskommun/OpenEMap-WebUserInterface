@@ -1,5 +1,7 @@
 set release_name=OpenEMap-1.3.0-rc.4
+set previous_release_name=OpenEMap-1.3.0-rc.3
 echo ..\release\%release_name%
+fart -r -c -- ..\*.html %previous_release_name% %release_name%
 cd ..\release
 rd /s /q %release_name%
 del %release_name%.zip
