@@ -1,6 +1,7 @@
 {
   "name": "OpenEMap",
   "devDependencies": {
+    "extjs": "bjornharrtell/extjs#4.2.1.883",
     "geoext2": "Sundsvallskommun/geoext2"
   }
 }

@@ -1,11 +1,9 @@
-<a href="http://oemap.org"><img alt="Open eMap homepage" src="http://oemap.org/img/logotyp.png"></a>
-# OpenEMap-WebUserInterface (map-client)
+<a href="http://oemap.org"><img alt="Open eMap homepage" src="http://oemap.org/images/logo.png"></a>
+# OpenEMap WUI
 
 Configurable map viewer
 
-Based on Ext JS 4, GeoExt 2 and OpenLayers 2.13.1
-
-Ext JS application name is MapClient
+Based on Ext JS 4, GeoExt 2 and OpenLayers 2.13.1 and built as an Ext JS application named OpenEMap.
 
 ## Integration
 
@@ -39,8 +37,8 @@ NOTE: The above snippet assumes the use of release build including all dependenc
 
 NOTE: es5-shim is required for IE 8 compatibility only
 
-##Homepage
-<a href="http://oemap.org"><img alt="Open eMap homepage" src="http://oemap.org/img/logotyp.png" width="200"></a>
+## Homepage
+<a href="http://oemap.org"><img alt="Open eMap homepage" src="http://oemap.org/images/logo.png"></a>
 
 ## Documentation
 ###API Docs 
@@ -49,11 +47,22 @@ NOTE: es5-shim is required for IE 8 compatibility only
 
 ## Development
 
+Requirements:
+
+* Node JS >0.10
+* Grunt CLI (install with `npm -g grunt-cli` as admin/root)
+
+A fresh clone of the repository will require running `npm install` in its root. After that you can start devserver on `http://localhost:8000` by running `grunt devserver`.
+
 Assumed external dependencies:
  * Ext JS 4.2.1 in folder /libs/ext-4.2.1
  * GeoExt 2 in folder /libs/
  * OpenLayers 2.13 in folder /libs/OpenLayers-2.13.1
  * ext-theme-oep in folder /libs/ext-theme-oep - ext theme for Open ePlatform and Open eMap, se repository [SundsvallsKommun/ext-theme-oep](https://github.com/Sundsvallskommun/ext-theme-oep)
+
+## Building
+
+Done by running `grunt` in a working development clone. Requires Sencha Cmd installed and available on the path.
 
 ## Versioning
 
