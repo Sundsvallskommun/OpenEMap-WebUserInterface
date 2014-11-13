@@ -1,0 +1,6 @@
+{
+  "name": "OpenEMap",
+  "devDependencies": {
+    "geoext2": "Sundsvallskommun/geoext2"
+  }
+}
