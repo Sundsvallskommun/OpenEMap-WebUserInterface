@@ -24,19 +24,21 @@ Ext.define('OpenEMap.view.SearchFastighet', {
                 'OpenEMap.form.SearchRegisterenhet',
                 'OpenEMap.form.SearchAddress',
                 'OpenEMap.form.SearchPlacename',
+                'OpenEMap.form.SearchES',
                 'GeoExt.selection.FeatureModel'],
     border: false,
     initComponent : function() {
 
         if (!this.renderTo) {
-            this.title = 'Sök fastighet';
+            this.title = 'Sök';
             this.bodyPadding = 5;
         }
         
         var data = [
                     [ 'searchregisterenhet', 'Fastighet' ],
                     [ 'searchaddress', 'Adress' ],
-                    [ 'searchplacename', 'Ort' ]/*,
+                    [ 'searchplacename', 'Ort' ],
+                    [ 'searches', 'Detaljplaner']/*,
                     [ 'searchbyggnad', 'Byggnad' ]*/
                     ];
 
@@ -76,11 +78,9 @@ Ext.define('OpenEMap.view.SearchFastighet', {
             var searchCriteria = null;
             if (type === 'searchregisterenhet'){
                 searchCriteria = this.search && this.search.searchEstates ? this.search.searchEstates : null; 
-            }
-            else if (type === 'searchaddress'){
+            } else if (type === 'searchaddress'){
                 searchCriteria = this.search && this.search.searchAddresses ? this.search.searchAddresses : null;
-            }
-            else {
+            } else {
                 searchCriteria = this.search && this.search.searchPlacenames ? this.search.searchPlacenames : null;
             }
 

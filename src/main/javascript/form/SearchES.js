@@ -18,9 +18,9 @@
 /**
  * Combobox that uses ES for generic search
  */
-Ext.define('OpenEMap.form.Search', {
+Ext.define('OpenEMap.form.SearchES', {
     extend : 'Ext.form.field.ComboBox',
-    alias: 'widget.search',
+    alias: 'widget.searches',
     require: ['Ext.data.*',
               'Ext.form.*'],
     initComponent : function() {

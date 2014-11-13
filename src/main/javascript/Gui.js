@@ -26,7 +26,6 @@ Ext.define('OpenEMap.Gui', {
                'OpenEMap.view.IdentifyResults',
                'OpenEMap.view.Map',
                'OpenEMap.view.ObjectConfig',
-               'OpenEMap.view.SearchWindow',
                'OpenEMap.view.SearchCoordinate',
                'OpenEMap.view.SearchFastighet',
 //               'OpenEMap.view.Scalebar',
@@ -85,7 +84,8 @@ Ext.define('OpenEMap.Gui', {
         if (this.rightPanel) items.push(this.rightPanel);
         if (this.baseLayers) items.push(this.baseLayers);
         
-        this.search = Ext.create('OpenEMap.form.Search', {
+        // NOTE: Generic ES search as a floating centered field
+        /*this.search = Ext.create('OpenEMap.form.Search', {
             mapPanel : this.mapPanel,
             width: 300,
             style: {
@@ -93,7 +93,7 @@ Ext.define('OpenEMap.Gui', {
             },
             y: 70
         });
-        items.push(this.search);
+        items.push(this.search);*/
         
         // create map rendered to a target element or as viewport depending on config
         if (this.gui.map) {
