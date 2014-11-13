@@ -129,9 +129,20 @@ Ext.define('OpenEMap.config.Parser', {
         layers = layers.filter(function(layer){ return layer.wfs; });
         return layers;
     },
+    /**
+     * Extracts Vector-layers
+     */
     extractVector: function(layers) {
         layers = this.extractLayers(layers);
         layers = layers.filter(function(layer){ return layer.vector; });
+        return layers;
+    },
+    /**
+     * Extracts base-layers
+     */
+    extractBaseLayers: function(layers) {
+        layers = this.extractLayers(layers);
+        layers = layers.filter(function(layer){ return layer.isBaseLayer; });
         return layers;
     },
     /**
