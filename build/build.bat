@@ -1,5 +1,5 @@
-set release_name=OpenEMap-1.3.0-rc.4
-set previous_release_name=OpenEMap-1.3.0-rc.3
+set release_name=OpenEMap-1.3.0-rc.5
+set previous_release_name=OpenEMap-1.3.0-rc.4
 echo ..\release\%release_name%
 fart -r -c -- ..\*.html %previous_release_name% %release_name%
 cd ..\release
@@ -20,5 +20,5 @@ copy ..\*.html ..\release\%release_name%
 copy ..\%release_name%-all.js ..\release\%release_name%
 xcopy ..\examples %release_name%\examples /E
 xcopy ..\resources %release_name%\resources /E
-7z a -tzip %release_name%.zip -r %release_name%
+7z a -tzip %release_name%.zip -r %release_name% -x!doc
 pause

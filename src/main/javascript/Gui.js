@@ -48,16 +48,7 @@ Ext.define('OpenEMap.Gui', {
             this.gui = {}
         }
         if (this.gui.map === undefined) {this.gui.map = false}
-        if (this.gui.toolbar === undefined) {this.gui.toolbar = {}}
-        if (this.gui.zoomTools === undefined) {this.gui.zoomTools = {}}
-        if (this.gui.baseLayers === undefined) {this.gui.baseLayers = {}}
-        if (this.gui.layers === undefined) {this.gui.layers = {}}
-        if (this.gui.searchFastighet === undefined) {this.gui.searchFastighet = {}}
-        if (this.gui.objectConfig === undefined) {this.gui.objectConfig = {}}
-        if (this.gui.scalebar === undefined) {this.gui.scalebar = {}}
-        if (this.gui.searchCoordinate === undefined) {this.gui.searchCoordinate = false}
-        if (this.gui.showCoordinate === undefined) {this.gui.showCoordinate = false}
-        if (this.gui.rightPanel === undefined) {this.gui.rightPanel = {}}
+        if (this.gui.rightPanel === undefined) {this.gui.rightPanel = {};}
         
         this.mapPanel = Ext.create('OpenEMap.view.Map', {
             map: this.map,
