@@ -356,7 +356,7 @@ Ext.define('OpenEMap.Gui', {
         // only create if renderTo
         if (this.gui.searchCoordinate && this.gui.searchCoordinate.renderTo) {
             this.searchCoordinate = Ext.create('OpenEMap.view.SearchCoordinate', Ext.apply({
-                mapPanel : this.mapPanel,
+                mapPanel : this.mapPanel
             }, this.gui.searchCoordinate));
         }
     },
