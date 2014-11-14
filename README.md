@@ -11,26 +11,33 @@ Integrate into HTML page using the following snippet:
 
 ```html
     <link rel="stylesheet" type="text/css" href="/libs/ext-theme-oep/oepTheme-all.css">
-    <link rel="stylesheet" type="text/css" href="resources/css/OpenEMap.css">  
+    <link rel="stylesheet" type="text/css" href="release/OpenEMap-1.2.0/resources/css/OpenEMap.css">  
     <script type="text/javascript" src="/libs/ext-4.2.1/ext-all.js"></script>
     <script type="text/javascript" src="/libs/ext-4.2.1/ext-theme-neptune.js"></script>
     <script type="text/javascript" src="/libs/ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
     <script type="text/javascript" src="/libs/OpenLayers-2.13.1/OpenLayers.js"></script>
+    <script type="text/javascript" src="/libs/proj4js/proj4-compressed.js"></script>
+    <script type="text/javascript" src="/libs/proj4js/proj4_defs.js"></script>
     <script type="text/javascript" src="/libs/geoext2-all.js"></script> 
     <script type="text/javascript" src="/libs/es5-shim.min.js"></script>
-    <script type="text/javascript" src="OpenEMap-all.js"></script>
+    <script type="text/javascript" src="release/OpenEMap-1.2.0/OpenEMap-1.2.0-all.js"></script>
     
     <script type="text/javascript">
-    var mapClient = Ext.create('OpenEMap.Client');
-    mapClient.configure(config);
+	Ext.onReady(function() {
+	    var mapClient = Ext.create('OpenEMap.Client');
+	    var configFileName = 'config.json';
+		Ext.Ajax.request({
+			url : configFileName,
+			method : 'GET',
+			success : function(evt){
+				var config = JSON.parse(evt.responseText);
+			    mapClient.configure(config);
+			}
+		});
+	}
     </script>
     
-	<div id="toolbar"></div>
-	<div id="map" style="position: absolute; left: 120px; width: 100%; height: 650px" class="popup"></div>
-	<div id="layers"></div>
-	<div id="searchfastighet"></div>
-	<div id="searchcoordinate"></div>
-	<div id="objectconfig"></div>
+	<div id="map" style="position: absolute; width: 100%; height: 100%;" class="popup"></div>
 ```
 
 NOTE: The above snippet assumes the use of release build including all dependencies
