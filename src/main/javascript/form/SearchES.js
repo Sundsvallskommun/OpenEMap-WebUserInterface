@@ -40,7 +40,7 @@ Ext.define('OpenEMap.form.SearchES', {
             },
             fields: [
                 { name: 'type', mapping: '_type' },
-                { name: 'hit', mapping: '_source.properties.AKTBET' },
+                { name: 'hit', mapping: '_source.properties.AKT' },
                 { name: 'geometry', mapping: '_source.geometry' }
             ]
         });
