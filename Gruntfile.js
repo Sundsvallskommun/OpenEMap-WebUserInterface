@@ -2,6 +2,9 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+    releasePath: 'release/<%= pkg.name %>-<%= pkg.version %>', 
+    
+    clean: ['<%= releasePath %>'],
     
     auto_install: {
       local: {}
@@ -13,7 +16,7 @@ module.exports = function(grunt) {
         tasks: ['jshint:gruntfile']
       },
       scripts: {
-        files: ['src/main/javascript/**/*.js'],
+        files: ['dev/*.html', 'src/main/javascript/**/*.js'],
         tasks: ['jshint:js'],
         options: {
           spawn: false,
@@ -63,25 +66,36 @@ module.exports = function(grunt) {
     sencha: {
       release: {
         command: [
-            '-sdk bower_components/extjs',
+            '-sdk bower_components/ext-4.2.1',
             'compile',
             '--classpath=src/main/javascript,bower_components/geoext2/src',
             'exclude -all', 'and',
             'include -namespace OpenEMap', 'and',
             'include -file src/main/javascript/OpenEMap.js', 'and',
-            'concat --closure <%= pkg.name %>.min.js']
+            'concat --closure <%= releasePath %>/<%= pkg.name %>.min.js']
       },
       debug: {
         command: [
-            '-sdk bower_components/extjs',
+            '-sdk bower_components/ext-4.2.1',
             'compile',
             '--classpath=src/main/javascript,bower_components/geoext2/src',
             'exclude -all', 'and',
             'include -namespace OpenEMap', 'and',
             'include -file src/main/javascript/OpenEMap.js', 'and',
-            'concat <%= pkg.name %>.js']
+            'concat <%= releasePath %>/<%= pkg.name %>.debug.js']
       }
     },
+    
+    copy: {
+	    dist: {
+	        files: [
+	        { expand: true, src: ['index.html'], dest: '<%= releasePath %>' },
+	        { expand: true, src: ['index-with-config.html'], dest: '<%= releasePath %>' },
+            { expand: true, src: ['resources/**'], dest: '<%= releasePath %>' },
+            { expand: true, flatten: true, src: ['dev/config/**'], dest: '<%= releasePath %>/config' }
+	        ]        
+	    }
+	},
     
     connect: {
         options: {
@@ -106,7 +120,11 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-sencha-build');
   grunt.loadNpmTasks('grunt-connect-proxy');
   grunt.loadNpmTasks('grunt-contrib-connect');
+  grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-contrib-clean');
 
-  grunt.registerTask('default', ['auto_install', 'jshint', 'sencha:release']);
-  grunt.registerTask('devserver', ['auto_install', 'jshint', 'connect', 'watch']);
+  grunt.registerTask('default', ['auto_install', 'jshint']);
+  grunt.registerTask('build', ['default', 'sencha:release']);
+  grunt.registerTask('dist', ['clean', 'build', 'copy']);
+  grunt.registerTask('devserver', ['default', 'connect', 'watch']);
 };
