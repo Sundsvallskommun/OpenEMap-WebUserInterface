@@ -253,7 +253,7 @@ Ext.define('OpenEMap.config.Parser', {
         }
         // Do the node have sublayers, iterate over them
         if(layer.layers) {
-            layer.expanded = layer.expanded == undefined ? true : layer.expanded;
+            layer.expanded = layer.expanded === undefined ? true : layer.expanded;
             layer.layers.forEach(arguments.callee, this);
         } else {
             // If no sublayers, this is a leaf

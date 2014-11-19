@@ -87,7 +87,7 @@ Ext.define('OpenEMap.view.IdentifyResults', {
             }
         }
         
-        var source = Ext.clone(source);
+        source = Ext.clone(source);
         var sourceConfig = Ext.clone(source);
         
         Object.keys(source).forEach(function(key) {

@@ -45,9 +45,9 @@ Ext.define('OpenEMap.Gui', {
 
         // GUI defaults
         if (this.gui === undefined) {
-            this.gui = {}
+            this.gui = {};
         }
-        if (this.gui.map === undefined) {this.gui.map = false}
+        if (this.gui.map === undefined) {this.gui.map = false;}
         if (this.gui.rightPanel === undefined) {this.gui.rightPanel = {};}
         
         this.mapPanel = Ext.create('OpenEMap.view.Map', {
@@ -189,7 +189,7 @@ Ext.define('OpenEMap.Gui', {
                 button.on('toggle', this.onToggle, this);
                 return button;
             }
-        }
+        };
         
         if (!this.config.tools) {
             this.config.tools = [];
@@ -245,7 +245,7 @@ Ext.define('OpenEMap.Gui', {
         var rightPanelItems = [];
         // default position for rightPanel
         if (!this.gui.rightPanel.y) {this.gui.rightPanel.y = 20;}
-        if (!this.gui.rightPanel.style) {this.gui.rightPanel.style = 'right: 20px'}
+        if (!this.gui.rightPanel.style) {this.gui.rightPanel.style = 'right: 20px';}
         
         if (this.gui.layers) {
 	        // Checks whether the advanced or basic Layer control should be used
@@ -316,7 +316,7 @@ Ext.define('OpenEMap.Gui', {
     				this.gui.baseLayers.style = {
     					right: '20px',
     					bottom: '20px'
-    				}
+    				};
         		}
 	            this.baseLayers = Ext.create("OpenEMap.view.BaseLayers", Ext.apply({
 	                mapPanel : this.mapPanel,
@@ -337,7 +337,7 @@ Ext.define('OpenEMap.Gui', {
 				this.gui.zoomTools.style = {
 					left: '20px',
 					top: '76px'
-				}
+				};
     		}
             this.zoomTools = Ext.create('OpenEMap.view.ZoomTools', Ext.apply({
                 mapPanel : this.mapPanel,
@@ -402,12 +402,12 @@ Ext.define('OpenEMap.Gui', {
                 cls : this.cls,
 			    setCoord: function(e) {
 			    	var lonlat = this.getLonLatFromPixel(e.xy);
-			    	var e = parent.mapClient.gui.showCoordinate.getComponent('e');
-			    	var n = parent.mapClient.gui.showCoordinate.getComponent('n');
-			    	e.setValue(Math.round(lonlat.lon));
-			    	n.setValue(Math.round(lonlat.lat));
+			    	var eC = parent.mapClient.gui.showCoordinate.getComponent('e');
+			    	var nC = parent.mapClient.gui.showCoordinate.getComponent('n');
+			    	eC.setValue(Math.round(lonlat.lon));
+			    	nC.setValue(Math.round(lonlat.lat));
 			    }
-        	}
+        	};
             this.showCoordinate = Ext.create('OpenEMap.view.ShowCoordinate', Ext.apply(cfg, this.gui.showCoordinate));
 
 		    this.map.events.register("mousemove", this.map, this.showCoordinate.setCoord);

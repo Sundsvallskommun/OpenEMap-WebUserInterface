@@ -70,7 +70,7 @@ Ext.define('OpenEMap.form.SearchES', {
                 map.zoomToExtent(feature.geometry.getBounds());
             },
             'beforequery': function(queryPlan) {
-                queryPlan.query = queryPlan.query + '*'
+                queryPlan.query = queryPlan.query + '*';
             },
             scope: this
         };

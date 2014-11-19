@@ -31,7 +31,7 @@ Ext.define('OpenEMap.action.MeasureLine', {
     constructor: function(config) {
         
         var mapPanel = config.mapPanel;
-        if (config.accuracy == null) {
+        if (config.accuracy === null) {
         	config.accuracy = 2;
         }
 

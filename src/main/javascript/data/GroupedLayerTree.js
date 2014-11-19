@@ -224,7 +224,7 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
         me.un('beforeinsert', me.onBeforeInsert, me);
         me.un('beforeappend', me.onBeforeAppend, me);
         me.un('insert', me.onInsertAndAppend, me);
-        me.un('append', me.onInsertAndAppend, me)
+        me.un('append', me.onInsertAndAppend, me);
         me.un('remove', me.onRemove, me);
         me.map = null;
     },

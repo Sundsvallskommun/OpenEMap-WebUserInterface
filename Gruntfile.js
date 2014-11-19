@@ -35,6 +35,9 @@ module.exports = function(grunt) {
         options: {
             browser: true,
             es3: true,
+            '-W069': false, // do not require dot notation
+            '-W065': false, // do not require parseInt radix
+            '-W030': false, // allow bla && func() expressions
             // TODO: enable these to be even stricter about source code linting
             /*curly: true,
             eqeqeq: true,

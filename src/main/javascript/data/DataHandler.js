@@ -158,7 +158,7 @@ Ext.define('OpenEMap.data.DataHandler', {
         if(options && (options.method && options.method === 'POST' && options.method === 'PUT') && !callback) {
             me.onFailure('no callback function');
             return false;
-        };
+        }
         Ext.Ajax.request(Ext.apply({
                 success: function(response) {
                     if(response && response.responseText) {
