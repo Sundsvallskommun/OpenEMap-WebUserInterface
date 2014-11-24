@@ -57,19 +57,14 @@ NOTE: es5-shim is required for IE 8 compatibility only
 Requirements:
 
 * Node JS >0.10
-* Grunt CLI (install with `npm -g grunt-cli` as admin/root)
+* Grunt CLI (install with `npm -g grunt-cli`)
+* Bower (install with `npm -g bower`)
 
-A fresh clone of the repository will require running `npm install` in its root. After that you can start devserver on `http://localhost:8000` by running `grunt devserver`.
+A fresh clone of the repository will require running `npm install` in its root. After that you can start devserver on `http://localhost:8000` by running `grunt devserver`. A development example should be runnable at `http://localhost:8000/dev/debug.html`. Changes to any source file will in the debug version automatically reload the page.
 
-Assumed external dependencies:
- * Ext JS 4.2.1 in folder /libs/ext-4.2.1
- * GeoExt 2 in folder /libs/
- * OpenLayers 2.13 in folder /libs/OpenLayers-2.13.1
- * ext-theme-oep in folder /libs/ext-theme-oep - ext theme for Open ePlatform and Open eMap, se repository [SundsvallsKommun/ext-theme-oep](https://github.com/Sundsvallskommun/ext-theme-oep)
+## Building a release verison
 
-## Building
-
-Done by running `grunt` in a working development clone. Requires Sencha Cmd installed and available on the path.
+Done by running `grunt dist` in a working development clone. Requires Sencha Cmd installed and available on the path.
 
 ## Versioning
 

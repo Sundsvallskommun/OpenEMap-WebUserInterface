@@ -24,30 +24,30 @@
 	<meta name="author" content="Anders Erlandsson, Sundsvalls kommun" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- 
-    <link rel="stylesheet" type="text/css" href="ext-4.2.1/resources/css/ext-all-neptune.css">
-         -->
-    <link rel="stylesheet" type="text/css" href="../../libs/ext-theme-oep/oepTheme-all.css">
+    <!-- This will make the page reload automatically when source has changed and page is served using grunt devserver -->
+    <script src="//localhost:35729/livereload.js"></script>
 
+    <!-- 
+    <link rel="stylesheet" type="text/css" href="ext-4.2.1/resources/css/ext-all-neptune.css">
+    -->
+    <link rel="stylesheet" type="text/css" href="../resources/ext-theme-oep/oepTheme-all.css">
     <link rel="stylesheet" type="text/css" href="../resources/css/OpenEMap.css">
-    <script type="text/javascript" src="../../libs/OpenLayers-2.13.1/lib/OpenLayers.js"></script>  
-    <script type="text/javascript" src="../../libs/ext-4.2.1/ext-debug.js"></script>
-    <script type="text/javascript" src="../../libs/ext-4.2.1/ext-theme-neptune.js"></script>
-    <script type="text/javascript" src="../../libs/ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
     
+    <script type="text/javascript" src="../bower_components/OpenLayers-2.13.1/lib/OpenLayers.js"></script>
+    <script type="text/javascript" src="../bower_components/ext-4.2.1/bootstrap.js"></script>
+    <script type="text/javascript" src="../bower_components/ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
     
     <script type="text/javascript">
 	  Ext.Loader.setConfig({
 	    disableCaching: false,
 	    paths: {
 	        OpenEMap: '../src/main/javascript',
-	        GeoExt: '../../libs/geoext-2.0.1/src/GeoExt'
+	        GeoExt: '../bower_components/geoext2/src/GeoExt'
 	    }
 	  });
     </script> 
     
     <script type="text/javascript" src="../../libs/es5-shim.min.js"></script>
-    <!--script type="text/javascript" src="geoext2-all.js"></script-->
     
     <script type="text/javascript" src="../src/main/javascript/Client.js"></script>
     
@@ -125,8 +125,7 @@
 	    
 	    var combo = Ext.create('Ext.form.ComboBox',  {
 			renderTo: 'configcombo',
-			store: ['config_EPSG3014.json',
-					'config.json',
+			store: ['config2.json',
 			        'riges.json',
 			        'eldstad.json',
 			        'situationsplan.json',
@@ -141,7 +140,7 @@
 			listeners: {
 				"select": function(combo, records) {
 					var record = records[0];
-					init('../config/' + record.get(record.fields.get(0).name));
+					init('config/' + record.get(record.fields.get(0).name));
 				}
 			}
 		});

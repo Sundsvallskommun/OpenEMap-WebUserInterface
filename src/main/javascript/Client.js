@@ -202,7 +202,7 @@ Ext.define('OpenEMap.Client', {
                 });
                 
                 return edgeLabels;
-            }
+            };
             
             this.labelLayer.destroyFeatures();
             
@@ -215,7 +215,7 @@ Ext.define('OpenEMap.Client', {
             }
         };
         
-        if (this.labelLayer == null) {
+        if (this.labelLayer === null) {
             this.labelLayer = new OpenLayers.Layer.Vector();
             this.map.addLayer(this.labelLayer);
             
@@ -278,7 +278,7 @@ Ext.define('OpenEMap.Client', {
 		{
 			Ext.Error.raise('Unknown coordinate system: ' + epsg + '\nAdd coordinate system to array \'Proj4js.def\'.');
 		}
-		if (zoomToBounds == null) {
+		if (zoomToBounds === null) {
 			zoomToBounds = true;
 		} 
 

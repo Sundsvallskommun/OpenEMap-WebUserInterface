@@ -78,7 +78,7 @@ Ext.define('OpenEMap.form.SearchRegisterenhet', {
         
         if (this.store.loading && this.store.lastOperation) {
           var requests = Ext.Ajax.requests;
-          for (id in requests)
+          for (var id in requests)
             if (requests.hasOwnProperty(id) && requests[id].options == this.store.lastOperation.request) {
               Ext.Ajax.abort(requests[id]);
             }

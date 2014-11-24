@@ -31,7 +31,7 @@ Ext.define('OpenEMap.view.Scalebar', {
 
     	var scalebarControl = null;
 
-    	var div = document.getElementById(this.renderTo)
+    	var div = document.getElementById(this.renderTo);
     	if (div) {
     		// Renders scalebar in div if renderTo
 	    	scalebarControl = new OpenLayers.Control.ScaleLine({div: div});

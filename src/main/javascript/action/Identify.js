@@ -70,7 +70,7 @@ Ext.define('OpenEMap.action.Identify', {
         var layers = config.layers;
         
         // Defaults to identify registerenhet
-        if (config.useRegisterenhet == null) {
+        if (config.useRegisterenhet === null) {
         	config.useRegisterenhet = true;
         }
         

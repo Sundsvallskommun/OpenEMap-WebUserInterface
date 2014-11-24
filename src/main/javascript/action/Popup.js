@@ -129,7 +129,7 @@ Ext.define('OpenEMap.action.Popup', {
 					    	}
 				    		return false;
 				    	}
-                	}
+                	};
 					
 					// Loop throgh each feature in the layer
                 	var featureIndex=0;
@@ -139,7 +139,7 @@ Ext.define('OpenEMap.action.Popup', {
                 		featureIndex++;	
                 	}
                 	return hitFound;
-                }
+                };
                 
                 // Loop through each popupLayer
             	var layerIndex=0;

@@ -38,12 +38,14 @@ Ext.define('OpenEMap.view.layer.TreeFilter', {
                 tree = me.tree,
                 matches = [],
                 root = tree.getRootNode(),
-                // property is optional - will be set to the 'text' propert of the  treeStore record by default
-                property = property || 'text',
-                // the regExp could be modified to allow for case-sensitive, starts  with, etc.
-                re = re || new RegExp(value, "ig"),
                 visibleNodes = [],
                 viewNode;
+               
+            // property is optional - will be set to the 'text' propert of the  treeStore record by default 
+            property = property || 'text';
+            
+            // the regExp could be modified to allow for case-sensitive, starts  with, etc.
+            re = re || new RegExp(value, "ig");
 
             // if the search field is empty
             if (Ext.isEmpty(value)) {                                           
@@ -76,7 +78,7 @@ Ext.define('OpenEMap.view.layer.TreeFilter', {
             Ext.each(matches, function (item, i, arr) {
                 // find each parent node containing the node from the matches array
                 root.cascadeBy(function (node) {
-                    if (node.contains(item) == true) {
+                    if (node.contains(item) === true) {
                         // if it's an ancestor of the evaluated node add it to the visibleNodes  array
                         visibleNodes.push(node);
                     }
@@ -106,9 +108,9 @@ Ext.define('OpenEMap.view.layer.TreeFilter', {
         }, 
 
         clearFilter: function () {
-            var me = this
-                , tree = this.tree
-                , root = tree.getRootNode();
+            var me = this,
+                tree = this.tree,
+                root = tree.getRootNode();
 
             if (me.collapseOnClear) {
                 // collapse the tree nodes

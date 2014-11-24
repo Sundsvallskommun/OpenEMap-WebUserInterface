@@ -1,2 +1,4 @@
 OpenEMap*.js
 config
+bower_components
+node_modules
