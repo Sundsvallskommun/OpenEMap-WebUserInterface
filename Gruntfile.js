@@ -87,15 +87,15 @@ module.exports = function(grunt) {
     },
     
     copy: {
-	    dist: {
-	        files: [
-	        { expand: true, src: ['index.html'], dest: '<%= releasePath %>' },
-	        { expand: true, src: ['index-with-config.html'], dest: '<%= releasePath %>' },
+        dist: {
+            files: [
+            { expand: true, src: ['index.html'], dest: '<%= releasePath %>' },
+            { expand: true, src: ['index-with-config.html'], dest: '<%= releasePath %>' },
             { expand: true, src: ['resources/**'], dest: '<%= releasePath %>' },
             { expand: true, flatten: true, src: ['dev/config/**'], dest: '<%= releasePath %>/config' }
-	        ]        
-	    }
-	},
+            ]        
+        }
+    },
     
     connect: {
         options: {
@@ -109,9 +109,19 @@ module.exports = function(grunt) {
              ];
           }
         },
-        proxies: []
-	}
-	
+        proxies: [{
+            context: '/search/lm',
+            host: 'kartatest.e-tjansteportalen.se',
+            https: true,
+            port: 443
+        }, {
+            context: '/print',
+            host: 'kartatest.e-tjansteportalen.se',
+            https: true,
+            port: 443
+        }]
+    }
+    
   });
 
   grunt.loadNpmTasks('grunt-auto-install');
@@ -126,5 +136,5 @@ module.exports = function(grunt) {
   grunt.registerTask('default', ['auto_install', 'jshint']);
   grunt.registerTask('build', ['default', 'sencha:release']);
   grunt.registerTask('dist', ['clean', 'build', 'copy']);
-  grunt.registerTask('devserver', ['default', 'connect', 'watch']);
+  grunt.registerTask('devserver', ['default', 'configureProxies', 'connect', 'watch']);
 };
