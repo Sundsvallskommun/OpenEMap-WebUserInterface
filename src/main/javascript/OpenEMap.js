@@ -52,7 +52,7 @@ Ext.apply(OpenEMap, {
      * WS paths to be used for AJAX requests
      */
     wsUrls: {
-        basePath:   '/openemapadmin/',
+        basePath:   '/openemap-admin/',
         configs:    'configurations/configs',
         servers:    'settings/servers',
         layers:     'layers/layers',

@@ -124,9 +124,9 @@ Ext.define('OpenEMap.view.SearchFastighet', {
             } ]    }
         ];
         
-        if (!this.renderTo) {
+        //if (!this.renderTo) {
             this.items.push(grid);
-        }
+        //}
 
         this.callParent(arguments);
     }
