@@ -38,7 +38,7 @@ Ext.define('OpenEMap.data.DataHandler', {
     * @param {Function} callback    callback-function on success
     */
     getLayer: function(id, callback) {
-        if(this.wsUrls.layers && id) {
+        /*if(this.wsUrls.layers && id) {
             this.doRequest(
                 {
                     url: this.wsUrls.basePath + this.wsUrls.layers + '/' + id
@@ -47,7 +47,7 @@ Ext.define('OpenEMap.data.DataHandler', {
                     callback(json);
                 }
             );
-        }
+        }*/
     },
 
 
@@ -56,14 +56,14 @@ Ext.define('OpenEMap.data.DataHandler', {
     * @param {Function} callback    callback-function on success
     */
     getLayers: function(callback) {
-        if(this.wsUrls.layers) {
+        /*if(this.wsUrls.layers) {
             this.doRequest(
                 {
                     url: this.wsUrls.basePath + this.wsUrls.layers
                 },
                 callback
             );
-        }
+        }*/
     },
 
     /**

@@ -119,6 +119,9 @@ module.exports = function(grunt) {
             host: 'kartatest.e-tjansteportalen.se',
             https: true,
             port: 443
+        }, {
+            context: '/openemap-admin',
+            host: 'localhost'
         }]
     }
     

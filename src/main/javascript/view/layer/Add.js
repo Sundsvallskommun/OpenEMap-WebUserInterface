@@ -101,7 +101,7 @@ Ext.define('OpenEMap.view.layer.Add' ,{
         this.store = Ext.create('OpenEMap.data.GroupedLayerTree');
 
         // Create server store
-        this.serverStore = Ext.create('OpenEMap.data.Servers',{ 
+        /*this.serverStore = Ext.create('OpenEMap.data.Servers',{ 
             proxy: {
                 url: OpenEMap.wsUrls.basePath + OpenEMap.wsUrls.servers,
                 type: 'ajax',
@@ -110,10 +110,10 @@ Ext.define('OpenEMap.view.layer.Add' ,{
                     root: 'configs'
                 }
             }
-        });
+        });*/
 
         // Wait for server load to initiate layer tree
-        this.serverStore.load({
+        /*this.serverStore.load({
             callback: function() {
                 me.dataHandler.getLayers(function(layers) {
                     if(layers) {
@@ -131,7 +131,7 @@ Ext.define('OpenEMap.view.layer.Add' ,{
                     
                 });
             }
-        });
+        });*/
 
         this.callParent(arguments);
 

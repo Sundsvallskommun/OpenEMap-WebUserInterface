@@ -34,7 +34,7 @@ Ext.define('OpenEMap.data.Servers' ,{
 
     constructor: function(config) {
         config = Ext.apply(this, config);
-        if(this.url) {
+        /*if(this.url) {
             this.proxy = {
                 type: 'ajax',
                 url: this.url,
@@ -43,7 +43,7 @@ Ext.define('OpenEMap.data.Servers' ,{
                     root: 'configs'
                 }
             };
-        }
+        }*/
         this.callParent([config]);
     }
 });
