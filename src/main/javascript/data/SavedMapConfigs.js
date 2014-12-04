@@ -37,8 +37,8 @@ Ext.define('OpenEMap.data.SavedMapConfigs' ,{
     proxy: {
         type: 'rest',
         appendId: true,
-        url: (OpenEMap && OpenEMap.wsUrls && OpenEMap.wsUrls.basePath) ? OpenEMap.wsUrls.basePath : '' + 
-        		(OpenEMap && OpenEMap.wsUrls && OpenEMap.wsUrls.configs) ? OpenEMap.wsUrls.configs : '',
+        url: ((OpenEMap && OpenEMap.wsUrls && OpenEMap.wsUrls.basePath) ? OpenEMap.wsUrls.basePath : '') + 
+        		((OpenEMap && OpenEMap.wsUrls && OpenEMap.wsUrls.configs) ? OpenEMap.wsUrls.configs : ''),
         reader: {
             type: 'json',
             root: 'configs'
