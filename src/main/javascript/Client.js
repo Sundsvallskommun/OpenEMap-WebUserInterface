@@ -123,6 +123,7 @@ Ext.define('OpenEMap.Client', {
             config: config,
             gui: options.gui,
             map: this.map,
+            client: this,
             orginalConfig: this.initialConfig
         });
         this.mapPanel = this.gui.mapPanel;
@@ -441,7 +442,7 @@ Ext.define('OpenEMap.Client', {
 		if (popupLayers) {
 			// Remove popup layers
 			popupLayers.forEach(function(layer) {
-				this.mapClient.removePopupLayer(layer);
+				this.removePopupLayer(layer);
 			});
 		}
     },
@@ -456,7 +457,7 @@ Ext.define('OpenEMap.Client', {
             }
 	        if (this.map.layers) {
 				// Remove popup layers
-				this.mapClient.destroyPopupLayers();
+				this.destroyPopupLayers();
 	        }
         }
         if (this.gui) this.gui.destroy();
