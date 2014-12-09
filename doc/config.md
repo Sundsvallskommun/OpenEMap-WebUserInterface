@@ -1,6 +1,7 @@
 
 # MapClient configuration
 ## Base tags on the highest level of the configuration file
+Example of a complete config file [testAll.json](testAll.json)
 ```json
 {
 	"configId": idOfTheConfig,
@@ -133,9 +134,19 @@ A layer can include a WMS-specifgication and a WFS-specification. WMS are used t
             "type": "Identify", ' Identify features in map
             "useRegisterenhet": whetherOrNotToUseRegisterenhet, ' turns on identifying real estate parcels
             "tolerance": toleranceInPixels ' defaults to radius 3 pixels
-	},
-       	"MeasureLine", ' Meassure lengths
-        "MeasureArea", ' Meassure areas
+		},
+        {
+            "type": "Popup", ' Show popup for features in "popupLayers"
+            "tolerance": toleranceInPixels ' defaults to radius 3 pixels
+		},
+       	{ ' Meassure lengths
+       		"type": "MeasureLine", 
+       		"accuracy": AccuracyOfMeasurements 
+       	}, 
+       	{ ' Meassure areas
+       		"type": "MeasureArea", 
+       		"accuracy": AccuracyOfMeasurements 
+       	}, 
         "DeleteMeasure", ' deletes all meassures in map
         { ' Draw polygons on map
             "type": "DrawGeometry",

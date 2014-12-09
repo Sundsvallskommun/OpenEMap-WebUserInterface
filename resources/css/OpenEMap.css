@@ -37,11 +37,17 @@ ul, li {
 .action-identify {
 	background-image: url("../images/oep-tools-icons/info.png");
 }
+.action-popup {
+	background-image: url("../images/oep-tools-icons/info.png");
+}
 .action-measureline {
 	background-image: url("../images/oep-tools-icons/measure_line.png");
 }
 .action-measurearea {
 	background-image: url("../images/oep-tools-icons/measure_area.png");
+}
+.action-deletemeasure {
+	background-image: url("../images/oep-tools-icons/erase.png");
 }
 .action-drawobject {
 	background-image: url("../images/oep-tools-icons/draw_geometry.png");
@@ -54,9 +60,6 @@ ul, li {
 }
 .action-drawpolygon {
 	background-image: url("../images/oep-tools-icons/draw_free.png");
-}
-.action-modifygeometry {
-	background-image: url("../images/oep-tools-icons/edit_geometry.png");
 }
 .action-drawgeometry {
 	background-image: url("../images/oep-tools-icons/draw_free.png");
@@ -76,11 +79,14 @@ ul, li {
 .action-draw-d {
 	background-image: url("../images/oep-tools-icons/geometry_d.png");
 }
-.action-deletegeometry {
-	background-image: url("../images/oep-tools-icons/erase.png");
+.action-modifygeometry {
+	background-image: url("../images/oep-tools-icons/edit_geometry.png");
 }
 .action-selectgeometry {
 	background-image: url("../images/oep-tools-icons/mouse.png");
+}
+.action-deletegeometry {
+	background-image: url("../images/oep-tools-icons/erase.png");
 }
 .action-deleteallfeatures {
 	background-image: url("../images/oep-tools-icons/erase_all.png");
@@ -97,6 +103,8 @@ ul, li {
 
 .zoomtools-minus {
     background-image: url("../images/oep-tools-icons/minus.png");
+    width: 32px !important;
+    height: 32px !important;
 }
 
 .zoomtools-plus {
@@ -162,4 +170,42 @@ ul, li {
 	position: absolute;
 	bottom:0px;
 	right:0px;
+}
+
+.oep-popup {
+    overflow: visible;
+}
+.oep-popup-anc {
+    background: transparent url(../images/anchor.png) no-repeat 0 0;
+    height: 16px;
+    width: 31px;
+    position: absolute;
+}
+.oep-popup-body {
+    padding: 5px;
+}
+.oep-show-coordinate {
+	background: none;
+	background-color: none;
+	color: #000000;
+	font-size: 10px;
+	border: none;
+	padding: 0;
+	height: auto;
+}
+/* Overwrite OpenLayers scaleline classes */ 
+.olControlScaleLine {
+	position: absolute;
+	bottom: 20px;
+	left: 20px;
+}
+.olControlScaleLineTop {
+	font-size: 10px;
+	border: solid 1px black;
+	border-top: none;
+}
+.olControlScaleLineBottom {
+	height: 0px;
+	border: none;
+	overflow: hidden;
 }

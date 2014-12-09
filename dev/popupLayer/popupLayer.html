@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+
+	    <link rel="stylesheet" type="text/css" href="/libs/ext-theme-oep/release/ext-theme-oep-1.0.0/oepTheme-all.css">
+	    <link rel="stylesheet" type="text/css" href="/OpenEMap-WebUserInterface/resources/css/OpenEMap.css">
+	
+	    <script type="text/javascript" src="/libs/OpenLayers-2.13.1/lib/OpenLayers.js"></script>  
+	    <script type="text/javascript" src="/libs/ext-4.2.1/ext-all.js"></script>
+	    <script type="text/javascript" src="/libs/ext-4.2.1/ext-theme-neptune.js"></script>
+	    <script type="text/javascript" src="/libs/ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
+	    <script type="text/javascript" src="/libs/proj4js/proj4-compressed.js"></script>
+	    <script type="text/javascript" src="/libs/proj4js/proj4_defs.js"></script>
+	    <script type="text/javascript" src="/libs/geoext2-all.js"></script>
+	    <script type="text/javascript">
+		  Ext.Loader.setConfig({
+		    disableCaching: false,
+		    paths: {
+		        OpenEMap: '../../src/main/javascript'
+//		        GeoExt: '../../../libs/geoext-2.0.1/src/GeoExt'
+		    }
+		  });
+	    </script> 
+
+	    <script type="text/javascript" src="popupLayerGeojson.js"></script>
+	    <script type="text/javascript" src="popupLayerStyles.js"></script>
+	
+
+	    <script type="text/javascript">
+	    var popupLayer = null;
+	    
+		Ext.onReady(function() {
+		    mapClient = Ext.create('OpenEMap.Client');
+			function init(name) {
+				Ext.Ajax.request({
+					url : name,
+					success : function(response) {
+						var config = Ext.decode(response.responseText);
+	
+						var gui = {
+							map : {
+								renderTo : 'map'
+							},
+							toolbar : {},
+							zoomTools : {}
+						};
+	
+						mapClient.destroy();
+						mapClient.configure(config, {
+							gui : gui
+						});
+						
+						// Create objects in map based on GeoJSON, see brandlarmGeojson.js with style specified in brandlarmStyles.js
+						popupLayer = mapClient.addPopupLayer(geojson, 'Popup layer example', 'id', 'popupText', '', '<a href="javascript:alert(\'Suffix link!\');">Suffix</a>', 'popupTitle', stylemapGraphics, 'EPSG:3006', true);
+
+						// Listen to event for feature selected
+		               	mapClient.map.events.register('popupfeatureselected', this, function(arg) {
+		               		console.log('Feature in layer ' + arg.layer.name + ' with id ' + arg.featureid + ' was selected.');
+	               		});
+						// Listen to event for feature unselected
+		               	mapClient.map.events.register('popupfeatureunselected', this, function(arg) {
+		               		console.log('Feature in layer ' + arg.layer.name + ' with id ' + arg.featureid + ' was unselected.');
+	               		});
+	               		// Showing brandlarm with id=1
+						mapClient.showPopupFeature(popupLayer, 5, true);
+					}
+				});
+			}
+			
+			init('popupLayerConfig.json');
+		});
+	    </script>
+	</head>
+	<body>
+    <div id="map" style="position: absolute; width: 100%; height: 650px" class="popup"></div>
+	</body>
+</html>

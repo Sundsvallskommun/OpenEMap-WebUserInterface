@@ -2,6 +2,8 @@
  * Published under MIT license. */
 
 /**
+ * @class OpenEMap.OpenLayers.Control.DynamicMeasure
+ *
  * @requires OpenLayers/Control/Measure.js
  * @requires OpenLayers/Rule.js
  * @requires OpenLayers/StyleMap.js
@@ -22,9 +24,9 @@ OpenLayers.Control.DynamicMeasure = OpenLayers.Class(
 
     /**
      * APIProperty: accuracy
-     * {Integer} Digits measurement accuracy, default is 5.
+     * {Integer} Digits measurement accuracy, default is 2.
      */
-    accuracy: 5,
+    accuracy: 2,
 
     /**
      * APIProperty: persist
@@ -789,7 +791,7 @@ OpenLayers.Control.DynamicMeasure = OpenLayers.Class(
      * measure - Array({*})
      */
     setMesureAttributes: function(attributes, measure) {
-        attributes.measure = OpenLayers.Number.format(measure[0].toFixed(2), null);
+        attributes.measure = OpenLayers.Number.format(measure[0].toFixed(this.accuracy), null);
                            //Number(measure[0].toPrecision(this.accuracy)), null);
         attributes.units = measure[1];
     },

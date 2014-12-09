@@ -15,6 +15,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 /**
+ * @param {Object} [config] config object to set properties on cretaion
  * @param {number} config.zoom Set to a zoom level to override default zooming behaviour and always zoom to the desired level
  */
 Ext.define('OpenEMap.view.SearchFastighet', {
@@ -23,19 +24,21 @@ Ext.define('OpenEMap.view.SearchFastighet', {
                 'OpenEMap.form.SearchRegisterenhet',
                 'OpenEMap.form.SearchAddress',
                 'OpenEMap.form.SearchPlacename',
+                'OpenEMap.form.SearchES',
                 'GeoExt.selection.FeatureModel'],
     border: false,
     initComponent : function() {
 
         if (!this.renderTo) {
-            this.title = 'Sök fastighet';
+            this.title = 'Sök';
             this.bodyPadding = 5;
         }
         
         var data = [
                     [ 'searchregisterenhet', 'Fastighet' ],
                     [ 'searchaddress', 'Adress' ],
-                    [ 'searchplacename', 'Ort' ]/*,
+                    [ 'searchplacename', 'Ort' ],
+                    [ 'searches', 'Detaljplaner']/*,
                     [ 'searchbyggnad', 'Byggnad' ]*/
                     ];
 
@@ -75,11 +78,9 @@ Ext.define('OpenEMap.view.SearchFastighet', {
             var searchCriteria = null;
             if (type === 'searchregisterenhet'){
                 searchCriteria = this.search && this.search.searchEstates ? this.search.searchEstates : null; 
-            }
-            else if (type === 'searchaddress'){
+            } else if (type === 'searchaddress'){
                 searchCriteria = this.search && this.search.searchAddresses ? this.search.searchAddresses : null;
-            }
-            else {
+            } else {
                 searchCriteria = this.search && this.search.searchPlacenames ? this.search.searchPlacenames : null;
             }
 

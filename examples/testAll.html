@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<!--
+    Copyright (C) 2014 Härnösands kommun
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<html lang="en">
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>Open eMap - Test all example</title>
+	<meta name="description" content="">
+	<meta name="author" content="Anders Erlandsson, Sundsvalls kommun" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" type="text/css" href="https://kartatest.e-tjansteportalen.se/libs/ext-theme-oep/oepTheme-all.css">
+    <link rel="stylesheet" type="text/css" href="../resources/css/OpenEMap.css">
+
+    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/libs/OpenLayers-2.13.1/lib/OpenLayers.js"></script>  
+    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/libs/ext-4.2.1/ext-all.js"></script>
+    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/libs/ext-4.2.1/ext-theme-neptune.js"></script>
+    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/libs/ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
+    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/libs/proj4js/proj4-compressed.js"></script>
+    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/libs/proj4js/proj4_defs.js"></script>
+    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/libs/geoext-2.0.2-rc.1-all.js"></script> 
+    <script type="text/javascript" src="../OpenEMap-1.4.0-rc.2-all.js"></script>
+
+    <script type="text/javascript">
+	  Ext.onReady(function() {
+		
+		mapClient = Ext.create('OpenEMap.Client');
+		
+		OpenEMap.basePathImages = '../resources/images/';
+		 
+		function init(name) {
+		    Ext.Ajax.request({
+		    	url: name,
+		    	success: function(response) {
+		    		var config = Ext.decode(response.responseText);
+
+		    		var gui = {
+		    			map: {
+		    			    renderTo: 'map'
+		    			},
+		    			toolbar: {x:20, y:20},
+//		    			toolbar: {renderTo: 'toolbar'},
+		    			zoomTools: {x:20, y:76},
+//						zoomTools: {renderTo: 'zoomtools'},
+						rightPanel: {x: 20, style: 'right: 20px'},
+//						rightPanel: {renderTo: 'rightpanel'},
+		    			layers: {},
+//		    			layers: {renderTo: 'layers'},
+		    			search: {},
+//		    			search: {renderTo: 'search'},
+		    		    searchFastighet: {zoom: 10},
+//		    		    searchFastighet: {renderTo: 'searchfastighet', zoom: 10},
+		    			searchCoordinate: {
+		    				renderTo: 'searchcoordinate',
+		    				listeners: {
+		    				    searchcomplete: function(e) {
+		    				        console.log('searchCoordinate searchcomplete ' + e);
+		    				    }
+		    				}
+		    			},
+		    			objectConfig: {x : 76, y: 76},
+		    			baseLayers: {},
+//		    			baseLayers: {renderTo: 'baselayers'},
+		    			showCoordinate : {renderTo : 'showcoordinate'},
+		    			scalebar : {}
+//		    			scalebar : {renderTo: 'scalebar'}
+		    		};
+		    	
+		    		mapClient.destroy();
+		    		mapClient.configure(config, {
+		    			gui: gui
+		    		});
+	    			
+	    			// Enabling edge labels on drawn polygons
+    	          	var labels = new OpenLayers.Rule({
+                      	filter: new OpenLayers.Filter.Comparison({
+                          	type: OpenLayers.Filter.Comparison.EQUAL_TO,
+                          	property: "type",
+                          	value: "label"
+                      	}),
+                        symbolizer: {
+                          	pointRadius: 20,
+                          	fillOpacity: 0,
+                          	strokeOpacity: 0,
+                          	label: "${label}"   
+                       	}
+                    });
+    	          	mapClient.drawLayer.styleMap.styles['default'].addRules([labels]);
+			     	mapClient.toggleEdgeLabels();
+
+		    	}
+		    });
+		}
+	    
+		init('testAll.json');
+	  });
+    </script>
+</head>
+<body>
+<div id="map" style="position: absolute; width: 100%; height: 100%"></div>
+<div id="toolbar" style="position: absolute; top: 20px; left: 20px;"></div>
+<div id="zoomtools" style="position: absolute; top: 76px; left: 20px;"></div>
+<div id="rightpanel" style="position: absolute; top: 20px; right: 20px;"></div>
+<div id="layers" style="position: absolute; top: 20px; right: 20px; width:200px;"></div>
+<div id="search" style="position: absolute; bottom: 760px; right: 20px;"></div>
+<div id="baselayers" style="position: absolute; bottom: 20px; right: 20px;"></div>
+<div id="searchfastighet" style="position: absolute; bottom: 300px; right: 20px; width: 200px;"></div>
+<div id="searchcoordinate" style="position: absolute; bottom: 10px; left: 150px;"></div>
+<div id="objectconfig" style="position: absolute; top: 76px; left: 76px;" ></div>
+<div id="showcoordinate" style="position: absolute; bottom: 0px; left: 10px;" ></div>
+<div id="scalebar" style="position: absolute; bottom: 20px; left: 10px;" ></div>
+
+</body>
+</html>

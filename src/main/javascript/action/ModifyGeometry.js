@@ -36,6 +36,7 @@
  *      }
  *    } 
  *    
+ * @param {Object} [config] 
  * @param {boolean} config.drag Allow dragging of features
  * @param {boolean} config.rotate Allow rotation of features
  * @param {boolean} config.resize Allow resizing of features

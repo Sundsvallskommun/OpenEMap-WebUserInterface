@@ -4,6 +4,7 @@
  * full text of the license. */
 
 /**
+ * @class OpenEMap.OpenLayers.Control.ModifyFeature
  * @requires OpenLayers/Control.js
  * @requires OpenLayers/Handler/Drag.js
  * @requires OpenLayers/Handler/Keyboard.js
@@ -532,7 +533,7 @@ OpenLayers.Control.ModifyFeature = OpenLayers.Class(OpenLayers.Control, {
         var geom = vertex.geometry;
         geom.move(pos.lon - geom.x, pos.lat - geom.y);
         this.modified = true;
-        /**
+        /*
          * Five cases:
          * 1) dragging a simple point
          * 2) dragging a virtual vertex

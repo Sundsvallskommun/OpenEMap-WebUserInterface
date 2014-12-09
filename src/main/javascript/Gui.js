@@ -16,7 +16,7 @@
 */
 /**
  * Initializes GUI from configuration
- * Initialize where to place the different GUI components, and if they should be floating components or 
+ * Initialize where to place the different GUI components, and if they should be floating components or not 
  */
 Ext.define('OpenEMap.Gui', {
     activeAction: null,
@@ -28,6 +28,8 @@ Ext.define('OpenEMap.Gui', {
                'OpenEMap.view.ObjectConfig',
                'OpenEMap.view.SearchCoordinate',
                'OpenEMap.view.SearchFastighet',
+//               'OpenEMap.view.Scalebar',
+               'OpenEMap.view.ShowCoordinate',
                'OpenEMap.view.ZoomTools',
                'GeoExt.container.WmsLegend',
                'GeoExt.container.UrlLegend',
@@ -51,7 +53,9 @@ Ext.define('OpenEMap.Gui', {
                 "layers": {},
                 "searchFastighet": {},
                 "objectConfig": {},
-                "searchCoordinate": false
+//                "scalebar": {},
+                "searchCoordinate": false,
+                "showCoordinate": false
             };
         }
         
@@ -80,6 +84,17 @@ Ext.define('OpenEMap.Gui', {
         if (this.rightPanel) items.push(this.rightPanel);
         if (this.baseLayers) items.push(this.baseLayers);
         
+        // NOTE: Generic ES search as a floating centered field
+        /*this.search = Ext.create('OpenEMap.form.Search', {
+            mapPanel : this.mapPanel,
+            width: 300,
+            style: {
+                right: '40%'
+            },
+            y: 70
+        });
+        items.push(this.search);*/
+        
         // create map rendered to a target element or as viewport depending on config
         if (this.gui.map) {
             var element = this.gui.map.renderTo ? Ext.get(this.gui.map.renderTo) : undefined;
@@ -103,6 +118,7 @@ Ext.define('OpenEMap.Gui', {
         if (this.mapLayers) this.mapLayers.destroy();
         if (this.searchFastighet) this.searchFastighet.destroy();
         if (this.searchCoordinate) this.searchCoordinate.destroy();
+        if (this.showCoordinate) this.showCoordinate.destroy();
         if (this.toolbar) this.toolbar.destroy();
         if (this.leftPanel) this.leftPanel.destroy();
         if (this.rightPanel) this.rightPanel.destroy();
@@ -148,24 +164,27 @@ Ext.define('OpenEMap.Gui', {
 
                 if (type == 'ZoomSelector') {
                     return Ext.create('OpenEMap.form.ZoomSelector', {map: this.map});
+                } else if (type == 'DrawObject') {
+                     config.objectConfigView = this.objectConfig;
+                } else if (type == 'Identify') {
+                    config.basePath = basePath;
+                    config.layers = layers;
+                } else if (type == 'Popup') {
+                    config.layers = layers;
+					if ((config.showOnlyFirstHit === undefined) || (config.showOnlyFirstHit === null)) {
+						config.showOnlyFirstHit = true;
+	                }
+				}
+				
+                var action = Ext.create('OpenEMap.action.' + type, config);
+                if (config.activate && action.control) {
+                    this.controlToActivate = action.control;
                 }
-                else {
-                    if (type == 'DrawObject') {
-                        config.objectConfigView = this.objectConfig;
-                    } else if (type == 'Identify') {
-                        config.basePath = basePath;
-                        config.layers = layers;
-                    }
-                    var action = Ext.create('OpenEMap.action.' + type, config);
-                    if (config.activate && action.control) {
-                        this.controlToActivate = action.control;
-                    }
-                    var button = Ext.create('Ext.button.Button', action);
-                    button.on('toggle', this.onToggle, this);
-                    return button;
-                }
+                var button = Ext.create('Ext.button.Button', action);
+                button.on('toggle', this.onToggle, this);
+                return button;
             }
-        };
+        }
         
         if (!this.config.tools) {
             this.config.tools = [];
@@ -178,15 +197,17 @@ Ext.define('OpenEMap.Gui', {
         var width = 6; // padding
         tbar.forEach(function(item) {
             if (item){
-                if (item.constructor == String) {
-                    width += 1; // separator
-                } else if (item.width) {
-                    width += item.width;
-                } else {
-                    width += 24; // button
+                if (!item.hideFromToolbar) {
+	                if (item.constructor == String) {
+	                    width += 1; // separator
+	                } else if (item.width) {
+	                    width += item.width;
+	                } else {
+	                    width += 24; // button
+	                }
+	                // add spacing to next control
+	                width += 8;
                 }
-                // add spacing to next control
-                width += 8;
             }
         });
         width += 3; // padding
@@ -311,6 +332,36 @@ Ext.define('OpenEMap.Gui', {
                 items: this.objectConfig
             }, this.gui.objectConfig));
             this.objectConfigWindow.show();
+        }
+
+        // Create Show Coordinate control - only show coordinates if renderTo is set
+        if (this.gui.showCoordinate && this.gui.showCoordinate.renderTo) {
+        	if (!this.cls) {
+        		this.cls = 'oep-show-coordinate';
+        	} 
+        	var cfg = {
+                mapPanel : this.mapPanel,
+                cls : this.cls,
+			    setCoord: function(e) {
+			    	var lonlat = this.getLonLatFromPixel(e.xy);
+			    	var e = parent.mapClient.gui.showCoordinate.getComponent('e');
+			    	var n = parent.mapClient.gui.showCoordinate.getComponent('n');
+			    	e.setValue(Math.round(lonlat.lon));
+			    	n.setValue(Math.round(lonlat.lat));
+			    }
+        	}
+            this.showCoordinate = Ext.create('OpenEMap.view.ShowCoordinate', Ext.apply(cfg, this.gui.showCoordinate));
+
+		    this.map.events.register("mousemove", this.map, this.showCoordinate.setCoord);
+        }
+
+        // Create scalebar control
+        if (this.gui.scalebar) {
+        	// TODO - Defaults to lower left corner of map
+            this.scalebar = Ext.create('OpenEMap.view.Scalebar', Ext.apply({
+                mapPanel : this.mapPanel,
+                renderTo: this.renderTo
+            }, this.gui.scalebar));
         }
     }
 });

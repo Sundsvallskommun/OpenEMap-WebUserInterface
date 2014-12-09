@@ -15,13 +15,21 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
+<<<<<<< HEAD
 <!--
 	Uses parameter "configid" to open a config from Open eMap Admin service
 -->
 <html>
+=======
+
+<html lang="en">
+>>>>>>> release/1.3.0
 <head>
-	<title>map-client</title>
-	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>Open eMap Client</title>
+	<meta name="description" content="">
+	<meta name="author" content="Anders Erlandsson, Sundsvalls kommun" />
+	<meta name="viewport" content="width=device-width; initial-scale=1.0">
 
     <link rel="stylesheet" type="text/css" href="/libs/ext-theme-oep/oepTheme-all.css">
     <link rel="stylesheet" type="text/css" href="resources/css/OpenEMap.css">  
@@ -29,9 +37,11 @@
     <script type="text/javascript" src="/libs/ext-4.2.1/ext-theme-neptune.js"></script>
     <script type="text/javascript" src="/libs/ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
     <script type="text/javascript" src="/libs/OpenLayers-2.13.1/OpenLayers.js"></script>
-    <script type="text/javascript" src="/libs/geoext2-all.js"></script> 
+    <script type="text/javascript" src="/libs/proj4js/proj4-compressed.js"></script>
+    <script type="text/javascript" src="/libs/proj4js/proj4_defs.js"></script>
+    <script type="text/javascript" src="/libs/geoext-2.0.2-rc.1-all.js"></script> 
     <script type="text/javascript" src="/libs/es5-shim.min.js"></script>
-    <script type="text/javascript" src="OpenEMap-1.2.0-all.js"></script>
+    <script type="text/javascript" src="OpenEMap-1.3.0-all.js"></script>
 
 <script type="text/javascript">
 	Ext.onReady(function() {
@@ -72,7 +82,7 @@
 						filter : new OpenLayers.Filter.Comparison({
 							type : OpenLayers.Filter.Comparison.EQUAL_TO,
 							property : "type",
-							value : "label",
+							value : "label"
 						}),
 						symbolizer : {
 							pointRadius : 20,

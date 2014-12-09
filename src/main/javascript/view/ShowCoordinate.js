@@ -1,4 +1,4 @@
-﻿/*    
+/*    
     Copyright (C) 2014 Härnösands kommun
 
     This program is free software: you can redistribute it and/or modify
@@ -15,47 +15,47 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 /**
+ * Gui for showing coordinates in map
  * @param {Object} [config] config object to set properties on cretaion
- * @param {number} [config.zoom] Set to a zoom level to override the default
+ * @param {Object} [config.cls] CSS-class to apply when rendering 
  */
-Ext.define('OpenEMap.view.SearchCoordinate', {
+Ext.define('OpenEMap.view.ShowCoordinate', {
     extend : 'Ext.container.Container',
-    layout: 'column',
     defaults: {
-        labelWidth: 20
+        labelWidth: 10
     },
-    width: 300,
     border: false,
-    zoom: 5,
-    initComponent : function(config) {
+    layout: 'column',
+    width: 150,
+    srs: '',
+    constructor : function(config) {
         this.items = [ {
             itemId: 'e',
             fieldLabel: 'E',
             xtype : 'textfield',
-            columnWidth: 0.5
+            columnWidth: 0.5,
+            baseCls: config.cls,
+            baseBodyCls: config.cls,
+            bodyCls: config.cls,
+            fieldCls: config.cls,
+            fieldBodyCls: config.cls,
+            formItemCls: config.cls, 
+            inputRowCls: config.cls,
+            labelCls: config.cls
         },{
             itemId: 'n',
             fieldLabel: 'N',
             xtype : 'textfield',
-            columnWidth: 0.5
-        }, {
-            xtype: 'button',
-            text: 'Sök',
-            handler: function() {
-                var x = this.down('#e').getValue();
-                var y = this.down('#n').getValue();
-                this.mapPanel.map.setCenter([x, y], this.zoom);
-                this.fireEvent('searchcomplete', [x, y]);
-            },
-            scope: this
+            columnWidth: 0.5,
+            baseCls: config.cls,
+            baseBodyCls: config.cls,
+            bodyCls: config.cls,
+            fieldCls: config.cls,
+            fieldBodyCls: config.cls,
+            formItemCls: config.cls, 
+            inputRowCls: config.cls,
+            labelCls: config.cls
         }];
-        
-        this.addEvents([/**
-                         * @event searchcomplete
-                         * Fires after coordinate search is complete
-                         * @param {Array.<Number>} coordinate
-                         */
-                        'searchcomplete']);
         
         this.callParent(arguments);
     }
