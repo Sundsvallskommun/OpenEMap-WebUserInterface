@@ -135,6 +135,12 @@ Ext.define('OpenEMap.Client', {
         }
     },
     /**
+     * @return {Object} Object representation of current Open eMap configuration
+     */
+    getConfig: function() {
+       return this.gui.mapLayers.getConfig(); 
+    },
+    /**
      * @param {String=} Name of layout to use (default is to use first layout as reported by server)
      * @return {String} JSON encoding of current map for MapFish Print module
      */

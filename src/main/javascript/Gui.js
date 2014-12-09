@@ -258,7 +258,8 @@ Ext.define('OpenEMap.Gui', {
 	            }, this.gui.layers));
 	        } else {
 	            this.mapLayers = Ext.create('OpenEMap.view.layer.Basic', Ext.apply({
-	                mapPanel : this.mapPanel
+	                mapPanel : this.mapPanel,
+	                client: this.client
 	            }, this.gui.layers));
 	        }
 	        
