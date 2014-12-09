@@ -137,6 +137,7 @@ A layer can include a WMS-specifgication and a WFS-specification. WMS are used t
 		},
         {
             "type": "Popup", ' Show popup for features in "popupLayers"
+        	"showOnlyFirstHit": whetherToShowOneOrManyHits, ' defaults to true
             "tolerance": toleranceInPixels ' defaults to radius 3 pixels
 		},
        	{ ' Meassure lengths
