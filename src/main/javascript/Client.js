@@ -124,6 +124,7 @@ Ext.define('OpenEMap.Client', {
             config: config,
             gui: options.gui,
             map: this.map,
+            client: this,
             orginalConfig: this.initialConfig
         });
         this.mapPanel = this.gui.mapPanel;
