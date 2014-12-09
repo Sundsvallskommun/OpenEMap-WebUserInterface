@@ -39,7 +39,7 @@ Ext.define('OpenEMap.view.layer.Advanced' ,{
 	width: 500,
 	height: 650,
 
- 	initComponent: function() {
+ 	initComponent: function(config) {
  		var me = this;
 
  		this.dataHandler = Ext.create('OpenEMap.data.DataHandler');
@@ -49,7 +49,8 @@ Ext.define('OpenEMap.view.layer.Advanced' ,{
  		});
 
  		this.savedMapConfigs = Ext.create('OpenEMap.view.SavedMapConfigs', {
- 			dataHandler: this.dataHandler
+ 			dataHandler: this.dataHandler,
+ 			client: this.client
  		});
 
 		this.showOnMapLayerView = Ext.create('OpenEMap.view.layer.Tree', {
