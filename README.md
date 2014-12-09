@@ -18,7 +18,10 @@ Integrate into HTML page using the following snippet:
     <script type="text/javascript" src="/libs/ext-4.2.1/ext-theme-neptune.js"></script>
     <script type="text/javascript" src="/libs/ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
     <script type="text/javascript" src="/libs/OpenLayers-2.13.1/OpenLayers.js"></script>
+    <script type="text/javascript" src="/libs/proj4js/proj4-compressed.js"></script>
+    <script type="text/javascript" src="/libs/proj4js/proj4_defs.js"></script>
     <script type="text/javascript" src="/libs/geoext2-all.js"></script> 
+    <script type="text/javascript" src="/libs/geoext-2.0.1-oemap-all.js"></script> 
     <script type="text/javascript" src="/libs/es5-shim.min.js"></script>
     <script type="text/javascript" src="OpenEMap-all.js"></script>
     
@@ -46,12 +49,13 @@ NOTE: Uses theme [SundsvallsKommun/ext-theme-oep](https://github.com/Sundsvallsk
 NOTE: es5-shim.min.js is required for IE 8 compatibility only
 
 ##Homepage
-<a href="http://oemap.org"><img alt="Open eMap homepage" src="http://oemap.org/img/logotyp.png" width="200"></a>
+<a href="http://oemap.org"><img alt="Open eMap homepage" src="http://oemap.org/images/logo.png" width="200"></a>
 
 ## Documentation
 ###API Docs 
-####[1.1.0](http://oemap.org/doc/OpenEMapWebUserInterface/1.1.0/)
+####[1.3.0](http://oemap.org/doc/OpenEMapWebUserInterface/1.3.0/)
 ####[1.2.0](http://oemap.org/doc/OpenEMapWebUserInterface/1.2.0/)
+####[1.1.0](http://oemap.org/doc/OpenEMapWebUserInterface/1.1.0/)
 
 ## Development
 
@@ -60,6 +64,7 @@ Assumed external dependencies:
  * GeoExt 2 in folder /libs/
  * OpenLayers 2.13 in folder /libs/OpenLayers-2.13.1
  * ext-theme-oep in folder /libs/ext-theme-oep - ext theme for Open ePlatform and Open eMap, se repository [SundsvallsKommun/ext-theme-oep](https://github.com/Sundsvallskommun/ext-theme-oep)
+ * proj4js in folder /libs/proj4js - support for coordinate system transformation 
 
 ## Versioning
 
