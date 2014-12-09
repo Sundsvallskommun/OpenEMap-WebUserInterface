@@ -18,7 +18,7 @@ Integrate into HTML page using the following snippet:
     <script type="text/javascript" src="/libs/OpenLayers-2.13.1/OpenLayers.js"></script>
     <script type="text/javascript" src="/libs/proj4js/proj4-compressed.js"></script>
     <script type="text/javascript" src="/libs/proj4js/proj4_defs.js"></script>
-    <script type="text/javascript" src="/libs/geoext2-all.js"></script> 
+    <script type="text/javascript" src="/libs/geoext-2.0.1-oemap-all.js"></script> <!-- OEMap specific build of geoext2, correcting problem with borderwidth for popup window. --> 
     <script type="text/javascript" src="/libs/es5-shim.min.js"></script>
     <script type="text/javascript" src="release/OpenEMap-1.2.0/OpenEMap-1.2.0-all.js"></script>
     
@@ -49,8 +49,9 @@ NOTE: es5-shim is required for IE 8 compatibility only
 
 ## Documentation
 ###API Docs 
-####[1.1.0](http://oemap.org/doc/OpenEMapWebUserInterface/1.1.0/)
+####[1.3.0](http://oemap.org/doc/OpenEMapWebUserInterface/1.3.0/)
 ####[1.2.0](http://oemap.org/doc/OpenEMapWebUserInterface/1.2.0/)
+####[1.1.0](http://oemap.org/doc/OpenEMapWebUserInterface/1.1.0/)
 
 ## Development
 
