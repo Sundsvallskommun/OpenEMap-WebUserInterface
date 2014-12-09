@@ -58,8 +58,8 @@ NOTE: es5-shim is required for IE 8 compatibility only
 Requirements:
 
 * Node JS >0.10
-* Grunt CLI (install with `npm -g grunt-cli`)
-* Bower (install with `npm -g bower`)
+* Grunt CLI (install with `npm -g install grunt-cli`)
+* Bower (install with `npm -g install bower`)
 
 A fresh clone of the repository will require running `npm install` in its root. After that you can start devserver on `http://localhost:8000` by running `grunt devserver`. A development example should be runnable at `http://localhost:8000/dev/debug.html`. Changes to any source file will in the debug version automatically reload the page.
 
