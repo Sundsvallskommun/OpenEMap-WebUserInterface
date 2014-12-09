@@ -145,9 +145,11 @@ Ext.define('OpenEMap.action.Identify', {
                 var parser = Ext.create('OpenEMap.config.Parser');
                
                 // TODO - only return layers that are visible 
-                var wfsLayers =  parser.extractWFS(layers);
+                var queryableLayers =  parser.extractQueryableLayers(mapPanel.map.layerTree);
+                var wfsLayers = parser.extractWFS(queryableLayers);
                 
                 var wfsIdentify = function(wfsLayer) {
+                	wfsLayer.wfs.url = OpenEMap.basePathProxy + wfsLayer.wfs.url;
                     var options = Ext.apply({
                         version: "1.1.0",
                         srsName: map.projection

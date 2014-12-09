@@ -48,6 +48,12 @@ Ext.apply(OpenEMap, {
     basePathImages: 'resources/images/',
 
     /**
+     * @property {string} 
+     * Base path to proxy to be used for WFS-post
+     */
+    basePathProxy: 'http://localhost:8080/cgi-bin/proxy.py?url=',
+
+    /**
      * @property {Object} 
      * WS paths to be used for AJAX requests
      */
