@@ -1,11 +1,11 @@
-<a href="http://oemap.org"><img alt="Open eMap homepage" src="http://oemap.org/img/logotyp.png"></a>
+<a href="http://oemap.org"><img alt="Open eMap homepage" src="http://oemap.org/images/logo.png"></a>
 # OpenEMap-WebUserInterface (map-client)
 
 Configurable map viewer
 
 Based on Ext JS 4, GeoExt 2 and OpenLayers 2.13.1
 
-Ext JS application name is MapClient
+Ext JS application name is OpenEMap.Client
 
 ## Integration
 
@@ -34,7 +34,7 @@ Integrate into HTML page using the following snippet:
     </script>
     
 	<div id="toolbar"></div>
-	<div id="map" style="position: absolute; left: 120px; width: 100%; height: 650px" class="popup"></div>
+	<div id="map" style="position: absolute; width: 100%; height: 100%" class="popup"></div>
 	<div id="layers"></div>
 	<div id="searchfastighet"></div>
 	<div id="searchcoordinate"></div>
@@ -60,7 +60,7 @@ NOTE: es5-shim.min.js is required for IE 8 compatibility only
 
 Assumed external dependencies:
  * Ext JS 4.2.1 in folder /libs/ext-4.2.1
- * GeoExt 2 in folder /libs/
+ * GeoExt 2 in folder /libs/ - [https://github.com/Sundsvallskommun/geoext2](OEMap fork fixing border issue in popup window)  
  * OpenLayers 2.13 in folder /libs/OpenLayers-2.13.1
  * ext-theme-oep in folder /libs/ext-theme-oep - ext theme for Open ePlatform and Open eMap, se repository [SundsvallsKommun/ext-theme-oep](https://github.com/Sundsvallskommun/ext-theme-oep)
  * proj4js in folder /libs/proj4js - support for coordinate system transformation 
