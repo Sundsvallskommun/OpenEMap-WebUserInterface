@@ -42,6 +42,7 @@ Ext.define('OpenEMap.Gui', {
         this.orginalConfig = config.orginalConfig;
         this.serverStore = config.serverStore;
         this.search = config.config.search;
+        this.client = config.client;
 
         // GUI defaults
         if (this.gui === undefined) {
@@ -126,7 +127,7 @@ Ext.define('OpenEMap.Gui', {
         if (this.objectConfig) this.objectConfig.destroy();
         if (this.objectConfigWindow) this.objectConfigWindow.destroy();
         if (this.scalebar) this.scalebar.destroy();
-        if (this.search) this.search.destroy();
+        //if (this.search) this.search.destroy();
     },
     onToggle: function(button, pressed) {
         var action = button.baseAction;
@@ -252,7 +253,8 @@ Ext.define('OpenEMap.Gui', {
 	        if (this.gui.layers && this.gui.layers.type === 'advanced') {
 	            this.mapLayers = Ext.create('OpenEMap.view.layer.Advanced', Ext.apply({
 	                mapPanel : this.mapPanel,
-	                orginalConfig: this.orginalConfig
+	                orginalConfig: this.orginalConfig,
+	                client: this.client
 	            }, this.gui.layers));
 	        } else {
 	            this.mapLayers = Ext.create('OpenEMap.view.layer.Basic', Ext.apply({

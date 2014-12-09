@@ -113,6 +113,7 @@ Ext.define('OpenEMap.Client', {
         options = Ext.apply({}, options);
         
         this.initialConfig = Ext.clone(config);
+        this.initialOptions = Ext.clone(options);
         
         Ext.tip.QuickTipManager.init();
         
