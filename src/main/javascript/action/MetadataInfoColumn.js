@@ -31,7 +31,6 @@ Ext.define('OpenEMap.action.MetadataInfoColumn', {
     text: '',
     width: 22,
     menuDisabled: true,
-    xtype: 'actioncolumn',
     align: 'center',
     iconCls: 'action-identify',
 
