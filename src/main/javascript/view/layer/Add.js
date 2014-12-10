@@ -105,20 +105,32 @@ Ext.define('OpenEMap.view.layer.Add' ,{
         var root = this.store.setRootNode({});
         
         var children = wms.capability.layers.map(function(layer) {
-            return {
+            
+            var layerConfig = {
                 'text': layer.name,
                 'leaf': true,
+                'checked': true,
                 'title': layer.title,
                 'isGroupLayer': false,
                 'isSearchable': true,
+                'visibility': true,
                 'wms':{
                     'url': OpenEMap.wmsURLs.url,
                     'params': {
                         'layers': layer.name,
-                        'format': 'image/png'
+                        'format': 'image/png',
+                        'transparent': true
+                    },
+                    'options': {
+                        'isBaseLayer': false
                     }
                 }
             };
+            
+            var parser = Ext.create('OpenEMap.config.Parser');
+            layerConfig.layer = parser.createLayer(layerConfig);
+
+            return layerConfig;
         });
         
         root.appendChild(children);
