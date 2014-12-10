@@ -500,6 +500,22 @@ Ext.apply(OpenEMap, {
      */
     basePathImages: 'resources/images/',
 
+    basePathWMS: '/geoserver/wms',
+    
+    /**
+     * URL/paths related to WMS usage / advanced layer list
+     */
+    wmsURLs: {
+        /**
+         * URL to be used to fetch WMS capabilities etc. for add layer UI
+         */
+        basePath: '/geoserver/wms',
+        /**
+         * URL to be used when WMS layer has been added to config
+         */
+        url: 'https://extmaptest.sundsvall.se/geoserver/wms'
+    },
+
     /**
      * @property {Object} [wsUrls] WS paths to be used for AJAX requests
      */

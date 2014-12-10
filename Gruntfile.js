@@ -113,6 +113,16 @@ module.exports = function(grunt) {
             https: true,
             port: 443
         }, {
+            context: '/search/es',
+            host: 'kartatest.e-tjansteportalen.se',
+            https: true,
+            port: 443
+        }, {
+            context: '/geoserver/wms',
+            host: 'extmaptest.sundsvall.se',
+            https: true,
+            port: 443
+        }, {
             context: '/print',
             host: 'kartatest.e-tjansteportalen.se',
             https: true,

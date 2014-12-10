@@ -99,6 +99,35 @@ Ext.define('OpenEMap.view.layer.Add' ,{
 
         // Create store for the layer tree
         this.store = Ext.create('OpenEMap.data.GroupedLayerTree');
+        
+        Ext.Ajax.request({
+            url: OpenEMap.wmsURLs.basePath + '?service=WMS&request=GetCapabilities',
+            success: function(response) {
+                var format = new OpenLayers.Format.WMSCapabilities();
+                var wms = format.read(response.responseText);
+                
+                var root = this.store.setRootNode({
+                });
+                
+                //console.log(wms);
+                
+                wms.capability.layers.forEach(function(layer) {
+                    root.appendChild({
+                        'text': layer.name,
+                        'isGroupLayer': false,
+                        'isSearchable': true,
+                        'wms':{
+                            'url': OpenEMap.wmsURLs.url,
+                            'params': {
+                                'layers': layer.name,
+                                'format': 'image/png'
+                            }
+                        }
+                    });
+                }, this);
+            },
+            scope: this
+        });
 
         // Create server store
         /*this.serverStore = Ext.create('OpenEMap.data.Servers',{ 
