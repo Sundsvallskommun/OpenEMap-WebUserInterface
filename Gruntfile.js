@@ -71,7 +71,6 @@ module.exports = function(grunt) {
             '--classpath=src/main/javascript,bower_components/geoext2/src',
             'exclude -all', 'and',
             'include -namespace OpenEMap', 'and',
-            'include -file src/main/javascript/OpenEMap.js', 'and',
             'concat --closure <%= releasePath %>/<%= pkg.name %>.min.js']
       },
       debug: {
@@ -81,7 +80,6 @@ module.exports = function(grunt) {
             '--classpath=src/main/javascript,bower_components/geoext2/src',
             'exclude -all', 'and',
             'include -namespace OpenEMap', 'and',
-            'include -file src/main/javascript/OpenEMap.js', 'and',
             'concat <%= releasePath %>/<%= pkg.name %>.debug.js']
       }
     },
