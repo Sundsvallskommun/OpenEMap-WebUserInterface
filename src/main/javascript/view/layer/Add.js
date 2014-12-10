@@ -91,34 +91,7 @@ Ext.define('OpenEMap.view.layer.Add' ,{
         
         Ext.Ajax.request({
             url: OpenEMap.wmsURLs.basePath + '?service=WMS&request=GetCapabilities',
-            success: function(response) {
-                var format = new OpenLayers.Format.WMSCapabilities();
-                var wms = format.read(response.responseText);
-                
-                var root = this.store.setRootNode({
-                });
-                
-                //console.log(wms);
-                
-                var children = wms.capability.layers.map(function(layer) {
-                    return {
-                        'text': layer.name,
-                        'leaf': true,
-                        'title': layer.title,
-                        'isGroupLayer': false,
-                        'isSearchable': true,
-                        'wms':{
-                            'url': OpenEMap.wmsURLs.url,
-                            'params': {
-                                'layers': layer.name,
-                                'format': 'image/png'
-                            }
-                        }
-                    };
-                });
-                
-                root.appendChild(children);
-            },
+            success: this.parseCapabilities,
             scope: this
         });
 
@@ -131,8 +104,8 @@ Ext.define('OpenEMap.view.layer.Add' ,{
         
         var root = this.store.setRootNode({});
         
-        wms.capability.layers.forEach(function(layer) {
-            root.appendChild({
+        var children = wms.capability.layers.map(function(layer) {
+            return {
                 'text': layer.name,
                 'leaf': true,
                 'title': layer.title,
@@ -145,8 +118,10 @@ Ext.define('OpenEMap.view.layer.Add' ,{
                         'format': 'image/png'
                     }
                 }
-            });
-        }, this);
+            };
+        });
+        
+        root.appendChild(children);
     }
 
 });
