@@ -88,6 +88,20 @@ Ext.define('OpenEMap.view.layer.Tree' ,{
         });
         
         this.callParent(arguments);
+    },
+    
+    getConfig: function() {
+        var config = Ext.clone(this.client.initialConfig);
+        
+        if (config.layers) {
+            // layer tree does not include base layers and WFS layers so extract them from initial config
+        	var baseAndWfsLayers = config.layers.filter(function(layer) {
+        		return (layer.wms && layer.wms.options.isBaseLayer || layer.wfs) ? layer : false;
+        	});
+        	var layers = this.getStore().getLayerConfiguration();
+        	config.layers = baseAndWfsLayers.concat(layers);
+    	}
+    	
+    	return config;
     }
-
 });

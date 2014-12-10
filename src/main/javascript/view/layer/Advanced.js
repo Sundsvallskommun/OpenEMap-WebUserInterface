@@ -25,6 +25,7 @@ Ext.define('OpenEMap.view.layer.Advanced' ,{
 		'OpenEMap.action.MetadataInfoColumn',
 		'OpenEMap.view.layer.Add',
 		'OpenEMap.view.layer.Tree',
+		'OpenEMap.view.MetadataWindow',
 		'OpenEMap.view.SavedMapConfigs',
 		'OpenEMap.data.DataHandler',
 		'Ext.tree.plugin.TreeViewDragDrop',
@@ -39,7 +40,7 @@ Ext.define('OpenEMap.view.layer.Advanced' ,{
 	width: 500,
 	height: 650,
 
- 	initComponent: function() {
+ 	initComponent: function(config) {
  		var me = this;
 
  		this.dataHandler = Ext.create('OpenEMap.data.DataHandler');
@@ -49,7 +50,8 @@ Ext.define('OpenEMap.view.layer.Advanced' ,{
  		});
 
  		this.savedMapConfigs = Ext.create('OpenEMap.view.SavedMapConfigs', {
- 			dataHandler: this.dataHandler
+ 			dataHandler: this.dataHandler,
+ 			client: this.client
  		});
 
 		this.showOnMapLayerView = Ext.create('OpenEMap.view.layer.Tree', {
@@ -58,8 +60,9 @@ Ext.define('OpenEMap.view.layer.Advanced' ,{
 			height: 500,
 			region: 'north',
     		mapPanel: this.mapPanel,
+    		client: this.client,
     		rootVisible: true,
-
+    		
     		viewConfig: {
 		        plugins: {
 	                ptype: 'treeviewdragdrop',
@@ -105,14 +108,7 @@ Ext.define('OpenEMap.view.layer.Advanced' ,{
 		            			'Ange ett namn:', 
 		            			function(btn, text) {
 		            				if (btn == 'ok' && text.length > 0) {
-		            					// Update layer config
-						            	var layerTree = me.showOnMapLayerView.getStore().getLayerConfiguration();
-						            	if(conf.layers) {
-							            	var baseAndWfsLayers = conf.layers.filter(function(layer) {
-							            		return (layer.wms && layer.wms.options.isBaseLayer || layer.wfs) ? layer : false;
-							            	});
-							            	conf.layers = baseAndWfsLayers.concat(layerTree);
-						            	}
+		            				    conf = me.getConfig();
 						            	if(text !== conf.name) {
 						            		// Save new config
 						            		conf.name = text;
@@ -166,5 +162,8 @@ Ext.define('OpenEMap.view.layer.Advanced' ,{
 	    	}
 		];
     	this.callParent(arguments);
+    },
+    getConfig: function() {
+        return this.showOnMapLayerView.getConfig();
     }
 });

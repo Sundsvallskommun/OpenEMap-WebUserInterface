@@ -71,7 +71,6 @@ module.exports = function(grunt) {
             '--classpath=src/main/javascript,bower_components/geoext2/src',
             'exclude -all', 'and',
             'include -namespace OpenEMap', 'and',
-            'include -file src/main/javascript/OpenEMap.js', 'and',
             'concat --closure <%= releasePath %>/<%= pkg.name %>.min.js']
       },
       debug: {
@@ -81,7 +80,6 @@ module.exports = function(grunt) {
             '--classpath=src/main/javascript,bower_components/geoext2/src',
             'exclude -all', 'and',
             'include -namespace OpenEMap', 'and',
-            'include -file src/main/javascript/OpenEMap.js', 'and',
             'concat <%= releasePath %>/<%= pkg.name %>.debug.js']
       }
     },
@@ -115,23 +113,33 @@ module.exports = function(grunt) {
             https: true,
             port: 443
         }, {
+            context: '/search/es',
+            host: 'kartatest.e-tjansteportalen.se',
+            https: true,
+            port: 443
+        }, {
+            context: '/geoserver/wms',
+            host: 'extmaptest.sundsvall.se',
+            https: true,
+            port: 443
+        }, {
             context: '/print',
             host: 'kartatest.e-tjansteportalen.se',
             https: true,
             port: 443
+        }, {
+            context: '/openemap-admin',
+            host: 'localhost'
         }]
     },
+    
     compress: {
       main: {
         options: {
-          archive: '<%= pkg.name %>-<%= pkg.version %>.zip',
-          mode: 'zip'
-        }
+          archive: '<%= pkg.name %>-<%= pkg.version %>.zip'
+        },
         files: [
-          {
-            src: ['<%= releasePath %>'], 
-            dest: ['']
-          }
+          { expand: true, cwd: '<%= releasePath %>', src: ['**'] }
         ]
       }
     }

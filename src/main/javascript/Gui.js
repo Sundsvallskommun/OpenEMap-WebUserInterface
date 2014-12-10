@@ -20,7 +20,22 @@
  */
 Ext.define('OpenEMap.Gui', {
     activeAction: null,
-    requires: ['OpenEMap.action.*',
+    requires: ['OpenEMap.action.DeleteAllFeatures',
+               'OpenEMap.action.DeleteGeometry',
+               'OpenEMap.action.DeleteMeasure',
+               'OpenEMap.action.DetailReport',
+               'OpenEMap.action.DrawGeometry',
+               'OpenEMap.action.DrawObject',
+               'OpenEMap.action.FullExtent',
+               'OpenEMap.action.Identify',
+               'OpenEMap.action.MeasureArea',
+               'OpenEMap.action.MeasureLine',
+               'OpenEMap.action.MetadataInfoColumn',
+               'OpenEMap.action.ModifyGeometry',
+               'OpenEMap.action.ModifyText',
+               'OpenEMap.action.Popup',
+               'OpenEMap.action.Print',
+               'OpenEMap.action.SelectGeometry',
                'OpenEMap.view.BaseLayers',
                'OpenEMap.view.DetailReportResults',
                'OpenEMap.view.IdentifyResults',
@@ -31,6 +46,8 @@ Ext.define('OpenEMap.Gui', {
                'OpenEMap.view.Scalebar',
                'OpenEMap.view.ShowCoordinate',
                'OpenEMap.view.ZoomTools',
+               'OpenEMap.view.layer.Advanced',
+               'OpenEMap.view.layer.Basic',
                'GeoExt.container.WmsLegend',
                'GeoExt.container.UrlLegend',
                'GeoExt.container.VectorLegend'],
@@ -42,6 +59,7 @@ Ext.define('OpenEMap.Gui', {
         this.orginalConfig = config.orginalConfig;
         this.serverStore = config.serverStore;
         this.search = config.config.search;
+        this.client = config.client;
 
         // GUI defaults
         if (this.gui === undefined) {
@@ -126,7 +144,7 @@ Ext.define('OpenEMap.Gui', {
         if (this.objectConfig) this.objectConfig.destroy();
         if (this.objectConfigWindow) this.objectConfigWindow.destroy();
         if (this.scalebar) this.scalebar.destroy();
-        if (this.search) this.search.destroy();
+        //if (this.search) this.search.destroy();
     },
     onToggle: function(button, pressed) {
         var action = button.baseAction;
@@ -252,11 +270,13 @@ Ext.define('OpenEMap.Gui', {
 	        if (this.gui.layers && this.gui.layers.type === 'advanced') {
 	            this.mapLayers = Ext.create('OpenEMap.view.layer.Advanced', Ext.apply({
 	                mapPanel : this.mapPanel,
-	                orginalConfig: this.orginalConfig
+	                orginalConfig: this.orginalConfig,
+	                client: this.client
 	            }, this.gui.layers));
 	        } else {
 	            this.mapLayers = Ext.create('OpenEMap.view.layer.Basic', Ext.apply({
-	                mapPanel : this.mapPanel
+	                mapPanel : this.mapPanel,
+	                client: this.client
 	            }, this.gui.layers));
 	        }
 	        

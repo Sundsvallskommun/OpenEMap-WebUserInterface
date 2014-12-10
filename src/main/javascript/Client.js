@@ -114,6 +114,7 @@ Ext.define('OpenEMap.Client', {
         options = Ext.apply({}, options);
         
         this.initialConfig = Ext.clone(config);
+        this.initialOptions = Ext.clone(options);
         
         Ext.tip.QuickTipManager.init();
         
@@ -124,6 +125,7 @@ Ext.define('OpenEMap.Client', {
             config: config,
             gui: options.gui,
             map: this.map,
+            client: this,
             orginalConfig: this.initialConfig
         });
         this.mapPanel = this.gui.mapPanel;
@@ -132,6 +134,12 @@ Ext.define('OpenEMap.Client', {
         if (this.gui.controlToActivate) {
             this.gui.controlToActivate.activate();
         }
+    },
+    /**
+     * @return {Object} Object representation of current Open eMap configuration
+     */
+    getConfig: function() {
+       return this.gui.mapLayers.getConfig(); 
     },
     /**
      * @param {String=} Name of layout to use (default is to use first layout as reported by server)
@@ -481,11 +489,32 @@ Ext.apply(OpenEMap, {
      */
     basePathLM: '/search/lm/',
     /**
+     * @property {string} 
+     * Base path to be used for all AJAX requests against Elasticsearch REST API
+     */
+    basePathES: '/search/es/',
+    /**
      * Base path to be used for all image resources
      * 
      * @property {string}
      */
     basePathImages: 'resources/images/',
+
+    basePathWMS: '/geoserver/wms',
+    
+    /**
+     * URL/paths related to WMS usage / advanced layer list
+     */
+    wmsURLs: {
+        /**
+         * URL to be used to fetch WMS capabilities etc. for add layer UI
+         */
+        basePath: '/geoserver/wms',
+        /**
+         * URL to be used when WMS layer has been added to config
+         */
+        url: 'https://extmaptest.sundsvall.se/geoserver/wms'
+    },
 
     /**
      * @property {string} 
@@ -497,7 +526,7 @@ Ext.apply(OpenEMap, {
      * @property {Object} [wsUrls] WS paths to be used for AJAX requests
      */
     wsUrls: {
-        basePath:   '/openemapadmin/',
+        basePath:   '/openemap-admin/',
         configs:    'configs',
         servers:    'settings/servers',
         layers:     'layers/layers',
