@@ -131,8 +131,21 @@ module.exports = function(grunt) {
             context: '/openemap-admin',
             host: 'localhost'
         }]
+    },
+    compress: {
+      main: {
+        options: {
+          archive: '<%= pkg.name %>-<%= pkg.version %>.zip',
+          mode: 'zip'
+        }
+        files: [
+          {
+            src: ['<%= releasePath %>'], 
+            dest: ['']
+          }
+        ]
+      }
     }
-    
   });
 
   grunt.loadNpmTasks('grunt-auto-install');
@@ -143,9 +156,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-compress');
 
   grunt.registerTask('default', ['auto_install', 'jshint']);
   grunt.registerTask('build', ['default', 'sencha:release']);
-  grunt.registerTask('dist', ['clean', 'build', 'copy']);
+  grunt.registerTask('dist', ['clean', 'build', 'copy', 'compress']);
   grunt.registerTask('devserver', ['default', 'configureProxies', 'connect', 'watch']);
 };
