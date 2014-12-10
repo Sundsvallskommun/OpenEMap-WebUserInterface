@@ -19,9 +19,9 @@ Example of a complete config file [testAll.json](testAll.json)
 		easting,
 		northing
 	],
-	"autoClearDrawLayer": ?,
+	"autoClearDrawLayer": whetherToDeleteExistingObjectWhenANewObjectIsDrawn, 
 	"attribution": "attributionToBeShownInMap",
-	"drawStyle": ?,
+	"drawStyle": OpenLayers.StyleUsedForDrawLayer,
 	"resolutions": [ ' list of resolutions to be used in map
 			resolutionN,
 			resolution3,
@@ -137,6 +137,7 @@ A layer can include a WMS-specifgication and a WFS-specification. WMS are used t
 		},
         {
             "type": "Popup", ' Show popup for features in "popupLayers"
+        	"showOnlyFirstHit": whetherToShowOneOrManyHits, ' defaults to true
             "tolerance": toleranceInPixels ' defaults to radius 3 pixels
 		},
        	{ ' Meassure lengths
