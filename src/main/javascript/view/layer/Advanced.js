@@ -61,7 +61,7 @@ Ext.define('OpenEMap.view.layer.Advanced' ,{
 			region: 'north',
     		mapPanel: this.mapPanel,
     		client: this.client,
-    		rootVisible: false,
+    		rootVisible: true,
     		
     		viewConfig: {
 		        plugins: {
