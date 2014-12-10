@@ -25,6 +25,7 @@ Ext.define('OpenEMap.view.layer.Advanced' ,{
 		'OpenEMap.action.MetadataInfoColumn',
 		'OpenEMap.view.layer.Add',
 		'OpenEMap.view.layer.Tree',
+		'OpenEMap.view.MetadataWindow',
 		'OpenEMap.view.SavedMapConfigs',
 		'OpenEMap.data.DataHandler',
 		'Ext.tree.plugin.TreeViewDragDrop',

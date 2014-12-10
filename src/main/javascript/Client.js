@@ -488,6 +488,11 @@ Ext.apply(OpenEMap, {
      */
     basePathLM: '/search/lm/',
     /**
+     * @property {string} 
+     * Base path to be used for all AJAX requests against Elasticsearch REST API
+     */
+    basePathES: '/search/es/',
+    /**
      * Base path to be used for all image resources
      * 
      * @property {string}
@@ -498,7 +503,7 @@ Ext.apply(OpenEMap, {
      * @property {Object} [wsUrls] WS paths to be used for AJAX requests
      */
     wsUrls: {
-        basePath:   '/openemapadmin/',
+        basePath:   '/openemap-admin/',
         configs:    'configs',
         servers:    'settings/servers',
         layers:     'layers/layers',
