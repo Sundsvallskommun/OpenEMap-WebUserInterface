@@ -77,17 +77,7 @@ Ext.define('OpenEMap.view.layer.Add' ,{
 
     initComponent: function() {
         var me = this;
-        this.on('checkchange', function(node, checked, eOpts) {
-            node.cascadeBy(function(n){
-                if(checked) {
-                    me.loadLayer(n);
-                } else {
-                    me.unLoadLayer(n);
-                }
-            });
-        });
-
-        // Add columns
+        
         this.columns = [
             {
                 xtype: 'treecolumn',
@@ -97,7 +87,6 @@ Ext.define('OpenEMap.view.layer.Add' ,{
             me.metadataColumn
         ];
 
-        // Create store for the layer tree
         this.store = Ext.create('OpenEMap.data.GroupedLayerTree');
         
         Ext.Ajax.request({
@@ -111,9 +100,11 @@ Ext.define('OpenEMap.view.layer.Add' ,{
                 
                 //console.log(wms);
                 
-                wms.capability.layers.forEach(function(layer) {
-                    root.appendChild({
+                var children = wms.capability.layers.map(function(layer) {
+                    return {
                         'text': layer.name,
+                        'leaf': true,
+                        'title': layer.title,
                         'isGroupLayer': false,
                         'isSearchable': true,
                         'wms':{
@@ -123,72 +114,39 @@ Ext.define('OpenEMap.view.layer.Add' ,{
                                 'format': 'image/png'
                             }
                         }
-                    });
-                }, this);
+                    };
+                });
+                
+                root.appendChild(children);
             },
             scope: this
         });
 
-        // Create server store
-        /*this.serverStore = Ext.create('OpenEMap.data.Servers',{ 
-            proxy: {
-                url: OpenEMap.wsUrls.basePath + OpenEMap.wsUrls.servers,
-                type: 'ajax',
-                reader: {
-                    type: 'json',
-                    root: 'configs'
-                }
-            }
-        });*/
-
-        // Wait for server load to initiate layer tree
-        /*this.serverStore.load({
-            callback: function() {
-                me.dataHandler.getLayers(function(layers) {
-                    if(layers) {
-                        var parser = new OpenEMap.config.Parser({
-                            serverStore: me.serverStore 
-                        });
-                        var layerTree = parser.parseLayerTree(layers);
-
-                        me.store.setRootNode({
-                            text: 'Lager',
-                            expanded: true,
-                            layers: layerTree
-                        });
-                    }
-                    
-                });
-            }
-        });*/
-
-        this.callParent(arguments);
-
+        this.callParent(arguments);      
+    },
+    
+    parseCapabilities: function(response) {
+        var format = new OpenLayers.Format.WMSCapabilities();
+        var wms = format.read(response.responseText);
         
-    },
-
-    /** 
-    * Load a layer to GeoExt.MapPanel
-    * @param {Ext.data.NodeInterface}   node    tree node
-    */
-    loadLayer: function(node) {
-        var layer = node.get('layer');
-        if(layer && layer !== '' && this.mapPanel) {
-            layer.setVisibility(true);
-            layer.displayInLayerSwitcher = false;
-            this.mapPanel.layers.add(layer);
-        }
-    },
-
-    /** 
-    * Unload a layer from GeoExt.MapPanel
-    * @param {Ext.data.NodeInterface}   node    tree node
-    */
-    unLoadLayer: function(node) {
-        var layer = node.get('layer');
-        if(layer && layer !== '' && this.mapPanel) {
-            this.mapPanel.layers.remove(layer);
-        }
+        var root = this.store.setRootNode({});
+        
+        wms.capability.layers.forEach(function(layer) {
+            root.appendChild({
+                'text': layer.name,
+                'leaf': true,
+                'title': layer.title,
+                'isGroupLayer': false,
+                'isSearchable': true,
+                'wms':{
+                    'url': OpenEMap.wmsURLs.url,
+                    'params': {
+                        'layers': layer.name,
+                        'format': 'image/png'
+                    }
+                }
+            });
+        }, this);
     }
 
 });
