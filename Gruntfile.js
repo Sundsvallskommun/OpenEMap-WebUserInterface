@@ -132,17 +132,14 @@ module.exports = function(grunt) {
             host: 'localhost'
         }]
     },
+    
     compress: {
       main: {
         options: {
-          archive: '<%= pkg.name %>-<%= pkg.version %>.zip',
-          mode: 'zip'
-        }
+          archive: '<%= pkg.name %>-<%= pkg.version %>.zip'
+        },
         files: [
-          {
-            src: ['<%= releasePath %>'], 
-            dest: ['']
-          }
+          { expand: true, cwd: '<%= releasePath %>', src: ['**'] }
         ]
       }
     }
