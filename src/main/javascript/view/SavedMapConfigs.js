@@ -19,7 +19,7 @@
  */
 Ext.define('OpenEMap.view.SavedMapConfigs' ,{
     extend: 'Ext.grid.Panel',
-    
+    requires: ['OpenEMap.data.SavedMapConfigs'],
     autoScroll: true,
     hideHeaders: true,
 
