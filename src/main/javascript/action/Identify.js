@@ -68,6 +68,8 @@ Ext.define('OpenEMap.action.Identify', {
         var layer = mapPanel.searchLayer;
         var map = config.map;
         var layers = config.layers;
+        var parser = Ext.create('OpenEMap.config.Parser');
+        var plainLayers = parser.extractPlainLayers(layers);
         
         // Defaults to identify registerenhet
         if (config.useRegisterenhet === null) {
@@ -145,7 +147,7 @@ Ext.define('OpenEMap.action.Identify', {
                 var parser = Ext.create('OpenEMap.config.Parser');
                
                 // TODO - only return layers that are visible 
-                var queryableLayers =  parser.extractQueryableLayers(mapPanel.map.layerTree);
+                var queryableLayers =  parser.extractQueryableLayers(plainLayers);
                 var wfsLayers = parser.extractWFS(queryableLayers);
                 
                 var wfsIdentify = function(wfsLayer) {

@@ -132,6 +132,19 @@ Ext.define('OpenEMap.config.Parser', {
         return layers;
     },
     /**
+     * Extract plain layers 
+     */
+    extractPlainLayers: function(layers) {
+    	var plainLayers = [];
+    	for (var i=0,  tot=layers.length; i < tot; i++) {
+   			plainLayers.push(layers[i]);
+    		if (layers[i].layers) {
+    			plainLayers = plainLayers.concat(this.extractPlainLayers(layers[i].layers));
+    		}
+    	}
+    	return plainLayers;
+    },
+    /**
      * Extracts WFS-layers
      * @private
      */
@@ -144,7 +157,7 @@ Ext.define('OpenEMap.config.Parser', {
      * @private
      */
     extractQueryableLayers: function(layers) {
-    	layers = this.extractLayers(layers);
+    	layers = this.extractPlainLayers(layers);
         layers = layers.filter(function(layer) { 
         	return layer.queryable; 
         });
