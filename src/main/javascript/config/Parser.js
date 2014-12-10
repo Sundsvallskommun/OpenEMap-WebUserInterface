@@ -15,8 +15,10 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 /**
- * Parser for configuration JSON
- * Set defaults, initializes OpenLayers and Ext JS stuff.
+ * ###Parser for configuration JSON
+ * Sets defaults, initializes OpenLayers and Ext JS stuff.
+ * ###[Config documentation](https://github.com/Sundsvallskommun/OpenEMap-WebUserInterface/blob/master/doc/config.md)
+ * ###[Config example](https://github.com/Sundsvallskommun/OpenEMap-WebUserInterface/blob/develop/doc/testAll.json)
  */
 Ext.define('OpenEMap.config.Parser', {
     requires : [ 

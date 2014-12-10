@@ -103,6 +103,8 @@ ul, li {
 
 .zoomtools-minus {
     background-image: url("../images/oep-tools-icons/minus.png");
+    width: 32px !important;
+    height: 32px !important;
 }
 
 .zoomtools-plus {

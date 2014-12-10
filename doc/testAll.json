@@ -15,6 +15,7 @@
         "Print",
         {
 			"type": "Identify",
+        	"activate": true,
 			"tolerance": 5,
 			"useRegisterenhet:": true
 		},
@@ -22,8 +23,14 @@
 			"type": "Popup",
 			"tolerance": 5
 		},
-        "MeasureLine",
-        "MeasureArea",
+  		{
+        	"type": "MeasureLine",
+        	"accuracy": 2
+        },
+        {
+        	"type": "MeasureArea",
+        	"accuracy": 2
+        },
         "DeleteMeasure",
         {
             "type": "DrawGeometry",
