@@ -25,6 +25,7 @@ Ext.define('OpenEMap.model.GroupedLayerTreeModel' ,{
     fields: [ 
     	{ name: 'text', type: 'string' },
     	{ name: 'checkedGroup', type: 'string' },
+    	{ name: 'isGroupLayer' },
     	{ name: 'layer' },
 
         { name: 'layerId' },
@@ -34,6 +35,8 @@ Ext.define('OpenEMap.model.GroupedLayerTreeModel' ,{
         { name: 'wms' },
     	{ name: 'wfs' },
         { name: 'serverId' },
+        
+        
         
         { name: 'legendURL' }
     ]

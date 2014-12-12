@@ -33,6 +33,7 @@ Ext.define('OpenEMap.view.layer.Tree' ,{
                 root: {
                     text: (this.mapPanel.config && this.mapPanel.config.name ? this.mapPanel.config.name : 'Lager'),
                     expanded: true,
+                    isGroupLayer: true,
                     layers: this.mapPanel.map.layerSwitcherLayerTree
                 },
                 map: this.mapPanel.map

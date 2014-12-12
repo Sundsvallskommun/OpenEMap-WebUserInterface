@@ -53,6 +53,50 @@ Ext.define('OpenEMap.view.layer.Advanced' ,{
  			dataHandler: this.dataHandler,
  			client: this.client
  		});
+ 		
+ 		var renameAction = Ext.create('Ext.Action', {
+            //iconCls: 'action-load',
+            text: 'Byt namn...',
+            disabled: true,
+            handler: function(widget, event) {
+                var node = this.showOnMapLayerView.getSelectionModel().getSelection()[0];
+                if (node) {
+                    Ext.Msg.prompt('Byt namn...', 'Ange nytt namn:', function(btn, text) {
+                        if (btn == 'ok'){
+                            node.set('text', text);
+                        }
+                    });
+                }
+            }.bind(this)
+        });
+ 		
+ 		var createGroupAction = Ext.create('Ext.Action', {
+            //iconCls: 'action-load',
+            text: 'Nytt grupplager',
+            disabled: true,
+            handler: function(widget, event) {
+                var node = this.showOnMapLayerView.getSelectionModel().getSelection()[0];
+                if (node) {
+                    Ext.Msg.prompt('Nytt grupplager', 'Ange namn:', function(btn, text) {
+                        if (btn == 'ok'){
+                            var group = Ext.create('OpenEMap.model.GroupedLayerTreeModel', {
+                                text: text,
+                                checked: true,
+                                isGroupLayer: true
+                            });
+                            node.appendChild(group);
+                        }
+                    });
+                }
+            }.bind(this)
+        });
+ 		
+ 		var contextMenu = Ext.create('Ext.menu.Menu', {
+            items: [
+                renameAction,
+                createGroupAction
+            ]
+        });
 
 		this.showOnMapLayerView = Ext.create('OpenEMap.view.layer.Tree', {
 			title: 'Visas på kartan',
@@ -68,7 +112,14 @@ Ext.define('OpenEMap.view.layer.Advanced' ,{
 	                ptype: 'treeviewdragdrop',
 	                allowContainerDrops: true,
 	                allowParentInserts: true
-	            }
+	            },
+	            listeners: {
+                    itemcontextmenu: function(view, rec, node, index, e) {
+                        e.stopEvent();
+                        contextMenu.showAt(e.getXY());
+                        return false;
+                    }
+                }
 		    },
 
     		columns: [
@@ -131,6 +182,22 @@ Ext.define('OpenEMap.view.layer.Advanced' ,{
 		        }
 		    ]
     	});
+    	
+    	this.showOnMapLayerView.getSelectionModel().on({
+            selectionchange: function(sm, selections) {
+                if (selections.length === 1 && selections[0].data.isGroupLayer) {
+                    renameAction.enable();
+                    if (selections[0].internalId === 'root') {
+                        createGroupAction.enable();
+                    } else {
+                        createGroupAction.disable();
+                    }
+                } else {
+                    renameAction.disable();
+                    createGroupAction.disable();
+                }
+            }
+        });
 
 	  	this.items = [
 			Ext.create('OpenEMap.view.layer.Add', {
