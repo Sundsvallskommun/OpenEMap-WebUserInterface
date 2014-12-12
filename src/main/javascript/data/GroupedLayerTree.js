@@ -32,7 +32,6 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
 
     proxy: {
         type: 'memory'
-
     },
 
     maxLayerIndex: 1000,
@@ -48,7 +47,6 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
     constructor: function(config) {
         config = Ext.apply({}, config);
         this.callParent([config]);
-        
     },
     
     /**
@@ -82,7 +80,7 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
     */
     onBeforeAppend: function(node, appendNode) {
         // Prevent groups from being added to groups
-        if((node && !node.isRoot()) && !appendNode.isLeaf()) {
+        if ((node && !node.isRoot()) && !appendNode.isLeaf()) {
             return false;
         }
         return true;

@@ -111,7 +111,8 @@ Ext.define('OpenEMap.config.Parser', {
         // filter out plain layer definitions (no group)
         var plainLayers = layers.filter(function(layer) { return !layer.layers; });
         // filter out groups
-        var groups = layers.filter(function(layer) { return layer.layers; }).map(function(layer) { return layer.layers; });
+        var groups = layers.filter(function(layer) { return layer.layers; }).map(function(layer) { return layer.layers; });  
+        
         // flatten groups into an array of layer definitions 
         var flattenedGroups = [].concat.apply([], groups);
         // concat all layer definitions
@@ -253,6 +254,7 @@ Ext.define('OpenEMap.config.Parser', {
         }
         // Do the node have sublayers, iterate over them
         if(layer.layers) {
+            layer.isGroupLayer = true;
             layer.expanded = layer.expanded === undefined ? true : layer.expanded;
             layer.layers.forEach(arguments.callee, this);
         } else {
