@@ -23,6 +23,7 @@
  * @param {string} [config.items] items to show in result window
  * @param {string} [config.useRegisterenhet=true] wheter or not to use identify on registerenhet 
  * @param {string} [config.tolerance=3] tolerance to use when identifying in map. Radius in image pixels. 
+ * @param {string} [config.onlyVisibleLayers=false] wheter or not to drill through invisble layers 
  */
 Ext.define('OpenEMap.action.Identify', {
     extend: 'OpenEMap.action.Action',
@@ -68,16 +69,16 @@ Ext.define('OpenEMap.action.Identify', {
         var layer = mapPanel.searchLayer;
         var map = config.map;
         var layers = config.layers;
-        var parser = Ext.create('OpenEMap.config.Parser');
-        var plainLayers = parser.extractPlainLayers(layers);
+        var client = config.client;
         
         // Defaults to identify registerenhet
         if (config.useRegisterenhet === null) {
         	config.useRegisterenhet = true;
         }
-        
-        // Defaults to 5 meter tolerance
-        config.tolerance = config.tolerance || 3;  
+        config.tolerance = config.tolerance || 3;
+        if (config.onlyVisibleLayers === null) {
+        	config.onlyVisibleLayers = true;	
+        }   
 
         var Click = OpenLayers.Class(OpenLayers.Control, {
             initialize: function(options) {
@@ -146,9 +147,18 @@ Ext.define('OpenEMap.action.Identify', {
                // Identify WFS-layers in map
                 var parser = Ext.create('OpenEMap.config.Parser');
                
-                // TODO - only return layers that are visible 
-                var queryableLayers =  parser.extractQueryableLayers(plainLayers);
-                var wfsLayers = parser.extractWFS(queryableLayers);
+               	var layers = client.getConfig().layers;
+		        layers = parser.extractPlainLayers(layers);
+                var clickableLayers =  parser.extractClickableLayers(layers);
+
+                // Only return layers that are visible
+                if (config.onlyVisibleLayers) {
+                	clickableLayers = parser.extractVisibleLayers(clickableLayers);
+                } 
+  				// Extract layers in draw order
+//  			clickableLayers = parser.extractLayersInDrawOrder(clickableLayers);
+
+                var wfsLayers = parser.extractWFS(clickableLayers);
                 
                 var wfsIdentify = function(wfsLayer) {
                 	wfsLayer.wfs.url = OpenEMap.basePathProxy + wfsLayer.wfs.url;
@@ -174,8 +184,32 @@ Ext.define('OpenEMap.action.Identify', {
                     });
                 };
                 
-                wfsLayers.forEach(wfsIdentify);
+//                wfsLayers.forEach(wfsIdentify);
              	
+                var wmsLayers = parser.extractWMS(parser.extractNoWFS(clickableLayers));
+                
+                var wmsIdentify = function(wmsLayer) {
+                    var options = {
+                        layers: [wmsLayer],
+                        infoFormat: 'application/json',
+                        clickCallback: callback
+                    }
+                    var wmsctrl = new OpenLayers.Control.WMSGetFeatureInfo(options);
+                    wmsctrl.setMap(map);
+                   
+					wmsctrl.getInfoForClick(evt);                    
+
+                    var callback = function(response) {
+                        var features = response.features;
+                        if (features && features.length>0) {
+                            identifyResults.addResult(features, wmsLayer);
+                            layer.addFeatures(features);
+                        }
+                    }
+                };
+                
+                wmsLayers.forEach(wmsIdentify);
+
                 // Hide graphhic for loading
 				mapPanel.setLoading(false);
             }

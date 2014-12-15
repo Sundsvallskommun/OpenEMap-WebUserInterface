@@ -132,6 +132,7 @@ A layer can include a WMS-specifgication and a WFS-specification. WMS are used t
         "Print", ' Print dialog
         {
             "type": "Identify", ' Identify features in map
+			"onlyVisibleLayers": whetherOrNotToIdentifyLayersNotShownInMap, ' defaults to true
             "useRegisterenhet": whetherOrNotToUseRegisterenhet, ' turns on identifying real estate parcels
             "tolerance": toleranceInPixels ' defaults to radius 3 pixels
 		},

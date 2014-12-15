@@ -132,7 +132,8 @@ Ext.define('OpenEMap.config.Parser', {
         return layers;
     },
     /**
-     * Extract plain layers 
+     * Extract plain layers from a layertree structure
+     * @param layers [Array] array of layers in a tree structure 
      */
     extractPlainLayers: function(layers) {
     	var plainLayers = [];
@@ -146,22 +147,47 @@ Ext.define('OpenEMap.config.Parser', {
     },
     /**
      * Extracts WFS-layers
-     * @private
+     * @param layers [Array] array of layers
      */
     extractWFS: function(layers) {
-        layers = layers.filter(function(layer){ return layer.wfs; });
+        layers = layers.filter(function(layer){ return (layer.wfs && layer.wfs.url); });
+        return layers;
+    },
+    /**
+     * Extracts layers missing WFS-tag
+     * @param layers [Array] array of layers
+     */
+    extractNoWFS: function(layers) {
+        layers = layers.filter(function(layer){ return !(layer.wfs && layer.wfs.url); });
+        return layers;
+    },
+    /**
+     * Extracts layers with valid WMS-tag
+     * @param layers [Array] array of layers
+     */
+    extractWMS: function(layers) {
+        layers = layers.filter(function(layer){ return (layer.wms && layer.wms.url); });
         return layers;
     },
     /**
      * Extracts queryable layers
-     * @private
+     * @param plainLayers [array] array of flattened layers. 
      */
-    extractQueryableLayers: function(layers) {
-    	layers = this.extractPlainLayers(layers);
-        layers = layers.filter(function(layer) { 
-        	return layer.queryable; 
+    extractClickableLayers: function(plainLayers) {
+        plainLayers = plainLayers.filter(function(layer) { 
+        	return (layer.clickable && layer.queryable); 
         });
-        return layers;
+        return plainLayers;
+    },
+    /**
+     * Extracts visible layers
+     * @param plainLayers [array] array of flattened layers. 
+     */
+    extractVisibleLayers: function(plainLayers) {
+        plainLayers = plainLayers.filter(function(layer) { 
+        	return (layer.wms && layer.wms.options && layer.wms.options.visibility); 
+        });
+        return plainLayers;
     },
     /**
      * Extracts Vector-layers
