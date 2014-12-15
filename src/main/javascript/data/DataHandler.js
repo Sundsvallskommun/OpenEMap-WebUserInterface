@@ -115,7 +115,7 @@ Ext.define('OpenEMap.data.DataHandler', {
     */
     updateConfiguration: function(id, conf, callback) {
         this.doRequest({
-            url: this.wsUrls.basePath + this.wsUrls.configs + '/' + id,
+            url: this.wsUrls.basePath + this.wsUrls.adminconfigs + '/' + id,
             method: 'PUT',
             jsonData: conf
         }, callback);
@@ -128,7 +128,7 @@ Ext.define('OpenEMap.data.DataHandler', {
     */
     saveNewConfiguration: function(conf, callback) {
         this.doRequest({
-            url: this.wsUrls.basePath + this.wsUrls.configs,
+            url: this.wsUrls.basePath + this.wsUrls.adminconfigs,
             method: 'POST',
             jsonData: conf
         }, callback);
@@ -142,7 +142,7 @@ Ext.define('OpenEMap.data.DataHandler', {
     */
     deleteConfiguration: function(id, conf, callback) {
         this.doRequest({
-            url: this.wsUrls.basePath + this.wsUrls.configs + '/' + id,
+            url: this.wsUrls.basePath + this.wsUrls.adminconfigs + '/' + id,
             method: 'DELETE',
             jsonData: conf
         }, callback);

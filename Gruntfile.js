@@ -71,7 +71,7 @@ module.exports = function(grunt) {
             '--classpath=src/main/javascript,bower_components/geoext2/src',
             'exclude -all', 'and',
             'include -namespace OpenEMap', 'and',
-            'concat --closure <%= releasePath %>/<%= pkg.name %>.min.js']
+            'concat --closure <%= releasePath %>/<%= pkg.name %>-<%= pkg.version %>-min.js']
       },
       debug: {
         command: [
@@ -80,16 +80,16 @@ module.exports = function(grunt) {
             '--classpath=src/main/javascript,bower_components/geoext2/src',
             'exclude -all', 'and',
             'include -namespace OpenEMap', 'and',
-            'concat <%= releasePath %>/<%= pkg.name %>.debug.js']
+            'concat <%= releasePath %>/<%= pkg.name %>-<%= pkg.version %>-debug.js']
       }
     },
     
     copy: {
         dist: {
             files: [
-            { expand: true, src: ['index.html'], dest: '<%= releasePath %>' },
-            { expand: true, src: ['index-with-config.html'], dest: '<%= releasePath %>' },
+            { expand: true, src: ['index*.html'], dest: '<%= releasePath %>' },
             { expand: true, src: ['resources/**'], dest: '<%= releasePath %>' },
+            { expand: true, src: ['examples/**'], dest: '<%= releasePath %>' },
             { expand: true, flatten: true, src: ['dev/config/**'], dest: '<%= releasePath %>/config' }
             ]        
         }
@@ -136,7 +136,7 @@ module.exports = function(grunt) {
     compress: {
       main: {
         options: {
-          archive: '<%= pkg.name %>-<%= pkg.version %>.zip'
+          archive: 'release/<%= pkg.name %>-<%= pkg.version %>.zip'
         },
         files: [
           { expand: true, cwd: '<%= releasePath %>', src: ['**'] }
