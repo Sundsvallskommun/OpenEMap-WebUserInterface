@@ -106,8 +106,11 @@ Ext.define('OpenEMap.view.layer.Add' ,{
         
         var children = wms.capability.layers.map(function(layer) {
             
+            var textParts = layer.name.split(':');
+            var text = textParts.length > 1 ? textParts[1] : layer.name;
+            
             var layerConfig = {
-                'text': layer.name,
+                'text': text,
                 'leaf': true,
                 'checked': true,
                 'title': layer.title,
