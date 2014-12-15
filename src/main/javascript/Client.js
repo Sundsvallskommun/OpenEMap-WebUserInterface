@@ -28,7 +28,7 @@ Ext.define('OpenEMap.Client', {
                'OpenEMap.view.PopupResults',
                'OpenEMap.OpenLayers.Control.ModifyFeature',
                'OpenEMap.OpenLayers.Control.DynamicMeasure'],
-    version: '1.3.0',
+    version: '1.5.0-rc.1',
     /**
      * OpenLayers Map instance
      * 
@@ -502,6 +502,8 @@ Ext.apply(OpenEMap, {
 
     basePathWMS: '/geoserver/wms',
     
+    basePathProxy: '/cgi-bin/proxy.py?url=',
+    
     /**
      * URL/paths related to WMS usage / advanced layer list
      */
@@ -520,11 +522,12 @@ Ext.apply(OpenEMap, {
      * @property {Object} [wsUrls] WS paths to be used for AJAX requests
      */
     wsUrls: {
-        basePath:   '/openemap-admin/',
-        configs:    'configs',
-        servers:    'settings/servers',
-        layers:     'layers/layers',
-        metadata:   'geometadata/getmetadatabyid', 
+        basePath:   	'/openemapadmin/',
+        configs:    	'configs',
+        adminconfigs: 	'adminconfigs/config', 
+        servers:    	'settings/servers',
+        layers:     	'layers/layers',
+        metadata:   	'geometadata/getmetadatabyid', 
         metadata_abstract: 'geometadata/getabstractbyid'
     }
 });
