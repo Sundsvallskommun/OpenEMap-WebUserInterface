@@ -104,13 +104,24 @@ Ext.define('OpenEMap.view.layer.Add' ,{
         
         var root = this.store.setRootNode({});
         
+        var stripName = function(name) {
+            var parts = name.split(':');
+            return parts.length > 1 ? parts[1] : name;
+        };
+        
+        wms.capability.layers.sort(function(a, b) {
+            if (stripName(a.name) < stripName(b.name)) {
+                return -1;
+            }
+            if (stripName(a.name) > stripName(b.name)) {
+                return 1;
+            }
+            return 0;
+        });
+        
         var children = wms.capability.layers.map(function(layer) {
-            
-            var textParts = layer.name.split(':');
-            var text = textParts.length > 1 ? textParts[1] : layer.name;
-            
             var layerConfig = {
-                'text': text,
+                'text': stripName(layer.name),
                 'leaf': true,
                 'checked': true,
                 'title': layer.title,
