@@ -71,6 +71,7 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
                     clickable: subnode.get('clickable'),
                     wms: typeof subnode.get('wms') === 'string' ? {} : subnode.get('wms'),
                     wfs: typeof subnode.get('wfs') === 'string' ? {} : subnode.get('wfs'),
+                    layer: subnode.get('layer'),
                     metadata: typeof subnode.get('metadata') === 'string' ? {} : subnode.get('metadata')
                 });
             });

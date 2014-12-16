@@ -158,10 +158,12 @@ Ext.define('OpenEMap.action.Identify', {
   				// Extract layers in draw order
 //  			clickableLayers = parser.extractLayersInDrawOrder(clickableLayers);
 
+             	OpenLayers.ProxyHost = OpenEMap.basePathProxy;
+
                 var wfsLayers = parser.extractWFS(clickableLayers);
                 
                 var wfsIdentify = function(wfsLayer) {
-                	wfsLayer.wfs.url = OpenEMap.basePathProxy + wfsLayer.wfs.url;
+                	wfsLayer.wfs.url = wfsLayer.wfs.url;
                     var options = Ext.apply({
                         version: "1.1.0",
                         srsName: map.projection
@@ -184,28 +186,34 @@ Ext.define('OpenEMap.action.Identify', {
                     });
                 };
                 
-//                wfsLayers.forEach(wfsIdentify);
-             	
-                var wmsLayers = parser.extractWMS(parser.extractNoWFS(clickableLayers));
-                
-                var wmsIdentify = function(wmsLayer) {
-                    var options = {
-                        layers: [wmsLayer],
-                        infoFormat: 'application/json',
-                        clickCallback: callback
-                    }
-                    var wmsctrl = new OpenLayers.Control.WMSGetFeatureInfo(options);
-                    wmsctrl.setMap(map);
-                   
-					wmsctrl.getInfoForClick(evt);                    
+                wfsLayers.forEach(wfsIdentify);
 
-                    var callback = function(response) {
+                var wmsLayers = parser.extractWMS(parser.extractNoWFS(clickableLayers));
+
+                // TODO - use WMSGetFeatureInfo wmsLayers array functionality instead of looping
+//                var wmsLayersOL = [];
+//                for (var i=0; i<wmsLayers.length; i++) {
+//                	wmsLayersOL.push(wmsLayers[i].layer);
+//                }
+                var wmsIdentify = function(wmsLayer) {
+                    var showResults = function(response) {
                         var features = response.features;
                         if (features && features.length>0) {
                             identifyResults.addResult(features, wmsLayer);
                             layer.addFeatures(features);
                         }
                     }
+                    var options = {
+                    	url: wmsLayer.layer.url,
+                        layers: [wmsLayer.layer],
+//                        layers: [wmsLayersOL],
+                        infoFormat: 'application/vnd.ogc.gml',
+                        clickCallback: showResults
+                    }
+                    var wmsctrl = new OpenLayers.Control.WMSGetFeatureInfo(options);
+                    wmsctrl.setMap(map);
+					wmsctrl.events.register('getfeatureinfo', wmsctrl, showResults);
+					wmsctrl.getInfoForClick(evt, {proxy: OpenEMap.basePathProxy});                    
                 };
                 
                 wmsLayers.forEach(wmsIdentify);
