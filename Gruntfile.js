@@ -128,8 +128,15 @@ module.exports = function(grunt) {
             https: true,
             port: 443
         }, {
-            context: '/openemap-admin',
-            host: 'localhost'
+            context: '/openemapadmin',
+            host: 'kartatest.e-tjansteportalen.se',
+            https: true,
+            port: 443
+        }, {
+            context: '/cgi-bin/proxy.py?url=',
+            host: 'kartatest.e-tjansteportalen.se',
+            https: true,
+            port: 443
         }]
     },
     
