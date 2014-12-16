@@ -131,7 +131,7 @@
 	    
 	    var combo = Ext.create('Ext.form.ComboBox',  {
 			renderTo: 'configcombo',
-			store: ['config2.json',
+			store: ['testAll.json',
 			        'riges.json',
 			        'eldstad.json',
 			        'situationsplan.json',
@@ -140,8 +140,7 @@
 			        'forhandsbesked.json',
 			        'preview.json',
 			        'detaljplaner.json',
-			        'OSM.json',
-			        'testAll.json'],
+			        'OSM.json'],
 			queryMode: 'local',
 			listeners: {
 				"select": function(combo, records) {
