@@ -70,8 +70,8 @@ A layer can include a WMS-specifgication and a WFS-specification. WMS are used t
 		"featurePrefix": "featurePrefix"
 	}
 	"metadata": {
-		"attributes" {
-			"": "attributeName" {
+		"attributes": {
+			"attributeName": {
 				"alias": "attributeAlias"
 			}
 		}
