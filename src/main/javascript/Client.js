@@ -502,8 +502,6 @@ Ext.apply(OpenEMap, {
 
     basePathWMS: '/geoserver/wms',
     
-    basePathProxy: '/cgi-bin/proxy.py?url=',
-    
     /**
      * URL/paths related to WMS usage / advanced layer list
      */
@@ -517,6 +515,12 @@ Ext.apply(OpenEMap, {
          */
         url: 'https://extmaptest.sundsvall.se/geoserver/wms'
     },
+
+    /**
+     * @property {string} 
+     * Base path to proxy to be used for WFS-post
+     */
+    basePathProxy: '/cgi-bin/proxy.py?url=',
 
     /**
      * @property {Object} [wsUrls] WS paths to be used for AJAX requests

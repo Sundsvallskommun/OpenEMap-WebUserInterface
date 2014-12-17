@@ -192,6 +192,7 @@ Ext.define('OpenEMap.Gui', {
                 } else if (type == 'Identify') {
                     config.basePath = basePath;
                     config.layers = layers;
+                    config.client = this.client;
                 } else if (type == 'Popup') {
                     config.layers = layers;
 					if ((config.showOnlyFirstHit === undefined) || (config.showOnlyFirstHit === null)) {

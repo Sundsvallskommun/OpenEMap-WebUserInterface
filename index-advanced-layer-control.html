@@ -17,125 +17,126 @@
 -->
 
 <html lang="en">
-<head>
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<title>Open eMap Client</title>
-	<meta name="description" content="">
-	<meta name="author" content="Anders Erlandsson, Sundsvalls kommun" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link rel="stylesheet" type="text/css" href="/libs/ext-theme-oep/oepTheme-all.css">
-    <link rel="stylesheet" type="text/css" href="resources/css/OpenEMap.css">  
-    <script type="text/javascript" src="/libs/ext-4.2.1/ext-all.js"></script>
-    <script type="text/javascript" src="/libs/ext-4.2.1/ext-theme-neptune.js"></script>
-    <script type="text/javascript" src="/libs/ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
-    <script type="text/javascript" src="/libs/OpenLayers-2.13.1/OpenLayers.js"></script>
-    <script type="text/javascript" src="/libs/proj4js/proj4-compressed.js"></script>
-    <script type="text/javascript" src="/libs/proj4js/proj4_defs.js"></script>
-    <script type="text/javascript" src="/libs/geoext-2.0.2-rc.1-all.js"></script> 
-    <script type="text/javascript" src="/libs/es5-shim.min.js"></script>
-    <script type="text/javascript" src="OpenEMap-1.5.0-rc.1-min.js"></script>
-    
-    <script type="text/javascript">
-		
-		var init = null;
-      var mapClient = null;
-	  Ext.onReady(function() {
-		
-		mapClient = Ext.create('OpenEMap.Client');
-		
-		mapClient.basePath = '/search/lm/'
-		  
-		init = function(name) {
-		    Ext.Ajax.request({
-		    	url: name,
-		    	success: function(response) {
-		    		var config = Ext.decode(response.responseText);
-		    		
-		    		var gui = {
-		    			map: {
-		    			},
-		    			toolbar: {
-		    				//renderTo: 'toolbar'
-		    			},
-		    			zoomTools: {},
-		    			legend: {},
-		    			layers: {
-		    				type: 'advanced',
-		    				renderTo: 'layers'
-		    			},
-		    			searchFastighet: {
-		    				//renderTo: 'searchfastighet'
-		    			},
-		    			searchCoordinate: {
-		    				//renderTo: 'searchcoordinate'
-		    			},
-		    			//objectConfig: {},
-		    			baseLayers: {}
-		    		};
-		    	
-		    		mapClient.destroy();
-		    		mapClient.configure(config, {
-		    			gui: gui
-		    		}, function() {
+	<head>
+		<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>Open eMap Client</title>
+		<meta name="description" content="">
+		<meta name="author" content="Anders Erlandsson, Sundsvalls kommun" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	    <link rel="stylesheet" type="text/css" href="/libs/ext-theme-oep/oepTheme-all.css">
+	    <link rel="stylesheet" type="text/css" href="resources/css/OpenEMap.css">  
+	    <script type="text/javascript" src="/libs/ext-4.2.1/ext-all.js"></script>
+	    <script type="text/javascript" src="/libs/ext-4.2.1/ext-theme-neptune.js"></script>
+	    <script type="text/javascript" src="/libs/ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
+	    <script type="text/javascript" src="/libs/OpenLayers-2.13.1/OpenLayers.js"></script>
+	    <script type="text/javascript" src="/libs/proj4js/proj4-compressed.js"></script>
+	    <script type="text/javascript" src="/libs/proj4js/proj4_defs.js"></script>
+	    <script type="text/javascript" src="/libs/geoext-2.0.2-rc.1-all.js"></script> 
+	    <script type="text/javascript" src="/libs/es5-shim.min.js"></script>
+	    <script type="text/javascript" src="OpenEMap-1.4.0-rc.2-all.js"></script>
+	    
+	    <script type="text/javascript">
+			
+			var init = null;
+	      var mapClient = null;
+		  Ext.onReady(function() {
+			
+			mapClient = Ext.create('OpenEMap.Client');
+			
+			mapClient.basePath = '/search/lm/'
+			  
+			init = function(name) {
+			    Ext.Ajax.request({
+			    	url: name,
+			    	success: function(response) {
+			    		var config = Ext.decode(response.responseText);
 			    		
-			    		Ext.create('Ext.container.Viewport', {
-			                layout : 'fit',
-			                items : mapClient.gui.container
-			            });
-
-			            var style = new OpenLayers.Style();
-		    	      
-		    	          var ruleLow = new OpenLayers.Rule({
-		    	            symbolizer: {
-		    	              pointRadius: 10,
-		    	              fillColor: 'green',
-		    	              fillOpacity: 1
-		    	            },
-		    	            maxScaleDenominator: 10000
-		    	          });
-		    	      
-		    	          var ruleHigh = new OpenLayers.Rule({
-		    	            symbolizer: {
-		    	              pointRadius: 10,
-		    	              fillColor: 'red',
-		    	              fillOpacity: 1   
-		    	           },
-		    	           minScaleDenominator: 10000
-		    	          });
-		    	          
-		    	          var labels = new OpenLayers.Rule({
-		    	              filter: new OpenLayers.Filter.Comparison({
-		    	                  type: OpenLayers.Filter.Comparison.EQUAL_TO,
-		    	                  property: "type",
-		    	                  value: "label",
-		    	              }),
-	                            symbolizer: {
-	                              label: "${label}"   
-	                           }
-	                          });
-		    	      
-		    	          style.addRules([ruleLow, ruleHigh, labels]);
-		    	      
-		    	          var styleMap = new OpenLayers.StyleMap(style);
-		    	          mapClient.drawLayer.styleMap = styleMap;
-		    	          
-		    	          mapClient.setSketchStyleMap(styleMap);
-		    	          
-		    	          mapClient.drawLayer.events.register('featuremodified', null, function() {
-		    	              console.log("featuremodified triggered");
-		    	          });
-		    		});
-		    		
-		    	}
-		    });
-		}
-
-		init('/openemapadmin/configs/config/41');
-	});
-    </script> 
-</head>
-<body>
-	<div id="layers" style="position: fixed; right: 10px; top: 0;"></div>
-</body>
+			    		var gui = {
+			    			map: {
+			    			},
+			    			toolbar: {
+			    				//renderTo: 'toolbar'
+			    			},
+			    			zoomTools: {},
+			    			legend: {},
+			    			layers: {
+			    				type: 'advanced',
+			    				renderTo: 'layers'
+			    			},
+			    			searchFastighet: {
+			    				//renderTo: 'searchfastighet'
+			    			},
+			    			searchCoordinate: {
+			    				//renderTo: 'searchcoordinate'
+			    			},
+			    			//objectConfig: {},
+			    			baseLayers: {}
+			    		};
+			    	
+			    		mapClient.destroy();
+			    		mapClient.configure(config, {
+			    			gui: gui
+			    		}, function() {
+				    		
+				    		Ext.create('Ext.container.Viewport', {
+				                layout : 'fit',
+				                items : mapClient.gui.container
+				            });
+	
+				            var style = new OpenLayers.Style();
+			    	      
+			    	          var ruleLow = new OpenLayers.Rule({
+			    	            symbolizer: {
+			    	              pointRadius: 10,
+			    	              fillColor: 'green',
+			    	              fillOpacity: 1
+			    	            },
+			    	            maxScaleDenominator: 10000
+			    	          });
+			    	      
+			    	          var ruleHigh = new OpenLayers.Rule({
+			    	            symbolizer: {
+			    	              pointRadius: 10,
+			    	              fillColor: 'red',
+			    	              fillOpacity: 1   
+			    	           },
+			    	           minScaleDenominator: 10000
+			    	          });
+			    	          
+			    	          var labels = new OpenLayers.Rule({
+			    	              filter: new OpenLayers.Filter.Comparison({
+			    	                  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			    	                  property: "type",
+			    	                  value: "label",
+			    	              }),
+		                            symbolizer: {
+		                              label: "${label}"   
+		                           }
+		                          });
+			    	      
+			    	          style.addRules([ruleLow, ruleHigh, labels]);
+			    	      
+			    	          var styleMap = new OpenLayers.StyleMap(style);
+			    	          mapClient.drawLayer.styleMap = styleMap;
+			    	          
+			    	          mapClient.setSketchStyleMap(styleMap);
+			    	          
+			    	          mapClient.drawLayer.events.register('featuremodified', null, function() {
+			    	              console.log("featuremodified triggered");
+			    	          });
+			    		});
+			    		
+			    	}
+			    });
+			}
+	
+			init('/openemapadmin/configs/config/41');
+		});
+	    </script> 
+	</head>
+	<body>
+		<div id="layers" style="position: fixed; right: 10px; top: 0;"></div>
+	</body>
 </html>

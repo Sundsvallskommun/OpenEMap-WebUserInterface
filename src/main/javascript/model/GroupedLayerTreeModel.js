@@ -27,17 +27,19 @@ Ext.define('OpenEMap.model.GroupedLayerTreeModel' ,{
     	{ name: 'checkedGroup', type: 'string' },
     	{ name: 'isGroupLayer' },
     	{ name: 'layer' },
+    	{ name: 'queryable', type: 'boolean' },
+    	{ name: 'clickable', type: 'boolean' },
+    	{ name: 'isGroupLayer', type: 'boolean' },
 
         { name: 'layerId' },
     	{ name: 'name', type: 'string' },
-        { name: 'isSearchable' },
     	{ name: 'urlToMetadata' },
         { name: 'wms' },
     	{ name: 'wfs' },
         { name: 'serverId' },
+        { name: 'metadata' },
         
-        
-        
-        { name: 'legendURL' }
+        { name: 'legendURL' },
+        { name: 'layers'}
     ]
 });

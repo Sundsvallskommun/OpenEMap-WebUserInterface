@@ -263,6 +263,7 @@
 			"iconCls": "action-identify",
 			"tooltip": "Identify objects in map",
 			"useRegisterenhet": true,
+			"onlyVisibleLayers": true,
 			"tolerance": 5,
 			"activate": true
 		},

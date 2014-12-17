@@ -23,6 +23,7 @@
  * @param {string} [config.items] items to show in result window
  * @param {string} [config.useRegisterenhet=true] wheter or not to use identify on registerenhet 
  * @param {string} [config.tolerance=3] tolerance to use when identifying in map. Radius in image pixels. 
+ * @param {string} [config.onlyVisibleLayers=false] wheter or not to drill through invisble layers 
  */
 Ext.define('OpenEMap.action.Identify', {
     extend: 'OpenEMap.action.Action',
@@ -68,14 +69,16 @@ Ext.define('OpenEMap.action.Identify', {
         var layer = mapPanel.searchLayer;
         var map = config.map;
         var layers = config.layers;
+        var client = config.client;
         
         // Defaults to identify registerenhet
         if (config.useRegisterenhet === null) {
         	config.useRegisterenhet = true;
         }
-        
-        // Defaults to 5 meter tolerance
-        config.tolerance = config.tolerance || 3;  
+        config.tolerance = config.tolerance || 3;
+        if (config.onlyVisibleLayers === null) {
+        	config.onlyVisibleLayers = true;	
+        }   
 
         var Click = OpenLayers.Class(OpenLayers.Control, {
             initialize: function(options) {
@@ -144,10 +147,23 @@ Ext.define('OpenEMap.action.Identify', {
                // Identify WFS-layers in map
                 var parser = Ext.create('OpenEMap.config.Parser');
                
-                // TODO - only return layers that are visible 
-                var wfsLayers =  parser.extractWFS(layers);
+               	var layers = client.getConfig().layers;
+		        layers = parser.extractPlainLayers(layers);
+                var clickableLayers =  parser.extractClickableLayers(layers);
+
+                // Only return layers that are visible
+                if (config.onlyVisibleLayers) {
+                	clickableLayers = parser.extractVisibleLayers(clickableLayers);
+                } 
+  				// Extract layers in draw order
+//  			clickableLayers = parser.extractLayersInDrawOrder(clickableLayers);
+
+             	OpenLayers.ProxyHost = OpenEMap.basePathProxy;
+
+                var wfsLayers = parser.extractWFS(clickableLayers);
                 
                 var wfsIdentify = function(wfsLayer) {
+                	wfsLayer.wfs.url = wfsLayer.wfs.url;
                     var options = Ext.apply({
                         version: "1.1.0",
                         srsName: map.projection
@@ -171,7 +187,37 @@ Ext.define('OpenEMap.action.Identify', {
                 };
                 
                 wfsLayers.forEach(wfsIdentify);
-             	
+
+                var wmsLayers = parser.extractWMS(parser.extractNoWFS(clickableLayers));
+
+                // TODO - use WMSGetFeatureInfo wmsLayers array functionality instead of looping
+//                var wmsLayersOL = [];
+//                for (var i=0; i<wmsLayers.length; i++) {
+//                	wmsLayersOL.push(wmsLayers[i].layer);
+//                }
+                var wmsIdentify = function(wmsLayer) {
+                    var showResults = function(response) {
+                        var features = response.features;
+                        if (features && features.length>0) {
+                            identifyResults.addResult(features, wmsLayer);
+                            layer.addFeatures(features);
+                        }
+                    };
+                    var options = {
+                    	url: wmsLayer.layer.url,
+                        layers: [wmsLayer.layer],
+//                        layers: [wmsLayersOL],
+                        infoFormat: 'application/vnd.ogc.gml',
+                        clickCallback: showResults
+                    };
+                    var wmsctrl = new OpenLayers.Control.WMSGetFeatureInfo(options);
+                    wmsctrl.setMap(map);
+					wmsctrl.events.register('getfeatureinfo', wmsctrl, showResults);
+					wmsctrl.getInfoForClick(evt, {proxy: OpenEMap.basePathProxy});                    
+                };
+                
+                wmsLayers.forEach(wmsIdentify);
+
                 // Hide graphhic for loading
 				mapPanel.setLoading(false);
             }
