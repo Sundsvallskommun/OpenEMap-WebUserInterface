@@ -33,18 +33,21 @@ Ext.define('OpenEMap.data.SavedMapConfigs' ,{
     storeId: 'savedMapConfigs',
 
     autoLoad: true,
-
-    proxy: {
-        type: 'rest',
-        appendId: true,
-        url: ((OpenEMap && OpenEMap.wsUrls && OpenEMap.wsUrls.basePath) ? OpenEMap.wsUrls.basePath : '') + 
-        		((OpenEMap && OpenEMap.wsUrls && OpenEMap.wsUrls.configs) ? OpenEMap.wsUrls.configs : ''),
-        reader: {
-            type: 'json',
-            root: 'configs'
-        },
-        writer: {            
-            type: 'json'
-        }
+    
+    constructor: function(config) {
+        this.proxy = {
+            type: 'rest',
+            appendId: true,
+            url: ((OpenEMap && OpenEMap.wsUrls && OpenEMap.wsUrls.basePath) ? OpenEMap.wsUrls.basePath : '') + 
+            		((OpenEMap && OpenEMap.wsUrls && OpenEMap.wsUrls.configs) ? OpenEMap.wsUrls.configs : ''),
+            reader: {
+                type: 'json',
+                root: 'configs'
+            },
+            writer: {            
+                type: 'json'
+            }
+        };
+        this.callParent(arguments);
     }
 });
