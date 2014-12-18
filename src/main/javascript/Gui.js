@@ -144,6 +144,7 @@ Ext.define('OpenEMap.Gui', {
         if (this.objectConfig) this.objectConfig.destroy();
         if (this.objectConfigWindow) this.objectConfigWindow.destroy();
         if (this.scalebar) this.scalebar.destroy();
+        if (this.container) this.container.destroy();
         //if (this.search) this.search.destroy();
     },
     onToggle: function(button, pressed) {
