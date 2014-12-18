@@ -91,7 +91,7 @@ Ext.define('OpenEMap.view.layer.Tree' ,{
         this.callParent(arguments);
     },
     
-    getConfig: function() {
+    getConfig: function(includeLayerRef) {
         var config = Ext.clone(this.client.initialConfig);
         
         if (config.layers) {
@@ -99,7 +99,7 @@ Ext.define('OpenEMap.view.layer.Tree' ,{
         	var baseAndWfsLayers = config.layers.filter(function(layer) {
         		return (layer.wms && layer.wms.options.isBaseLayer || layer.wfs) ? layer : false;
         	});
-        	var layers = this.getStore().getLayerConfiguration();
+        	var layers = this.getStore().getLayerConfiguration(includeLayerRef);
         	config.layers = baseAndWfsLayers.concat(layers);
     	}
     	

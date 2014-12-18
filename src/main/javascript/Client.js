@@ -136,10 +136,11 @@ Ext.define('OpenEMap.Client', {
         }
     },
     /**
+     * @param {boolean} includeLayerRef include reference to OpenLayers layer if available
      * @return {Object} Object representation of current Open eMap configuration
      */
-    getConfig: function() {
-       return this.gui.mapLayers.getConfig(); 
+    getConfig: function(includeLayerRef) {
+       return this.gui.mapLayers.getConfig(includeLayerRef); 
     },
     /**
      * @param {String=} Name of layout to use (default is to use first layout as reported by server)
@@ -526,7 +527,7 @@ Ext.apply(OpenEMap, {
      * @property {Object} [wsUrls] WS paths to be used for AJAX requests
      */
     wsUrls: {
-        basePath:   	'/openemapadmin/',
+        basePath:   	'/openemapadmin-1.5.0-rc.2/',
         configs:    	'configs',
         adminconfigs: 	'adminconfigs/config', 
         servers:    	'settings/servers',
