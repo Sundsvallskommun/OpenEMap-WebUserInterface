@@ -51,15 +51,16 @@ Ext.apply(OpenEMap, {
      * @property {string} 
      * Base path to proxy to be used for WFS-post
      */
-    basePathProxy: 'http://localhost:8080/cgi-bin/proxy.py?url=',
+    basePathProxy: '/cgi-bin/proxy.py?url=',
 
     /**
      * @property {Object} 
      * WS paths to be used for AJAX requests
      */
     wsUrls: {
-        basePath:   '/openemapadmin/',
-        configs:    'configurations/configs',
+        basePath:   '/openemapadmin-1.5.0-rc.2/',
+        adminconfigs: 'adminconfigs',
+        configs:    'configs',
         servers:    'settings/servers',
         layers:     'layers/layers',
         metadata:   'geometadata/getmetadatabyid', 
