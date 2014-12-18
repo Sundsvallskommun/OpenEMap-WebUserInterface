@@ -53,7 +53,7 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
     * Returns all layers as OpenEMap layer configuration tree.
     * @return {Object} layerConfig  OpenEMap layer configuration
     */
-    getLayerConfiguration: function() {
+    getLayerConfiguration: function(includeLayerRef) {
         var layerConfig = [];
         this.getRootNode().childNodes.forEach(function(node, i) {
             layerConfig[i] = {
@@ -69,7 +69,7 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
                     clickable: subnode.get('clickable'),
                     wms: typeof subnode.get('wms') === 'string' ? {} : subnode.get('wms'),
                     wfs: typeof subnode.get('wfs') === 'string' ? {} : subnode.get('wfs'),
-                    layer: subnode.get('layer'),
+                    layer: includeLayerRef ? subnode.get('layer') : undefined,
                     metadata: typeof subnode.get('metadata') === 'string' ? {} : subnode.get('metadata')
                 });
             });

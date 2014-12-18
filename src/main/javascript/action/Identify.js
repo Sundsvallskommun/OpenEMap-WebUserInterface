@@ -147,7 +147,7 @@ Ext.define('OpenEMap.action.Identify', {
                // Identify WFS-layers in map
                 var parser = Ext.create('OpenEMap.config.Parser');
                
-               	var layers = client.getConfig().layers;
+               	var layers = client.getConfig(true).layers;
 		        layers = parser.extractPlainLayers(layers);
                 var clickableLayers =  parser.extractClickableLayers(layers);
 
