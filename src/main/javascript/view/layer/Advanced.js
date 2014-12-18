@@ -230,7 +230,7 @@ Ext.define('OpenEMap.view.layer.Advanced' ,{
 		];
     	this.callParent(arguments);
     },
-    getConfig: function() {
-        return this.showOnMapLayerView.getConfig();
+    getConfig: function(includeLayerRef) {
+        return this.showOnMapLayerView.getConfig(includeLayerRef);
     }
 });
