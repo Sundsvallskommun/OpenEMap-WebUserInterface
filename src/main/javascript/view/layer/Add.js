@@ -127,8 +127,8 @@ Ext.define('OpenEMap.view.layer.Add' ,{
                 'title': layer.title,
                 'name': layer.title,
                 'queryable': layer.queryable,
+                'clickable': layer.queryable,
                 'isGroupLayer': false,
-                'isSearchable': layer.queryable,
                 'visibility': true,
                 'wms':{
                     'url': OpenEMap.wmsURLs.url,
