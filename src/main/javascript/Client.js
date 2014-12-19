@@ -528,8 +528,8 @@ Ext.apply(OpenEMap, {
      */
     wsUrls: {
         basePath:   	'/openemapadmin-1.5.0-rc.2/',
-        configs:    	'configs',
-        adminconfigs: 	'adminconfigs', 
+        configs:    	'configs/config',
+        adminconfigs: 	'adminconfigs/config', 
         servers:    	'settings/servers',
         layers:     	'layers/layers',
         metadata:   	'geometadata/getmetadatabyid', 
