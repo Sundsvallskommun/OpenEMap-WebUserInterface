@@ -85,7 +85,9 @@
             }
         },
         {
-        	"name": "Expanded grouplayer", 
+        	"name": "Expanded grouplayer",
+        	"expanded": true, 
+            "isGrouplayer": true,
             "options": {
                 "visibility": true
             },
@@ -94,6 +96,7 @@
 		            "name": "Planområde",
 		            "queryable": true,
 		            "clickable": true,
+		            "isGrouplayer": false,
 		            "wms": {
 		                "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
 		                "params": {
@@ -126,6 +129,7 @@
 					"name" : "Användningsbestämmelse",
 		            "queryable": true,
 		            "clickable": true,
+		            "isGrouplayer": false,
 					"wms": {
 		    	        "url" : "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
 		    	        "params": {
@@ -162,6 +166,7 @@
         {
         	"name": "Collapsed grouplayer", 
         	"expanded": false,
+            "isGrouplayer": true,
             "options": {
                 "visibility": false
             },
@@ -170,6 +175,7 @@
 		            "name": "Planområde 2",
 		            "queryable": true,
 		            "clickable": true,
+		            "isGrouplayer": false,
 		            "wms": {
 		                "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
 		                "params": {
@@ -187,6 +193,7 @@
 					"name" : "Användningsbestämmelse 2",
 		            "queryable": true,
 		            "clickable": true,
+		            "isGrouplayer": false,
 					"wms": {
 		    	        "url" : "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
 		    	        "params": {
@@ -203,6 +210,7 @@
 		        {
 		        	"name": "Grouplayer in grouplayer", 
 		        	"expanded": true,
+				    "isGrouplayer": true,
 		            "options": {
 		                "visibility": false
 		            },
@@ -210,6 +218,8 @@
 				        {
 				            "name": "Planområde 3",
 				            "queryable": true,
+				            "clickable": false,
+				            "isGrouplayer": false,
 				            "wms": {
 				                "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
 				                "params": {
@@ -226,6 +236,8 @@
 				        {
 							"name" : "Användningsbestämmelse 3",
 				            "queryable": false,
+				            "clickable": false,
+				            "isGrouplayer": false,
 							"wms": {
 				    	        "url" : "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
 				    	        "params": {
@@ -244,6 +256,7 @@
 		        {
 		        	"name": "Grouplayer in grouplayer 2", 
 		        	"expanded": true,
+		            "isGrouplayer": true,
 		            "options": {
 		                "visibility": false
 		            },
@@ -251,6 +264,8 @@
 				        {
 				            "name": "Planområde 3",
 				            "queryable": true,
+				            "clickable": true,
+				            "isGrouplayer": false,
 				            "wms": {
 				                "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
 				                "params": {
@@ -267,6 +282,8 @@
 				        {
 							"name" : "Användningsbestämmelse 3",
 				            "queryable": true,
+				            "clickable": true,
+				            "isGrouplayer": false,
 							"wms": {
 				    	        "url" : "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
 				    	        "params": {
@@ -288,6 +305,7 @@
             "name": "Planområde extern",
             "queryable": true,
             "clickable": true,
+            "isGrouplayer": false,
             "wfs": {
                 "url": "https://extmaptest.sundsvall.se/geoserver/wfs",
                 "featureType": "DetaljplanGallande_yta",

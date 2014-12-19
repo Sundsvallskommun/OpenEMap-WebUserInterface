@@ -46,6 +46,9 @@ A layer can include a WMS-specifgication and a WFS-specification. WMS are used t
 ```json
 "layers": [
 	"name": "nameOfTheLayer",
+	"queryable": whetherTheLayerServiceIsQueryable,
+	"clickable": whetherTheLayerShouldBeClickableInMap,
+	"isGrouplayer": whetherTheLayerIsAGrouplayer,
 	"wms": {
 		"url": "urlToWMSService",
 		"metadataUrl": "urlToMetadataService",
@@ -81,7 +84,11 @@ A layer can include a WMS-specifgication and a WFS-specification. WMS are used t
 ## Grouplayers expanded/collapsed
 ```json
 "layers": [
-    "expanded": false
+    "expanded": whetherTheGroupLayerShouldBeExpanded,
+    "isGrouplayer": whetherLayerIsAGroupLayer, 'Always true for group layers
+    "options": {
+    	"visibility": whetherTheGroupLayerShouldBeVisibleOrNot
+    }
 ]
 ```
 ## Specify search settings
