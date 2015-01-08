@@ -16,8 +16,8 @@ Integrate into HTML page using the following snippet:
     <script type="text/javascript" src="/libs/ext-4.2.1/ext-theme-neptune.js"></script>
     <script type="text/javascript" src="/libs/ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
     <script type="text/javascript" src="/libs/OpenLayers-2.13.1/OpenLayers.js"></script>
-    <script type="text/javascript" src="/libs/proj4js/proj4-compressed.js"></script>
-    <script type="text/javascript" src="/libs/proj4js/proj4_defs.js"></script>
+    <script type="text/javascript" src="/libs/proj4js/proj4-compressed.js"></script> 
+    <script type="text/javascript" src="proj4_defs.js"></script> <!-- Definition of Swedish projections for Proj4js -->
     <script type="text/javascript" src="/libs/geoext-2.0.1-oemap-all.js"></script> <!-- OEMap specific build of geoext2, correcting problem with borderwidth for popup window. --> 
     <script type="text/javascript" src="/libs/es5-shim.min.js"></script>
     <script type="text/javascript" src="release/OpenEMap-1.2.0/OpenEMap-1.2.0-all.js"></script>
