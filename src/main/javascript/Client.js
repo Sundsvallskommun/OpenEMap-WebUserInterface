@@ -286,7 +286,7 @@ Ext.define('OpenEMap.Client', {
 		} 
 		if (!Proj4js.defs[epsg])
 		{
-			Ext.Error.raise('Unknown coordinate system: ' + epsg + '\nAdd coordinate system to array \'Proj4js.def\'.');
+			Ext.Error.raise('Unknown coordinate system: ' + epsg + '\nAdd coordinate system to array \'Proj4js.defs\'.');
 		}
 		if (zoomToBounds === null) {
 			zoomToBounds = true;
@@ -527,7 +527,7 @@ Ext.apply(OpenEMap, {
      * @property {Object} [wsUrls] WS paths to be used for AJAX requests
      */
     wsUrls: {
-        basePath:   	'/openemapadmin-1.5.0-rc.2/',
+        basePath:   	'/openemapadmin-1.5.0-rc.3/',
         configs:    	'configs',
         adminconfigs: 	'adminconfigs',
         servers:    	'settings/servers',

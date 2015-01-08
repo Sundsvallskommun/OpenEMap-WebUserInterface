@@ -16,7 +16,7 @@ module.exports = function(grunt) {
         tasks: ['jshint:gruntfile']
       },
       scripts: {
-        files: ['dev/*.html', 'src/main/javascript/**/*.js'],
+        files: ['dev/*.html', 'src/main/javascript/**/*.js', 'proj4_defs.js'],
         tasks: ['jshint:js'],
         options: {
           spawn: false,
@@ -88,6 +88,7 @@ module.exports = function(grunt) {
         dist: {
             files: [
             { expand: true, src: ['index*.html'], dest: '<%= releasePath %>' },
+            { expand: true, src: ['proj4_defs.js'], dest: '<%= releasePath %>' },
             { expand: true, src: ['resources/**'], dest: '<%= releasePath %>' },
             { expand: true, src: ['examples/**'], dest: '<%= releasePath %>' },
             { expand: true, flatten: true, src: ['dev/config/**'], dest: '<%= releasePath %>/config' }
