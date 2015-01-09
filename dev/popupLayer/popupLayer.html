@@ -4,7 +4,7 @@
 		<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		
-	    <link rel="stylesheet" type="text/css" href="/libs/ext-theme-oep/release/ext-theme-oep-1.0.0/oepTheme-all.css">
+<!--	    <link rel="stylesheet" type="text/css" href="/libs/ext-theme-oep/release/ext-theme-oep-1.0.0/oepTheme-all.css">
 	    <link rel="stylesheet" type="text/css" href="/OpenEMap-WebUserInterface/resources/css/OpenEMap.css">
 	
 	    <script type="text/javascript" src="/libs/OpenLayers-2.13.1/lib/OpenLayers.js"></script>  
@@ -13,8 +13,7 @@
 	    <script type="text/javascript" src="/libs/ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
 	    <script type="text/javascript" src="/libs/proj4js/proj4-compressed.js"></script>
 	    <script type="text/javascript" src="/libs/proj4js/proj4_defs.js"></script>
-<!--	    <script type="text/javascript" src="/libs/geoext-2.0.1/geoext2.js"></script>
--->	    <script type="text/javascript">
+	    <script type="text/javascript">
 		  Ext.Loader.setConfig({
 		    disableCaching: false,
 		    paths: {
@@ -23,7 +22,31 @@
 		    }
 		  });
 	    </script> 
+-->
+	    <!-- This will make the page reload automatically when source has changed and page is served using grunt devserver -->
+	    <script src="//localhost:35729/livereload.js"></script>
 
+	    <link rel="stylesheet" type="text/css" href="../../resources/ext-theme-oep/oepTheme-all.css">
+	    <link rel="stylesheet" type="text/css" href="../../resources/css/OpenEMap.css">
+	    
+	    <script type="text/javascript" src="../../bower_components/OpenLayers-2.13.1/lib/OpenLayers.js"></script>
+	    <script type="text/javascript" src="../../bower_components/ext-4.2.1/bootstrap.js"></script>
+	    <script type="text/javascript" src="../../bower_components/ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
+	    <script type="text/javascript" src="../../bower_components/ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
+	    <script type="text/javascript" src="../../bower_components/proj4/dist/proj4.js"></script>
+	    <script type="text/javascript" src="../../proj4_defs.js"></script>
+	    
+	    <script type="text/javascript">
+		  Ext.Loader.setConfig({
+		    disableCaching: false,
+		    paths: {
+		        OpenEMap: '../../src/main/javascript',
+		        GeoExt: '../../bower_components/geoext2/src/GeoExt'
+		    }
+		  });
+	    </script> 
+	    
+	    <script type="text/javascript" src="../../../libs/es5-shim.min.js"></script>
 	    <script type="text/javascript" src="popupLayerGeojson.js"></script>
 	    <script type="text/javascript" src="popupLayerStyles.js"></script>
 	
