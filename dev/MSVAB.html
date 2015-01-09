@@ -15,10 +15,19 @@
 	    <script type="text/javascript" src="/libs/ext-4.2.1/ext-all.js"></script>
 	    <script type="text/javascript" src="/libs/ext-4.2.1/ext-theme-neptune.js"></script>
 	    <script type="text/javascript" src="/libs/ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
-	    <script type="text/javascript" src="/libs/proj4js/proj4-compressed.js"></script>
+	    <script type="text/javascript" src="/libs/proj4js/proj4.js"></script>
 	    <script type="text/javascript" src="../proj4_defs.js"></script>
 	    <script type="text/javascript" src="/libs/geoext-2.0.1/release/geoext-2.0.2-rc.1-all.js"></script> 
-	    <script type="text/javascript" src="../OpenEMap-1.5.0-rc.3-all.js"></script>
+<!--	    <script type="text/javascript" src="../OpenEMap-1.5.0-rc.3-all.js"></script>
+-->	    <script type="text/javascript">
+		  Ext.Loader.setConfig({
+		    disableCaching: false,
+		    paths: {
+		        OpenEMap: '../src/main/javascript'
+//		        GeoExt: '../bower_components/geoext2/src/GeoExt'
+		    }
+		  });
+	    </script> 
 
 	    <script type="text/javascript" src="MSVABStyles.js"></script>
 	
@@ -61,11 +70,13 @@
 						
 						var options = {
 						    version: "1.1.0",
-						    srsName: 'EPSG:3014',
+						    srsName: 'EPSG:3006',
 							url: '/cgi-bin/proxy.py?url=http://msvesri03:6080/arcgis/services/WMS/Brandposter/MapServer/WFSServer',
 						    featureType: 'Brandpost',
-						    featurePrefix: ''
-						    
+						    featurePrefix: '',
+							formatOptions: {
+								xy: false
+							}						    
 						}
 						
 						var protocol = new OpenLayers.Protocol.WFS(options);
@@ -85,7 +96,7 @@
 									console.log(geojson);
 
 									// Create objects in map based on GeoJSON, see brandlarmGeojson.js with style specified in brandlarmStyles.js
-									var popupLayer = mapClient.addPopupLayer(geojson, 'Brandposter', 'OBJECTID', 'NAMN', '', '', 'Brandpost', stylemapBrandlarm, 'EPSG:3014');
+									var popupLayer = mapClient.addPopupLayer(geojson, 'Brandposter', 'OBJECTID', 'Löpnummer', 'Löpnummer: ', '', 'Brandpost', stylemap, 'EPSG:3006', true);
 
 									// Listen to event for feature selected
 					               	mapClient.map.events.register('popupfeatureselected', this, function(arg) {
@@ -106,7 +117,7 @@
 				});
 			}
 			
-			init('../examples/popupLayerConfig.json');
+			init('config/default3006.json');
 		});
 	    </script>
 	</head>

@@ -18,7 +18,7 @@
  * @author Anders Erlandsson, Sundsvalls kommun
  * Example styles to use with popupLayers 
  */
-var stylemapBrandlarm = new OpenLayers.StyleMap({
+var stylemap = new OpenLayers.StyleMap({
     'default': OpenLayers.Util.applyDefaults(
         {
         	externalGraphic: "../resources/images/point_added.png", 
