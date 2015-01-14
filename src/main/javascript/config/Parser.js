@@ -186,7 +186,7 @@ Ext.define('OpenEMap.config.Parser', {
      */
     extractVisibleLayers: function(plainLayers) {
         plainLayers = plainLayers.filter(function(layer) { 
-        	return (layer.wms && layer.wms.options && layer.wms.options.visibility); 
+        	return (layer.layer && layer.layer.visibility); 
         });
         return plainLayers;
     },

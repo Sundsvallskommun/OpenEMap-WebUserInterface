@@ -43,34 +43,56 @@ Ext.define('OpenEMap.view.layer.Tree' ,{
         this.on('checkchange', function(node, checked, eOpts) {
             var parent = node.parentNode;
         
-            if(checked) {
+//            if(checked) {
                 // Loop this node and children
                 node.cascadeBy(function(n){
                     n.set('checked', checked);
                     var olLayerRef = n.get('layer');
                     // Change layer visibility (Layer groups have no layer reference)
                     if(olLayerRef) {
-                        olLayerRef.setVisibility(true);
+                        olLayerRef.setVisibility(checked);
+                        if (olLayerRef.options) {
+                        	olLayerRef.options.visibility = checked;
+                        }
+                    }
+                    var wmsRef = n.get('wms');
+                    if (wmsRef) {
+                    	if (wmsRef.options) {
+                    		wmsRef.options.visibility = checked;
+                    	}
                     }
                 });
+            if (checked) {
                 // check parent if not root
                 if (!parent.isRoot()) {
                     parent.set('checked', checked);
                 }
             } else {
+/*            } else {
                 node.cascadeBy(function(n){
                     // Loop this node and children
                     n.set('checked', false);
                     var olLayerRef = n.get('layer');
                     if(olLayerRef) {
                         olLayerRef.setVisibility(false);
+                        if (olLayerRef.options) {
+                        	olLayerRef.options.visibility = false;
+                        }
+                    }
+                    var wmsRef = n.get('wms');
+                    if (wmsRef) {
+                    	if (wmsRef.options) {
+                    		wmsRef.options.visibility = false;
+                    	}
                     }
                 });
                 // uncheck parent if not root and its children are unchecked
+*/
                 if (!parent.isRoot() && !parent.childNodes.some(function(node) { return node.get('checked'); })) {
                     parent.set('checked', checked);
                 }
             }
+
         });
 
         this.on('cellclick', function(tree, td, cellIndex, node) {

@@ -43,7 +43,8 @@
             "type": "FullExtent"
         },
         {
-            "type": "Identify"
+            "type": "Identify",
+            "onlyVisibleLayers": true
         },
         {
             "type": "MeasureArea"
