@@ -807,7 +807,7 @@ OpenLayers.Control.DynamicMeasure = OpenLayers.Class(
  */
 OpenLayers.Control.DynamicMeasure.styles = {
     'Point': {
-        pointRadius: 4,
+        pointRadius: 0,
         graphicName: 'square',
         fillColor: 'white',
         fillOpacity: 1,

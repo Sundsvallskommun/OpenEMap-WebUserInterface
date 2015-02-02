@@ -28,7 +28,7 @@ Ext.define('OpenEMap.Client', {
                'OpenEMap.view.PopupResults',
                'OpenEMap.OpenLayers.Control.ModifyFeature',
                'OpenEMap.OpenLayers.Control.DynamicMeasure'],
-    version: '1.5.0-rc.2',
+    version: '1.5.0-rc.4',
     /**
      * OpenLayers Map instance
      * 
@@ -527,7 +527,7 @@ Ext.apply(OpenEMap, {
      * @property {Object} [wsUrls] WS paths to be used for AJAX requests
      */
     wsUrls: {
-        basePath:   	'/openemapadmin-1.5.0-rc.3/',
+        basePath:   	'/openemapadmin/',
         configs:    	'configs',
         adminconfigs: 	'adminconfigs',
         servers:    	'settings/servers',

@@ -34,7 +34,7 @@
 	    <script type="text/javascript" src="/libs/ext-4.2.1/ext-theme-neptune.js"></script>
 	    <script type="text/javascript" src="/libs/ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
 	    <script type="text/javascript" src="/libs/OpenLayers-2.13.1/OpenLayers.js"></script>
-	    <script type="text/javascript" src="/libs/proj4js/proj4-compressed.js"></script>
+	    <script type="text/javascript" src="/libs/proj4js/proj4.js"></script>
 	    <script type="text/javascript" src="proj4_defs.js"></script>
 	    <script type="text/javascript" src="/libs/geoext-2.0.2-rc.1-all.js"></script> 
 	    <script type="text/javascript" src="/libs/es5-shim.min.js"></script>
@@ -64,11 +64,6 @@
 							//objectConfig : {x: 100, y: 400, width: 300, height: 200, collapsed: true}
 						};
 						
-						//just for demo, remove
-						config.tools.push('ZoomSelector');
-						
-						
-	
 						mapClient.destroy();
 						mapClient.configure(Ext.clone(config), {
 							gui : gui
