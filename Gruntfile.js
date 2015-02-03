@@ -125,9 +125,9 @@ module.exports = function(grunt) {
             port: 443
         }, {
             context: '/print',
-            host: 'kartatest.e-tjansteportalen.se',
-            https: true,
-            port: 443
+            host: 'localhost',
+            https: false,
+            port: 8080
         }, {
             context: '/mapfishprint-2.1.0',
             host: 'kartatest.e-tjansteportalen.se',
