@@ -64,6 +64,12 @@ Requirements:
 
 A fresh clone of the repository will require running `npm install` in its root. After that you can start devserver on `http://localhost:8000` by running `grunt devserver`. A development example should be runnable at `http://localhost:8000/dev/debug.html`. Changes to any source file will in the debug version automatically reload the page.
 
+###Documentation
+Source code should be documented using [JSDucks](https://github.com/senchalabs/jsduck/wiki) semantics
+Readme.md should be updated if necessary
+Map config is documented in doc/config.md, and should be updated if cahnges is made in map config
+Each release is documented under Releases/Release number (see versioning below) 
+
 ## Building a release verison
 
 Done by running `grunt dist` in a working development clone. Requires Sencha Cmd installed and available on the path.
