@@ -129,6 +129,11 @@ module.exports = function(grunt) {
             https: true,
             port: 443
         }, {
+            context: '/mapfishprint-2.1.0',
+            host: 'kartatest.e-tjansteportalen.se',
+            https: true,
+            port: 443
+        }, {
             context: '/openemapadmin',
             host: 'kartatest.e-tjansteportalen.se',
             https: true,
@@ -169,7 +174,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-compress');
 
   grunt.registerTask('default', ['auto_install', 'jshint']);
-  grunt.registerTask('build', ['default', 'sencha:release']);
+  grunt.registerTask('build', ['default', 'sencha:release', 'sencha:debug']);
   grunt.registerTask('dist', ['clean', 'build', 'copy', 'compress']);
   grunt.registerTask('devserver', ['default', 'configureProxies', 'connect', 'watch']);
 };

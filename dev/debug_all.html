@@ -25,24 +25,37 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-    <script type="text/javascript" src="../../libs/OpenLayers-2.13.1/lib/OpenLayers.js"></script>  
-    <script type="text/javascript" src="../../libs/ext-4.2.1/ext-debug.js"></script>
-    <script type="text/javascript" src="../../libs/ext-4.2.1/ext-theme-neptune.js"></script>
-    <script type="text/javascript" src="../../libs/ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
-    <script type="text/javascript" src="../../libs/es5-shim.min.js"></script>
+    <!-- This will make the page reload automatically when source has changed and page is served using grunt devserver -->
+    <script src="//localhost:35729/livereload.js"></script>
+
+    <!-- 
+    <link rel="stylesheet" type="text/css" href="ext-4.2.1/resources/css/ext-all-neptune.css">
+    -->
+    
+    <!-- https://kartatest.e-tjansteportalen.se/libs/ext-theme-oep/oepTheme-all.css -->
+    <link rel="stylesheet" type="text/css" href="../resources/ext-theme-oep/oepTheme-all.css">
+    <link rel="stylesheet" type="text/css" href="../resources/css/OpenEMap.css">
+    
+    <script type="text/javascript" src="../bower_components/OpenLayers-2.13.1/lib/OpenLayers.js"></script>
+    <script type="text/javascript" src="../bower_components/ext-4.2.1/bootstrap.js"></script>
+    <script type="text/javascript" src="../bower_components/ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
+    <script type="text/javascript" src="../bower_components/ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
+    <script type="text/javascript" src="../bower_components/proj4/dist/proj4.js"></script>
+    <script type="text/javascript" src="../proj4_defs.js"></script>
     
     <script type="text/javascript">
 	  Ext.Loader.setConfig({
 	    disableCaching: false,
 	    paths: {
 	        OpenEMap: '../src/main/javascript',
-	        GeoExt: '../../libs/geoext-2.0.1/src/GeoExt'
+	        GeoExt: '../bower_components/geoext2/src/GeoExt'
 	    }
 	  });
     </script> 
     
-    <link rel="stylesheet" type="text/css" href="../../libs/ext-theme-oep/release/ext-theme-oep-1.0.0/oepTheme-all.css">
-    <link rel="stylesheet" type="text/css" href="../resources/css/OpenEMap.css">
+    <script type="text/javascript" src="../../libs/es5-shim.min.js"></script>
+    
+    <script type="text/javascript" src="../src/main/javascript/Client.js"></script>
 
     <script type="text/javascript">
 	  Ext.onReady(function() {
@@ -50,6 +63,7 @@
 		mapClient = Ext.create('OpenEMap.Client');
 		
 		OpenEMap.basePathImages = '../resources/images/';
+		OpenEMap.basePathMapFish = '/mapfishprint-2.1.0/pdf';
 		 
 		function init(name) {
 		    Ext.Ajax.request({
