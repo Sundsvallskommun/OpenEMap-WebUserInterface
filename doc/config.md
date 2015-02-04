@@ -91,7 +91,8 @@ A layer can include a WMS-specifgication and a WFS-specification. WMS are used t
     }
 ]
 ```
-## Specify search settings
+## Specify search settings. 
+Excluding a searchtag (search.searchEstates, search.searchAddresses, search.searchPlacenames, search.searchES.detaljplan) will make it disappear in the drop down list of available searches. If no search string is specified, the search gui will disappear completely.
 ```json
     "search": {
         "searchEstates": {
@@ -128,6 +129,9 @@ A layer can include a WMS-specifgication and a WFS-specification. WMS are used t
                 ],
 		"zoom": 1
             }
+        },
+        "searchES": {
+        	"detaljplan": true
         }
     }
 

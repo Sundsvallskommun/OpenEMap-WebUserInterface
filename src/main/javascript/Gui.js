@@ -289,7 +289,7 @@ Ext.define('OpenEMap.Gui', {
 	    }
         
         
-        if (this.gui.searchFastighet)  {
+        if (this.gui.searchFastighet && this.search)  {
 	        // Create SearchParcel control
 	        this.searchFastighet = Ext.create('OpenEMap.view.SearchFastighet', Ext.apply({
 	            mapPanel : this.mapPanel,

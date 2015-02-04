@@ -260,7 +260,11 @@
                 ],
 				"zoom": 1
             }
-        }
+        },
+        "searchES": 
+        {
+        	"detaljplan": true
+		}     
     },
 	"tools": [
 		{
