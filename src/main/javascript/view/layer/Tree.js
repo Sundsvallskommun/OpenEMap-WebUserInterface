@@ -50,17 +50,9 @@ Ext.define('OpenEMap.view.layer.Tree' ,{
                 // Change layer visibility (Layer groups have no layer reference)
                 if(olLayerRef) {
                     olLayerRef.setVisibility(checked);
-                    if (olLayerRef.options) {
-                    	olLayerRef.options.visibility = checked;
-                    }
                 }
-                var wmsRef = n.get('wms');
-                if (wmsRef) {
-                	if (wmsRef.options) {
-                		wmsRef.options.visibility = checked;
-                	}
-                }
-            });
+
+           });
             // Checking/unchecking parent node
             if (checked) {
                 // check parent if not root
@@ -94,16 +86,17 @@ Ext.define('OpenEMap.view.layer.Tree' ,{
     },
     
     getConfig: function(includeLayerRef) {
+    	// Start with initial config to get a complete config object
         var config = Ext.clone(this.client.initialConfig);
         
-        if (config.layers) {
-            // layer tree does not include base layers and WFS layers so extract them from initial config
-        	var baseAndWfsLayers = config.layers.filter(function(layer) {
-        		return (layer.wms && layer.wms.options.isBaseLayer || layer.wfs) ? layer : false;
-        	});
-        	var layers = this.getStore().getLayerConfiguration(includeLayerRef);
-        	config.layers = baseAndWfsLayers.concat(layers);
-    	}
+        // Get layers config from layer tree, to reflect changes made by user   
+       	var layers = this.getStore().getLayerConfiguration(includeLayerRef);
+
+        // layer tree does not include base layers so extract them from initial config
+    	var baseLayers = config.layers.filter(function(layer) {
+    		return (layer.wms && layer.wms.options.isBaseLayer) ? layer : false;
+    	});
+    	config.layers = baseLayers.concat(layers);
     	
     	return config;
     }

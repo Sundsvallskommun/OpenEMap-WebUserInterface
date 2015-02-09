@@ -55,25 +55,30 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
     */
     getLayerConfiguration: function(includeLayerRef) {
         var layerConfig = [];
-        this.getRootNode().childNodes.forEach(function(node, i) {
-            layerConfig[i] = {
+        function configAddLayer(node, includeLayerRef) {
+            var layerCfg = {
                 name: node.get('name'),
+                isGroupLayer: node.get('isGroupLayer'),
+                queryable: node.get('queryable'),
+                clickable: node.get('clickable'),
+                wms: typeof node.get('wms') === 'string' ? {} : node.get('wms'),
+                wfs: typeof node.get('wfs') === 'string' ? {} : node.get('wfs'),
+                layer: includeLayerRef ? node.get('layer') : undefined,
+                metadata: typeof node.get('metadata') === 'string' ? {} : node.get('metadata'),
                 layers: []
             };
-            
-            node.childNodes.forEach(function(subnode) {
-                layerConfig[i].layers.push({
-                    name: subnode.get('name'),
-                    isGroupLayer: subnode.get('isGroupLayer'),
-                    queryable: subnode.get('queryable'),
-                    clickable: subnode.get('clickable'),
-                    wms: typeof subnode.get('wms') === 'string' ? {} : subnode.get('wms'),
-                    wfs: typeof subnode.get('wfs') === 'string' ? {} : subnode.get('wfs'),
-                    layer: includeLayerRef ? subnode.get('layer') : undefined,
-                    metadata: typeof subnode.get('metadata') === 'string' ? {} : subnode.get('metadata')
-                });
-            });
-        });
+
+	        for (var j=0; j<node.childNodes.length;j++) {
+		        layerCfg.layers.push(configAddLayer(node.childNodes[j], includeLayerRef));
+	        }
+
+			return layerCfg;
+        }
+        var childNodes = this.getRootNode().childNodes;
+        for (var i=0; i<childNodes.length;i++) {
+	        layerConfig.push(configAddLayer(childNodes[i], includeLayerRef));
+        }
+        
         return layerConfig;
     },
 
