@@ -245,6 +245,7 @@
                     },
                     "wfs": null,
                     "metadataUrl": null,
+                    "legendURL": "",
                     "isGroupLayer": false,
                     "queryable": false,
                     "clickable": false

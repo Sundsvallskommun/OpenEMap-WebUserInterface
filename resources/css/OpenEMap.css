@@ -38,6 +38,7 @@ ul, li {
 .x-tree-node-text {
     font-size: 13px;
     font-weight: normal;
+    vertical-align: top;
 }
 
 /* Action icons */

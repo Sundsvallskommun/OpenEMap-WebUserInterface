@@ -92,6 +92,25 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
         if ((node && !node.isRoot()) && !appendNode.isLeaf()) {
             return false;
         }
+        
+        // create inline legend
+        var layer = appendNode.raw.layer;
+        if (layer) {
+            var url;
+            if (appendNode.raw.legendURL !== undefined) {
+                url = layer.legendURL;
+            } else if (appendNode.raw.wms && appendNode.raw.wms.params.LAYERS) {
+                var layerRecord = GeoExt.data.LayerModel.createFromLayer(layer);
+                var legend = Ext.create('GeoExt.container.WmsLegend', {
+                    layerRecord: layerRecord
+                });
+                url = legend.getLegendUrl(appendNode.raw.wms.params.LAYERS);
+            }
+            if (url && url.length > 0) {
+                appendNode.set('text', '<div style="display:inline-block;width:18px;height:18px;background-position:-2px -2px;background-image:url(' + url + ')"></div>' + appendNode.get('text')); 
+            }
+        }
+        
         return true;
     },
 
