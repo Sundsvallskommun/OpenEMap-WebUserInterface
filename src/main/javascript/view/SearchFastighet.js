@@ -25,7 +25,8 @@ Ext.define('OpenEMap.view.SearchFastighet', {
                 'OpenEMap.form.SearchAddress',
                 'OpenEMap.form.SearchPlacename',
                 'OpenEMap.form.SearchES',
-                'GeoExt.selection.FeatureModel'],
+                'GeoExt.selection.FeatureModel',
+                'GeoExt.data.FeatureStore'],
     border: false,
     initComponent : function() {
 
@@ -34,13 +35,20 @@ Ext.define('OpenEMap.view.SearchFastighet', {
             this.bodyPadding = 5;
         }
         
-        var data = [
-                    [ 'searchregisterenhet', 'Fastighet' ],
-                    [ 'searchaddress', 'Adress' ],
-                    [ 'searchplacename', 'Ort' ],
-                    [ 'searches', 'Detaljplaner']/*,
-                    [ 'searchbyggnad', 'Byggnad' ]*/
-                    ];
+        var data = [];
+        if (this.search && this.search.searchEstates) {
+			data.push(['searchregisterenhet', 'Fastighet' ]);
+		}
+        if (this.search && this.search.searchAddresses) {
+			data.push(['searchaddress', 'Adress']);
+		}
+        if (this.search && this.search.searchPlacenames) {
+			data.push(['searchplacename', 'Ort']);
+		}
+		if (this.search && this.search.searchES && this.search.searchES.detaljplan) {
+			data.push(['searches', 'Detaljplaner']);
+		}
+//        data.push(['searchbyggnad', 'Byggnad']);
 
         var columns = [ {
             text : 'Namn',
@@ -124,9 +132,9 @@ Ext.define('OpenEMap.view.SearchFastighet', {
             } ]    }
         ];
         
-        if (!this.renderTo) {
+        //if (!this.renderTo) {
             this.items.push(grid);
-        }
+        //}
 
         this.callParent(arguments);
     }

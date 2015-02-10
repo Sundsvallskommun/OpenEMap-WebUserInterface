@@ -16,110 +16,111 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<html lang="en">
-<head>
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<title>Open eMap Client</title>
-	<meta name="description" content="">
-	<meta name="author" content="Anders Erlandsson, Sundsvalls kommun" />
-	<meta name="viewport" content="width=device-width; initial-scale=1.0">
-
-    <link rel="stylesheet" type="text/css" href="/libs/ext-theme-oep/oepTheme-all.css">
-    <link rel="stylesheet" type="text/css" href="resources/css/OpenEMap.css">  
-    <script type="text/javascript" src="/libs/ext-4.2.1/ext-all.js"></script>
-    <script type="text/javascript" src="/libs/ext-4.2.1/ext-theme-neptune.js"></script>
-    <script type="text/javascript" src="/libs/ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
-    <script type="text/javascript" src="/libs/OpenLayers-2.13.1/OpenLayers.js"></script>
-    <script type="text/javascript" src="/libs/proj4js/proj4-compressed.js"></script>
-    <script type="text/javascript" src="/libs/proj4js/proj4_defs.js"></script>
-    <script type="text/javascript" src="/libs/geoext-2.0.2-rc.1-all.js"></script> 
-    <script type="text/javascript" src="/libs/es5-shim.min.js"></script>
-    <script type="text/javascript" src="OpenEMap-1.3.0-all.js"></script>
-    
-    <script type="text/javascript">
-	  Ext.onReady(function() {
-		
-		var mapClient = Ext.create('OpenEMap.Client');
-
-		function init(config) {
-		    			    		
-		    		var gui = {
-		    			map: false,
-		    			toolbar: { },
-		    			zoomTools: {},
-		    			layers: { },
-		    			baseLayers: {},
-		    			searchFastighet: { },
-		    			objectConfig: { }
-		    		};
-		    				    	
-		    		mapClient.destroy();
-		    		mapClient.configure(Ext.clone(config), {
-		    			gui: gui
-		    		});
-		    		
-		    		var labels = new OpenLayers.Rule({
-                        filter: new OpenLayers.Filter.Comparison({
-                            type: OpenLayers.Filter.Comparison.EQUAL_TO,
-                            property: "type",
-                            value: "label",
-                        }),
-                          symbolizer: {
-                            pointRadius: 20,
-                            fillOpacity: 0,
-                            strokeOpacity: 0,
-                            label: "${label}"   
-                         }
-                        });
-                    
-                    mapClient.drawLayer.styleMap.styles['default'].addRules([labels]);
-			        mapClient.toggleEdgeLabels();
-		    	
+<html lang="sv">
+	<head>
+		<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>Open eMap Client</title>
+		<meta name="description" content="">
+		<meta name="author" content="Anders Erlandsson, Sundsvalls kommun" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	    <link rel="stylesheet" type="text/css" href="/libs/ext-theme-oep/oepTheme-all.css">
+	    <link rel="stylesheet" type="text/css" href="resources/css/OpenEMap.css">  
+	    <script type="text/javascript" src="/libs/ext-4.2.1/ext-all.js"></script>
+	    <script type="text/javascript" src="/libs/ext-4.2.1/ext-theme-neptune.js"></script>
+	    <script type="text/javascript" src="/libs/ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
+	    <script type="text/javascript" src="/libs/OpenLayers-2.13.1/OpenLayers.js"></script>
+	    <script type="text/javascript" src="/libs/proj4js/proj4-compressed.js"></script>
+	    <script type="text/javascript" src="proj4_defs.js"></script>
+	    <script type="text/javascript" src="/libs/geoext-2.0.2-rc.1-all.js"></script> 
+	    <script type="text/javascript" src="/libs/es5-shim.min.js"></script>
+	    <script type="text/javascript" src="OpenEMap-1.5.0-all.js"></script>
+	    
+	    <script type="text/javascript">
+		  Ext.onReady(function() {
+			
+			var mapClient = Ext.create('OpenEMap.Client');
+	
+			function init(config) {
+			    			    		
+			    		var gui = {
+			    			map: false,
+			    			toolbar: { },
+			    			zoomTools: {},
+			    			layers: { },
+			    			baseLayers: {},
+			    			searchFastighet: { },
+			    			objectConfig: { }
+			    		};
+			    				    	
+			    		mapClient.destroy();
+			    		mapClient.configure(Ext.clone(config), {
+			    			gui: gui
+			    		});
+			    		
+			    		var labels = new OpenLayers.Rule({
+	                        filter: new OpenLayers.Filter.Comparison({
+	                            type: OpenLayers.Filter.Comparison.EQUAL_TO,
+	                            property: "type",
+	                            value: "label",
+	                        }),
+	                          symbolizer: {
+	                            pointRadius: 20,
+	                            fillOpacity: 0,
+	                            strokeOpacity: 0,
+	                            label: "${label}"   
+	                         }
+	                        });
+	                    
+	                    mapClient.drawLayer.styleMap.styles['default'].addRules([labels]);
+				        mapClient.toggleEdgeLabels();
+			    	
+			    
+			}
 		    
-		}
-	    
-	    var combo = Ext.create('Ext.form.ComboBox',  {
-			queryMode: 'local',
-			listeners: {
-				"select": function(combo, records) {
-					var record = records[0];
-					init(records[0].raw);
+		    var combo = Ext.create('Ext.form.ComboBox',  {
+				queryMode: 'local',
+				listeners: {
+					"select": function(combo, records) {
+						var record = records[0];
+						init(records[0].raw);
+					}
 				}
-			}
-		});
-	    
-	    Ext.Ajax.request({
-			url : '/openemapadmin/configs/',
-			method : 'GET',
-			success : function(evt){
-				var configs = JSON.parse(evt.responseText);
-				var configurations = Ext.create('Ext.data.Store',{
-					fields : ['name', 'configId'],
-					data :  configs
-				});
-				combo.store = configurations;
-				combo.queryMode = 'local';
-				combo.displayField = 'name';
-				combo.valueField = 'configId';
-			},
-			error : function(evt){
-				Ext.MessageBox.alert('Erro', 'Error getting configurations: ' + evt.message);
-			}
-		});
-	    
-	    var w = Ext.create('Ext.window.Window', {
-	    	title: 'Config',
-	    	layout: 'form',
-			width: 200,
-			x: 10,
-			y: 10,
-			items: combo
-		});
-	    
-	    w.show();
-	  });
-    </script> 
-</head>
-<body>
-</body>
+			});
+		    
+		    Ext.Ajax.request({
+				url : '/openemapadmin/configs/',
+				method : 'GET',
+				success : function(evt){
+					var configs = JSON.parse(evt.responseText);
+					var configurations = Ext.create('Ext.data.Store',{
+						fields : ['name', 'configId'],
+						data :  configs
+					});
+					combo.store = configurations;
+					combo.queryMode = 'local';
+					combo.displayField = 'name';
+					combo.valueField = 'configId';
+				},
+				error : function(evt){
+					Ext.MessageBox.alert('Erro', 'Error getting configurations: ' + evt.message);
+				}
+			});
+		    
+		    var w = Ext.create('Ext.window.Window', {
+		    	title: 'Config',
+		    	layout: 'form',
+				width: 200,
+				x: 10,
+				y: 10,
+				items: combo
+			});
+		    
+		    w.show();
+		  });
+	    </script> 
+	</head>
+	<body>
+	</body>
 </html>

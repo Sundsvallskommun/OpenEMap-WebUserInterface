@@ -46,6 +46,9 @@ A layer can include a WMS-specifgication and a WFS-specification. WMS are used t
 ```json
 "layers": [
 	"name": "nameOfTheLayer",
+	"queryable": whetherTheLayerServiceIsQueryable,
+	"clickable": whetherTheLayerShouldBeClickableInMap,
+	"isGrouplayer": whetherTheLayerIsAGrouplayer,
 	"wms": {
 		"url": "urlToWMSService",
 		"metadataUrl": "urlToMetadataService",
@@ -70,8 +73,8 @@ A layer can include a WMS-specifgication and a WFS-specification. WMS are used t
 		"featurePrefix": "featurePrefix"
 	}
 	"metadata": {
-		"attributes" {
-			"": "attributeName" {
+		"attributes": {
+			"attributeName": {
 				"alias": "attributeAlias"
 			}
 		}
@@ -81,10 +84,15 @@ A layer can include a WMS-specifgication and a WFS-specification. WMS are used t
 ## Grouplayers expanded/collapsed
 ```json
 "layers": [
-    "expanded": false
+    "expanded": whetherTheGroupLayerShouldBeExpanded,
+    "isGrouplayer": whetherLayerIsAGroupLayer, 'Always true for group layers
+    "options": {
+    	"visibility": whetherTheGroupLayerShouldBeVisibleOrNot
+    }
 ]
 ```
-## Specify search settings
+## Specify search settings. 
+Excluding a searchtag (search.searchEstates, search.searchAddresses, search.searchPlacenames, search.searchES.detaljplan) will make it disappear in the drop down list of available searches. If no search string is specified, the search gui will disappear completely.
 ```json
     "search": {
         "searchEstates": {
@@ -121,6 +129,9 @@ A layer can include a WMS-specifgication and a WFS-specification. WMS are used t
                 ],
 		"zoom": 1
             }
+        },
+        "searchES": {
+        	"detaljplan": true
         }
     }
 
@@ -132,6 +143,7 @@ A layer can include a WMS-specifgication and a WFS-specification. WMS are used t
         "Print", ' Print dialog
         {
             "type": "Identify", ' Identify features in map
+			"onlyVisibleLayers": whetherOrNotToIdentifyLayersNotShownInMap, ' defaults to true
             "useRegisterenhet": whetherOrNotToUseRegisterenhet, ' turns on identifying real estate parcels
             "tolerance": toleranceInPixels ' defaults to radius 3 pixels
 		},

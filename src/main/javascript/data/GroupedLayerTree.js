@@ -32,7 +32,6 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
 
     proxy: {
         type: 'memory'
-
     },
 
     maxLayerIndex: 1000,
@@ -48,30 +47,38 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
     constructor: function(config) {
         config = Ext.apply({}, config);
         this.callParent([config]);
-        
     },
     
     /**
     * Returns all layers as OpenEMap layer configuration tree.
     * @return {Object} layerConfig  OpenEMap layer configuration
     */
-    getLayerConfiguration: function() {
+    getLayerConfiguration: function(includeLayerRef) {
         var layerConfig = [];
-        this.getRootNode().childNodes.forEach(function(node, i) {
-            layerConfig[i] = {
+        function configAddLayer(node, includeLayerRef) {
+            var layerCfg = {
                 name: node.get('name'),
+                isGroupLayer: node.get('isGroupLayer'),
+                queryable: node.get('queryable'),
+                clickable: node.get('clickable'),
+                wms: typeof node.get('wms') === 'string' ? {} : node.get('wms'),
+                wfs: typeof node.get('wfs') === 'string' ? {} : node.get('wfs'),
+                layer: includeLayerRef ? node.get('layer') : undefined,
+                metadata: typeof node.get('metadata') === 'string' ? {} : node.get('metadata'),
                 layers: []
             };
-            
-            node.childNodes.forEach(function(subnode) {
-                layerConfig[i].layers.push({
-                    name: subnode.get('name'),
-                    wms: typeof subnode.get('wms') === 'string' ? {} : subnode.get('wms'),
-                    wfs: typeof subnode.get('wfs') === 'string' ? {} : subnode.get('wfs'),
-                    metadata: typeof subnode.get('metadata') === 'string' ? {} : subnode.get('metadata')
-                });
-            });
-        });
+
+	        for (var j=0; j<node.childNodes.length;j++) {
+		        layerCfg.layers.push(configAddLayer(node.childNodes[j], includeLayerRef));
+	        }
+
+			return layerCfg;
+        }
+        var childNodes = this.getRootNode().childNodes;
+        for (var i=0; i<childNodes.length;i++) {
+	        layerConfig.push(configAddLayer(childNodes[i], includeLayerRef));
+        }
+        
         return layerConfig;
     },
 
@@ -82,7 +89,7 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
     */
     onBeforeAppend: function(node, appendNode) {
         // Prevent groups from being added to groups
-        if((node && !node.isRoot()) && !appendNode.isLeaf()) {
+        if ((node && !node.isRoot()) && !appendNode.isLeaf()) {
             return false;
         }
         return true;
@@ -224,7 +231,7 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
         me.un('beforeinsert', me.onBeforeInsert, me);
         me.un('beforeappend', me.onBeforeAppend, me);
         me.un('insert', me.onInsertAndAppend, me);
-        me.un('append', me.onInsertAndAppend, me)
+        me.un('append', me.onInsertAndAppend, me);
         me.un('remove', me.onRemove, me);
         me.map = null;
     },

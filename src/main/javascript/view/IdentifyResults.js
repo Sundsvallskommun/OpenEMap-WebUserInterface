@@ -23,7 +23,8 @@ Ext.define('OpenEMap.view.IdentifyResults', {
     layout: {
         type: 'vbox',
         pack:'start',
-        align: 'stretch'
+        align: 'stretch',
+        resizable: true
     },
     initComponent : function() {
         var store = Ext.create('Ext.data.TreeStore', {
@@ -34,7 +35,7 @@ Ext.define('OpenEMap.view.IdentifyResults', {
         
         this.root = store.getRootNode();
         
-        var propertryGrid = Ext.create('Ext.grid.property.Grid', {
+        var propertyGrid = Ext.create('Ext.grid.property.Grid', {
             flex: 2,
             autoScroll : true,
             title: 'Egenskaper',
@@ -57,7 +58,7 @@ Ext.define('OpenEMap.view.IdentifyResults', {
                 select: this.onSelect,
                 scope: this
             }
-        }, propertryGrid ];
+        }, propertyGrid ];
 
         this.callParent(arguments);
     },
@@ -87,12 +88,13 @@ Ext.define('OpenEMap.view.IdentifyResults', {
             }
         }
         
-        var source = Ext.clone(source);
+        source = Ext.clone(source);
         var sourceConfig = Ext.clone(source);
         
         Object.keys(source).forEach(function(key) {
             var value = sourceConfig[key];
-            if (value.match('http://') || value.match('//')) {
+            value = value ? value : '';
+            if (value.match('http://') || value.match('//') || value.match('https://')) {
                 source[key] = '<a href="'+value+'" target="_blank">Länk</a>';
                 sourceConfig[key] = {
                     renderer: function(value) {return value;},

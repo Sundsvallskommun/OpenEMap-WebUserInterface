@@ -20,7 +20,22 @@
  */
 Ext.define('OpenEMap.Gui', {
     activeAction: null,
-    requires: ['OpenEMap.action.*',
+    requires: ['OpenEMap.action.DeleteAllFeatures',
+               'OpenEMap.action.DeleteGeometry',
+               'OpenEMap.action.DeleteMeasure',
+               'OpenEMap.action.DetailReport',
+               'OpenEMap.action.DrawGeometry',
+               'OpenEMap.action.DrawObject',
+               'OpenEMap.action.FullExtent',
+               'OpenEMap.action.Identify',
+               'OpenEMap.action.MeasureArea',
+               'OpenEMap.action.MeasureLine',
+               'OpenEMap.action.MetadataInfoColumn',
+               'OpenEMap.action.ModifyGeometry',
+               'OpenEMap.action.ModifyText',
+               'OpenEMap.action.Popup',
+               'OpenEMap.action.Print',
+               'OpenEMap.action.SelectGeometry',
                'OpenEMap.view.BaseLayers',
                'OpenEMap.view.DetailReportResults',
                'OpenEMap.view.IdentifyResults',
@@ -28,9 +43,11 @@ Ext.define('OpenEMap.Gui', {
                'OpenEMap.view.ObjectConfig',
                'OpenEMap.view.SearchCoordinate',
                'OpenEMap.view.SearchFastighet',
-//               'OpenEMap.view.Scalebar',
+               'OpenEMap.view.Scalebar',
                'OpenEMap.view.ShowCoordinate',
                'OpenEMap.view.ZoomTools',
+               'OpenEMap.view.layer.Advanced',
+               'OpenEMap.view.layer.Basic',
                'GeoExt.container.WmsLegend',
                'GeoExt.container.UrlLegend',
                'GeoExt.container.VectorLegend'],
@@ -42,22 +59,14 @@ Ext.define('OpenEMap.Gui', {
         this.orginalConfig = config.orginalConfig;
         this.serverStore = config.serverStore;
         this.search = config.config.search;
+        this.client = config.client;
 
         // GUI defaults
         if (this.gui === undefined) {
-            this.gui = {
-                "map": false,
-                "toolbar": {},
-                "zoomTools":  {},
-                "baseLayers": {},
-                "layers": {},
-                "searchFastighet": {},
-                "objectConfig": {},
-//                "scalebar": {},
-                "searchCoordinate": false,
-                "showCoordinate": false
-            };
+            this.gui = {};
         }
+        if (this.gui.map === undefined) {this.gui.map = false;}
+        if (this.gui.rightPanel === undefined) {this.gui.rightPanel = {};}
         
         this.mapPanel = Ext.create('OpenEMap.view.Map', {
             map: this.map,
@@ -74,24 +83,34 @@ Ext.define('OpenEMap.Gui', {
             }
         });
                 
-        this.createPanels();
         this.createToolbar();
+        this.createZoomToolPanel();
+        this.createObjectConfigPanel();
+        this.createScalebarPanel();
+        this.createShowCoordinatePanel();
+        this.createSearchCoordinatePanel();
+        this.createRightPanel();
+        this.createBaseLayersPanel();
         
         var items = [];
         items.push(this.mapPanel);
-        if (this.zoomTools) items.push(this.zoomTools);
-        if (this.leftPanel) items.push(this.leftPanel);
-        if (this.rightPanel) items.push(this.rightPanel);
-        if (this.baseLayers) items.push(this.baseLayers);
+        if (this.zoomTools && !this.gui.zoomTools.renderTo) items.push(this.zoomTools);
+        if (this.objectConfig && !this.gui.objectConfig.renderTo) items.push(this.objectConfig);
+        if (this.scalebar && !this.gui.scalebar.renderTo) items.push(this.scalebar);
+        if (this.showCoordinate && !this.gui.showCoordinate.renderTo) items.push(this.showCoordinate);
+        if (this.searchCoordinate && !this.gui.searchCoordinate.renderTo) items.push(this.searchCoordinate);
+        if (this.rightPanel && !this.gui.rightPanel.renderTo) items.push(this.rightPanel);
+        if (this.baseLayers && !this.gui.baseLayers.renderTo) items.push(this.baseLayers);
+        if (this.toolbar && !this.gui.toolbar.renderTo) items.push(this.toolbar);
         
         // NOTE: Generic ES search as a floating centered field
         /*this.search = Ext.create('OpenEMap.form.Search', {
             mapPanel : this.mapPanel,
             width: 300,
             style: {
-                right: '40%'
-            },
-            y: 70
+                right: '20px',
+                bottom: '76px'
+            }
         });
         items.push(this.search);*/
         
@@ -120,12 +139,13 @@ Ext.define('OpenEMap.Gui', {
         if (this.searchCoordinate) this.searchCoordinate.destroy();
         if (this.showCoordinate) this.showCoordinate.destroy();
         if (this.toolbar) this.toolbar.destroy();
-        if (this.leftPanel) this.leftPanel.destroy();
         if (this.rightPanel) this.rightPanel.destroy();
         if (this.baseLayers) this.baseLayers.destroy();
         if (this.objectConfig) this.objectConfig.destroy();
         if (this.objectConfigWindow) this.objectConfigWindow.destroy();
+        if (this.scalebar) this.scalebar.destroy();
         if (this.container) this.container.destroy();
+        //if (this.search) this.search.destroy();
     },
     onToggle: function(button, pressed) {
         var action = button.baseAction;
@@ -141,6 +161,10 @@ Ext.define('OpenEMap.Gui', {
         
         action.toggle(pressed);
     },
+	/**
+	 * Create toolbar
+     * @private
+	 */
     createToolbar: function() {
         var basePath = this.config.basePath;
         var layers = this.config.layers;
@@ -169,6 +193,7 @@ Ext.define('OpenEMap.Gui', {
                 } else if (type == 'Identify') {
                     config.basePath = basePath;
                     config.layers = layers;
+                    config.client = this.client;
                 } else if (type == 'Popup') {
                     config.layers = layers;
 					if ((config.showOnlyFirstHit === undefined) || (config.showOnlyFirstHit === null)) {
@@ -184,7 +209,7 @@ Ext.define('OpenEMap.Gui', {
                 button.on('toggle', this.onToggle, this);
                 return button;
             }
-        }
+        };
         
         if (!this.config.tools) {
             this.config.tools = [];
@@ -214,10 +239,10 @@ Ext.define('OpenEMap.Gui', {
                 
         // create toolbar as floating left panel if no renderTo target is configured
         if (this.gui.toolbar && !this.gui.toolbar.renderTo) {
-            this.leftPanel = Ext.create('Ext.toolbar.Toolbar', Ext.apply({
+            this.toolbar = Ext.create('Ext.toolbar.Toolbar', Ext.apply({
                 cls: 'oep-tools',
                 y : 20,
-                x : 80,
+                x : 20,
                 width: width,
                 items: tbar
             }, this.gui.toolbar));
@@ -229,95 +254,143 @@ Ext.define('OpenEMap.Gui', {
             }, this.gui.toolbar));
         }
     },
-    createPanels: function(items) {
+    /**
+     * Create right panel including 
+     * - Layers panel
+     * - SearchParcel panel
+     * @private
+     */
+    createRightPanel: function() {
         
-        // Checks whether the advanced or basic Layer control should be used
-        if (this.gui.layers && this.gui.layers.type === 'advanced') {
-            this.mapLayers = Ext.create('OpenEMap.view.layer.Advanced', Ext.apply({
-                mapPanel : this.mapPanel,
-                orginalConfig: this.orginalConfig
-            }, this.gui.layers));
-        } else {
-            this.mapLayers = Ext.create('OpenEMap.view.layer.Basic', Ext.apply({
-                mapPanel : this.mapPanel
-            }, this.gui.layers));
-        }
+        var rightPanelItems = [];
+        // default position for rightPanel
+        if (!this.gui.rightPanel.y) {this.gui.rightPanel.y = 20;}
+        if (!this.gui.rightPanel.style) {this.gui.rightPanel.style = 'right: 20px';}
         
-        // Create SearchParcel control
-        this.searchFastighet = Ext.create('OpenEMap.view.SearchFastighet', Ext.apply({
-            mapPanel : this.mapPanel,
-            basePath: this.config.basePath,
-            search: this.search 
-        }, this.gui.searchFastighet));
+        if (this.gui.layers) {
+	        // Checks whether the advanced or basic Layer control should be used
+	        if (this.gui.layers && this.gui.layers.type === 'advanced') {
+	            this.mapLayers = Ext.create('OpenEMap.view.layer.Advanced', Ext.apply({
+	                mapPanel : this.mapPanel,
+	                orginalConfig: this.orginalConfig,
+	                client: this.client
+	            }, this.gui.layers));
+	        } else {
+	            this.mapLayers = Ext.create('OpenEMap.view.layer.Basic', Ext.apply({
+	                mapPanel : this.mapPanel,
+	                client: this.client
+	            }, this.gui.layers));
+	        }
+	        
+	        // If the layers panel not should be rendered to div, add it to the right panels items
+	        if (!this.gui.layers.renderTo) {
+	        	rightPanelItems.push(this.mapLayers);
+	        }
+	    }
         
-        // Create Layer control
-        // NOTE: only create right panel if layers panel isn't rendered
-        // create right panel containing layers and search panels if no renderTo target is configured
-        if (this.gui.layers && !this.gui.layers.renderTo) {
-            
-            var rightPanelItems = [this.mapLayers];
-            
-            if (this.gui.searchFastighet && !this.gui.searchFastighet.renderTo) {
+        
+        if (this.gui.searchFastighet && this.search)  {
+	        // Create SearchParcel control
+	        this.searchFastighet = Ext.create('OpenEMap.view.SearchFastighet', Ext.apply({
+	            mapPanel : this.mapPanel,
+	            basePath: this.config.basePath,
+	            search: this.search 
+	        }, this.gui.searchFastighet));
+            if (!this.gui.searchFastighet.renderTo) {
                 rightPanelItems.push(this.searchFastighet);
             }
-            
+        }
+
+        // Create right panel including both layrer control and searchParcel
+        // create right panel containing layers and search panels if no renderTo target is configured
+        if (rightPanelItems.length > 0) {
             this.rightPanel = Ext.create('Ext.panel.Panel', {
-                y : 20,
+            	renderTo: this.gui.rightPanel.renderTo,
+                y : this.gui.rightPanel.y,
                 layout : {
                     type: 'vbox',
                     align : 'stretch'
                 },
                 width : 300,
                 border: false,
-                style : {
-                    'right' : '20px'
-                },
+                style : this.gui.rightPanel.style,
                 bodyStyle: {
                     background: 'transparent'
                 },
                 items : rightPanelItems
-            });
-        }
+	        });
+	    }
+	},
         
-        // Create BaselLayers control
-        // TODO: only create if config has baselayers
+	/** 
+	 * Create base layers control
+	 * @private
+	 */ 
+    createBaseLayersPanel: function() {
+        // Create BaseLayers control
         if (!this.map.allOverlays && this.gui.baseLayers) {
-            this.baseLayers = Ext.create("OpenEMap.view.BaseLayers", Ext.apply({
-                mapPanel : this.mapPanel,
-                y: 20,
-                style: {
-                    'right' : '45%'
-                },
-                width: 115
-            }, this.gui.baseLayers));
+            var layers = this.map.layers;
+            var parser = Ext.create('OpenEMap.config.Parser');
+            var baseLayers = parser.extractBaseLayers(layers);
+	        // Only create if config has baselayers
+        	if (baseLayers) {
+        		if (!(this.gui.baseLayers.renderTo || this.gui.baseLayers.style)) {
+    				this.gui.baseLayers.style = {
+    					right: '20px',
+    					bottom: '20px'
+    				};
+        		}
+	            this.baseLayers = Ext.create("OpenEMap.view.BaseLayers", Ext.apply({
+	                mapPanel : this.mapPanel,
+	                renderTo : this.gui.baseLayers.renderTo
+	            }, this.gui.baseLayers));
+	        }
         }
-        
+	},
+
+	/**
+	 * Create ZoomTool panel
+	 * @private 
+	 */	
+    createZoomToolPanel: function() {
         // Create ZoomTool control
-        if (this.gui.zoomTools && !this.gui.zoomTools.renderTo) {
+        if (this.gui.zoomTools) {
+    		if (!(this.gui.zoomTools.renderTo || this.gui.zoomTools.style)) {
+				this.gui.zoomTools.style = {
+					left: '20px',
+					top: '76px'
+				};
+    		}
             this.zoomTools = Ext.create('OpenEMap.view.ZoomTools', Ext.apply({
                 mapPanel : this.mapPanel,
-                x: 20,
-                y: 20,
+                renderTo : this.gui.zoomTools.renderTo,
                 width: 36
             }, this.gui.zoomTools));
         }
-        
-        // Create SearchCoordinate" control                
+    },
+
+	/**
+	 * Create search coodinates panel
+	 * @private 
+	 */	
+    createSearchCoordinatePanel: function() {
+        // Create SearchCoordinate control                
         // only create if renderTo
         if (this.gui.searchCoordinate && this.gui.searchCoordinate.renderTo) {
             this.searchCoordinate = Ext.create('OpenEMap.view.SearchCoordinate', Ext.apply({
                 mapPanel : this.mapPanel
             }, this.gui.searchCoordinate));
         }
-        
+    },
+
+	/** 
+	 * Create object config window
+	 * always created inside map div 
+	 * @private
+	 */ 
+    createObjectConfigPanel: function() {
         // Create Object config
-        // only create if renderTo
-        if (this.gui.objectConfig && this.gui.objectConfig.renderTo) {
-            this.objectConfig = Ext.create('OpenEMap.view.ObjectConfig', Ext.apply({
-                mapPanel : this.mapPanel,
-                gui: this
-            }, this.gui.objectConfig));
-        } else if (this.gui.objectConfig) {
+        if (this.gui.objectConfig) {
             this.objectConfig = Ext.create('OpenEMap.view.ObjectConfig', Ext.apply({
                 mapPanel : this.mapPanel,
                 gui: this
@@ -333,8 +406,15 @@ Ext.define('OpenEMap.Gui', {
             }, this.gui.objectConfig));
             this.objectConfigWindow.show();
         }
+	},
 
-        // Create Show Coordinate control - only show coordinates if renderTo is set
+	/**
+	 * Create show coordinate panel
+	 * @private 
+	 */	
+    createShowCoordinatePanel: function() {
+        // Create Show Coordinate control 
+        // only create if renderTo 
         if (this.gui.showCoordinate && this.gui.showCoordinate.renderTo) {
         	if (!this.cls) {
         		this.cls = 'oep-show-coordinate';
@@ -344,23 +424,28 @@ Ext.define('OpenEMap.Gui', {
                 cls : this.cls,
 			    setCoord: function(e) {
 			    	var lonlat = this.getLonLatFromPixel(e.xy);
-			    	var e = parent.mapClient.gui.showCoordinate.getComponent('e');
-			    	var n = parent.mapClient.gui.showCoordinate.getComponent('n');
-			    	e.setValue(Math.round(lonlat.lon));
-			    	n.setValue(Math.round(lonlat.lat));
+			    	var eC = parent.mapClient.gui.showCoordinate.getComponent('e');
+			    	var nC = parent.mapClient.gui.showCoordinate.getComponent('n');
+			    	eC.setValue(Math.round(lonlat.lon));
+			    	nC.setValue(Math.round(lonlat.lat));
 			    }
-        	}
+        	};
             this.showCoordinate = Ext.create('OpenEMap.view.ShowCoordinate', Ext.apply(cfg, this.gui.showCoordinate));
 
 		    this.map.events.register("mousemove", this.map, this.showCoordinate.setCoord);
         }
+	},
 
+	/**
+	 * Create scalebar panel
+	 * @private 
+	 */	
+    createScalebarPanel: function() {
         // Create scalebar control
+       	// Position defined in CSS - defaults to lower left corner of map
         if (this.gui.scalebar) {
-        	// TODO - Defaults to lower left corner of map
             this.scalebar = Ext.create('OpenEMap.view.Scalebar', Ext.apply({
-                mapPanel : this.mapPanel,
-                renderTo: this.renderTo
+                mapPanel : this.mapPanel
             }, this.gui.scalebar));
         }
     }

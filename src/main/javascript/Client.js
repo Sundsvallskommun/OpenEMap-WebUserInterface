@@ -28,7 +28,7 @@ Ext.define('OpenEMap.Client', {
                'OpenEMap.view.PopupResults',
                'OpenEMap.OpenLayers.Control.ModifyFeature',
                'OpenEMap.OpenLayers.Control.DynamicMeasure'],
-    version: '1.3.0',
+    version: '1.5.0',
     /**
      * OpenLayers Map instance
      * 
@@ -114,6 +114,7 @@ Ext.define('OpenEMap.Client', {
         options = Ext.apply({}, options);
         
         this.initialConfig = Ext.clone(config);
+        this.initialOptions = Ext.clone(options);
         
         Ext.tip.QuickTipManager.init();
         
@@ -124,6 +125,7 @@ Ext.define('OpenEMap.Client', {
             config: config,
             gui: options.gui,
             map: this.map,
+            client: this,
             orginalConfig: this.initialConfig
         });
         this.mapPanel = this.gui.mapPanel;
@@ -132,6 +134,13 @@ Ext.define('OpenEMap.Client', {
         if (this.gui.controlToActivate) {
             this.gui.controlToActivate.activate();
         }
+    },
+    /**
+     * @param {boolean} includeLayerRef include reference to OpenLayers layer if available
+     * @return {Object} Object representation of current Open eMap configuration
+     */
+    getConfig: function(includeLayerRef) {
+       return this.gui.mapLayers.getConfig(includeLayerRef); 
     },
     /**
      * @param {String=} Name of layout to use (default is to use first layout as reported by server)
@@ -203,9 +212,11 @@ Ext.define('OpenEMap.Client', {
                 });
                 
                 return edgeLabels;
-            }
+            };
             
-            this.labelLayer.destroyFeatures();
+            if (this.labelLayer) {
+            	this.labelLayer.destroyFeatures();
+            }
             
             var edgeLabelsArrays = this.drawLayer.features.map(createEdgeLabels);
             if (edgeLabelsArrays.length > 0) {
@@ -216,7 +227,7 @@ Ext.define('OpenEMap.Client', {
             }
         };
         
-        if (this.labelLayer == null) {
+        if (this.labelLayer === null) {
             this.labelLayer = new OpenLayers.Layer.Vector();
             this.map.addLayer(this.labelLayer);
             
@@ -275,11 +286,11 @@ Ext.define('OpenEMap.Client', {
 		if (!epsg) {
 			epsg = 'EPSG:3006';
 		} 
-		if (!Proj4js.defs[epsg])
+		if (!proj4(epsg))
 		{
-			Ext.Error.raise('Unknown coordinate system: ' + epsg + '\nAdd coordinate system to array \'Proj4js.def\'.');
+			Ext.Error.raise('Unknown coordinate system: ' + epsg + '\nAdd coordinate system using proj4.defs(\'Name\', \'Definition\')');
 		}
-		if (zoomToBounds == null) {
+		if (zoomToBounds === null) {
 			zoomToBounds = true;
 		} 
 
@@ -481,21 +492,49 @@ Ext.apply(OpenEMap, {
      */
     basePathLM: '/search/lm/',
     /**
+     * @property {string} 
+     * Base path to be used for all AJAX requests against Elasticsearch REST API
+     */
+    basePathES: '/search/es/',
+    /**
      * Base path to be used for all image resources
      * 
      * @property {string}
      */
     basePathImages: 'resources/images/',
 
+    basePathWMS: '/geoserver/wms',
+    
+    /**
+     * URL/paths related to WMS usage / advanced layer list
+     */
+    wmsURLs: {
+        /**
+         * URL to be used to fetch WMS capabilities etc. for add layer UI
+         */
+        basePath: '/geoserver/wms',
+        /**
+         * URL to be used when WMS layer has been added to config
+         */
+        url: 'https://extmaptest.sundsvall.se/geoserver/wms'
+    },
+
+    /**
+     * @property {string} 
+     * Base path to proxy to be used for WFS-post
+     */
+    basePathProxy: '/cgi-bin/proxy.py?url=',
+
     /**
      * @property {Object} [wsUrls] WS paths to be used for AJAX requests
      */
     wsUrls: {
-        basePath:   '/openemapadmin/',
-        configs:    'configs',
-        servers:    'settings/servers',
-        layers:     'layers/layers',
-        metadata:   'geometadata/getmetadatabyid', 
+        basePath:   	'/openemapadmin/',
+        configs:    	'configs',
+        adminconfigs: 	'adminconfigs',
+        servers:    	'settings/servers',
+        layers:     	'layers/layers',
+        metadata:   	'geometadata/getmetadatabyid', 
         metadata_abstract: 'geometadata/getabstractbyid'
     }
 });

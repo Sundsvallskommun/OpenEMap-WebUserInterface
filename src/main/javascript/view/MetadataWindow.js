@@ -200,7 +200,7 @@ Ext.define('OpenEMap.view.MetadataWindow' ,{
     parseMetadataTextTag: function (node) {
         var text = null;
         if(node.tag) {
-            var text = this.translate('tag', node.tag);
+            text = this.translate('tag', node.tag);
             text = (text !== null) ? (text !== '' ? '<b>' + text + '</b>' : '') : null;
         }
         if(node.text) {
@@ -222,13 +222,13 @@ Ext.define('OpenEMap.view.MetadataWindow' ,{
     **/
     getGroups: function(str, group_by) {
         var groups = [];
-        for (key in group_by) {
+        for (var key in group_by) {
             for (var i = 0; i < group_by[key].length; i++) {
                 if(str.indexOf(group_by[key][i]) !== -1) {
                     groups.push(key);
                 }
-            };
-        };
+            }
+        }
         if(groups.length === 0) {
             groups.push('rest');
         }
@@ -271,7 +271,7 @@ Ext.define('OpenEMap.view.MetadataWindow' ,{
 
                 result[group] += '</li>';
             }
-        };
+        }
     },
 
     /**

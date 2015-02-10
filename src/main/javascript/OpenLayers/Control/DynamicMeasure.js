@@ -242,16 +242,25 @@ OpenLayers.Control.DynamicMeasure = OpenLayers.Class(
         if (!options.handlerOptions.layerOptions ||
             !options.handlerOptions.layerOptions.styleMap) {
             // use the style option for layerOptions of the handler.
+            var pointStyle = OpenLayers.Util.applyDefaults(
+            	optionsStyles.Point, defaultStyles.Point);
+            var lineStyle = OpenLayers.Util.applyDefaults(
+                optionsStyles.Line, defaultStyles.Line);
+            var polygonStyle = OpenLayers.Util.applyDefaults(
+                optionsStyles.Polygon, defaultStyles.Polygon);               
             var style = new OpenLayers.Style(null, {rules: [
                 new OpenLayers.Rule({symbolizer: {
-                    'Point': OpenLayers.Util.applyDefaults(
-                                optionsStyles.Point, defaultStyles.Point),
-                    'Line': OpenLayers.Util.applyDefaults(
-                                optionsStyles.Line, defaultStyles.Line),
-                    'Polygon': OpenLayers.Util.applyDefaults(
-                                optionsStyles.Polygon, defaultStyles.Polygon)
+                    'Point': pointStyle,
+                    'Line': lineStyle,
+                    'Polygon': polygonStyle
                 }})
             ]});
+//            var defaultStyle = {};
+//            defaultStyle = OpenLayers.Util.applyDefaults(pointStyle, defaultStyle);
+//            defaultStyle = OpenLayers.Util.applyDefaults(lineStyle, defaultStyle);
+//            defaultStyle = OpenLayers.Util.applyDefaults(polygonStyle, defaultStyle);
+//            style.setDefaultStyle(defaultStyle);
+            
             options.handlerOptions = options.handlerOptions || {};
             options.handlerOptions.layerOptions =
                                       options.handlerOptions.layerOptions || {};
@@ -807,7 +816,6 @@ OpenLayers.Control.DynamicMeasure = OpenLayers.Class(
  */
 OpenLayers.Control.DynamicMeasure.styles = {
     'Point': {
-        pointRadius: 4,
         graphicName: 'square',
         fillColor: 'white',
         fillOpacity: 1,
@@ -830,6 +838,7 @@ OpenLayers.Control.DynamicMeasure.styles = {
         fillOpacity: 0.3
     },
     labelSegments: {
+        pointRadius: 0,
         label: '${measure} ${units}',
         fontSize: '12px',
         fontColor: '#800517',
@@ -839,6 +848,7 @@ OpenLayers.Control.DynamicMeasure.styles = {
         labelOutlineWidth: 2
     },
     labelLength: {
+        pointRadius: 0,
         label: '${measure} ${units}\n',
         fontSize: '12px',
         fontWeight: 'bold',
@@ -849,6 +859,7 @@ OpenLayers.Control.DynamicMeasure.styles = {
         labelOutlineWidth: 3
     },
     labelArea: {
+        pointRadius: 0,
         label: '${measure}\n${units}²\n',
         fontSize: '11px',
         fontWeight: 'bold',
@@ -859,6 +870,7 @@ OpenLayers.Control.DynamicMeasure.styles = {
         labelOutlineWidth: 3
     },
     labelHeading: {
+        pointRadius: 0,
         label: '${measure} ${units}',
         fontSize: '11px',
         fontColor: '#800517',

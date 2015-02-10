@@ -20,25 +20,33 @@
 -->
 
 <html lang="sv">
-	<head>
-		<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<title>Open eMap Client</title>
-		<meta name="description" content="">
-		<meta name="author" content="Anders Erlandsson, Sundsvalls kommun" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	
-	    <link rel="stylesheet" type="text/css" href="/libs/ext-theme-oep/oepTheme-all.css">
-	    <link rel="stylesheet" type="text/css" href="resources/css/OpenEMap.css">  
-	    <script type="text/javascript" src="/libs/ext-4.2.1/ext-all.js"></script>
-	    <script type="text/javascript" src="/libs/ext-4.2.1/ext-theme-neptune.js"></script>
-	    <script type="text/javascript" src="/libs/ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
-	    <script type="text/javascript" src="/libs/OpenLayers-2.13.1/OpenLayers.js"></script>
-	    <script type="text/javascript" src="/libs/proj4js/proj4.js"></script>
-	    <script type="text/javascript" src="proj4_defs.js"></script>
-	    <script type="text/javascript" src="/libs/geoext-2.0.2-rc.1-all.js"></script> 
-	    <script type="text/javascript" src="/libs/es5-shim.min.js"></script>
-	    <script type="text/javascript" src="OpenEMap-1.5.0-min.js"></script>
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Open eMap Client</title>
+	<meta name="description" content="">
+	<meta name="author" content="Anders Erlandsson, Sundsvalls kommun" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" type="text/css" href="/libs/ext-theme-oep/oepTheme-all.css">
+    <link rel="stylesheet" type="text/css" href="../resources/css/OpenEMap.css">  
+    <script type="text/javascript" src="/libs/ext-4.2.1/ext-all.js"></script>
+    <script type="text/javascript" src="/libs/ext-4.2.1/ext-theme-neptune.js"></script>
+    <script type="text/javascript" src="/libs/ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
+    <script type="text/javascript" src="/libs/OpenLayers-2.13.1/OpenLayers.js"></script>
+    <script type="text/javascript" src="/libs/proj4js/proj4.js"></script>
+    <script type="text/javascript" src="../proj4_defs.js"></script>
+    <script type="text/javascript" src="/libs/es5-shim.min.js"></script>
+    <script type="text/javascript">
+	  Ext.Loader.setConfig({
+	    disableCaching: false,
+	    paths: {
+	        OpenEMap: '../src/main/javascript',
+	        GeoExt: '../../libs/geoext-2.0.1/src/GeoExt'
+	    }
+	  });
+    </script> 
+    <script type="text/javascript" src="../src/main/javascript/Client.js"></script>
 	
 	<script type="text/javascript">
 		Ext.onReady(function() {
@@ -51,6 +59,7 @@
 	
 					var id = queryString[Object.keys(queryString)[0]];
 					
+					OpenEMap.wsUrls.basePath = '/openemapadmintest/'
 					
 					function init(config) {
 						var mapClient = Ext.create('OpenEMap.Client');
@@ -95,7 +104,7 @@
 					});
 				});
 	</script>
-	</head>
-	<body>
-	</body>
+</head>
+<body>
+</body>
 </html>

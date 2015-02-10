@@ -58,6 +58,7 @@
     "layers": [
         {
             "name": "Image",
+        	"isGroupLayer": false,
             "wms": {
                 "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
                 "params": {
@@ -72,6 +73,7 @@
         },
         {
             "name": "Map",
+        	"isGroupLayer": false,
             "wms": {
                 "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
                 "params": {
@@ -86,12 +88,16 @@
         },
         {
         	"name": "Expanded grouplayer", 
+        	"isGroupLayer": true,
+        	"queryable": false,
             "options": {
                 "visibility": true
             },
         	"layers": [
 		        {
 		            "name": "Planområde",
+		        	"isGroupLayer": false,
+		        	"queryable": true,
 		            "wms": {
 		                "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
 		                "params": {
@@ -101,18 +107,20 @@
 		                },
 		                "options": {
 		                	"isBaseLayer": false,
-		                	"visibility": false,
+		                	"visibility": true,
 		                	"legendURL": "legendimage.png"
 		                }
 		            },
 		            "wfs": {
-		                "url": "wfs",
+		                "url": "https://extmaptest.sundsvall.se/geoserver/wfs",
 		                "featureType": "DetaljplanGallande_yta",
 		                "featurePrefix": "RIGES"
 		            }
 		        },
 		        {
 					"name" : "Användningsbestämmelse",
+		        	"isGroupLayer": false,
+		        	"queryable": true,
 					"wms": {
 		    	        "url" : "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
 		    	        "params": {
@@ -122,11 +130,11 @@
 		    	        },
 		                "options": {
 		                	"isBaseLayer": false,
-		                	"visibility": false
+		                	"visibility": true
 		                }
 		            },
 		            "wfs": {
-		                "url": "wfs",
+		                "url": "https://extmaptest.sundsvall.se/geoserver/wfs",
 		                "featureType": "AnvandningsBestammelser_yta",
 		                "featurePrefix": "RIGES"
 		            }
@@ -135,6 +143,7 @@
         },
         {
         	"name": "Collapsed grouplayer", 
+        	"isGroupLayer": true,
         	"expanded": false,
             "options": {
                 "visibility": false
@@ -142,6 +151,8 @@
         	"layers": [
 		        {
 		            "name": "Planområde 2",
+		        	"isGroupLayer": false,
+		        	"queryable": false,
 		            "wms": {
 		                "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
 		                "params": {
@@ -157,6 +168,8 @@
 		        },
 		        {
 					"name" : "Användningsbestämmelse 2",
+		        	"isGroupLayer": false,
+		        	"queryable": false,
 					"wms": {
 		    	        "url" : "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
 		    	        "params": {
@@ -174,8 +187,10 @@
         },
         {
             "name": "Planområde",
+        	"isGroupLayer": false,
+	       	"queryable": true,
             "wfs": {
-                "url": "/wfs/",
+                "url": "https://extmaptest.sundsvall.se/geoserver/wfs",
                 "featureType": "DetaljplanGallande_yta",
                 "featurePrefix": "RIGES"
             },
@@ -228,7 +243,7 @@
                     "Härnösand",
                     "Kramfors"
                 ],
-				"zoom": 9
+				"zoom": 1
             }
         },
         "searchPlacenames": 
@@ -243,9 +258,13 @@
                     "2280",
                     "2282"
                 ],
-				"zoom": 7
+				"zoom": 1
             }
-        }
+        },
+        "searchES": 
+        {
+        	"detaljplan": true
+		}     
     },
 	"tools": [
 		{
@@ -262,8 +281,7 @@
 			"type": "Identify",
 			"iconCls": "action-identify",
 			"tooltip": "Identify objects in map",
-			"useRegisterenhet": true,
-			"onlyVisibleLayers": true,
+			"useRegisterenhet": false,
 			"tolerance": 5,
 			"activate": true
 		},
@@ -332,6 +350,8 @@
             "tooltip": "Draw rectangular object",
             "iconCls": "action-draw-square",
             "disabled": false,
+            "maxScale": 10,
+            "minScale": 5,
             "attributes": {
                 "state": "GEOMETRY",
                 "metadata": {

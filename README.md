@@ -1,11 +1,9 @@
 <a href="http://oemap.org"><img alt="Open eMap homepage" src="http://oemap.org/images/logo.png"></a>
-# OpenEMap-WebUserInterface (map-client)
+# OpenEMap WUI
 
 Configurable map viewer
 
-Based on Ext JS 4, GeoExt 2 and OpenLayers 2.13.1
-
-Ext JS application name is OpenEMap.Client
+Based on Ext JS 4, GeoExt 2 and OpenLayers 2.13.1 and built as an Ext JS application named OpenEMap.
 
 ## Integration
 
@@ -13,42 +11,41 @@ Integrate into HTML page using the following snippet:
 
 ```html
     <link rel="stylesheet" type="text/css" href="/libs/ext-theme-oep/oepTheme-all.css">
-    <link rel="stylesheet" type="text/css" href="resources/css/OpenEMap.css">  
+    <link rel="stylesheet" type="text/css" href="release/OpenEMap-1.2.0/resources/css/OpenEMap.css">  
     <script type="text/javascript" src="/libs/ext-4.2.1/ext-all.js"></script>
     <script type="text/javascript" src="/libs/ext-4.2.1/ext-theme-neptune.js"></script>
     <script type="text/javascript" src="/libs/ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
     <script type="text/javascript" src="/libs/OpenLayers-2.13.1/OpenLayers.js"></script>
-    <script type="text/javascript" src="/libs/proj4js/proj4-compressed.js"></script>
-    <script type="text/javascript" src="/libs/proj4js/proj4_defs.js"></script>
+    <script type="text/javascript" src="/libs/proj4js/proj4-compressed.js"></script> 
+    <script type="text/javascript" src="proj4_defs.js"></script> <!-- Definition of Swedish projections for Proj4js -->
     <script type="text/javascript" src="/libs/geoext-2.0.1-oemap-all.js"></script> <!-- OEMap specific build of geoext2, correcting problem with borderwidth for popup window. --> 
     <script type="text/javascript" src="/libs/es5-shim.min.js"></script>
-    <script type="text/javascript" src="OpenEMap-all.js"></script>
+    <script type="text/javascript" src="release/OpenEMap-1.2.0/OpenEMap-1.2.0-all.js"></script>
     
     <script type="text/javascript">
-	var mapClient = null;
 	Ext.onReady(function() {
-		mapClient = Ext.create('OpenEMap.Client');
-   		mapClient.destroy();
-		mapClient.configure(config);
+	    var mapClient = Ext.create('OpenEMap.Client');
+	    var configFileName = 'config.json';
+		Ext.Ajax.request({
+			url : configFileName,
+			method : 'GET',
+			success : function(evt){
+				var config = JSON.parse(evt.responseText);
+			    mapClient.configure(config);
+			}
+		});
 	}
     </script>
     
-	<div id="toolbar"></div>
-	<div id="map" style="position: absolute; width: 100%; height: 100%" class="popup"></div>
-	<div id="layers"></div>
-	<div id="searchfastighet"></div>
-	<div id="searchcoordinate"></div>
-	<div id="objectconfig"></div>
+	<div id="map" style="position: absolute; width: 100%; height: 100%;" class="popup"></div>
 ```
 
-NOTE: The above snippet assumes the use of release build including all dependencies. For sample build script see build directory.
+NOTE: The above snippet assumes the use of release build including all dependencies
 
-NOTE: Uses theme [SundsvallsKommun/ext-theme-oep](https://github.com/Sundsvallskommun/ext-theme-oep) for rendering
+NOTE: es5-shim is required for IE 8 compatibility only
 
-NOTE: es5-shim.min.js is required for IE 8 compatibility only
-
-##Homepage
-<a href="http://oemap.org"><img alt="Open eMap homepage" src="http://oemap.org/images/logo.png" width="200"></a>
+## Homepage
+<a href="http://oemap.org"><img alt="Open eMap homepage" src="http://oemap.org/images/logo.png"></a>
 
 ## Documentation
 ###API Docs 
@@ -58,12 +55,24 @@ NOTE: es5-shim.min.js is required for IE 8 compatibility only
 
 ## Development
 
-Assumed external dependencies:
- * Ext JS 4.2.1 in folder /libs/ext-4.2.1
- * GeoExt 2 in folder /libs/ - [https://github.com/Sundsvallskommun/geoext2](OEMap fork fixing border issue in popup window)  
- * OpenLayers 2.13 in folder /libs/OpenLayers-2.13.1
- * ext-theme-oep in folder /libs/ext-theme-oep - ext theme for Open ePlatform and Open eMap, se repository [SundsvallsKommun/ext-theme-oep](https://github.com/Sundsvallskommun/ext-theme-oep)
- * proj4js in folder /libs/proj4js - support for coordinate system transformation 
+Requirements:
+
+* Node JS >0.10
+* Grunt CLI (install with `npm -g install grunt-cli`)
+* Bower (install with `npm -g install bower`)
+* Git command line client
+
+A fresh clone of the repository will require running `npm install` in its root. After that you can start devserver on `http://localhost:8000` by running `grunt devserver`. A development example should be runnable at `http://localhost:8000/dev/debug.html`. Changes to any source file will in the debug version automatically reload the page.
+
+###Documentation
+Source code should be documented using [JSDucks](https://github.com/senchalabs/jsduck/wiki) semantics
+Readme.md should be updated if necessary
+Map config is documented in doc/config.md, and should be updated if cahnges is made in map config
+Each release is documented under Releases/Release number (see versioning below) 
+
+## Building a release verison
+
+Done by running `grunt dist` in a working development clone. Requires Sencha Cmd installed and available on the path.
 
 ## Versioning
 

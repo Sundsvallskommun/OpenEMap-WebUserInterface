@@ -99,6 +99,11 @@ ul, li {
 }
 
 
+.action-load {
+    background-image: url("../images/load.png");
+}
+
+
 /* Zoom tool icons */
 
 .zoomtools-minus {

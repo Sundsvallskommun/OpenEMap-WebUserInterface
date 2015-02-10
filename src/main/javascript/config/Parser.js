@@ -91,6 +91,7 @@ Ext.define('OpenEMap.config.Parser', {
 
     /**
     * Iterate over the layertree and create a ExtJS-tree structure
+    * @private
     */
     parseLayerTree: function(layers) {
         layers.forEach(this.iterateLayers, this);
@@ -100,6 +101,7 @@ Ext.define('OpenEMap.config.Parser', {
     /**
     * Get all layers and layer groups that should show up in the layer switcher
     */
+    // TODO - implement support for config tag layer.wms.options.displayInLayerSwitcher
     getLayerSwitcherLayers: function(layers) {
         return layers.filter(function(layer) { 
             return (layer.layers || (this.isWMSLayer(layer) && !this.isBaseLayer(layer))) ? true : false;
@@ -112,8 +114,15 @@ Ext.define('OpenEMap.config.Parser', {
     extractLayers: function(layers) {
         // filter out plain layer definitions (no group)
         var plainLayers = layers.filter(function(layer) { return !layer.layers; });
+/*        var plainLayers = layers.filter(function(layer) {
+        	// Checking layer.layers for backward compability
+        	if (layer.isGroupLayer === undefined) {layer.isGroupLayer = layer.layers ? true : false} 
+        	return !layer.isGroupLayer; 
+        });
+*/
         // filter out groups
-        var groups = layers.filter(function(layer) { return layer.layers; }).map(function(layer) { return layer.layers; });
+        var groups = layers.filter(function(layer) { return layer.layers; }).map(function(layer) { return layer.layers; });  
+        
         // flatten groups into an array of layer definitions 
         var flattenedGroups = [].concat.apply([], groups);
         // concat all layer definitions
@@ -124,16 +133,77 @@ Ext.define('OpenEMap.config.Parser', {
         return layers;
     },
     /**
+     * Extract plain layers from a layertree structure
+     * @param layers [Array] array of layers in a tree structure 
+     */
+    extractPlainLayers: function(layers) {
+    	var plainLayers = [];
+    	for (var i=0,  tot=layers.length; i < tot; i++) {
+   			plainLayers.push(layers[i]);
+    		if (layers[i].layers) {
+    			plainLayers = plainLayers.concat(this.extractPlainLayers(layers[i].layers));
+    		}
+    	}
+    	return plainLayers;
+    },
+    /**
      * Extracts WFS-layers
+     * @param layers [Array] array of layers
      */
     extractWFS: function(layers) {
-        layers = this.extractLayers(layers);
-        layers = layers.filter(function(layer){ return layer.wfs; });
+        layers = layers.filter(function(layer){ return (layer.wfs && layer.wfs.url); });
         return layers;
     },
+    /**
+     * Extracts layers missing WFS-tag
+     * @param layers [Array] array of layers
+     */
+    extractNoWFS: function(layers) {
+        layers = layers.filter(function(layer){ return !(layer.wfs && layer.wfs.url); });
+        return layers;
+    },
+    /**
+     * Extracts layers with valid WMS-tag
+     * @param layers [Array] array of layers
+     */
+    extractWMS: function(layers) {
+        layers = layers.filter(function(layer){ return (layer.wms && layer.wms.url); });
+        return layers;
+    },
+    /**
+     * Extracts queryable layers
+     * @param plainLayers [array] array of flattened layers. 
+     */
+    extractClickableLayers: function(plainLayers) {
+        plainLayers = plainLayers.filter(function(layer) { 
+        	return (layer.clickable && layer.queryable); 
+        });
+        return plainLayers;
+    },
+    /**
+     * Extracts visible layers
+     * @param plainLayers [array] array of flattened layers. 
+     */
+    extractVisibleLayers: function(plainLayers) {
+        plainLayers = plainLayers.filter(function(layer) { 
+        	return (layer.layer && layer.layer.visibility); 
+        });
+        return plainLayers;
+    },
+    /**
+     * Extracts Vector-layers
+     */
     extractVector: function(layers) {
         layers = this.extractLayers(layers);
         layers = layers.filter(function(layer){ return layer.vector; });
+        return layers;
+    },
+    /**
+     * Extracts base-layers
+     */
+    extractBaseLayers: function(layers) {
+        layers = this.extractLayers(layers);
+        layers = layers.filter(function(layer){ return layer.isBaseLayer; });
         return layers;
     },
     /**
@@ -219,7 +289,7 @@ Ext.define('OpenEMap.config.Parser', {
         // Set node text
         layer.text = layer.name;
         // Is node checked?
-        layer.checked = layer.wms && layer.wms.options ? layer.wms.options.visibility : false;
+        layer.checked = layer.wms && layer.wms.options && layer.wms.options.visibility ? layer.wms.options.visibility : false;
         // Get url from Server and set to layer
         if(typeof layer.serverId !== 'undefined' && layer.serverId !== '') {
             var server = this.serverStore.getById(layer.serverId);
@@ -241,10 +311,12 @@ Ext.define('OpenEMap.config.Parser', {
         // Create and store a reference to OpenLayers layer for this node
         if(this.isOpenLayersLayer(layer)) {
             layer.layer = this.createLayer(layer);
+            layer.layer.queryable = layer.queryable ? layer.queryable : false;
         }
         // Do the node have sublayers, iterate over them
         if(layer.layers) {
-            layer.expanded = layer.expanded == undefined ? true : layer.expanded;
+            layer.isGroupLayer = true;
+            layer.expanded = layer.expanded === undefined ? true : layer.expanded;
             layer.layers.forEach(arguments.callee, this);
         } else {
             // If no sublayers, this is a leaf

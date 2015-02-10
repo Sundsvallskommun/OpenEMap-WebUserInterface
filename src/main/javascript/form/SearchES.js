@@ -40,7 +40,7 @@ Ext.define('OpenEMap.form.SearchES', {
             },
             fields: [
                 { name: 'type', mapping: '_type' },
-                { name: 'hit', mapping: '_source.properties.AKTBET' },
+                { name: 'hit', mapping: '_source.properties.PLANNUMMER' },
                 { name: 'geometry', mapping: '_source.geometry' }
             ]
         });
@@ -70,7 +70,7 @@ Ext.define('OpenEMap.form.SearchES', {
                 map.zoomToExtent(feature.geometry.getBounds());
             },
             'beforequery': function(queryPlan) {
-                queryPlan.query = queryPlan.query + '*'
+                queryPlan.query = '"' + queryPlan.query + '"' + '*';
             },
             scope: this
         };

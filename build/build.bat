@@ -1,4 +1,4 @@
-set release_name=OpenEMap-1.3.0
+set release_name=OpenEMap-1.4.0-rc.2
 set previous_release_name=OpenEMap-1.3.0-rc.5
 echo ..\release\%release_name%
 fart -c -- ..\*.html %previous_release_name% %release_name%

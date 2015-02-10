@@ -19,6 +19,7 @@
  */
 Ext.define('OpenEMap.view.ZoomTools', {
     extend : 'Ext.panel.Panel',
+    requires: ['GeoExt.slider.Zoom'],
     bodyStyle : 'background : transparent',
     border: false,
     getTools : function() {
@@ -28,7 +29,7 @@ Ext.define('OpenEMap.view.ZoomTools', {
         
         var pile = [];
         var slider = Ext.create('GeoExt.slider.Zoom', {
-            height : 200,
+            height : 160,
             vertical : true,
             aggressive : true,
             margin  : margin,

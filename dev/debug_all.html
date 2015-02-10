@@ -22,27 +22,40 @@
 	<title>Open eMap WUI - debugging</title>
 	<meta name="description" content="">
 	<meta name="author" content="Anders Erlandsson, Sundsvalls kommun" />
-	<meta name="viewport" content="width=device-width; initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-    <script type="text/javascript" src="../../libs/OpenLayers-2.13.1/lib/OpenLayers.js"></script>  
-    <script type="text/javascript" src="../../libs/ext-4.2.1/ext-debug.js"></script>
-    <script type="text/javascript" src="../../libs/ext-4.2.1/ext-theme-neptune.js"></script>
-    <script type="text/javascript" src="../../libs/ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
-    <script type="text/javascript" src="../../libs/es5-shim.min.js"></script>
+    <!-- This will make the page reload automatically when source has changed and page is served using grunt devserver -->
+    <script src="//localhost:35729/livereload.js"></script>
+
+    <!-- 
+    <link rel="stylesheet" type="text/css" href="ext-4.2.1/resources/css/ext-all-neptune.css">
+    -->
+    
+    <!-- https://kartatest.e-tjansteportalen.se/libs/ext-theme-oep/oepTheme-all.css -->
+    <link rel="stylesheet" type="text/css" href="../resources/ext-theme-oep/oepTheme-all.css">
+    <link rel="stylesheet" type="text/css" href="../resources/css/OpenEMap.css">
+    
+    <script type="text/javascript" src="../bower_components/OpenLayers-2.13.1/lib/OpenLayers.js"></script>
+    <script type="text/javascript" src="../bower_components/ext-4.2.1/bootstrap.js"></script>
+    <script type="text/javascript" src="../bower_components/ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
+    <script type="text/javascript" src="../bower_components/ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
+    <script type="text/javascript" src="../bower_components/proj4/dist/proj4.js"></script>
+    <script type="text/javascript" src="../proj4_defs.js"></script>
     
     <script type="text/javascript">
 	  Ext.Loader.setConfig({
 	    disableCaching: false,
 	    paths: {
 	        OpenEMap: '../src/main/javascript',
-	        GeoExt: '../../libs/geoext-2.0.1/src/GeoExt'
+	        GeoExt: '../bower_components/geoext2/src/GeoExt'
 	    }
 	  });
     </script> 
     
-    <link rel="stylesheet" type="text/css" href="../../libs/ext-theme-oep/release/ext-theme-oep-1.0.0/oepTheme-all.css">
-    <link rel="stylesheet" type="text/css" href="../resources/css/OpenEMap.css">
+    <script type="text/javascript" src="../../libs/es5-shim.min.js"></script>
+    
+    <script type="text/javascript" src="../src/main/javascript/Client.js"></script>
 
     <script type="text/javascript">
 	  Ext.onReady(function() {
@@ -50,6 +63,7 @@
 		mapClient = Ext.create('OpenEMap.Client');
 		
 		OpenEMap.basePathImages = '../resources/images/';
+		OpenEMap.basePathMapFish = '/print/pdf';
 		 
 		function init(name) {
 		    Ext.Ajax.request({
@@ -61,12 +75,18 @@
 		    			map: {
 		    			    renderTo: 'map'
 		    			},
-		    			toolbar: {},
-		    			zoomTools: {},
+		    			toolbar: {x:20, y:20},
+//		    			toolbar: {renderTo: 'toolbar'},
+		    			zoomTools: {x:20, y:76},
+//						zoomTools: {renderTo: 'zoomtools'},
+						rightPanel: {x: 20, style: 'right: 20px'},
+//						rightPanel: {renderTo: 'rightpanel'},
 		    			layers: {},
-		    		    searchFastighet: {
-		    				zoom: 10
-		    			},
+//		    			layers: {renderTo: 'layers'},
+		    			search: {},
+//		    			search: {renderTo: 'search'},
+		    		    searchFastighet: {zoom: 10},
+//		    		    searchFastighet: {renderTo: 'searchfastighet', zoom: 10},
 		    			searchCoordinate: {
 		    				renderTo: 'searchcoordinate',
 		    				listeners: {
@@ -75,14 +95,11 @@
 		    				    }
 		    				}
 		    			},
-		    			objectConfig: {x : 80, y: 60},
-		    			baseLayers: {},
-		    			showCoordinate : {
-		    				renderTo : 'showcoordinate'
-		    			},
-		    			scalebar : {
-		    				renderTo: 'scalebar'
-		    			}
+		    			objectConfig: {x : 76, y: 76},
+		    			baseLayers: {renderTo: 'baselayers'},
+		    			showCoordinate : {renderTo : 'showcoordinate'},
+		    			scalebar : {x:20, y:500}
+//		    			scalebar : {renderTo: 'scalebar'}
 		    		};
 		    	
 		    		mapClient.destroy();
@@ -111,17 +128,22 @@
 		    });
 		}
 	    
-		init('config/debug_all.json');
+		init('config/80.json');
 	  });
     </script>
 </head>
 <body>
-<div id="toolbar"></div>
 <div id="map" style="position: absolute; width: 100%; height: 100%"></div>
-<div id="layers"></div>
-<div id="searchfastighet"></div>
-<div id="searchcoordinate"></div>
-<div id="showcoordinate" style="position: absolute; bottom: 0; left: 10" ></div>
+<div id="toolbar" style="position: absolute; top: 20px; left: 20px;"></div>
+<div id="zoomtools" style="position: absolute; top: 76px; left: 20px;"></div>
+<div id="rightpanel" style="position: absolute; top: 20px; right: 20px;"></div>
+<div id="layers" style="position: absolute; top: 20px; right: 20px; width:200px;"></div>
+<div id="search" style="position: absolute; bottom: 10px; right: 150px;"></div>
+<div id="baselayers" style="position: absolute; bottom: 10px; right: 150px;"></div>
+<div id="searchfastighet" style="position: absolute; bottom: 300px; right: 20px; width: 200px;"></div>
+<div id="searchcoordinate" style="position: absolute; bottom: 10px; left: 150px;"></div>
+<div id="objectconfig" style="position: absolute; top: 76px; left: 76px;" ></div>
+<div id="showcoordinate" style="position: absolute; bottom: 0px; left: 10px;" ></div>
 <div id="scalebar" style="position: absolute; bottom: 20px; left: 10px;" ></div>
 
 </body>

@@ -19,6 +19,7 @@
  */
 Ext.define('OpenEMap.view.Map' ,{
     extend: 'GeoExt.panel.Map',
+    require : 'GeoExt.plugins.PrintExtent',
     border: false,
     anchor: '100% 100%',
     constructor: function(config) {
@@ -58,7 +59,7 @@ Ext.define('OpenEMap.view.Map' ,{
             var json = printProvider.encode(printExtent.map, printExtent.pages);
             printExtent.removePage(page);
             return json;
-        }
+        };
         
         printProvider.encode = function(map, pages, options) {
             if(map instanceof GeoExt.MapPanel) {
@@ -114,7 +115,7 @@ Ext.define('OpenEMap.view.Map' ,{
                 jsonData.overviewLayers = encodedOverviewLayers;
             }
 
-            if(options.legend && !(this.fireEvent("beforeencodelegend", this, jsonData, options.legend) === false)) {
+            if (options.legend && this.fireEvent("beforeencodelegend", this, jsonData, options.legend)) {
                 var legend = options.legend;
                 var rendered = legend.rendered;
                 if (!rendered) {
@@ -140,7 +141,7 @@ Ext.define('OpenEMap.view.Map' ,{
             }
             
             return jsonData;
-        }
+        };
         
         config.plugins = [printExtent];
         

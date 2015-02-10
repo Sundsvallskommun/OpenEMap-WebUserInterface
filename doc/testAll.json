@@ -19,11 +19,10 @@
 			"tolerance": 5,
 			"useRegisterenhet:": true
 		},
-		{
-        	"type": "Popup", 
-        	"showOnlyFirstHit": true,
-        	"tolerance": 10
-  		}
+        {
+			"type": "Popup",
+			"tolerance": 5
+		},
   		{
         	"type": "MeasureLine",
         	"accuracy": 2

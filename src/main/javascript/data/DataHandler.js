@@ -38,7 +38,7 @@ Ext.define('OpenEMap.data.DataHandler', {
     * @param {Function} callback    callback-function on success
     */
     getLayer: function(id, callback) {
-        if(this.wsUrls.layers && id) {
+        /*if(this.wsUrls.layers && id) {
             this.doRequest(
                 {
                     url: this.wsUrls.basePath + this.wsUrls.layers + '/' + id
@@ -47,7 +47,7 @@ Ext.define('OpenEMap.data.DataHandler', {
                     callback(json);
                 }
             );
-        }
+        }*/
     },
 
 
@@ -56,14 +56,14 @@ Ext.define('OpenEMap.data.DataHandler', {
     * @param {Function} callback    callback-function on success
     */
     getLayers: function(callback) {
-        if(this.wsUrls.layers) {
+        /*if(this.wsUrls.layers) {
             this.doRequest(
                 {
                     url: this.wsUrls.basePath + this.wsUrls.layers
                 },
                 callback
             );
-        }
+        }*/
     },
 
     /**
@@ -115,7 +115,7 @@ Ext.define('OpenEMap.data.DataHandler', {
     */
     updateConfiguration: function(id, conf, callback) {
         this.doRequest({
-            url: this.wsUrls.basePath + this.wsUrls.configs + '/' + id,
+            url: this.wsUrls.basePath + this.wsUrls.adminconfigs + '/config/' + id,
             method: 'PUT',
             jsonData: conf
         }, callback);
@@ -128,7 +128,7 @@ Ext.define('OpenEMap.data.DataHandler', {
     */
     saveNewConfiguration: function(conf, callback) {
         this.doRequest({
-            url: this.wsUrls.basePath + this.wsUrls.configs,
+            url: this.wsUrls.basePath + this.wsUrls.adminconfigs + '/config',
             method: 'POST',
             jsonData: conf
         }, callback);
@@ -142,7 +142,7 @@ Ext.define('OpenEMap.data.DataHandler', {
     */
     deleteConfiguration: function(id, conf, callback) {
         this.doRequest({
-            url: this.wsUrls.basePath + this.wsUrls.configs + '/' + id,
+            url: this.wsUrls.basePath + this.wsUrls.adminconfigs + '/config/' + id,
             method: 'DELETE',
             jsonData: conf
         }, callback);
@@ -158,7 +158,7 @@ Ext.define('OpenEMap.data.DataHandler', {
         if(options && (options.method && options.method === 'POST' && options.method === 'PUT') && !callback) {
             me.onFailure('no callback function');
             return false;
-        };
+        }
         Ext.Ajax.request(Ext.apply({
                 success: function(response) {
                     if(response && response.responseText) {

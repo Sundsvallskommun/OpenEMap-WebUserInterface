@@ -18,24 +18,30 @@
 
 <html lang="en">
 <head>
-	<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<title>Open eMap - Test all example</title>
 	<meta name="description" content="">
 	<meta name="author" content="Anders Erlandsson, Sundsvalls kommun" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" type="text/css" href="https://kartatest.e-tjansteportalen.se/libs/ext-theme-oep/oepTheme-all.css" crossorigin>
+    <link rel="stylesheet" type="text/css" href="https://kartatest.e-tjansteportalen.se/libs/ext-theme-oep/oepTheme-all.css">
     <link rel="stylesheet" type="text/css" href="../resources/css/OpenEMap.css">
 
-    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/libs/OpenLayers-2.13.1/lib/OpenLayers.js"></script>  
-    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/libs/ext-4.2.1/ext-all.js"></script>
-    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/libs/ext-4.2.1/ext-theme-neptune.js"></script>
-    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/libs/ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
-    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/libs/proj4js/proj4-compressed.js"></script>
+    <script type="text/javascript" src="../bower_components/OpenLayers-2.13.1/lib/OpenLayers.js"></script>
+    <script type="text/javascript" src="../bower_components/ext-4.2.1/bootstrap.js"></script>
+    <script type="text/javascript" src="../bower_components/ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
+    <script type="text/javascript" src="../bower_components/ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
+    <script type="text/javascript" src="../bower_components/proj4/dist/proj4.js"></script>
     <script type="text/javascript" src="../proj4_defs.js"></script>
-    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/libs/geoext-2.0.2-rc.1-all.js"></script> 
-    <script type="text/javascript" src="../OpenEMap-1.5.0-min.js"></script>
+    <script type="text/javascript">
+	  Ext.Loader.setConfig({
+	    disableCaching: false,
+	    paths: {
+	        OpenEMap: '../src/main/javascript',
+	        GeoExt: '../bower_components/geoext2/src/GeoExt'
+	    }
+	  });
+    </script> 
 
     <script type="text/javascript">
 	  Ext.onReady(function() {
@@ -108,7 +114,7 @@
 		    });
 		}
 	    
-		init('testAll.json');
+		init('config/testAll.json');
 	  });
     </script>
 </head>

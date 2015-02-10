@@ -33,6 +33,7 @@ Ext.define('OpenEMap.view.layer.Tree' ,{
                 root: {
                     text: (this.mapPanel.config && this.mapPanel.config.name ? this.mapPanel.config.name : 'Lager'),
                     expanded: true,
+                    isGroupLayer: true,
                     layers: this.mapPanel.map.layerSwitcherLayerTree
                 },
                 map: this.mapPanel.map
@@ -42,34 +43,28 @@ Ext.define('OpenEMap.view.layer.Tree' ,{
         this.on('checkchange', function(node, checked, eOpts) {
             var parent = node.parentNode;
         
-            if(checked) {
-                // Loop this node and children
-                node.cascadeBy(function(n){
-                    n.set('checked', checked);
-                    var olLayerRef = n.get('layer');
-                    // Change layer visibility (Layer groups have no layer reference)
-                    if(olLayerRef) {
-                        olLayerRef.setVisibility(true);
-                    }
-                });
+            // Loop this node and children
+            node.cascadeBy(function(n){
+                n.set('checked', checked);
+                var olLayerRef = n.get('layer');
+                // Change layer visibility (Layer groups have no layer reference)
+                if(olLayerRef) {
+                    olLayerRef.setVisibility(checked);
+                }
+
+           });
+            // Checking/unchecking parent node
+            if (checked) {
                 // check parent if not root
                 if (!parent.isRoot()) {
                     parent.set('checked', checked);
                 }
             } else {
-                node.cascadeBy(function(n){
-                    // Loop this node and children
-                    n.set('checked', false);
-                    var olLayerRef = n.get('layer');
-                    if(olLayerRef) {
-                        olLayerRef.setVisibility(false);
-                    }
-                });
-                // uncheck parent if not root and its children are unchecked
                 if (!parent.isRoot() && !parent.childNodes.some(function(node) { return node.get('checked'); })) {
                     parent.set('checked', checked);
                 }
             }
+
         });
 
         this.on('cellclick', function(tree, td, cellIndex, node) {
@@ -88,6 +83,21 @@ Ext.define('OpenEMap.view.layer.Tree' ,{
         });
         
         this.callParent(arguments);
-    }
+    },
+    
+    getConfig: function(includeLayerRef) {
+    	// Start with initial config to get a complete config object
+        var config = Ext.clone(this.client.initialConfig);
+        
+        // Get layers config from layer tree, to reflect changes made by user   
+       	var layers = this.getStore().getLayerConfiguration(includeLayerRef);
 
+        // layer tree does not include base layers so extract them from initial config
+    	var baseLayers = config.layers.filter(function(layer) {
+    		return (layer.wms && layer.wms.options.isBaseLayer) ? layer : false;
+    	});
+    	config.layers = baseLayers.concat(layers);
+    	
+    	return config;
+    }
 });

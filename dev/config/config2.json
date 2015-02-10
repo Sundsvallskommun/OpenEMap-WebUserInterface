@@ -79,7 +79,7 @@
                 }
             }
         },
-        {name: "Detaljplaner", group: [
+        { "name": "Detaljplaner", "layers": [
         {
             "name": "Planområde",
             "wms": {

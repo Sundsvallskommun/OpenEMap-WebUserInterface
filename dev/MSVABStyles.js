@@ -1,4 +1,4 @@
-﻿/*    
+/*    
     Copyright (C) 2014 Härnösands kommun
 
     This program is free software: you can redistribute it and/or modify
@@ -15,35 +15,23 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 /**
- * Server configuration store
- * Stores server configruations
+ * @author Anders Erlandsson, Sundsvalls kommun
+ * Example styles to use with popupLayers 
  */
-
-Ext.define('OpenEMap.data.Servers' ,{
-    extend: 'Ext.data.Store',
-
-    requires: [
-        'OpenEMap.model.Server'
-    ],
-
-    model: 'OpenEMap.model.Server',
-
-    storeId: 'servers',
-
-    singelton: true,
-
-    constructor: function(config) {
-        config = Ext.apply(this, config);
-        /*if(this.url) {
-            this.proxy = {
-                type: 'ajax',
-                url: this.url,
-                reader: {
-                    type: 'json',
-                    root: 'configs'
-                }
-            };
-        }*/
-        this.callParent([config]);
-    }
+var stylemap = new OpenLayers.StyleMap({
+    'default': OpenLayers.Util.applyDefaults(
+        {
+        	externalGraphic: "../resources/images/point_added.png", 
+        	graphicWidth: 20,
+        	graphicOpacity: 1
+    	},
+        OpenLayers.Feature.Vector.style['default']
+    ),
+    'select': OpenLayers.Util.applyDefaults(
+        {
+        	externalGraphic: "../resources/images/point_added.png", 
+        	graphicWidth: 30
+    	},
+        OpenLayers.Feature.Vector.style.select
+    )
 });

@@ -19,6 +19,7 @@
  */
 Ext.define('OpenEMap.action.Print', {
     extend : 'OpenEMap.action.Action',
+    require : 'GeoExt.plugins.PrintExtent',
     constructor : function(config) {
         var mapPanel = config.mapPanel;
         var printExtent = mapPanel.plugins[0];

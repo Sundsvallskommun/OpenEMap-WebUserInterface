@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<!--
+    Copyright (C) 2014 Härnösands kommun
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<!--
+	Uses parameter "configid" to open a config from Open eMap Admin service
+-->
+
+<html lang="sv">
+	<head>
+		<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>Open eMap Client</title>
+		<meta name="description" content="">
+		<meta name="author" content="Anders Erlandsson, Sundsvalls kommun" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	    <script type="text/javascript" src="http://localhost:8080/libs/proj4js/proj4-compressed.js"></script>
+	    <script type="text/javascript" src="../proj4_defs.js"></script>
+	
+	    <script type="text/javascript">
+			function rt90_to_sweref() {
+				// creating source and destination Proj4js objects
+				// once initialized, these may be re-used as often as needed
+				var source = new Proj4js.Proj('EPSG:3021');    //source coordinates will be in Longitude/Latitude
+				var dest = new Proj4js.Proj('EPSG:3006');     //destination coordinates in LCC, south of France
+				
+				var rt90_easting = document.forms[0].rt90_easting.value;
+				var rt90_northing = document.forms[0].rt90_northing.value; 
+				
+				// transforming point coordinates
+				var p = new Proj4js.Point(rt90_northing, rt90_easting);   //any object will do as long as it has 'x' and 'y' properties
+				Proj4js.transform(source, dest, p);      //do the transformation.  x and y are modified in place
+				document.forms[0].sw_easting.value = p.x;
+				document.forms[0].sw_northing.value = p.y;
+			}
+		</script>
+	</head>
+	<body>
+		<form>
+			RT90 2,5 gon V<br>
+			E: <input type="text" name="rt90_easting" value="6920682"><br>
+			N: <input type="text" name="rt90_northing" value="1477437"><br><br>
+			Sweref 99 TM<br>
+			E: <input type="text" name="sw_easting"><br>
+			N: <input type="text" name="sw_northing"><br><br>
+			<input type="button" onclick="javascript:rt90_to_sweref();" value="RT90 till Sweref"><br><br>
+			<input type="button" onclick="javascript:sweref_to_rt90();" value="Sweref till RT90">
+		</form>
+	</body>
+</html>
