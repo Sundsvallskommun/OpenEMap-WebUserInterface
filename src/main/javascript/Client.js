@@ -214,7 +214,9 @@ Ext.define('OpenEMap.Client', {
                 return edgeLabels;
             };
             
-            this.labelLayer.destroyFeatures();
+            if (this.labelLayer) {
+            	this.labelLayer.destroyFeatures();
+            }
             
             var edgeLabelsArrays = this.drawLayer.features.map(createEdgeLabels);
             if (edgeLabelsArrays.length > 0) {

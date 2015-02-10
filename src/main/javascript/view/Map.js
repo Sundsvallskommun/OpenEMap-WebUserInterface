@@ -19,6 +19,7 @@
  */
 Ext.define('OpenEMap.view.Map' ,{
     extend: 'GeoExt.panel.Map',
+    require : 'GeoExt.plugins.PrintExtent',
     border: false,
     anchor: '100% 100%',
     constructor: function(config) {

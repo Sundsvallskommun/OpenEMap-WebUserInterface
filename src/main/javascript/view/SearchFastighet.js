@@ -25,7 +25,8 @@ Ext.define('OpenEMap.view.SearchFastighet', {
                 'OpenEMap.form.SearchAddress',
                 'OpenEMap.form.SearchPlacename',
                 'OpenEMap.form.SearchES',
-                'GeoExt.selection.FeatureModel'],
+                'GeoExt.selection.FeatureModel',
+                'GeoExt.data.FeatureStore'],
     border: false,
     initComponent : function() {
 
