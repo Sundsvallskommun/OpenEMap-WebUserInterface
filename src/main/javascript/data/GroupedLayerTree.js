@@ -107,7 +107,7 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
                 url = legend.getLegendUrl(appendNode.raw.wms.params.LAYERS);
             }
             if (url && url.length > 0) {
-                appendNode.set('text', '<div style="display:inline-block;width:18px;height:18px;background-position:-2px -2px;background-image:url(' + url + ')"></div>' + appendNode.get('text')); 
+                appendNode.set('text', '<div style="display:inline-block;width:20px;height:20px;margin-right:2px;overflow:hidden;"><img src="' + url + '" style="height:20px;"></div>' + appendNode.get('text')); 
             }
         }
         
