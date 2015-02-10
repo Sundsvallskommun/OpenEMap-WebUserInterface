@@ -35,6 +35,10 @@ ul, li {
 .x-tree-icon-leaf {
     width: 0px;
 }
+.x-tree-node-text {
+    font-size: 13px;
+    font-weight: normal;
+}
 
 /* Action icons */
 .action-fullextent {
