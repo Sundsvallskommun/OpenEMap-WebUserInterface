@@ -1,0 +1,1195 @@
+{
+    "configId": 97,
+    "name": "StrandskyddsPilot",
+    "version": null,
+    "maxExtent": [
+        487000,
+        6887000,
+        749144,
+        7149144
+    ],
+    "extent": [
+        552924,
+        6875412,
+        630204,
+        6991332
+    ],
+    "attribution": "Copyright holder",
+    "autoClearDrawLayer": null,
+    "drawStyle": {},
+    "tools": [
+        {
+            "type": "DrawGeometry",
+            "iconCls": "action-drawpoint",
+            "geometry": "Point"
+        },
+        {
+            "type": "DrawGeometry",
+            "iconCls": "action-drawline",
+            "geometry": "Path"
+        },
+        {
+            "type": "DrawGeometry",
+            "iconCls": "action-drawpolygon",
+            "geometry": "Polygon"
+        },
+        {
+            "type": "DeleteGeometry"
+        },
+        {
+            "type": "DeleteAllFeatures"
+        },
+        {
+            "type": "FullExtent"
+        },
+        {
+            "type": "Identify",
+            "useRegisterenhet": true,
+            "onlyVisibleLayers": true,
+            "activate": true
+        },
+        {
+            "type": "MeasureArea"
+        },
+        {
+            "type": "MeasureLine"
+        },
+        {
+            "type": "DeleteMeasure"
+        },
+        {
+            "type": "Print"
+        },
+        {
+            "type": "ModifyGeometry"
+        }
+    ],
+    "layers": [
+        {
+            "name": "Foto",
+            "queryable": false,
+            "clickable": false,
+            "isGroupLayer": false,
+			"expanded": false,
+            "wms": {
+                "params": {
+                    "LAYERS": "Lantmateriet:Ortofoto50_25cm",
+                    "EXCEPTIONS": "application/vnd.ogc.se_xml",
+                    "FORMAT": "image/jpeg",
+                    "TRANSPARENT": false,
+                    "VERSION": "1.1.1",
+                    "SERVICE": "WMS",
+                    "REQUEST": "GetMap",
+                    "STYLES": ""
+                },
+                "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms?SERVICE=WMS&",
+                "options": {
+                    "isBaseLayer": true,
+                    "visibility": false
+                }
+            },
+            "wfs": null,
+            "metadataUrl": null
+        },
+        {
+            "name": "SKarta",
+            "queryable": false,
+            "clickable": false,
+            "isGroupLayer": false,
+            "wms": {
+                "params": {
+                    "LAYERS": "Kartan",
+                    "EXCEPTIONS": "application/vnd.ogc.se_xml",
+                    "FORMAT": "image/png",
+                    "TRANSPARENT": true,
+                    "VERSION": "1.1.1",
+                    "SERVICE": "WMS",
+                    "REQUEST": "GetMap",
+                    "STYLES": ""
+                },
+                "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms?SERVICE=WMS&",
+                "options": {
+                    "isBaseLayer": true,
+                    "visibility": false
+                }
+            },
+            "wfs": null,
+            "metadataUrl": null
+        },
+        {
+            "name": "Karta",
+            "queryable": false,
+            "clickable": false,
+            "isGroupLayer": false,
+            "wms": {
+                "params": {
+                    "LAYERS": "Lantmateriet:topowebbkartan_nedtonad",
+                    "EXCEPTIONS": "application/vnd.ogc.se_xml",
+                    "FORMAT": "image/png",
+                    "TRANSPARENT": true,
+                    "VERSION": "1.1.1",
+                    "SERVICE": "WMS",
+                    "REQUEST": "GetMap",
+                    "STYLES": ""
+                },
+                "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms?SERVICE=WMS&",
+                "options": {
+                    "isBaseLayer": true,
+                    "visibility": false
+                }
+            },
+            "wfs": null,
+            "metadataUrl": null
+        },
+        {
+            "name": "Beslut Strandskyddsdispens",
+            "wms": {
+                "params": {
+                    "LAYERS": "SundsvallsKommun:PilotBeslutStrandskyddsdispens_punkt",
+                    "EXCEPTIONS": "application/vnd.ogc.se_inimage",
+                    "FORMAT": "image/png",
+                    "TRANSPARENT": true,
+                    "VERSION": "1.1.1",
+                    "SERVICE": "WMS",
+                    "REQUEST": "GetMap",
+                    "STYLES": ""
+                },
+                "url": "https://extmaptest.sundsvall.se:443/geoserver/wms?SERVICE=WMS&",
+                "options": {
+                    "isBaseLayer": false,
+                    "visibility": false
+                }
+            },
+            "wfs": {
+                "featurePrefix": "SundsvallsKommun",
+                "featureType": "PilotBeslutStrandskyddsdispens_punkt",
+                "url": "https://extmaptest.sundsvall.se/geoserver/wfs"
+            },
+            "metadataUrl": null,
+            "isGroupLayer": null,
+            "queryable": true,
+            "clickable": true,
+            "metadata": {
+                "attributes": {
+                    "the_geom": {
+                        "alias": "the_geom"
+                    },
+                    "FNR": {
+                        "alias": "FNR"
+                    },
+                    "FBET": {
+                        "alias": "FBET"
+                    },
+                    "OMR": {
+                        "alias": "OMR"
+                    },
+                    "FBETNR": {
+                        "alias": "FBETNR"
+                    },
+                    "SAMJELOTT": {
+                        "alias": "SAMJELOTT"
+                    },
+                    "TILLAGG": {
+                        "alias": "TILLAGG"
+                    },
+                    "Dnr": {
+                        "alias": "Dnr"
+                    },
+                    "Fastighet": {
+                        "alias": "Fastighet"
+                    },
+                    "Adress": {
+                        "alias": "Adress"
+                    },
+                    "StartDatum": {
+                        "alias": "StartDatum"
+                    },
+                    "Ärendemeni": {
+                        "alias": "Ärendemeni"
+                    },
+                    "Grupp": {
+                        "alias": "Grupp"
+                    },
+                    "Typ": {
+                        "alias": "Typ"
+                    },
+                    "Slag": {
+                        "alias": "Slag"
+                    },
+                    "Klass": {
+                        "alias": "Klass"
+                    },
+                    "HvdHandl": {
+                        "alias": "HvdHandl"
+                    },
+                    "Beslutsdat": {
+                        "alias": "Beslutsdat"
+                    },
+                    "Åtgärd": {
+                        "alias": "Åtgärd"
+                    },
+                    "Lagakraft": {
+                        "alias": "Lagakraft"
+                    },
+                    "Beslutande": {
+                        "alias": "Beslutande"
+                    },
+                    "Orsak_till": {
+                        "alias": "Orsak_till"
+                    },
+                    "Beslut": {
+                        "alias": "Beslut"
+                    },
+                    "Skäl": {
+                        "alias": "Skäl"
+                    },
+                    "Beslutsnum": {
+                        "alias": "Beslutsnum"
+                    },
+                    "Dispensbes": {
+                        "alias": "Dispensbes"
+                    }
+                }
+            }
+        },
+        {
+            "name": "Strandskyddsområde",
+            "wms": {
+                "params": {
+                    "LAYERS": "SundsvallsKommun:PilotStrandskyddsomrade_yta",
+                    "EXCEPTIONS": "application/vnd.ogc.se_inimage",
+                    "FORMAT": "image/png",
+                    "TRANSPARENT": true,
+                    "VERSION": "1.1.1",
+                    "SERVICE": "WMS",
+                    "REQUEST": "GetMap",
+                    "STYLES": ""
+                },
+                "url": "https://extmaptest.sundsvall.se:443/geoserver/wms?SERVICE=WMS&",
+                "options": {
+                    "isBaseLayer": false,
+                    "visibility": false
+                }
+            },
+            "wfs": {
+                "featurePrefix": "SundsvallsKommun",
+                "featureType": "PilotStrandskyddsomrade_yta",
+                "url": "https://extmaptest.sundsvall.se/geoserver/wfs"
+            },
+            "metadataUrl": null,
+            "isGroupLayer": null,
+            "queryable": true,
+            "clickable": true,
+            "metadata": {
+                "attributes": {
+                    "the_geom": {
+                        "alias": "the_geom"
+                    },
+                    "DETALJTYP": {
+                        "alias": "DETALJTYP"
+                    },
+                    "ADAT": {
+                        "alias": "ADAT"
+                    },
+                    "XYFEL": {
+                        "alias": "XYFEL"
+                    },
+                    "BUFF_DIST": {
+                        "alias": "BUFF_DIST"
+                    },
+                    "Typ_av_omr": {
+                        "alias": "Typ_av_omr"
+                    },
+                    "Kvalitet": {
+                        "alias": "Kvalitet"
+                    },
+                    "Lansstyrel": {
+                        "alias": "Lansstyrel"
+                    }
+                }
+            }
+        },
+        {
+            "name": "Detaljplaner",
+			"expanded": true,
+			"isGroupLayer": true,
+            "queryable": true,
+            "clickable": true,
+            "options": {
+                "visibility": true
+            },
+            "layers": [
+                {
+                    "name": "Egenskapsbestämmelser",
+					"isGroupLayer": false,
+					"queryable": false,
+					"clickable": false,
+                    "wms": {
+                        "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
+                        "params": {
+                            "layers": "RIGES:Egenskapsbestammelse",
+                            "format": "image/png",
+                            "transparent": true
+                        },
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    }
+                },
+                {
+                    "name": "Egenskapsbestämmelse yta",
+					"isGroupLayer": false,
+                    "queryable": true,
+                    "clickable": true,
+                    "wms": {
+                        "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
+                        "params": {
+                            "layers": "RIGES:EgenskapsBestammelser_yta",
+                            "format": "image/png",
+                            "transparent": true
+                        },
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    },
+                    "wfs": {
+                        "url": "https://extmaptest.sundsvall.se/geoserver/wfs",
+                        "featureType": "EgenskapsBestammelser_yta",
+                        "featurePrefix": "RIGES"
+                    },
+                    "metadata": {
+                        "attributes": {
+                            "DESCRIPTIO": {
+                                "alias": "Beskrivning"
+                            },
+                            "MIN": {
+                                "alias": "MIN"
+                            },
+                            "MAX": {
+                                "alias": "MAX"
+                            },
+                            "REMARK": {
+                                "alias": "Kommentar"
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Användningsbestämmelse",
+					"isGroupLayer": false,
+					"queryable": false,
+					"clickable": false,
+                    "wms": {
+                        "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
+                        "params": {
+                            "layers": "RIGES:Anvandningsbestammelse",
+                            "format": "image/png",
+                            "transparent": true
+                        },
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    }
+                },
+                {
+                    "name": "Användningsform",
+					"isGroupLayer": false,
+                    "queryable": true,
+                    "clickable": true,
+                    "wms": {
+                        "url": "https://extmaptest.sundsvall.se/geoserver/wms",
+                        "params": {
+                            "layers": "RIGES:Anvandningsform_yta",
+                            "format": "image/png",
+                            "transparent": true
+                        },
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    },
+                    "wfs": {
+                        "url": "https://extmaptest.sundsvall.se/geoserver/wfs",
+                        "featureType": "AnvandningsBestammelser_yta",
+                        "featurePrefix": "RIGES"
+                    },
+                    "metadata": {
+                        "attributes": {
+                            "CATEGORY": {
+                                "alias": "Användningsform"
+                            },
+                            "CLARIFICAT": {
+                                "alias": "Precisering"
+                            },
+                            "DESCRIPTIO": {
+                                "alias": "Användningsslag"
+                            },
+                            "MAPTEXT": {
+                                "alias": "Beteckning"
+                            },
+                            "REMARK": {
+                                "alias": "Kommentar"
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Planområde",
+					"isGroupLayer": false,
+                    "queryable": true,
+                    "clickable": true,
+                    "wms": {
+                        "url": "https://extmaptest.sundsvall.se/geoserver/wms",
+                        "params": {
+                            "layers": "RIGES:DetaljplanGallande_yta",
+                            "format": "image/png",
+                            "transparent": true
+                        },
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    },
+                    "wfs": {
+                        "url": "https://extmaptest.sundsvall.se/geoserver/wfs",
+                        "featureType": "DetaljplanGallande_yta",
+                        "featurePrefix": "RIGES"
+                    },
+                    "metadata": {
+                        "attributes": {
+                            "AKTBET": {
+                                "alias": "Aktbeteckning"
+                            },
+                            "AKTBET_LOK": {
+                                "alias": "lokal aktbet."
+                            },
+                            "AREA_NUMBE": {
+                                "alias": "Planområdesnr"
+                            },
+                            "LEGAL_APPR": {
+                                "alias": "Lagakraft datum"
+                            },
+                            "ACCEPTED_D": {
+                                "alias": "antagande datum"
+                            }
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Fastighetsgränser",
+			"isGroupLayer": false,
+            "queryable": false,
+            "clickable": false,
+            "wms": {
+                "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
+                "params": {
+                    "layers": "Lantmateriet:fastighet_granser",
+                    "format": "image/png",
+                    "transparent": true
+                },
+                "options": {
+                    "isBaseLayer": false,
+                    "visibility": false
+                }
+            }
+        },
+        {
+            "name": "Sammanhållen bebyggelse",
+			"isGroupLayer": false,
+            "queryable": true,
+            "clickable": true,
+            "wms": {
+                "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
+                "params": {
+                    "layers": "RIGES:SammanhallenBebyggelse_yta",
+                    "format": "image/png",
+                    "transparent": true
+                },
+                "options": {
+                    "isBaseLayer": false,
+                    "visibility": false
+                }
+            }
+        },
+        {
+            "name": "Utanför detaljplanelagt område",
+			"isGroupLayer": false,
+            "queryable": true,
+            "clickable": true,
+            "wms": {
+                "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
+                "params": {
+                    "layers": "RIGES:Utomplansbestammelser_yta",
+                    "format": "image/png",
+                    "transparent": true
+                },
+                "options": {
+                    "isBaseLayer": false,
+                    "visibility": false
+                }
+            },
+            "wfs": {
+                "url": "https://extmaptest.sundsvall.se/geoserver/wfs",
+                "featureType": "Utomplansbestammelser_yta",
+                "featurePrefix": "RIGES"
+            }
+        },
+        {
+            "name": "Landsbygdsutveckling i strandnära lägen(LIS)",
+			"isGroupLayer": false,
+            "queryable": true,
+            "clickable": true,
+            "wms": {
+                "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
+                "params": {
+                    "layers": "RIGES:RigesLISOmraden_yta",
+                    "format": "image/png",
+                    "transparent": true
+                },
+                "options": {
+                    "isBaseLayer": false,
+                    "visibility": false
+                }
+            }
+        },
+        {
+            "name": "Naturminnen",
+			"isGroupLayer": false,
+            "queryable": true,
+            "clickable": false,
+            "wms": {
+                "url": "https://extmaptest.sundsvall.se/geoserver/wms",
+                "params": {
+                    "layers": "Lansstyrelsen:Naturminnen_punkt",
+                    "format": "image/png",
+                    "transparent": true
+                },
+                "options": {
+                    "isBaseLayer": false,
+                    "visibility": false
+                }
+            }
+        },
+        {
+            "name": "Byggnadsminnen",
+			"isGroupLayer": false,
+            "queryable": true,
+            "clickable": false,
+            "wms": {
+                "url": "https://extmaptest.sundsvall.se/geoserver/wms",
+                "params": {
+                    "layers": "Lansstyrelsen:Byggnadsminnen_punkt",
+                    "format": "image/png",
+                    "transparent": true
+                },
+                "options": {
+                    "isBaseLayer": false,
+                    "visibility": false
+                }
+            }
+        },
+        {
+            "name": "Väghållare",
+			"isGroupLayer": false,
+            "queryable": false,
+            "clickable": false,
+            "wms": {
+                "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
+                "params": {
+                    "layers": "Trafikverket:Vaghallare_wms",
+                    "format": "image/png",
+                    "transparent": true
+                },
+                "options": {
+                    "isBaseLayer": false,
+                    "visibility": false
+                }
+            }
+        },
+        {
+            "name": "Potentiellt förorenade områden",
+			"isGroupLayer": false,
+            "queryable": false,
+            "clickable": false,
+            "wms": {
+                "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
+                "params": {
+                    "layers": "Lansstyrelsen:PotentielltFororenadeOmraden_wms",
+                    "format": "image/png",
+                    "transparent": true
+                },
+                "options": {
+                    "isBaseLayer": false,
+                    "visibility": false
+                }
+            }
+        },
+        {
+            "name": "Riksintressen",
+			"isGroupLayer": true,
+			"expanded": false,
+			"queryable": false,
+			"clickable": false,
+            "options": {
+                "visibility": true
+            },
+            "layers": [
+                {
+                    "name": "Friluftsliv",
+					"isGroupLayer": false,
+                    "queryable": false,
+                    "clickable": false,
+                    "wms": {
+                        "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
+                        "params": {
+                            "layers": "Lansstyrelsen:RiksintresseFriluftsliv_wms",
+                            "format": "image/png",
+                            "transparent": true
+                        },
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    }
+                },
+                {
+                    "name": "Kulturmiljövård",
+					"isGroupLayer": false,
+                    "queryable": false,
+                    "clickable": false,
+                    "wms": {
+                        "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
+                        "params": {
+                            "layers": "Lansstyrelsen:RiksintresseKulturmiljovard_wms",
+                            "format": "image/png",
+                            "transparent": true
+                        },
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    }
+                },
+                {
+                    "name": "Natura 2000 Fågeldirektivet",
+					"isGroupLayer": false,
+                    "queryable": false,
+                    "clickable": false,
+                    "wms": {
+                        "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
+                        "params": {
+                            "layers": "Lansstyrelsen:RiksintresseNatura2000Fageldirektivet_wms",
+                            "format": "image/png",
+                            "transparent": true
+                        },
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    }
+                },
+                {
+                    "name": "Natura 2000 Habitatdirektivet",
+					"isGroupLayer": false,
+                    "queryable": false,
+                    "clickable": false,
+                    "wms": {
+                        "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
+                        "params": {
+                            "layers": "Lansstyrelsen:RiksintresseNatura2000Habitatdirektivet_wms",
+                            "format": "image/png",
+                            "transparent": true
+                        },
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    }
+                },
+                {
+                    "name": "Naturvård",
+					"isGroupLayer": false,
+                    "queryable": false,
+                    "clickable": false,
+                    "wms": {
+                        "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
+                        "params": {
+                            "layers": "Lansstyrelsen:RiksintresseNaturvard_wms",
+                            "format": "image/png",
+                            "transparent": true
+                        },
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    }
+                },
+                {
+                    "name": "Obruten kust",
+					"isGroupLayer": false,
+                    "queryable": false,
+                    "clickable": false,
+                    "wms": {
+                        "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
+                        "params": {
+                            "layers": "Lansstyrelsen:RiksintresseObrutenKust_wms",
+                            "format": "image/png",
+                            "transparent": true
+                        },
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    }
+                },
+                {
+                    "name": "Rennäring",
+					"isGroupLayer": false,
+                    "queryable": false,
+                    "clickable": false,
+                    "wms": {
+                        "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
+                        "params": {
+                            "layers": "Lansstyrelsen:RiksintresseRennaring_wms",
+                            "format": "image/png",
+                            "transparent": true
+                        },
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    }
+                },
+                {
+                    "name": "Skyddade vattendrag",
+					"isGroupLayer": false,
+                    "queryable": false,
+                    "clickable": false,
+                    "wms": {
+                        "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
+                        "params": {
+                            "layers": "Lansstyrelsen:RiksintresseSkyddadeVattendrag_wms",
+                            "format": "image/png",
+                            "transparent": true
+                        },
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    }
+                },
+                {
+                    "name": "Vindbruk",
+					"isGroupLayer": false,
+                    "queryable": false,
+                    "clickable": false,
+                    "wms": {
+                        "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
+                        "params": {
+                            "layers": "Lansstyrelsen:RiksintresseVindbruk_wms",
+                            "format": "image/png",
+                            "transparent": true
+                        },
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    }
+                },
+                {
+                    "name": "Yrkesfiske",
+					"isGroupLayer": false,
+                    "queryable": false,
+                    "clickable": false,
+                    "wms": {
+                        "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
+                        "params": {
+                            "layers": "Lansstyrelsen:RiksintresseYrkesfiskeHav_wms",
+                            "format": "image/png",
+                            "transparent": true
+                        },
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    }
+                },
+                {
+                    "name": "Farled",
+					"isGroupLayer": false,
+                    "queryable": false,
+                    "clickable": false,
+                    "wms": {
+                        "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
+                        "params": {
+                            "layers": "Trafikverket:RiksintresseFarled_wms",
+                            "format": "image/png",
+                            "transparent": true
+                        },
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    }
+                },
+                {
+                    "name": "Flygplats befintlig",
+					"isGroupLayer": false,
+                    "queryable": false,
+                    "clickable": false,
+                    "wms": {
+                        "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
+                        "params": {
+                            "layers": "Trafikverket:RiksintresseFlygplatsBefintlig_wms",
+                            "format": "image/png",
+                            "transparent": true
+                        },
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    }
+                },
+                {
+                    "name": "Flygplats rullbana befintlig",
+					"isGroupLayer": false,
+                    "queryable": false,
+                    "clickable": false,
+                    "wms": {
+                        "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
+                        "params": {
+                            "layers": "Trafikverket:RiksintresseFlygplatsRullbanaBefintlig_wms",
+                            "format": "image/png",
+                            "transparent": true
+                        },
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    }
+                },
+                {
+                    "name": "Hamn befintlig",
+					"isGroupLayer": false,
+                    "queryable": false,
+                    "clickable": false,
+                    "wms": {
+                        "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
+                        "params": {
+                            "layers": "Trafikverket:RiksintresseHamnBefintlig_wms",
+                            "format": "image/png",
+                            "transparent": true
+                        },
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    }
+                },
+                {
+                    "name": "Järnväg anläggning befintlig",
+					"isGroupLayer": false,
+                    "queryable": false,
+                    "clickable": false,
+                    "wms": {
+                        "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
+                        "params": {
+                            "layers": "Trafikverket:RiksintresseJarnvagAnlaggningBefintlig_wms",
+                            "format": "image/png",
+                            "transparent": true
+                        },
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    }
+                },
+                {
+                    "name": "Järnväg anläggning framtida",
+					"isGroupLayer": false,
+                    "queryable": false,
+                    "clickable": false,
+                    "wms": {
+                        "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
+                        "params": {
+                            "layers": "Trafikverket:RiksintresseJarnvagAnlaggningFramtida_wms",
+                            "format": "image/png",
+                            "transparent": true
+                        },
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    }
+                },
+                {
+                    "name": "Järnväg befintlig",
+					"isGroupLayer": false,
+                    "queryable": false,
+                    "clickable": false,
+                    "wms": {
+                        "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
+                        "params": {
+                            "layers": "Trafikverket:RiksintresseJarnvagBefintlig_wms",
+                            "format": "image/png",
+                            "transparent": true
+                        },
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    }
+                },
+                {
+                    "name": "Järnväg framtida",
+					"isGroupLayer": false,
+                    "queryable": true,
+                    "clickable": false,
+                    "wms": {
+                        "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
+                        "params": {
+                            "layers": "Trafikverket:RiksintresseJarnvagFramtida_yta",
+                            "format": "image/png",
+                            "transparent": true
+                        },
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    }
+                },
+                {
+                    "name": "Vägnät befintligt",
+					"isGroupLayer": false,
+                    "queryable": false,
+                    "clickable": false,
+                    "wms": {
+                        "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
+                        "params": {
+                            "layers": "Trafikverket:RiksintresseVagnatBefintlig_wms",
+                            "format": "image/png",
+                            "transparent": true
+                        },
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    }
+                },
+                {
+                    "name": "Vägnät framtida",
+					"isGroupLayer": false,
+                    "queryable": false,
+                    "clickable": false,
+                    "wms": {
+                        "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
+                        "params": {
+                            "layers": "Trafikverket:RiksintresseVagnatFramtida_wms",
+                            "format": "image/png",
+                            "transparent": true
+                        },
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Skyddade områden",
+			"isGroupLayer": true,
+			"queryable": false,
+			"clickable": false,
+			"expanded": false,
+            "options": {
+                "visibility": true
+            },
+            "layers": [
+                {
+                    "name": "Nationalparker",
+					"isGroupLayer": false,
+                    "queryable": false,
+                    "clickable": false,
+                    "wms": {
+                        "url": "https://extmaptest.sundsvall.se/geoserver/wms",
+                        "params": {
+                            "layers": "Naturvardsverket:Nationalparker_wms",
+                            "format": "image/png",
+                            "transparent": true
+                        },
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    }
+                },
+                {
+                    "name": "Vattenskyddsomraden",
+					"isGroupLayer": false,
+                    "queryable": false,
+                    "clickable": false,
+                    "wms": {
+                        "url": "https://extmaptest.sundsvall.se/geoserver/wms",
+                        "params": {
+                            "layers": "Naturvardsverket:Vattenskyddsomraden_wms",
+                            "format": "image/png",
+                            "transparent": true
+                        },
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    }
+                },
+                {
+                    "name": "Naturreservat",
+					"isGroupLayer": false,
+                    "queryable": false,
+                    "clickable": false,
+                    "wms": {
+                        "url": "https://extmaptest.sundsvall.se/geoserver/wms",
+                        "params": {
+                            "layers": "Naturvardsverket:Naturreservat_wms",
+                            "format": "image/png",
+                            "transparent": true
+                        },
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    }
+                },
+                {
+                    "name": "Djur & växtskyddsområden",
+					"isGroupLayer": false,
+                    "queryable": false,
+                    "clickable": false,
+                    "wms": {
+                        "url": "https://extmaptest.sundsvall.se/geoserver/wms",
+                        "params": {
+                            "layers": "Naturvardsverket:DjurVaxtskyddsomraden_wms",
+                            "format": "image/png",
+                            "transparent": true
+                        },
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    }
+                },
+                {
+                    "name": "Kulturreservat",
+					"isGroupLayer": false,
+                    "queryable": false,
+                    "clickable": false,
+                    "wms": {
+                        "url": "https://extmaptest.sundsvall.se/geoserver/wms",
+                        "params": {
+                            "layers": "Naturvardsverket:Kulturreservat_wms",
+                            "format": "image/png",
+                            "transparent": true
+                        },
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Administrativa Egenskaper",
+			"isGroupLayer": false,
+            "queryable": true,
+            "clickable": true,
+            "wfs": {
+                "url": "https://extmaptest.sundsvall.se/geoserver/wfs",
+                "featureType": "AdministrativaEgenskaper_yta",
+                "featurePrefix": "RIGES"
+            },
+            "metadata": {
+                "attributes": {
+                    "CATEGORY": {
+                        "alias": "Kategori"
+                    },
+                    "DESCRIPTIO": {
+                        "alias": "Formulering"
+                    },
+                    "EXCEPTION": {
+                        "alias": "Undantag"
+                    },
+                    "FREE_TEXT": {
+                        "alias": "Fri text"
+                    },
+                    "REMARK": {
+                        "alias": "Kommentar"
+                    }
+                }
+            }
+        },
+        {
+            "name": "Egenskapsbestämmelser, linje",
+			"isGroupLayer": false,
+            "queryable": true,
+            "clickable": true,
+            "wfs": {
+                "url": "https://extmaptest.sundsvall.se/geoserver/wfs",
+                "featureType": "EgenskapsBestammelser_linje",
+                "featurePrefix": "RIGES"
+            }
+        }
+    ],
+    "resolutions": [
+        280,
+        140,
+        70,
+        28,
+        14,
+        7,
+        4.2,
+        2.8,
+        1.4,
+        0.56,
+        0.28,
+        0.14,
+        0.112,
+		0.056
+    ],
+    "units": "m",
+    "projection": "EPSG:3006",
+    "username": "riges",
+    "options": null,
+    "search": {
+        "searchEstates": {
+            "options": {
+                "municipalities": [
+                    "Sundsvall"
+                ]
+            }
+        },
+        "searchAddresses": {
+            "options": {
+                "municipalities": [
+                    "Sundsvall"
+                ]
+            }
+        },
+        "searchPlacenames": {
+            "options": {
+                "municipalities": [
+                    "2281"
+                ]
+            }
+        },
+        "searchES": {
+        	"detaljplan": true
+        }
+    },
+    "isPublic": true
+}
