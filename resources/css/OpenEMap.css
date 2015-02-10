@@ -26,6 +26,15 @@ ul, li {
 .x-grid-with-row-lines .x-grid-td {
     border-bottom-width: 1px;
 }
+.x-grid-cell-inner-treecolumn {
+    border-bottom-width: 0px;
+}
+.x-tree-icon-parent {
+    width: 0px;
+}
+.x-tree-icon-leaf {
+    width: 0px;
+}
 
 /* Action icons */
 .action-fullextent {
