@@ -90,9 +90,10 @@ Ext.define('OpenEMap.view.layer.Add' ,{
         this.store = Ext.create('OpenEMap.data.GroupedLayerTree');
         
         Ext.Ajax.request({
-            url: OpenEMap.basePathProxy + OpenEMap.wmsURLs.url + '?service=WMS&request=GetCapabilities',
+            url: OpenEMap.basePathProxy + OpenEMap.wmsURLs.getCapabilities,
             success: this.parseCapabilities,
-            scope: this
+            scope: this,
+            disableCaching: false
         });
 
         this.callParent(arguments);      

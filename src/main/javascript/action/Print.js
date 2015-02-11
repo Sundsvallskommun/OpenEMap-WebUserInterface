@@ -79,18 +79,18 @@ Ext.define('OpenEMap.action.Print', {
                 
                 printProvider.dpis.data.items.forEach(function(d){
                 	var validDpi = false;
-                	if (d.data.name === '56'){
-                		validDpi = true;
-                		d.data.name = 'Låg';
-                	} 
-                	else if (d.data.name === '127'){
-                		validDpi = true;
-                		d.data.name = 'Medel';
-                	}
-                	else if (d.data.name === '254'){
-                		validDpi = true;
-                		d.data.name = 'Hög';
-                	} 
+                    if (d.data.name === '56'){
+                        validDpi = true;
+                        d.data.name = 'Låg (' +d.data.name + ' dpi)';
+                    } 
+                    else if (d.data.name === '127'){
+                        validDpi = true;
+                        d.data.name = 'Medel (' +d.data.name + ' dpi)';
+                    }
+                    else if (d.data.name === '254'){
+                        validDpi = true;
+                        d.data.name = 'Hög (' +d.data.name + ' dpi)';
+                    } 
                 });
                 
                 
