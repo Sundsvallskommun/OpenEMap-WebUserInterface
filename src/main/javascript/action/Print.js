@@ -24,7 +24,7 @@ Ext.define('OpenEMap.action.Print', {
         var mapPanel = config.mapPanel;
         var printExtent = mapPanel.plugins[0];
         var printProvider = printExtent.printProvider;
-        printProvider.customParams = {attribution: config.mapPanel.config.attribution.trim()};
+        printProvider.customParams = {attribution: config.mapPanel.config.attribution.trim(), mapTitle: ''};
         var printDialog = null;
         var page = null;
 
@@ -124,6 +124,18 @@ Ext.define('OpenEMap.action.Print', {
                             labelWidth : 120
                         },
                         items : [ {
+                            xtype : 'textfield',
+                            fieldLabel: 'Rubrik',
+                            valueField: 'mapTitle',
+                            itemId : 'mapTitle',
+                            queryMode: 'local',
+                            value: printProvider.customParams.mapTitle,
+                            listeners: {
+                                change: function(textfield){
+                                    printProvider.customParams.mapTitle = textfield.value;
+                                }
+                            }
+                        },{
                             xtype : 'combo',
                             fieldLabel: 'Pappersformat',
                             store : printProvider.layouts,
