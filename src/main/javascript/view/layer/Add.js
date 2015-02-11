@@ -131,6 +131,7 @@ Ext.define('OpenEMap.view.layer.Add' ,{
                 'clickable': layer.queryable,
                 'isGroupLayer': false,
                 'visibility': true,
+                'metadataURL': layer.metadataURLs.length > 0 ? layer.metadataURLs[0] : null,
                 'wms':{
                     'url': OpenEMap.wmsURLs.url,
                     'params': {
@@ -139,7 +140,8 @@ Ext.define('OpenEMap.view.layer.Add' ,{
                         'transparent': true
                     },
                     'options': {
-                        'isBaseLayer': false
+                        'isBaseLayer': false,
+                        'visibility': true
                     }
                 }
             };
