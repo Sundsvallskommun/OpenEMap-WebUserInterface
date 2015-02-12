@@ -314,7 +314,7 @@ Ext.define('OpenEMap.config.Parser', {
             layer.layer.queryable = layer.queryable ? layer.queryable : false;
         }
         // Do the node have sublayers, iterate over them
-        if(layer.layers) {
+        if(layer.layers && (Object.prototype.toString.call(layer.layers) === '[object Array]') && layer.layers.length > 0) {
             layer.isGroupLayer = true;
             layer.expanded = layer.expanded === undefined ? true : layer.expanded;
             layer.layers.forEach(arguments.callee, this);

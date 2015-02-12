@@ -59,6 +59,7 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
             var layerCfg = {
                 name: node.get('name'),
                 isGroupLayer: node.get('isGroupLayer'),
+                expanded: node.get('expanded'),
                 queryable: node.get('queryable'),
                 clickable: node.get('clickable'),
                 wms: typeof node.get('wms') === 'string' ? {} : node.get('wms'),

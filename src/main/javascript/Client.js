@@ -516,7 +516,11 @@ Ext.apply(OpenEMap, {
         /**
          * URL to be used when WMS layer has been added to config
          */
-        url: 'https://extmaptest.sundsvall.se/geoserver/wms'
+        url: 'https://extmaptest.sundsvall.se/geoserver/wms',
+        /**
+         * URL to getcapabilities document. Must include request parameter (eg. https://extmap.sundsvall.se/geoserver/wms?request=GetCapabilities&version=1.1.1) 
+         */
+        getCapabilities: 'https://extmaptest.sundsvall.se/getcapabilities/wms.xml'
     },
 
     /**

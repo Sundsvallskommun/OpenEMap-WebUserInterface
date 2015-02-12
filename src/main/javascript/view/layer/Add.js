@@ -90,9 +90,10 @@ Ext.define('OpenEMap.view.layer.Add' ,{
         this.store = Ext.create('OpenEMap.data.GroupedLayerTree');
         
         Ext.Ajax.request({
-            url: OpenEMap.basePathProxy + OpenEMap.wmsURLs.url + '?service=WMS&request=GetCapabilities',
+            url: OpenEMap.basePathProxy + OpenEMap.wmsURLs.getCapabilities,
             success: this.parseCapabilities,
-            scope: this
+            scope: this,
+            disableCaching: false
         });
 
         this.callParent(arguments);      
@@ -130,6 +131,7 @@ Ext.define('OpenEMap.view.layer.Add' ,{
                 'clickable': layer.queryable,
                 'isGroupLayer': false,
                 'visibility': true,
+                'metadataURL': layer.metadataURLs.length > 0 ? layer.metadataURLs[0] : null,
                 'wms':{
                     'url': OpenEMap.wmsURLs.url,
                     'params': {
@@ -138,7 +140,8 @@ Ext.define('OpenEMap.view.layer.Add' ,{
                         'transparent': true
                     },
                     'options': {
-                        'isBaseLayer': false
+                        'isBaseLayer': false,
+                        'visibility': true
                     }
                 }
             };

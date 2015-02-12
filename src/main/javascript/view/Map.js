@@ -335,13 +335,9 @@ Ext.define('OpenEMap.view.Map' ,{
         
         var searchStyle = {
                 "Point": {
-                    pointRadius: 4,
-                    graphicName: "square",
-                    fillColor: "#ffffff",
-                    fillOpacity: 1,
-                    strokeWidth: 1,
-                    strokeOpacity: 1,
-                    strokeColor: "#2969bf"
+                    externalGraphic: "../resources/images/point_added.png", 
+                    graphicWidth: 15, 
+                    graphicOpacity: 1
                 },
                 "Line": {
                     strokeWidth: 3,

@@ -24,7 +24,7 @@ Ext.define('OpenEMap.action.Print', {
         var mapPanel = config.mapPanel;
         var printExtent = mapPanel.plugins[0];
         var printProvider = printExtent.printProvider;
-        printProvider.customParams = {attribution: config.mapPanel.config.attribution.trim()};
+        printProvider.customParams = {attribution: config.mapPanel.config.attribution.trim(), mapTitle: ''};
         var printDialog = null;
         var page = null;
 
@@ -79,18 +79,18 @@ Ext.define('OpenEMap.action.Print', {
                 
                 printProvider.dpis.data.items.forEach(function(d){
                 	var validDpi = false;
-                	if (d.data.name === '56'){
-                		validDpi = true;
-                		d.data.name = 'Låg';
-                	} 
-                	else if (d.data.name === '127'){
-                		validDpi = true;
-                		d.data.name = 'Medel';
-                	}
-                	else if (d.data.name === '254'){
-                		validDpi = true;
-                		d.data.name = 'Hög';
-                	} 
+                    if (d.data.name === '56'){
+                        validDpi = true;
+                        d.data.name = 'Låg (' +d.data.name + ' dpi)';
+                    } 
+                    else if (d.data.name === '127'){
+                        validDpi = true;
+                        d.data.name = 'Medel (' +d.data.name + ' dpi)';
+                    }
+                    else if (d.data.name === '254'){
+                        validDpi = true;
+                        d.data.name = 'Hög (' +d.data.name + ' dpi)';
+                    } 
                 });
                 
                 
@@ -124,6 +124,18 @@ Ext.define('OpenEMap.action.Print', {
                             labelWidth : 120
                         },
                         items : [ {
+                            xtype : 'textfield',
+                            fieldLabel: 'Rubrik',
+                            valueField: 'mapTitle',
+                            itemId : 'mapTitle',
+                            queryMode: 'local',
+                            value: printProvider.customParams.mapTitle,
+                            listeners: {
+                                change: function(textfield){
+                                    printProvider.customParams.mapTitle = textfield.value;
+                                }
+                            }
+                        },{
                             xtype : 'combo',
                             fieldLabel: 'Pappersformat',
                             store : printProvider.layouts,
