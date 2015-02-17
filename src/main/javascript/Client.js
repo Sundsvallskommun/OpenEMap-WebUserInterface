@@ -533,9 +533,9 @@ Ext.apply(OpenEMap, {
      * @property {Object} [wsUrls] WS paths to be used for AJAX requests
      */
     wsUrls: {
-        basePath:   	'/openemapadmin/',
-        configs:    	'configs',
-        adminconfigs: 	'adminconfigs',
+        basePath:   	'/openemapadmin',
+        configs:    	'/configs',
+        adminconfigs: 	'/adminconfigs',
         servers:    	'settings/servers',
         layers:     	'layers/layers',
         metadata:   	'geometadata/getmetadatabyid', 
