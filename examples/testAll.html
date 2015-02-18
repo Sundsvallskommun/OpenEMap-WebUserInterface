@@ -102,7 +102,8 @@
                        	}
                     });
     	          	mapClient.drawLayer.styleMap.styles['default'].addRules([labels]);
-			     	mapClient.toggleEdgeLabels();
+    	          	var edgeLabelAccuracy = 1;
+			     	mapClient.toggleEdgeLabels(mapClient.drawLayer.styleMap.styles['default'], edgeLabelAccuracy);
 
 		    	}
 		    });
