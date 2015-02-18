@@ -62,10 +62,21 @@ Ext.define('OpenEMap.view.SavedMapConfigs' ,{
             {
                 xtype: 'actioncolumn',
                 width: 40,
-                iconCls: 'action-remove',
+//                iconCls: 'action-remove',
                 tooltip: 'Ta bort',
+                renderer: function(value, meta){
+                	if (meta.record.get('isPublic')){
+                		return '<span class="" style="height: 0px; width: 0px"></span>';
+                	}
+               		return '<span class="action-remove"></span>';
+//            		return '<img role="button" class="x-action-col-icon x-action-col-0" src="/openemap-admin/font-awesome/black/png/16/table.png" />';
+                },
                 handler: function(grid, rowIndex, cellIndex, column, e, record, tr) {
                     //TODO! change to proper rest store delete
+                    if (record.get('isPublic')) {
+                    	return false;
+                    };
+                    
                     Ext.MessageBox.confirm('Ta bort', 'Vill du verkligen ta bort konfigurationen?', function(btn) {
                         if(btn === 'yes') {
                             var store = grid.getStore();

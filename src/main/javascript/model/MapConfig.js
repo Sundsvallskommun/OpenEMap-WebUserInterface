@@ -23,6 +23,8 @@ Ext.define('OpenEMap.model.MapConfig' ,{
 
     fields: [ 
     	'configId', 
-    	'name' 
+    	'name',
+    	'isPublic',
+    	'username' 
     ]
 });
