@@ -24,7 +24,8 @@ Ext.define('OpenEMap.view.ZoomTools', {
     border: false,
     getTools : function() {
         var oep = Ext.util.CSS.getRule('.oep-tools');
-        var scale = oep ? 'large' : 'medium';
+//      var scale = oep ? 'large' : 'medium';
+        var scale = 'large';
         var margin = oep ? '5 0 5 0' : '5 0 5 8';
         
         var pile = [];
