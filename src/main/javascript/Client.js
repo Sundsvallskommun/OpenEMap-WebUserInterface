@@ -286,7 +286,7 @@ Ext.define('OpenEMap.Client', {
 		if (!epsg) {
 			epsg = 'EPSG:3006';
 		} 
-		if (!proj4(epsg))
+		if (!Proj4js.defs[epsg])
 		{
 			Ext.Error.raise('Unknown coordinate system: ' + epsg + '\nAdd coordinate system using proj4.defs(\'Name\', \'Definition\')');
 		}
