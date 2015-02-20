@@ -124,6 +124,25 @@
     	          	mapClient.drawLayer.styleMap.styles['default'].addRules([labels]);
 			     	mapClient.toggleEdgeLabels();
 
+					// Create popup objects in map based on GeoJSON
+					var geojson = '';
+					geojson += '{';
+					geojson += '  "type": "FeatureCollection",';
+					geojson += '  "features": ';
+					geojson += '  [';
+					geojson += '    { ';
+					geojson += '      "type": "Feature",';
+					geojson += '      "geometry": {"type": "Point", "coordinates": [618186.0, 6919295.0]},';
+					geojson += '      "properties":';
+					geojson += '      {';
+					geojson += '        "id": 1,';
+					geojson += '        "popupTitle": "Rastsugan",';
+					geojson += '        "popupText": "Samling 08.30"';
+					geojson += '      }';
+					geojson += '    }';
+					geojson += '  ]';
+					geojson += '}';
+					var popupLayer = mapClient.addPopupLayer(geojson, 'Popup layer example', 'id', 'popupText', 'Prefix', '', 'popupTitle', mapClient.drawLayer.styleMap, 'EPSG:3006');
 		    	}
 		    });
 		}

@@ -47,7 +47,7 @@
 	    </script> 
 	    
 	    <script type="text/javascript" src="../../../libs/es5-shim.min.js"></script>
-	    <script type="text/javascript" src="popupLayerGeojson.js"></script>
+	    <script type="text/javascript" src="APT.js"></script>
 	    <script type="text/javascript" src="popupLayerStyles.js"></script>
 	
 
@@ -76,7 +76,7 @@
 						});
 						
 						// Create objects in map based on GeoJSON, see brandlarmGeojson.js with style specified in brandlarmStyles.js
-						popupLayer = mapClient.addPopupLayer(geojson, 'Popup layer example', 'id', 'popupText', '', '<a href="javascript:alert(\'Suffix link!\');">Suffix</a>', 'popupTitle', stylemapGraphics, 'EPSG:3006', true);
+						popupLayer = mapClient.addPopupLayer(geojson, 'Popup layer example', 'id', 'popupText', '', '', 'popupTitle', stylemapGraphics, 'EPSG:3006', true);
 
 						// Listen to event for feature selected
 		               	mapClient.map.events.register('popupfeatureselected', this, function(arg) {
@@ -86,7 +86,7 @@
 		               	mapClient.map.events.register('popupfeatureunselected', this, function(arg) {
 		               		console.log('Feature in layer ' + arg.layer.name + ' with id ' + arg.featureid + ' was unselected.');
 	               		});
-	               		// Showing brandlarm with id=1
+	               		// Showing object with id=1
 						mapClient.showPopupFeature(popupLayer, 5, true);
 					}
 				});
