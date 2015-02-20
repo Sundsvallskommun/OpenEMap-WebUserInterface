@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>Gruppaktivitet 2015-03-18 - Projekt & förvaltning</title>
+		<meta name="description" content="">
+		<meta name="author" content="Anders Erlandsson, Sundsvalls kommun" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	    <link rel="stylesheet" type="text/css" href="https://kartatest.e-tjansteportalen.se/libs/ext-theme-oep/oepTheme-all.css">
+	    <link rel="stylesheet" type="text/css" href="../resources/css/OpenEMap.css">
+	
+	    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/libs/OpenLayers-2.13.1/lib/OpenLayers.js"></script>  
+	    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/libs/ext-4.2.1/ext-all.js"></script>
+	    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/libs/ext-4.2.1/ext-theme-neptune.js"></script>
+	    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/libs/ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
+	    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/libs/proj4js/proj4-compressed.js"></script>
+	    <script type="text/javascript" src="../proj4_defs.js"></script>
+	    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/libs/geoext-2.0.2-rc.1-all.js"></script> 
+	    <script type="text/javascript" src="../OpenEMap-1.6.0-rc.2-min.js"></script>
+
+	    <script type="text/javascript" src="APTGeojson.js"></script>
+	    <script type="text/javascript" src="popupLayerStyles.js"></script>
+	
+	    <script type="text/javascript">
+	    var popupLayer = null;
+	    
+		Ext.onReady(function() {
+		    mapClient = Ext.create('OpenEMap.Client');
+			function init(name) {
+				Ext.Ajax.request({
+					url : name,
+					success : function(response) {
+						var config = Ext.decode(response.responseText);
+	
+						var gui = {
+							map : {
+								renderTo : 'map'
+							},
+							zoomTools : {}
+						};
+	
+						mapClient.destroy();
+						mapClient.configure(config, {
+							gui : gui
+						});
+						
+						// Create objects in map based on GeoJSON, see brandlarmGeojson.js with style specified in brandlarmStyles.js
+						var popupLayer = mapClient.addPopupLayer(geojson, 'Popup layer example', 'id', 'popupText', '', '', 'popupTitle', stylemapGraphics, 'EPSG:3006', true);
+
+						// Listen to event for feature selected
+		               	mapClient.map.events.register('popupfeatureselected', this, function(arg) {
+		               		console.log('Feature in layer ' + arg.layer.name + ' with id ' + arg.featureid + ' was selected.');
+	               		});
+						// Listen to event for feature unselected
+		               	mapClient.map.events.register('popupfeatureunselected', this, function(arg) {
+		               		console.log('Feature in layer ' + arg.layer.name + ' with id ' + arg.featureid + ' was unselected.');
+	               		});
+	               		// Showing brandlarm with id=1
+						mapClient.showPopupFeature(popupLayer, 1);
+					}
+				});
+			}
+			
+			init('popupLayerConfig.json');
+		});
+	    </script>
+	</head>
+	<body>
+    <div id="map" style="position: absolute; width: 100%; height: 100%" class="popup"></div>
+	</body>
+</html>
