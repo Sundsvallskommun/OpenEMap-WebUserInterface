@@ -9,19 +9,19 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	    <link rel="stylesheet" type="text/css" href="https://kartatest.e-tjansteportalen.se/libs/ext-theme-oep/oepTheme-all.css">
-	    <link rel="stylesheet" type="text/css" href="../resources/css/OpenEMap.css">
+	    <link rel="stylesheet" type="text/css" href="https://kartatest.e-tjansteportalen.se/OpenEMap-1.6.0-rc.2/resources/css/OpenEMap.css">
 	
 	    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/libs/OpenLayers-2.13.1/lib/OpenLayers.js"></script>  
 	    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/libs/ext-4.2.1/ext-all.js"></script>
 	    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/libs/ext-4.2.1/ext-theme-neptune.js"></script>
 	    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/libs/ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
 	    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/libs/proj4js/proj4-compressed.js"></script>
-	    <script type="text/javascript" src="../proj4_defs.js"></script>
+	    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/OpenEMap-1.6.0-rc.2/proj4_defs.js"></script>
 	    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/libs/geoext-2.0.2-rc.1-all.js"></script> 
-	    <script type="text/javascript" src="../OpenEMap-1.6.0-rc.2-min.js"></script>
+	    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/OpenEMap-1.6.0-rc.2-min.js"></script>
 
-	    <script type="text/javascript" src="APTGeojson.js"></script>
-	    <script type="text/javascript" src="popupLayerStyles.js"></script>
+	    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/OpenEMap-1.6.0-rc.2/examples/APTGeojson.js"></script>
+	    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/OpenEMap-1.6.0-rc.2/examples/popupLayerStyles.js"></script>
 	
 	    <script type="text/javascript">
 	    var popupLayer = null;
@@ -47,23 +47,15 @@
 						});
 						
 						// Create objects in map based on GeoJSON, see brandlarmGeojson.js with style specified in brandlarmStyles.js
-						var popupLayer = mapClient.addPopupLayer(geojson, 'Popup layer example', 'id', 'popupText', '', '', 'popupTitle', stylemapGraphics, 'EPSG:3006', true);
+						var popupLayer = mapClient.addPopupLayer(geojson, 'Popup layer example', 'id', 'popupText', '', '', 'popupTitle', stylemapGraphics, 'EPSG:3006', false);
 
-						// Listen to event for feature selected
-		               	mapClient.map.events.register('popupfeatureselected', this, function(arg) {
-		               		console.log('Feature in layer ' + arg.layer.name + ' with id ' + arg.featureid + ' was selected.');
-	               		});
-						// Listen to event for feature unselected
-		               	mapClient.map.events.register('popupfeatureunselected', this, function(arg) {
-		               		console.log('Feature in layer ' + arg.layer.name + ' with id ' + arg.featureid + ' was unselected.');
-	               		});
-	               		// Showing brandlarm with id=1
+	               		// Showing Omklädningsrum with id=1
 						mapClient.showPopupFeature(popupLayer, 1);
 					}
 				});
 			}
 			
-			init('popupLayerConfig.json');
+			init('https://kartatest.e-tjansteportalen.se/OpenEMap-1.6.0-rc.2/examples/APTConfig.json');
 		});
 	    </script>
 	</head>
