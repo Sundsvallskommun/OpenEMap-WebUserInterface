@@ -8,6 +8,7 @@
 		<meta name="author" content="Anders Erlandsson, Sundsvalls kommun" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+
 	    <link rel="stylesheet" type="text/css" href="https://kartatest.e-tjansteportalen.se/libs/ext-theme-oep/oepTheme-all.css">
 	    <link rel="stylesheet" type="text/css" href="https://kartatest.e-tjansteportalen.se/OpenEMap-1.6.0-rc.2/resources/css/OpenEMap.css">
 	
@@ -18,13 +19,38 @@
 	    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/libs/proj4js/proj4-compressed.js"></script>
 	    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/OpenEMap-1.6.0-rc.2/proj4_defs.js"></script>
 	    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/libs/geoext-2.0.2-rc.1-all.js"></script> 
-	    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/OpenEMap-1.6.0-rc.2-min.js"></script>
+	    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/OpenEMap-1.6.0-rc.2/OpenEMap-1.6.0-rc.2-min.js"></script>
 
 	    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/OpenEMap-1.6.0-rc.2/examples/APTGeojson.js"></script>
 	    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/OpenEMap-1.6.0-rc.2/examples/popupLayerStyles.js"></script>
-	
+
+<!--
+	    <link rel="stylesheet" type="text/css" href="../resources/ext-theme-oep/oepTheme-all.css">
+	    <link rel="stylesheet" type="text/css" href="../resources/css/OpenEMap.css">
+	    
+	    <script type="text/javascript" src="../bower_components/OpenLayers-2.13.1/lib/OpenLayers.js"></script>
+	    <script type="text/javascript" src="../bower_components/ext-4.2.1/bootstrap.js"></script>
+	    <script type="text/javascript" src="../bower_components/ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
+	    <script type="text/javascript" src="../bower_components/ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
+	    <script type="text/javascript" src="../bower_components/proj4/dist/proj4-compressed.js"></script>
+	    <script type="text/javascript" src="../proj4_defs.js"></script>
+	    
+	    <script type="text/javascript" src="APTGeojson.js"></script>
+	    <script type="text/javascript" src="APTLayerStyles.js"></script>
+
 	    <script type="text/javascript">
-	    var popupLayer = null;
+		  Ext.Loader.setConfig({
+		    disableCaching: false,
+		    paths: {
+		        OpenEMap: '../src/main/javascript',
+		        GeoExt: '../bower_components/geoext2/src/GeoExt'
+		    }
+		  });
+	    </script> 
+	    <script type="text/javascript" src="../../libs/es5-shim.min.js"></script>
+	    <script type="text/javascript" src="../src/main/javascript/Client.js"></script>
+-->
+	    <script type="text/javascript">
 	    
 		Ext.onReady(function() {
 		    mapClient = Ext.create('OpenEMap.Client');
@@ -50,12 +76,12 @@
 						var popupLayer = mapClient.addPopupLayer(geojson, 'Popup layer example', 'id', 'popupText', '', '', 'popupTitle', stylemapGraphics, 'EPSG:3006', false);
 
 	               		// Showing Omklädningsrum with id=1
-						mapClient.showPopupFeature(popupLayer, 1);
+						mapClient.showPopupFeature(popupLayer, 2);
 					}
 				});
 			}
 			
-			init('https://kartatest.e-tjansteportalen.se/OpenEMap-1.6.0-rc.2/examples/APTConfig.json');
+			init('APTConfig.json');
 		});
 	    </script>
 	</head>
