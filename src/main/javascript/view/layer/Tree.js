@@ -83,13 +83,16 @@ Ext.define('OpenEMap.view.layer.Tree' ,{
                         url = legend.getLegendUrl(node.raw.wms.params.LAYERS);
                     }
                     if (url && url.length > 0) {
-                        var html = '<div><img src="' + url + '"></div>';
+                        var img = Ext.create('Ext.Img', {
+                            src: url,
+                            shrinkWrap: 3
+                        });
                         var tip = Ext.create('Ext.tip.ToolTip', {
                             //target: el,
                             //anchorToTarget: true,
-                            title: 'Legend',
+                            title: 'Legend ' + node.raw.name,
                             closable: true,
-                            html: html
+                            items: img
                         });
                         tip.showBy(el);
                     }

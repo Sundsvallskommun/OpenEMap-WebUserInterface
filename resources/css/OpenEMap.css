@@ -41,6 +41,18 @@ ul, li {
     vertical-align: top;
 }
 
+.x-tip {
+  width: auto !important;
+}
+ 
+.x-tip-body {
+  width: auto !important;
+}
+ 
+.x-tip-body span {
+  width: auto !important;
+}
+
 /* Action icons */
 .action-fullextent {
 	background-image: url("../images/oep-tools-icons/zoom_to_extent.png");
