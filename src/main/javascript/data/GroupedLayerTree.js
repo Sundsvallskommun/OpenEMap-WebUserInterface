@@ -48,7 +48,7 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
         config = Ext.apply({}, config);
         this.callParent([config]);
     },
-    
+        
     /**
     * Returns all layers as OpenEMap layer configuration tree.
     * @return {Object} layerConfig  OpenEMap layer configuration
@@ -65,6 +65,7 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
                 wfs: typeof node.get('wfs') === 'string' ? {} : node.get('wfs'),
                 layer: includeLayerRef ? node.get('layer') : undefined,
                 metadata: typeof node.get('metadata') === 'string' ? {} : node.get('metadata'),
+                //hideInLegend: false,
                 layers: []
             };
 
@@ -107,7 +108,7 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
                 url = legend.getLegendUrl(appendNode.raw.wms.params.LAYERS);
             }
             if (url && url.length > 0) {
-                appendNode.set('text', '<div style="display:inline-block;width:20px;height:20px;margin-right:2px;overflow:hidden;"><img src="' + url + '" style="height:20px;"></div>' + appendNode.get('text')); 
+                appendNode.set('text', '<div style="display:inline-block;width:20px;height:20px;margin-right:2px;overflow:hidden;"><img class="legendimg" src="' + url + '" style="height:20px;"></div>' + appendNode.get('text')); 
             }
         }
         
