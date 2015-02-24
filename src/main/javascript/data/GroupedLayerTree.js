@@ -93,25 +93,29 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
             return false;
         }
         
-        // create inline legend
-        var layer = appendNode.raw.layer;
-        if (layer) {
-            var url;
-            if (appendNode.raw.legendURL !== undefined) {
-                url = layer.legendURL;
-            } else if (appendNode.raw.wms && appendNode.raw.wms.params.LAYERS) {
-                var layerRecord = GeoExt.data.LayerModel.createFromLayer(layer);
-                var legend = Ext.create('GeoExt.container.WmsLegend', {
-                    layerRecord: layerRecord
-                });
-                url = legend.getLegendUrl(appendNode.raw.wms.params.LAYERS);
-            }
-            if (url && url.length > 0) {
-                appendNode.set('text', '<div style="display:inline-block;width:20px;height:20px;margin-right:2px;overflow:hidden;"><img class="legendimg" src="' + url + '" style="height:20px;"></div>' + appendNode.get('text')); 
-            }
-        }
+        //this.createInlineLegend(appendNode);
         
         return true;
+    },
+    
+    createInlineLegend: function(node) {
+        if (!node.raw.layer) {
+            return;
+        }
+        var layer = node.raw.layer;
+        var url;
+        if (node.raw.legendURL !== undefined) {
+            url = layer.legendURL;
+        } else if (node.raw.wms && node.raw.wms.params.LAYERS) {
+            var layerRecord = GeoExt.data.LayerModel.createFromLayer(layer);
+            var legend = Ext.create('GeoExt.container.WmsLegend', {
+                layerRecord: layerRecord
+            });
+            url = legend.getLegendUrl(node.raw.wms.params.LAYERS);
+        }
+        if (url && url.length > 0) {
+            node.set('text', '<div style="display:inline-block;width:20px;height:20px;margin-right:2px;overflow:hidden;"><img class="legendimg" src="' + url + '" style="height:20px;"></div>' + node.get('text')); 
+        }
     },
 
     /**
@@ -137,24 +141,35 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
         if(!this._inserting) {
             this._inserting = true;
             
-            // Add this node layers and subnodes to map.
-            node.cascadeBy(function(subnode) {
-                var layer = subnode.get('layer');
-
-                // Add getLayer function to support GeoExt
-                subnode.getLayer = function() {
-                    return this.get('layer');
-                };
-
-                if(layer && layer !== '' && this.map) {
-                    var mapLayer = this.map.getLayer(layer);
-                    if(mapLayer === null && layer && layer.displayInLayerSwitcher === true) {
-                        this.map.addLayer(layer);
-                    }
+            var isFromAdd = node.getOwnerTree() instanceof OpenEMap.view.layer.Add;
+           
+            if (!isFromAdd) {
+                // use from add internal checked status
+                if (node.raw.checked_) {
+                    node.set('checked', node.raw.checked_);
                 }
-            }, this);
+            
+                // Add this node layers and subnodes to map.
+                node.cascadeBy(function(subnode) {
+                    var layer = subnode.get('layer');
 
-            this.reorderLayersOnMap();
+                    // Add getLayer function to support GeoExt
+                    subnode.getLayer = function() {
+                        return this.get('layer');
+                    };
+
+                    if(layer && layer !== '' && this.map) {
+                        var mapLayer = this.map.getLayer(layer);
+                        if(mapLayer === null && layer && layer.displayInLayerSwitcher === true) {
+                            this.map.addLayer(layer);
+                        }
+                    }
+                }, this);
+            
+                this.reorderLayersOnMap();
+                
+                this.createInlineLegend(node);
+            }
             
             delete this._inserting;
         }
