@@ -65,7 +65,6 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
                 wfs: typeof node.get('wfs') === 'string' ? {} : node.get('wfs'),
                 layer: includeLayerRef ? node.get('layer') : undefined,
                 metadata: typeof node.get('metadata') === 'string' ? {} : node.get('metadata'),
-                //hideInLegend: false,
                 layers: []
             };
 
@@ -146,8 +145,6 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
                 subnode.getLayer = function() {
                     return this.get('layer');
                 };
-                // Add WMS legened 
-                this.addWMSLegend(subnode);
 
                 if(layer && layer !== '' && this.map) {
                     var mapLayer = this.map.getLayer(layer);
@@ -206,43 +203,6 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
             }, this);
         }
     },
-
-    /**
-    * Adds a WMS-legend to a node
-    * @param {Ext.data.Model} node
-    * @return {Ext.data.Model} node
-    */
-    addWMSLegend: function(node) {
-        var layer = node.get('layer');
-    
-        if (layer) {
-            if (Ext.isIE9) return node;
-            if (layer.legendURL) {
-                node.set('legendURL', layer.legendURL);
-                node.gx_urllegend = Ext.create('GeoExt.container.UrlLegend', {
-                    layerRecord: node,
-                    showTitle: false,
-                    hidden: true,
-                    deferRender: true,
-                    // custom class for css positioning
-                    // see tree-legend.html
-                    cls: "legend"
-                });
-            } else if (layer.CLASS_NAME == "OpenLayers.Layer.WMS") {
-                node.gx_wmslegend = Ext.create('GeoExt.container.WmsLegend', {
-                    layerRecord: node,
-                    showTitle: false,
-                    hidden: true,
-                    deferRender: true,
-                    // custom class for css positioning
-                    // see tree-legend.html
-                    cls: "legend"
-                });
-            }
-        }
-        return node;
-    },
-
     /**
      * Unbind this store from the map it is currently bound.
      */
