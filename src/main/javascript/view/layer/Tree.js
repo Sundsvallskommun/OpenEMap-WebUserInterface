@@ -68,8 +68,6 @@ Ext.define('OpenEMap.view.layer.Tree' ,{
         });
 
         this.on('cellclick', function(tree, td, cellIndex, node, el, columnIndex, e) {
-            var el = Ext.get(el).select('div').elements[1];
-            
             if (Ext.get(e.browserEvent.target).hasCls('legendimg')) {
                 // create inline legend
                 var layer = node.raw.layer;
