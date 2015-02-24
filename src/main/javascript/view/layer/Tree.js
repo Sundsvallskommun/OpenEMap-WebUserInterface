@@ -83,11 +83,11 @@ Ext.define('OpenEMap.view.layer.Tree' ,{
                 img.getEl().on('load', function() {
                     tip.doLayout();
                 });
-            }
+            };
             
             // function to get legend url
             // TODO: could share code with inline legend creation in GroupedLayerTree
-            var getLegendUrl = function(layer) {
+            var getLegendUrl = function(node) {
                 var layer = node.raw.layer;
                 var url;
                 if (node.raw.legendURL !== undefined) {
@@ -100,14 +100,14 @@ Ext.define('OpenEMap.view.layer.Tree' ,{
                     url = legend.getLegendUrl(node.raw.wms.params.LAYERS);
                 }
                 return url;
-            }
+            };
         
             // Get target element in an IE9 compatible way
             var target = e.browserEvent.target || e.browserEvent.srcElement;
             
             // check if target is the inline legend image
             if (Ext.get(target).hasCls('legendimg') && node.raw.layer) {
-                var url = getLegendUrl(node.raw.layer);
+                var url = getLegendUrl(node);
                 if (url && url.length > 0) {
                     createLegend(url);
                 }
