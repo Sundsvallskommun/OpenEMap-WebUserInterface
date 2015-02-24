@@ -22,7 +22,7 @@
 	    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/OpenEMap-1.6.0-rc.2/OpenEMap-1.6.0-rc.2-min.js"></script>
 
 	    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/OpenEMap-1.6.0-rc.2/examples/APTGeojson.js"></script>
-	    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/OpenEMap-1.6.0-rc.2/examples/popupLayerStyles.js"></script>
+	    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/OpenEMap-1.6.0-rc.2/examples/APTLayerStyles.js"></script>
 
 <!--
 	    <link rel="stylesheet" type="text/css" href="../resources/ext-theme-oep/oepTheme-all.css">
@@ -50,6 +50,7 @@
 	    <script type="text/javascript" src="../../libs/es5-shim.min.js"></script>
 	    <script type="text/javascript" src="../src/main/javascript/Client.js"></script>
 -->
+
 	    <script type="text/javascript">
 	    
 		Ext.onReady(function() {
@@ -76,7 +77,7 @@
 						var popupLayer = mapClient.addPopupLayer(geojson, 'Popup layer example', 'id', 'popupText', '', '', 'popupTitle', stylemapGraphics, 'EPSG:3006', false);
 
 	               		// Showing Omklädningsrum with id=1
-						mapClient.showPopupFeature(popupLayer, 2);
+//						mapClient.showPopupFeature(popupLayer, 2);
 					}
 				});
 			}

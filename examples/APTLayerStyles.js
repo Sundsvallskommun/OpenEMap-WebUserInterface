@@ -27,15 +27,15 @@ var context = {
     getSymbol: function(feature) {
 		switch(feature.attributes["id"]) {
 		    case 1:
-		    	return '../resources/images/shower.jpg';
+		    	return '../resources/images/IconShower.png';
 		    case 2:
-		    	return '../resources/images/cabin.jpg';
+		    	return '../resources/images/IconHouse.png';
 		    case 3:
-		    	return '../resources/images/parking.png';
+		    	return '../resources/images/IconParking.png';
 		    case 4:
-		    	return '../resources/images/skiing.png';
+		    	return '../resources/images/IconSkier.png';
 		    default:
-		    	return '../resources/images/point_added.png';
+		    	return '../resources/images/IconSkier.png';
 		}
 	}   	
 }
@@ -47,7 +47,7 @@ var templateDefault = {
 }
 var templateSelect = {
     externalGraphic: "${getSymbol}",
-	graphicWidth: 50, 
+	graphicWidth: 30, 
 	graphicOpacity: 1
 }
 var styleDefault = new OpenLayers.Style(templateDefault, {context: context});
