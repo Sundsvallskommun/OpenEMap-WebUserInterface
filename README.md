@@ -10,7 +10,7 @@ Based on Ext JS 4, GeoExt 2 and OpenLayers 2.13.1 and built as an Ext JS applica
 Integrate into HTML page using the following snippet:
 
 ```html
-    <link rel="stylesheet" type="text/css" href="/libs/ext-theme-oep/oepTheme-all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/ext-theme-oep/ext-theme-oep-all.css">
     <link rel="stylesheet" type="text/css" href="release/OpenEMap-1.2.0/resources/css/OpenEMap.css">  
     <script type="text/javascript" src="/libs/ext-4.2.1/ext-all.js"></script>
     <script type="text/javascript" src="/libs/ext-4.2.1/ext-theme-neptune.js"></script>
@@ -20,7 +20,7 @@ Integrate into HTML page using the following snippet:
     <script type="text/javascript" src="proj4_defs.js"></script> <!-- Definition of Swedish projections for Proj4js -->
     <script type="text/javascript" src="/libs/geoext-2.0.1-oemap-all.js"></script> <!-- OEMap specific build of geoext2, correcting problem with borderwidth for popup window. --> 
     <script type="text/javascript" src="/libs/es5-shim.min.js"></script>
-    <script type="text/javascript" src="release/OpenEMap-1.2.0/OpenEMap-1.2.0-all.js"></script>
+    <script type="text/javascript" src="OpenEMap-1.6.0-rc.2-min.js"></script>
     
     <script type="text/javascript">
 	Ext.onReady(function() {
