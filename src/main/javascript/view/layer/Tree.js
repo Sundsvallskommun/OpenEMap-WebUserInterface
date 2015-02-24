@@ -67,17 +67,35 @@ Ext.define('OpenEMap.view.layer.Tree' ,{
 
         });
 
-        this.on('cellclick', function(tree, td, cellIndex, node) {
-            // Add legend if node have a wms legend and the node isnt removed
-            if((node.gx_wmslegend || node.gx_urllegend) && node.store) {
-                var legend = node.gx_wmslegend || node.gx_urllegend;
-                if (legend.isHidden()) {
-                    if (!legend.rendered) {
-                        legend.render(td);
+        this.on('cellclick', function(tree, td, cellIndex, node, el, columnIndex, e) {
+            if (Ext.get(e.browserEvent.target).hasCls('legendimg')) {
+                // create inline legend
+                var layer = node.raw.layer;
+                if (layer) {
+                    var url;
+                    if (node.raw.legendURL !== undefined) {
+                        url = layer.legendURL;
+                    } else if (node.raw.wms && node.raw.wms.params.LAYERS) {
+                        var layerRecord = GeoExt.data.LayerModel.createFromLayer(layer);
+                        var legend = Ext.create('GeoExt.container.WmsLegend', {
+                            layerRecord: layerRecord
+                        });
+                        url = legend.getLegendUrl(node.raw.wms.params.LAYERS);
                     }
-                    legend.show();
-                } else {
-                    legend.hide();
+                    if (url && url.length > 0) {
+                        var img = Ext.create('Ext.Img', {
+                            src: url,
+                            shrinkWrap: 3
+                        });
+                        var tip = Ext.create('Ext.tip.ToolTip', {
+                            //target: el,
+                            //anchorToTarget: true,
+                            title: 'Legend ' + node.raw.name,
+                            closable: true,
+                            items: img
+                        });
+                        tip.showBy(el);
+                    }
                 }
             }
         });

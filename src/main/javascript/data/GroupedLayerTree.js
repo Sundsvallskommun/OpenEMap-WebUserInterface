@@ -48,7 +48,7 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
         config = Ext.apply({}, config);
         this.callParent([config]);
     },
-    
+        
     /**
     * Returns all layers as OpenEMap layer configuration tree.
     * @return {Object} layerConfig  OpenEMap layer configuration
@@ -108,7 +108,7 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
                 url = legend.getLegendUrl(appendNode.raw.wms.params.LAYERS);
             }
             if (url && url.length > 0) {
-                appendNode.set('text', '<div style="display:inline-block;width:20px;height:20px;margin-right:2px;overflow:hidden;"><img src="' + url + '" style="height:20px;"></div>' + appendNode.get('text')); 
+                appendNode.set('text', '<div style="display:inline-block;width:20px;height:20px;margin-right:2px;overflow:hidden;"><img class="legendimg" src="' + url + '" style="height:20px;"></div>' + appendNode.get('text')); 
             }
         }
         
@@ -146,8 +146,6 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
                 subnode.getLayer = function() {
                     return this.get('layer');
                 };
-                // Add WMS legened 
-                this.addWMSLegend(subnode);
 
                 if(layer && layer !== '' && this.map) {
                     var mapLayer = this.map.getLayer(layer);
@@ -206,43 +204,6 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
             }, this);
         }
     },
-
-    /**
-    * Adds a WMS-legend to a node
-    * @param {Ext.data.Model} node
-    * @return {Ext.data.Model} node
-    */
-    addWMSLegend: function(node) {
-        var layer = node.get('layer');
-    
-        if (layer) {
-            if (Ext.isIE9) return node;
-            if (layer.legendURL) {
-                node.set('legendURL', layer.legendURL);
-                node.gx_urllegend = Ext.create('GeoExt.container.UrlLegend', {
-                    layerRecord: node,
-                    showTitle: false,
-                    hidden: true,
-                    deferRender: true,
-                    // custom class for css positioning
-                    // see tree-legend.html
-                    cls: "legend"
-                });
-            } else if (layer.CLASS_NAME == "OpenLayers.Layer.WMS") {
-                node.gx_wmslegend = Ext.create('GeoExt.container.WmsLegend', {
-                    layerRecord: node,
-                    showTitle: false,
-                    hidden: true,
-                    deferRender: true,
-                    // custom class for css positioning
-                    // see tree-legend.html
-                    cls: "legend"
-                });
-            }
-        }
-        return node;
-    },
-
     /**
      * Unbind this store from the map it is currently bound.
      */
