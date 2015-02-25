@@ -184,9 +184,18 @@ Ext.define('OpenEMap.Client', {
      * Enable additional labels for polygon edges
      * NOTE: deactivation not yet implemented
      * @param style hash of style properties that will override a default label style
+     * @param {number} [accuracy=2] number of digits for edge labels 
      */
-    toggleEdgeLabels: function(style) {
+    toggleEdgeLabels: function(style, accuracy) {
         var styleOverride = style || {};
+		function isInt(value) {
+		  return !isNaN(value) && 
+		         parseInt(Number(value)) == value && 
+		         !isNaN(parseInt(value, 10));
+		}
+        if (!isInt(accuracy)) {
+        	accuracy = 2;
+        }
         
         var drawLabels = function() {
             var createEdgeLabels = function(feature) {
@@ -202,7 +211,7 @@ Ext.define('OpenEMap.Client', {
                     var lineString = new OpenLayers.Geometry.LineString([start, end]);
                     var centroid = lineString.getCentroid({weighted: true});
                     var style = Ext.applyIf(Ext.clone(styleOverride), {
-                        label: lineString.getLength().toFixed(2).toString() + " m",
+                        label: lineString.getLength().toFixed(accuracy).toString() + " m",
                         strokeColor: "#000000",
                         strokeWidth: 3,
                         labelAlign: 'cm'
@@ -286,7 +295,7 @@ Ext.define('OpenEMap.Client', {
 		if (!epsg) {
 			epsg = 'EPSG:3006';
 		} 
-		if (!proj4(epsg))
+		if (!Proj4js.defs[epsg])
 		{
 			Ext.Error.raise('Unknown coordinate system: ' + epsg + '\nAdd coordinate system using proj4.defs(\'Name\', \'Definition\')');
 		}
@@ -533,9 +542,9 @@ Ext.apply(OpenEMap, {
      * @property {Object} [wsUrls] WS paths to be used for AJAX requests
      */
     wsUrls: {
-        basePath:   	'/openemapadmin/',
-        configs:    	'configs',
-        adminconfigs: 	'adminconfigs',
+        basePath:   	'/openemapadmin',
+        configs:    	'/configs',
+        adminconfigs: 	'/adminconfigs',
         servers:    	'settings/servers',
         layers:     	'layers/layers',
         metadata:   	'geometadata/getmetadatabyid', 

@@ -32,14 +32,14 @@
     -->
     
     <!-- https://kartatest.e-tjansteportalen.se/libs/ext-theme-oep/oepTheme-all.css -->
-    <link rel="stylesheet" type="text/css" href="../resources/ext-theme-oep/oepTheme-all.css">
+	<link rel="stylesheet" type="text/css" href="../bower_components/ext-theme-oep/build/resources/ext-theme-oep-all-debug.css">
     <link rel="stylesheet" type="text/css" href="../resources/css/OpenEMap.css">
     
     <script type="text/javascript" src="../bower_components/OpenLayers-2.13.1/lib/OpenLayers.js"></script>
     <script type="text/javascript" src="../bower_components/ext-4.2.1/bootstrap.js"></script>
     <script type="text/javascript" src="../bower_components/ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
     <script type="text/javascript" src="../bower_components/ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
-    <script type="text/javascript" src="../bower_components/proj4/dist/proj4.js"></script>
+    <script type="text/javascript" src="../bower_components/proj4/dist/proj4-compressed.js"></script>
     <script type="text/javascript" src="../proj4_defs.js"></script>
     
     <script type="text/javascript">
@@ -84,8 +84,8 @@
 		    			zoomTools: {},
 		    			//legend: {},
 		    			layers: {
-		    			    type: 'advanced',
-		    			    renderTo: 'layers'
+//		    			    type: 'advanced',
+//		    			    renderTo: 'layers'
 		    			},
 		    		    searchFastighet: {
 		    				zoom: 10,
@@ -135,7 +135,8 @@
 	    
 	    var combo = Ext.create('Ext.form.ComboBox',  {
 			renderTo: 'configcombo',
-			store: ['Anna.json',
+			store: ['108.json',
+					'Anna.json',
 					'testAll.json',
 					'config2.json',
 			        'riges.json',

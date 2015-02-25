@@ -1,0 +1,35 @@
+{
+    "name": "Brandlarm",
+    "maxExtent": [487000.0, 6887000.0, 733000.0, 7102000.0],
+    "extent" : [617928, 6919152, 619456, 6920280],
+    "resolutions": [280, 140, 70, 28, 14, 7, 4.2, 2.8, 1.4, 0.56, 0.28, 0.14, 0.112],
+    "projection": "EPSG:3006",
+    "units": "m",
+    "attribution": "Kartan har ingen rättsverkan du kan alltså INTE se exakta gränser i denna karttjänst ©Lantmäteriet Geodatasamverkan",
+    "autoClearDrawLayer": false,
+    "layers": [
+        {
+            "name": "Karta",
+            "wms": {
+                "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
+                "params": {
+                    "layers": "Lantmateriet:topowebbkartan_nedtonad",
+                    "format": "image/png"
+                },
+                "options": {
+                    "isBaseLayer": true,
+                    "displayInLayerSwitcher": false
+                }
+            }
+        }
+    ],
+    "tools": [
+    	{
+    		"type": "Popup", 
+    		"activate": true,
+    		"showOnlyFirstHit": true,
+    		"tolerance": 10,
+    		"hideFromToolbar": true
+		}
+	]
+}

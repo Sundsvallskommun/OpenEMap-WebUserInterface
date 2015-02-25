@@ -33,14 +33,14 @@
     -->
     
     <!-- https://kartatest.e-tjansteportalen.se/libs/ext-theme-oep/oepTheme-all.css -->
-    <link rel="stylesheet" type="text/css" href="../resources/ext-theme-oep/oepTheme-all.css">
+	<link rel="stylesheet" type="text/css" href="../bower_components/ext-theme-oep/build/resources/ext-theme-oep-all-debug.css">
     <link rel="stylesheet" type="text/css" href="../resources/css/OpenEMap.css">
     
     <script type="text/javascript" src="../bower_components/OpenLayers-2.13.1/lib/OpenLayers.js"></script>
     <script type="text/javascript" src="../bower_components/ext-4.2.1/bootstrap.js"></script>
     <script type="text/javascript" src="../bower_components/ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
     <script type="text/javascript" src="../bower_components/ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
-    <script type="text/javascript" src="../bower_components/proj4/dist/proj4.js"></script>
+    <script type="text/javascript" src="../bower_components/proj4/dist/proj4-compressed.js"></script>
     <script type="text/javascript" src="../proj4_defs.js"></script>
     
     <script type="text/javascript">
@@ -124,6 +124,25 @@
     	          	mapClient.drawLayer.styleMap.styles['default'].addRules([labels]);
 			     	mapClient.toggleEdgeLabels();
 
+					// Create popup objects in map based on GeoJSON
+					var geojson = '';
+					geojson += '{';
+					geojson += '  "type": "FeatureCollection",';
+					geojson += '  "features": ';
+					geojson += '  [';
+					geojson += '    { ';
+					geojson += '      "type": "Feature",';
+					geojson += '      "geometry": {"type": "Point", "coordinates": [618186.0, 6919295.0]},';
+					geojson += '      "properties":';
+					geojson += '      {';
+					geojson += '        "id": 1,';
+					geojson += '        "popupTitle": "Rastsugan",';
+					geojson += '        "popupText": "Samling 08.30"';
+					geojson += '      }';
+					geojson += '    }';
+					geojson += '  ]';
+					geojson += '}';
+					var popupLayer = mapClient.addPopupLayer(geojson, 'Popup layer example', 'id', 'popupText', 'Prefix', '', 'popupTitle', mapClient.drawLayer.styleMap, 'EPSG:3006');
 		    	}
 		    });
 		}

@@ -8,28 +8,28 @@
 		<meta name="author" content="Anders Erlandsson, Sundsvalls kommun" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	    <link rel="stylesheet" type="text/css" href="/libs/ext-theme-oep/ext-theme-oep-all.css">
-	    <link rel="stylesheet" type="text/css" href="../resources/css/OpenEMap.css">
+	    <link rel="stylesheet" type="text/css" href="/libs/ext-theme-oep/oepTheme-all.css">
+	    <link rel="stylesheet" type="text/css" href="../../resources/css/OpenEMap.css">
 	
 	    <script type="text/javascript" src="/libs/OpenLayers-2.13.1/lib/OpenLayers.js"></script>  
 	    <script type="text/javascript" src="/libs/ext-4.2.1/ext-all.js"></script>
 	    <script type="text/javascript" src="/libs/ext-4.2.1/ext-theme-neptune.js"></script>
 	    <script type="text/javascript" src="/libs/ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
 	    <script type="text/javascript" src="/libs/proj4js/proj4-compressed.js"></script>
-	    <script type="text/javascript" src="../proj4_defs.js"></script>
+	    <script type="text/javascript" src="../../proj4_defs.js"></script>
 	    <script type="text/javascript">
 		  Ext.Loader.setConfig({
 		    disableCaching: false,
 		    paths: {
-		        OpenEMap: '../src/main/javascript',
-		        GeoExt: '../../libs/geoext-2.0.1/src/GeoExt'
+		        OpenEMap: '../../src/main/javascript',
+		        GeoExt: '/libs/geoext-2.0.1/src/GeoExt'
 		    }
 		  });
 	    </script> 
 
 
-	    <script type="text/javascript" src="../dev/popupLayer/popupLayerGeojson.js"></script>
-	    <script type="text/javascript" src="../dev/popupLayer/popupLayerStyles.js"></script>
+	    <script type="text/javascript" src="brandlarmGeojson.js"></script>
+	    <script type="text/javascript" src="popupLayerStyles.js"></script>
 
 <!--	    <link rel="stylesheet" type="text/css" href="https://kartatest.e-tjansteportalen.se/libs/ext-theme-oep/oepTheme-all.css">
 	    <link rel="stylesheet" type="text/css" href="../resources/css/OpenEMap.css">
@@ -39,7 +39,7 @@
 	    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/libs/ext-4.2.1/ext-theme-neptune.js"></script>
 	    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/libs/ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
 	    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/libs/geoext-2.0.2-rc.1-all.js"></script> 
-	    <script type="text/javascript" src="/libs/proj4js/proj4.js"></script>
+	    <script type="text/javascript" src="/libs/proj4js/proj4-compressed.js"></script>
 	    <script type="text/javascript" src="../proj4_defs.js"></script>
 	    <script type="text/javascript" src="../OpenEMap-1.4.0-rc.2-all.js"></script>
 	    <script type="text/javascript" src="brandlarmGeojson.js"></script>
@@ -70,7 +70,7 @@
 						
 						// Create objects in map based on GeoJSON, see brandlarmGeojson.js with style specified in brandlarmStyles.js
 //						popupLayer = mapClient.addPopupLayer(geojson, 'Popup layer example', 'id', 'popupText', '', '', 'popupTitle', stylemapBrandlarm, 'EPSG:3021', true);
-						popupLayer = mapClient.addPopupLayer(geojson, 'Popup layer example', 'id', 'popupText', '', '<a href="javascript:alert(\'Suffix link!\');">Suffix</a>', 'popupTitle', stylemapGraphics, 'EPSG:3006', true);
+						popupLayer = mapClient.addPopupLayer(geojson, 'Popup layer example', 'id', 'popupText', '', '<a href="javascript:alert(\'Suffix link!\');">Suffix</a>', 'popupTitle', stylemapGraphics, 'EPSG:3021', true);
 
 						// Listen to event for feature selected
 		               	mapClient.map.events.register('popupfeatureselected', this, function(arg) {
@@ -82,7 +82,6 @@
 	               		});
 	               		// Showing brandlarm with id=1
 						mapClient.showPopupFeature(popupLayer, 1);
-						mapClient.showPopupFeature(popupLayer, 2);
 					}
 				});
 			}
