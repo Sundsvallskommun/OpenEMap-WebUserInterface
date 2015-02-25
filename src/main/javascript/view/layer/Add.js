@@ -124,7 +124,7 @@ Ext.define('OpenEMap.view.layer.Add' ,{
             var layerConfig = {
                 'text': stripName(layer.name),
                 'leaf': true,
-                'checked': true,
+                'checked_': true, // internal checked status
                 'title': layer.title,
                 'name': layer.title,
                 'queryable': layer.queryable,
@@ -135,9 +135,9 @@ Ext.define('OpenEMap.view.layer.Add' ,{
                 'wms':{
                     'url': OpenEMap.wmsURLs.url,
                     'params': {
-                        'layers': layer.name,
-                        'format': 'image/png',
-                        'transparent': true
+                        'LAYERS': layer.name,
+                        'FORMAT': 'image/png',
+                        'TRANSPARENT': true
                     },
                     'options': {
                         'isBaseLayer': false,
