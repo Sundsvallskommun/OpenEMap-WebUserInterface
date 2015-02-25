@@ -97,10 +97,13 @@ ul, li {
 .action-detailreport {
     background-image: url("../images/oep-tools-icons/info.png");
 }
-
-
 .action-load {
     background-image: url("../images/load.png");
+}
+.action-none {
+	background-image: none;
+	width: 0px !important;
+	height: 0px !important;
 }
 
 
