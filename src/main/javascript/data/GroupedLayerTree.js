@@ -99,7 +99,7 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
     },
     
     createInlineLegend: function(node) {
-        if (!node.raw.layer) {
+        if (!node.raw.layer || node.get('hasInlineLegend')) {
             return;
         }
         var layer = node.raw.layer;
@@ -116,6 +116,7 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
         if (url && url.length > 0) {
             node.set('text', '<div style="display:inline-block;width:20px;height:20px;margin-right:2px;overflow:hidden;"><img class="legendimg" src="' + url + '" style="height:20px;"></div>' + node.get('text')); 
         }
+        node.set('hasInlineLegend', true);
     },
 
     /**
