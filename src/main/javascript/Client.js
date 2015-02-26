@@ -540,7 +540,11 @@ Ext.apply(OpenEMap, {
         layers:     	'layers/layers',
         metadata:   	'geometadata/getmetadatabyid', 
         metadata_abstract: 'geometadata/getabstractbyid'
-    }
+    },
+    /**
+     * @property {String} user to use when saving map config 
+     */
+    username: null
 });
 
 Ext.apply(OpenEMap, {

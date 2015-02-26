@@ -160,6 +160,12 @@ Ext.define('OpenEMap.view.layer.Advanced' ,{
 		            			function(btn, text) {
 		            				if (btn == 'ok' && text.length > 0) {
 		            				    conf = me.getConfig();
+		            				    // Set username and isPublic
+		            				    conf.isPublic = false;
+		            				    if (!(OpenEMap && OpenEMap.username)) {
+		            				    	Ext.Error.raise('Username undefined!');
+		            				    }
+		            				    conf.username = OpenEMap.username;
 						            	if(text !== conf.name) {
 						            		// Save new config
 						            		conf.name = text;
