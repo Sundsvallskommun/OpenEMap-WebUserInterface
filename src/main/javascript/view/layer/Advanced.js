@@ -169,12 +169,16 @@ Ext.define('OpenEMap.view.layer.Advanced' ,{
 						            	if(text !== conf.name) {
 						            		// Save new config
 						            		conf.name = text;
-						            		me.dataHandler.saveNewConfiguration(conf, function() {
+						            		me.dataHandler.saveNewConfiguration(conf, function(json) {
 						            			me.savedMapConfigs.getStore().load();
+            				                    me.savedMapConfigs.client.destroy();
+										        me.savedMapConfigs.client.configure(JSON.parse(json.json), me.savedMapConfigs.client.initialOptions);
 						            		});
+						            		
 						            	} else if(conf.configId){
 						            		// Update config
 						            		me.dataHandler.updateConfiguration(conf.configId, conf);
+					            			me.savedMapConfigs.getStore().load();
 						            	}
 						            }
 		            			},

@@ -26,20 +26,6 @@ Ext.define('OpenEMap.view.SavedMapConfigs' ,{
     id: 'savedMapConfigsGrid',
 
     constructor: function() {
-        /*this.selModel = Ext.create('Ext.selection.CheckboxModel', {
-		    mode: 'SINGLE',
-            checkOnly: true,
-		    listeners: { 
-			    select: function( t, record, index, eOpts ) {
-			        this.client.destroy();
-			        this.client.configure(record.raw, this.client.initialOptions);
-				    //var configId = record.get('configId');
-				    //init(OpenEMap.wsUrls.basePath + OpenEMap.wsUrls.configs + '/' + configId);
-			    },
-			    scope: this
-		    }
-	    });*/
-	
 	    this.store = Ext.create('OpenEMap.data.SavedMapConfigs');
         this.columns = [
             { 
