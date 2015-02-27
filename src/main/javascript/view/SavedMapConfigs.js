@@ -45,19 +45,20 @@ Ext.define('OpenEMap.view.SavedMapConfigs' ,{
             { 
             	header: 'Name',  
             	dataIndex: 'name',
-            	flex: 1
-            },
-            {
-                xtype: 'actioncolumn',
-                width: 40,
-                iconCls: 'action-load',
+            	flex: 1,
                 tooltip: 'Ladda',
-                handler: function(grid, rowIndex, cellIndex, column, e, record, tr) {
-                    this.client.destroy();
-			        this.client.configure(record.raw, this.client.initialOptions);
-                    e.stopEvent();
-                    return false;
-                }.bind(this)
+                renderer: function(value, metadata, record) {
+                	metadata.tdAttr = 'data-qtip="Ladda karta"';
+                	return value;
+                },
+			    listeners: {
+		            click: function(grid, rowIndex, cellIndex, column, e, record, tr) {
+	                    this.client.destroy();
+				        this.client.configure(record.raw, this.client.initialOptions);
+	                    e.stopEvent();
+	                    return false;
+	               }.bind(this)
+			    }
             },
             {
                 xtype: 'actioncolumn',
