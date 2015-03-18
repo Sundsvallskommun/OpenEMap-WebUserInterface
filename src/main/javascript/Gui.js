@@ -187,7 +187,10 @@ Ext.define('OpenEMap.Gui', {
                 }
 
                 if (type == 'ZoomSelector') {
-                    return Ext.create('OpenEMap.form.ZoomSelector', {map: this.map});
+                    return Ext.create('OpenEMap.form.ZoomSelector', {
+                        map: this.map,
+                        cls: cls
+                    });
                 } else if (type == 'DrawObject') {
                      config.objectConfigView = this.objectConfig;
                 } else if (type == 'Identify') {
@@ -219,23 +222,23 @@ Ext.define('OpenEMap.Gui', {
         var tbar = this.config.tools.map(createAction, this);
         
         // calc width of toolbar
-        var width = 6; // padding
+        var width = 0; // padding
         tbar.forEach(function(item) {
             if (item){
                 if (!item.hideFromToolbar) {
 	                if (item.constructor == String) {
 	                    width += 1; // separator
 	                } else if (item.width) {
-	                    width += item.width;
+	                    width += item.width + 1;
 	                } else {
-	                    width += 24; // button
+	                    width += 38; // button
 	                }
 	                // add spacing to next control
-	                width += 8;
+	                //width += 8;
                 }
             }
         });
-        width += 3; // padding
+        //width += 3; // padding
                 
         // create toolbar as floating left panel if no renderTo target is configured
         if (this.gui.toolbar && !this.gui.toolbar.renderTo) {

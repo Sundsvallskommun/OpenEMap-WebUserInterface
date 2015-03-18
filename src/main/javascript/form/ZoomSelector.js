@@ -19,6 +19,9 @@
  */
 Ext.define('OpenEMap.form.ZoomSelector' ,{
     extend: 'Ext.form.ComboBox',
+    requires: [
+        'GeoExt.data.ScaleStore'
+    ],
     emptyText: "Zoom Level",
     listConfig: {
         getInnerTpl: function() {
