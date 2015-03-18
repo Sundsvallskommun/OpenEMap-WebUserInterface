@@ -79,17 +79,49 @@ Ext.define('OpenEMap.view.layer.Tree' ,{
 			
         });
 
-        this.on('cellclick', function(tree, td, cellIndex, node) {
-            // Add legend if node have a wms legend and the node isnt removed
-            if((node.gx_wmslegend || node.gx_urllegend) && node.store) {
-                var legend = node.gx_wmslegend || node.gx_urllegend;
-                if (legend.isHidden()) {
-                    if (!legend.rendered) {
-                        legend.render(td);
-                    }
-                    legend.show();
-                } else {
-                    legend.hide();
+        this.on('cellclick', function(tree, td, cellIndex, node, el, columnIndex, e) {
+            
+            // function to create legend tooltip
+            var createLegend = function(url) {
+                var img = Ext.create('Ext.Img', {
+                    src: url
+                });
+                var tip = Ext.create('Ext.tip.ToolTip', {
+                    title: 'Legend ' + node.raw.name,
+                    closable: true,
+                    items: img
+                });
+                tip.showBy(el);
+                img.getEl().on('load', function() {
+                    tip.doLayout();
+                });
+            };
+            
+            // function to get legend url
+            // TODO: could share code with inline legend creation in GroupedLayerTree
+            var getLegendUrl = function(node) {
+                var layer = node.raw.layer;
+                var url;
+                if (node.raw.legendURL !== undefined) {
+                    url = layer.legendURL;
+                } else if (node.raw.wms && node.raw.wms.params.LAYERS) {
+                    var layerRecord = GeoExt.data.LayerModel.createFromLayer(layer);
+                    var legend = Ext.create('GeoExt.container.WmsLegend', {
+                        layerRecord: layerRecord
+                    });
+                    url = legend.getLegendUrl(node.raw.wms.params.LAYERS);
+                }
+                return url;
+            };
+        
+            // Get target element in an IE9 compatible way
+            var target = e.browserEvent.target || e.browserEvent.srcElement;
+            
+            // check if target is the inline legend image
+            if (Ext.get(target).hasCls('legendimg') && node.raw.layer) {
+                var url = getLegendUrl(node);
+                if (url && url.length > 0) {
+                    createLegend(url);
                 }
             }
         });
