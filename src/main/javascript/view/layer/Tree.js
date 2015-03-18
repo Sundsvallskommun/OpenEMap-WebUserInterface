@@ -41,8 +41,6 @@ Ext.define('OpenEMap.view.layer.Tree' ,{
         }
 
         this.on('checkchange', function(node, checked, eOpts) {
-            var parent = node.parentNode;
-        
             // Loop this node and children
             node.cascadeBy(function(n){
                 n.set('checked', checked);
@@ -57,19 +55,28 @@ Ext.define('OpenEMap.view.layer.Tree' ,{
                     wms.options.visibility = checked;
                 }
 
-           });
-            // Checking/unchecking parent node
-            if (checked) {
-                // check parent if not root
-                if (!parent.isRoot()) {
-                    parent.set('checked', checked);
-                }
-            } else {
-                if (!parent.isRoot() && !parent.childNodes.some(function(node) { return node.get('checked'); })) {
-                    parent.set('checked', checked);
-                }
-            }
-
+           	});
+           
+           	function checkParent(n, checked) {
+	            var parent = n.parentNode;
+	            if (parent.get("checked") != n.get("checked")) {
+		           	if (checked) {
+		           	    // check parent if not root
+		            	if (!parent.isRoot()) {
+		                	parent.set("checked", checked);
+		                	checkParent(parent, checked);
+		               	}
+		           	} else {
+		               	if (!parent.isRoot() && !parent.childNodes.some(function(node) { return node.get('checked'); })) {
+		                   	parent.set("checked", checked);
+		                   	checkParent(parent, checked);
+		               	}
+		           	}
+	            }
+	       	}
+           	// Checking/unchecking parent node
+			checkParent(node, checked);
+			
         });
 
         this.on('cellclick', function(tree, td, cellIndex, node) {
