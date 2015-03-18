@@ -50,9 +50,11 @@ Ext.define('OpenEMap.view.layer.Tree' ,{
                 // Change layer visibility (Layer groups have no layer reference)
                 if(olLayerRef) {
                     olLayerRef.setVisibility(checked);
-                    if (olLayerRef.options && olLayerRef.options.visibility) {
-                    	olLayerRef.options.visibility = checked;
-                    }
+                  	olLayerRef.options.visibility = checked;
+                }
+                var wms = n.get('wms');
+                if (wms) {
+                    wms.options.visibility = checked;
                 }
 
            });
