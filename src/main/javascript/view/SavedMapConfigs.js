@@ -26,46 +26,39 @@ Ext.define('OpenEMap.view.SavedMapConfigs' ,{
     id: 'savedMapConfigsGrid',
 
     constructor: function() {
-        /*this.selModel = Ext.create('Ext.selection.CheckboxModel', {
-		    mode: 'SINGLE',
-            checkOnly: true,
-		    listeners: { 
-			    select: function( t, record, index, eOpts ) {
-			        this.client.destroy();
-			        this.client.configure(record.raw, this.client.initialOptions);
-				    //var configId = record.get('configId');
-				    //init(OpenEMap.wsUrls.basePath + OpenEMap.wsUrls.configs + '/' + configId);
-			    },
-			    scope: this
-		    }
-	    });*/
-	
 	    this.store = Ext.create('OpenEMap.data.SavedMapConfigs');
         this.columns = [
             { 
             	header: 'Name',  
             	dataIndex: 'name',
-            	flex: 1
-            },
-            {
-                xtype: 'actioncolumn',
-                width: 40,
-                iconCls: 'action-load',
+            	flex: 1,
                 tooltip: 'Ladda',
-                handler: function(grid, rowIndex, cellIndex, column, e, record, tr) {
-                    this.client.destroy();
-			        this.client.configure(record.raw, this.client.initialOptions);
-                    e.stopEvent();
-                    return false;
-                }.bind(this)
+                renderer: function(value, metadata, record) {
+                	metadata.tdAttr = 'data-qtip="Ladda karta"';
+                	return value;
+                },
+			    listeners: {
+		            click: function(grid, rowIndex, cellIndex, column, e, record, tr) {
+	                    this.client.destroy();
+				        this.client.configure(record.raw, this.client.initialOptions);
+	                    e.stopEvent();
+	                    return false;
+	               }.bind(this)
+			    }
             },
             {
                 xtype: 'actioncolumn',
                 width: 40,
-                iconCls: 'action-remove',
+                getClass: function(value, meta) {
+			    	return meta.record.get('isPublic') ? 'action-none' : 'action-remove';
+	    		},
                 tooltip: 'Ta bort',
                 handler: function(grid, rowIndex, cellIndex, column, e, record, tr) {
                     //TODO! change to proper rest store delete
+                    if (record.get('isPublic')) {
+                    	return false;
+                    };
+                    
                     Ext.MessageBox.confirm('Ta bort', 'Vill du verkligen ta bort konfigurationen?', function(btn) {
                         if(btn === 'yes') {
                             var store = grid.getStore();

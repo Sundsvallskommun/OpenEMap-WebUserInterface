@@ -160,15 +160,25 @@ Ext.define('OpenEMap.view.layer.Advanced' ,{
 		            			function(btn, text) {
 		            				if (btn == 'ok' && text.length > 0) {
 		            				    conf = me.getConfig();
+		            				    // Set username and isPublic
+		            				    conf.isPublic = false;
+		            				    if (!(OpenEMap && OpenEMap.username)) {
+		            				    	Ext.Error.raise('Username undefined!');
+		            				    }
+		            				    conf.username = OpenEMap.username;
 						            	if(text !== conf.name) {
 						            		// Save new config
 						            		conf.name = text;
-						            		me.dataHandler.saveNewConfiguration(conf, function() {
+						            		me.dataHandler.saveNewConfiguration(conf, function(json) {
 						            			me.savedMapConfigs.getStore().load();
+            				                    me.savedMapConfigs.client.destroy();
+										        me.savedMapConfigs.client.configure(JSON.parse(json.json), me.savedMapConfigs.client.initialOptions);
 						            		});
+						            		
 						            	} else if(conf.configId){
 						            		// Update config
 						            		me.dataHandler.updateConfiguration(conf.configId, conf);
+					            			me.savedMapConfigs.getStore().load();
 						            	}
 						            }
 		            			},

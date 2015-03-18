@@ -89,36 +89,70 @@
         {
         	"name": "Expanded grouplayer", 
         	"isGroupLayer": true,
+        	"expanded": true,
         	"queryable": false,
             "options": {
                 "visibility": true
             },
         	"layers": [
 		        {
-		            "name": "Planområde",
-		        	"isGroupLayer": false,
-		        	"queryable": true,
-		            "wms": {
-		                "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
-		                "params": {
-		                    "layers": "RIGES:Planomrade",
-		                    "format": "image/png",
-		                    "transparent": true
-		                },
-		                "options": {
-		                	"isBaseLayer": false,
-		                	"visibility": true,
-		                	"legendURL": "legendimage.png"
-		                }
+		        	"name": "Expanded sub grouplayer", 
+		        	"isGroupLayer": true,
+		        	"expanded": true,
+		        	"queryable": false,
+		            "options": {
+		                "visibility": true
 		            },
-		            "wfs": {
-		                "url": "https://extmaptest.sundsvall.se/geoserver/wfs",
-		                "featureType": "DetaljplanGallande_yta",
-		                "featurePrefix": "RIGES"
-		            }
-		        },
+		        	"layers": [
+				        {
+				            "name": "Planområde",
+				        	"isGroupLayer": false,
+				        	"queryable": true,
+				            "wms": {
+				                "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
+				                "params": {
+				                    "layers": "RIGES:Planomrade",
+				                    "format": "image/png",
+				                    "transparent": true
+				                },
+				                "options": {
+				                	"isBaseLayer": false,
+				                	"visibility": false,
+				                	"legendURL": "legendimage.png"
+				                }
+				            },
+				            "wfs": {
+				                "url": "https://extmaptest.sundsvall.se/geoserver/wfs",
+				                "featureType": "DetaljplanGallande_yta",
+				                "featurePrefix": "RIGES"
+				            }
+				        },
+				        {
+							"name" : "Användningsbestämmelse",
+				        	"isGroupLayer": false,
+				        	"queryable": true,
+							"wms": {
+				    	        "url" : "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
+				    	        "params": {
+				    	            "layers": "RIGES:Anvandningsbestammelse",
+				    	            "format" : "image/png",
+				    	            "transparent" : true
+				    	        },
+				                "options": {
+				                	"isBaseLayer": false,
+				                	"visibility": false
+				                }
+				            },
+				            "wfs": {
+				                "url": "https://extmaptest.sundsvall.se/geoserver/wfs",
+				                "featureType": "AnvandningsBestammelser_yta",
+				                "featurePrefix": "RIGES"
+				            }
+						}
+					]
+				},
 		        {
-					"name" : "Användningsbestämmelse",
+					"name" : "Användningsbestämmelse 2",
 		        	"isGroupLayer": false,
 		        	"queryable": true,
 					"wms": {
@@ -139,6 +173,7 @@
 		                "featurePrefix": "RIGES"
 		            }
 				}
+				
         	]
         },
         {
