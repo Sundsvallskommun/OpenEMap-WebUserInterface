@@ -284,12 +284,29 @@ Ext.define('OpenEMap.config.Parser', {
             throw new Error("Unknown layer type");
         }
     },
-
+	/**
+	 *	Checks if the layer or any sublayer is checked
+	 *	@private 
+	 *  @param layer [Object] layer object in the config structure
+	 */
+	isLayerChecked: function(layer) {
+		if (layer.isGroupLayer && layer.layers && layer.layers.length) {
+			return layer.layers.some(this.isLayerChecked, this);
+		} else {
+			return layer.wms && layer.wms.options && layer.wms.options.visibility ? layer.wms.options.visibility : false;
+		}
+	},
+	/**
+	 *	Sets properties for layers based on config options and creates OpenLayers layer 
+	 *	@private 
+	 *  @param layer [Object] layer object in the config structure
+	 */
     iterateLayers: function(layer) {
         // Set node text
         layer.text = layer.name;
         // Is node checked?
-        layer.checked = layer.wms && layer.wms.options && layer.wms.options.visibility ? layer.wms.options.visibility : false;
+        layer.checked = this.isLayerChecked(layer);
+         
         // Get url from Server and set to layer
         if(typeof layer.serverId !== 'undefined' && layer.serverId !== '') {
             var server = this.serverStore.getById(layer.serverId);

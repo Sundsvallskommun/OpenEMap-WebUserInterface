@@ -117,7 +117,7 @@
 				                },
 				                "options": {
 				                	"isBaseLayer": false,
-				                	"visibility": true,
+				                	"visibility": false,
 				                	"legendURL": "legendimage.png"
 				                }
 				            },
@@ -140,7 +140,7 @@
 				    	        },
 				                "options": {
 				                	"isBaseLayer": false,
-				                	"visibility": true
+				                	"visibility": false
 				                }
 				            },
 				            "wfs": {
@@ -150,7 +150,30 @@
 				            }
 						}
 					]
+				},
+		        {
+					"name" : "Användningsbestämmelse 2",
+		        	"isGroupLayer": false,
+		        	"queryable": true,
+					"wms": {
+		    	        "url" : "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
+		    	        "params": {
+		    	            "layers": "RIGES:Anvandningsbestammelse",
+		    	            "format" : "image/png",
+		    	            "transparent" : true
+		    	        },
+		                "options": {
+		                	"isBaseLayer": false,
+		                	"visibility": true
+		                }
+		            },
+		            "wfs": {
+		                "url": "https://extmaptest.sundsvall.se/geoserver/wfs",
+		                "featureType": "AnvandningsBestammelser_yta",
+		                "featurePrefix": "RIGES"
+		            }
 				}
+				
         	]
         },
         {
