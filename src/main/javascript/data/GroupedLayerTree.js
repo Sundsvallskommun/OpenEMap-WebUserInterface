@@ -69,18 +69,35 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
                 layers: []
             };
 
-	        for (var j=0; j<node.childNodes.length;j++) {
-		        layerCfg.layers.push(configAddLayer(node.childNodes[j], includeLayerRef));
-	        }
-
-			return layerCfg;
+            var parseLayer = function(layer) {
+                return {
+                    name: layer.name,
+                    isGroupLayer: layer.isGroupLayer,
+                    queryable: layer.queryable,
+                    clickable: layer.clickable,
+                    wms: typeof layer.wms === 'string' ? {} : layer.wms,
+                    wfs: typeof layer.wfs === 'string' ? {} : layer.wfs,
+                    layer: includeLayerRef ? layer.layer : undefined,
+                    layers: layer.layers ? layer.layers.map(parseLayer) : undefined,
+                    metadata: typeof layer.metadata === 'string' ? {} : layer.metadata
+                };
+            };
+            
+            node.childNodes.forEach(function(subnode) {
+                layerConfig[i].layers.push({
+                    name: subnode.get('name'),
+                    isGroupLayer: subnode.get('isGroupLayer'),
+                    queryable: subnode.get('queryable'),
+                    clickable: subnode.get('clickable'),
+                    wms: typeof subnode.get('wms') === 'string' ? {} : subnode.get('wms'),
+                    wfs: typeof subnode.get('wfs') === 'string' ? {} : subnode.get('wfs'),
+                    layer: includeLayerRef ? subnode.get('layer') : undefined,
+                    layers: subnode.get('layers') instanceof Array ? subnode.get('layers').map(parseLayer) : undefined,
+                    metadata: typeof subnode.get('metadata') === 'string' ? {} : subnode.get('metadata')
+                });
+            });
         }
-        var childNodes = this.getRootNode().childNodes;
-        for (var i=0; i<childNodes.length;i++) {
-	        layerConfig.push(configAddLayer(childNodes[i], includeLayerRef));
-        }
-        
-        return layerConfig;
+       return layerConfig;
     },
 
     /**
@@ -89,13 +106,6 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
     * @param {Ext.data.Model} appendNode
     */
     onBeforeAppend: function(node, appendNode) {
-        // Prevent groups from being added to groups
-        if ((node && !node.isRoot()) && !appendNode.isLeaf()) {
-            return false;
-        }
-        
-        //this.createInlineLegend(appendNode);
-        
         return true;
     },
     
@@ -127,10 +137,6 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
     * @param {Ext.data.Model} refNode
     */
     onBeforeInsert: function(store, node, refNode) {
-        // Prevent groups from being added to groups
-        if(!refNode.parentNode.isRoot() && !node.isLeaf()) {
-            return false;
-        }
         return true;
     },
 
