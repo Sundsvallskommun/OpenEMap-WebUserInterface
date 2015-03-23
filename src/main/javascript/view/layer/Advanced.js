@@ -39,7 +39,9 @@ Ext.define('OpenEMap.view.layer.Advanced' ,{
 	},
 	width: 500,
 	height: 650,
-
+	resizable: true,
+	resizeHandles: "s",
+	
  	initComponent: function(config) {
  		var me = this;
 
@@ -100,8 +102,8 @@ Ext.define('OpenEMap.view.layer.Advanced' ,{
 
 		this.showOnMapLayerView = Ext.create('OpenEMap.view.layer.Tree', {
 			title: 'Visas på kartan',
-			width: 250,
-			height: 500,
+			width: "50%",
+			height: "80%",
 			region: 'north',
     		mapPanel: this.mapPanel,
     		client: this.client,

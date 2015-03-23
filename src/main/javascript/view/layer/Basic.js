@@ -22,8 +22,11 @@ Ext.define('OpenEMap.view.layer.Basic' ,{
     overflowY: 'auto',
     rootVisible: false,
     //width: 300,
-    height: 300,
-    border: false,
+//    height: 600,
+    maxHeight: 600,
+	border: false,
+	resizable: true,
+	resizeHandles: "s",
 
     initComponent: function() {
         if (!this.renderTo) {
