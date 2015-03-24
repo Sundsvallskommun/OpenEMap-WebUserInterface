@@ -55,6 +55,7 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
     */
     getLayerConfiguration: function(includeLayerRef) {
         var layerConfig = [];
+
         function configAddLayer(node, includeLayerRef) {
             var layerCfg = {
                 name: node.get('name'),
@@ -69,6 +70,16 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
                 layers: []
             };
 
+	        for(var j=0; j<node.childNodes.length;j++) {
+		        layerCfg.layers.push(configAddLayer(node.childNodes[j], includeLayerRef));
+	        }
+			return layerCfg;
+        }
+
+        var childNodes = this.getRootNode().childNodes;
+        for (var i=0; i<childNodes.length;i++) {
+	        layerConfig.push(configAddLayer(childNodes[i], includeLayerRef));
+/*
             var parseLayer = function(layer) {
                 return {
                     name: layer.name,
@@ -83,6 +94,7 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
                 };
             };
             
+        	var node = this.getRootNode();
             node.childNodes.forEach(function(subnode) {
                 layerConfig[i].layers.push({
                     name: subnode.get('name'),
@@ -96,7 +108,7 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
                     metadata: typeof subnode.get('metadata') === 'string' ? {} : subnode.get('metadata')
                 });
             });
-        }
+*/        }
        return layerConfig;
     },
 
