@@ -19,6 +19,9 @@
     "drawStyle": {},
     "tools": [
         {
+            "type": "ZoomSelector"
+        },
+        {
             "type": "DrawGeometry",
             "iconCls": "action-drawpoint",
             "geometry": "Point"
