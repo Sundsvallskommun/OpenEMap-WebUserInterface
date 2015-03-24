@@ -564,6 +564,9 @@ Ext.apply(OpenEMap, {
 
 
 OpenLayers.Layer.Vector.prototype.renderers = ["Canvas", "SVG", "VML"];
+// Setting resolution to coerce with GeoWebCache
+OpenLayers.DOTS_PER_INCH = 90.71446714322;
+ 						   
 	/**
 	 * @event popupfeatureselected 
 	 * fires when a feature in a popup layer is selected
