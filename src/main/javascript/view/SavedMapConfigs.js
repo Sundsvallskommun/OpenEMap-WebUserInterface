@@ -57,7 +57,7 @@ Ext.define('OpenEMap.view.SavedMapConfigs' ,{
                     //TODO! change to proper rest store delete
                     if (record.get('isPublic')) {
                     	return false;
-                    };
+                    }
                     
                     Ext.MessageBox.confirm('Ta bort', 'Vill du verkligen ta bort konfigurationen?', function(btn) {
                         if(btn === 'yes') {
