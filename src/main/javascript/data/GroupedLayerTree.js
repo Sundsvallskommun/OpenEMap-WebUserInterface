@@ -129,7 +129,7 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
         var url;
         if (node.raw.legendURL !== undefined) {
             url = layer.legendURL;
-        } else if (node.raw.wms && node.raw.wms.params.LAYERS) {
+        } else if (node.raw.wms && node.raw.wms.params && node.raw.wms.params.LAYERS) {
             var layerRecord = GeoExt.data.LayerModel.createFromLayer(layer);
             var legend = Ext.create('GeoExt.container.WmsLegend', {
                 layerRecord: layerRecord

@@ -231,6 +231,7 @@ Ext.define('OpenEMap.view.layer.Advanced' ,{
 	    		layout: 'border',
 	    		width: '50%',
 	    		border: false,
+	    		colapsible: true,
 	    		items: [
 	    			me.showOnMapLayerView,
 			    	{
@@ -239,7 +240,7 @@ Ext.define('OpenEMap.view.layer.Advanced' ,{
 						xtype: 'panel',
 						border: false,
 						layout: 'fit',
-						collapsible: true,
+						collapsible: false,
 						titleCollapse: true,
 						items: me.savedMapConfigs
 					}
