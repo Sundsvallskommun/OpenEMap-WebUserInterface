@@ -266,6 +266,7 @@ Ext.define('OpenEMap.Gui', {
     createRightPanel: function() {
         
         var rightPanelItems = [];
+        var width = 300;
         // default position for rightPanel
         if (!this.gui.rightPanel.y) {this.gui.rightPanel.y = 20;}
         if (!this.gui.rightPanel.style) {this.gui.rightPanel.style = 'right: 20px';}
@@ -273,6 +274,7 @@ Ext.define('OpenEMap.Gui', {
         if (this.gui.layers) {
 	        // Checks whether the advanced or basic Layer control should be used
 	        if (this.gui.layers && this.gui.layers.type === 'advanced') {
+	        	width = 500;
 	            this.mapLayers = Ext.create('OpenEMap.view.layer.Advanced', Ext.apply({
 	                mapPanel : this.mapPanel,
 	                orginalConfig: this.orginalConfig,
@@ -297,10 +299,11 @@ Ext.define('OpenEMap.Gui', {
 	        this.searchFastighet = Ext.create('OpenEMap.view.SearchFastighet', Ext.apply({
 	            mapPanel : this.mapPanel,
 	            basePath: this.config.basePath,
-	            search: this.search 
+	            search: this.search,
+	            width: 300 
 	        }, this.gui.searchFastighet));
             if (!this.gui.searchFastighet.renderTo) {
-                rightPanelItems.push(this.searchFastighet);
+            	rightPanelItems.push(this.searchFastighet);
             }
         }
 
@@ -314,7 +317,7 @@ Ext.define('OpenEMap.Gui', {
                     type: 'vbox',
                     align : 'stretch'
                 },
-                width : 300,
+                width : width,
                 border: false,
                 style : this.gui.rightPanel.style,
                 bodyStyle: {

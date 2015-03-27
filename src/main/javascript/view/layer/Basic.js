@@ -18,7 +18,7 @@ Ext.define('OpenEMap.view.layer.Basic' ,{
     extend: 'OpenEMap.view.layer.Tree',
 
     rootVisible: false,
-    maxHeight: 600,
+    width: 300,
 	border: false,
 	resizable: true,
 	resizeHandles: 's',
