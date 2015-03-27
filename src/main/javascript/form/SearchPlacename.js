@@ -49,16 +49,9 @@ Ext.define('OpenEMap.form.SearchPlacename', {
              ]
         });
         
-        if (this.store.loading && this.store.lastOperation) {
-          var requests = Ext.Ajax.requests;
-          for (var id in requests)
-            if (requests.hasOwnProperty(id) && requests[id].options == this.store.lastOperation.request) {
-              Ext.Ajax.abort(requests[id]);
-            }
-        }
         this.store.on('beforeload', function(store, operation) {
           store.lastOperation = operation;
-        }, this, { single: true });
+        }, this);
         
         this.labelWidth= 60;
         this.displayField= 'name';
@@ -74,6 +67,15 @@ Ext.define('OpenEMap.form.SearchPlacename', {
                 var switchedAxis = [coords[1], coords[0]];
                 this.mapPanel.map.setCenter(switchedAxis, zoom);
             },
+            'beforequery': function() {
+		        if (this.store.loading && this.store.lastOperation) {
+		          var requests = Ext.Ajax.requests;
+		          for (var id in requests)
+		            if (requests.hasOwnProperty(id) && requests[id].options == this.store.lastOperation.request) {
+		              Ext.Ajax.abort(requests[id]);
+		            }
+		        }
+		    },
             scope: this
         };
         

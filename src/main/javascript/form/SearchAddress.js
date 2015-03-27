@@ -74,16 +74,9 @@ Ext.define('OpenEMap.form.SearchAddress', {
             fields: ['id', 'name', 'x', 'y', 'fnr']
         });
         
-        if (this.store.loading && this.store.lastOperation) {
-          var requests = Ext.Ajax.requests;
-          for (var id in requests)
-            if (requests.hasOwnProperty(id) && requests[id].options == this.store.lastOperation.request) {
-              Ext.Ajax.abort(requests[id]);
-            }
-        }
         this.store.on('beforeload', function(store, operation) {
           store.lastOperation = operation;
-        }, this, { single: true });
+        }, this);
         
         this.labelWidth = 60;
         this.displayField = 'name';
@@ -100,6 +93,14 @@ Ext.define('OpenEMap.form.SearchAddress', {
                 if (registeromrade && queryPlan.query.match(registeromrade) === null) {
                     queryPlan.query = registeromrade + ' ' + queryPlan.query;
                 }
+
+		        if (this.store.loading && this.store.lastOperation) {
+		          var requests = Ext.Ajax.requests;
+		          for (var id in requests)
+		            if (requests.hasOwnProperty(id) && requests[id].options == this.store.lastOperation.request) {
+		              Ext.Ajax.abort(requests[id]);
+		            }
+		        }
             },
             scope: this
         };

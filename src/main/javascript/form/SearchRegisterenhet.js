@@ -76,16 +76,9 @@ Ext.define('OpenEMap.form.SearchRegisterenhet', {
              ]
         });
         
-        if (this.store.loading && this.store.lastOperation) {
-          var requests = Ext.Ajax.requests;
-          for (var id in requests)
-            if (requests.hasOwnProperty(id) && requests[id].options == this.store.lastOperation.request) {
-              Ext.Ajax.abort(requests[id]);
-            }
-        }
         this.store.on('beforeload', function(store, operation) {
           store.lastOperation = operation;
-        }, this, { single: true });
+        }, this);
         
         this.labelWidth = 60;
         this.displayField = 'name';
@@ -103,6 +96,14 @@ Ext.define('OpenEMap.form.SearchRegisterenhet', {
                 if (registeromrade && queryPlan.query.match(registeromrade) === null) {
                     queryPlan.query = registeromrade + ' ' + queryPlan.query;
                 }
+                var lastQ = this.store.lastOperation && this.store.lastOperation.request && this.store.lastOperation.request.params && this.store.lastOperation.request.params.q ? this.store.lastOperation.request.params.q : undefined;
+		        if (this.store.loading && this.store.lastOperation) {
+		          var requests = Ext.Ajax.requests;
+		          for (var id in requests)
+		            if (requests.hasOwnProperty(id) && requests[id].options == this.store.lastOperation.request) {
+		              Ext.Ajax.abort(requests[id]);
+		            }
+		        }
             },
             scope: this
         };
