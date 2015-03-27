@@ -1,0 +1,84 @@
+{
+	"displayFieldName":"REQUESTID",
+	"objectIdFieldName":"REQUESTID",
+	"globalIdFieldName":"",
+	"geometryType":"esriGeometryPoint",
+	"spatialReference":{
+		"wkid":3014,
+		"latestWkid":0,
+		"vcsWkid":0,
+		"latestVcsWkid":0,
+		"wkt":""
+	},
+	"fields":[
+		{
+			"name":"REQUESTID",
+			"type":"esriFieldTypeOID","alias":"REQUESTID","required":true,"editable":false,"length":-1.0,"domain":null,"Tag":null,"localizedNames":{}
+		},
+		{"name":"DateTimeInit","type":"esriFieldTypeDate","alias":"Date Initiated","required":false,"editable":false,"length":-1.0,"domain":null,"Tag":null,"localizedNames":{}},
+		{"name":"Description","type":"esriFieldTypeString","alias":"Description","required":false,"editable":false,"length":-1.0,"domain":null,"Tag":null,"localizedNames":{}},
+		{"name":"ProbAddress","type":"esriFieldTypeString","alias":"Address","required":false,"editable":false,"length":-1.0,"domain":null,"Tag":null,"localizedNames":{}},
+		{"name":"MapPage","type":"esriFieldTypeString","alias":"Map Page","required":false,"editable":false,"length":-1.0,"domain":null,"Tag":null,"localizedNames":{}},
+		{"name":"Details","type":"esriFieldTypeString","alias":"Details","required":false,"editable":false,"length":-1.0,"domain":null,"Tag":null,"localizedNames":{}},
+		{"name":"Status","type":"esriFieldTypeString","alias":"Status","required":false,"editable":false,"length":-1.0,"domain":null,"Tag":null,"localizedNames":{}},
+		{"name":"DomainId","type":"esriFieldTypeInteger","alias":"Domain","required":false,"editable":false,"length":-1.0,"domain":null,"Tag":null,"localizedNames":{}},
+		{"name":"SRX","type":"esriFieldTypeDouble","alias":"X","required":true,"editable":false,"length":-1.0,"domain":null,"Tag":null,"localizedNames":{}},
+		{"name":"SRY","type":"esriFieldTypeDouble","alias":"Y","required":true,"editable":false,"length":-1.0,"domain":null,"Tag":null,"localizedNames":{}}
+	],
+	"features":[
+		{
+			"attributes":{
+				"REQUESTID":15112,
+				"DateTimeInit":1427363820840,
+				"Description":"Driftstörning",
+				"ProbAddress":"Repslagarevägen 28",
+				"MapPage":"SUNDSVALL",
+				"Details":"OBS! Testärende driftstörning visas externt",
+				"Status":"MOTTAGEN",
+				"DomainId":1,
+				"SRX":152187.87,
+				"SRY":6921023.32
+			},
+			"geometry":{
+				"geometryType":"MapPoint",
+				"spatialReference":{
+					"wkid":102100,
+					"latestWkid":0,
+					"vcsWkid":0,
+					"latestVcsWkid":0,
+					"wkt":null
+				},
+				"extent":{
+					"xmin":1924970.50067609,
+					"ymin":8953566.73002223,
+					"xmax":1924970.50067609,
+					"ymax":8953566.73002223,
+					"spatialReference":{
+						"wkid":102100,
+						"latestWkid":0,
+						"vcsWkid":0,
+						"latestVcsWkid":0,
+						"wkt":""
+					},
+					"isEmpty":false
+				},
+				"x":1924970.50067609,
+				"y":8953566.73002223
+			}
+		},
+		{
+			"attributes":{"REQUESTID":15111,"DateTimeInit":1427363516693,"Description":"Akuthändelse","ProbAddress":"Repslagarevägen 24","MapPage":"SUNDSVALL","Details":"OBS! Test ärende akut händelse","Status":"MOTTAGEN","DomainId":1,"SRX":152284.42,"SRY":6921003.22},"geometry":{"geometryType":"MapPoint","spatialReference":{"wkid":102100,"latestWkid":0,"vcsWkid":0,"latestVcsWkid":0,"wkt":null},"extent":{"xmin":1925178.29025853,"ymin":8953523.26410752,"xmax":1925178.29025853,"ymax":8953523.26410752,"spatialReference":{"wkid":102100,"latestWkid":0,"vcsWkid":0,"latestVcsWkid":0,"wkt":""},"isEmpty":false},"x":1925178.29025853,"y":8953523.26410752}},{"attributes":{"REQUESTID":15114,"DateTimeInit":1427364111057,"Description":"Underhållsarbeten","ProbAddress":"Ludvigsbergsvägen 19","MapPage":"SUNDSVALL","Details":"OBS! Testärende underhållsarbete","Status":"MOTTAGEN","DomainId":1,"SRX":152385.68,"SRY":6921070.79},"geometry":{"geometryType":"MapPoint","spatialReference":{"wkid":102100,"latestWkid":0,"vcsWkid":0,"latestVcsWkid":0,"wkt":null},"extent":{"xmin":1925396.34988861,"ymin":8953668.76383604,"xmax":1925396.34988861,"ymax":8953668.76383604,"spatialReference":{"wkid":102100,"latestWkid":0,"vcsWkid":0,"latestVcsWkid":0,"wkt":""},"isEmpty":false},"x":1925396.34988861,"y":8953668.76383604}},{"attributes":{"REQUESTID":15113,"DateTimeInit":1427363947497,"Description":"Projektarbeten","ProbAddress":"Repslagarevägen 18E","MapPage":"SUNDSVALL","Details":"OBS! Testärende Projektarbete","Status":"MOTTAGEN","DomainId":1,"SRX":152416.0,"SRY":6920983.0},
+			"geometry":{
+				"geometryType":"MapPoint","spatialReference":{
+					"wkid":102100,"latestWkid":0,"vcsWkid":0,"latestVcsWkid":0,"wkt":null
+				},
+				"extent":{
+					"xmin":1925461.47659162,"ymin":8953479.47962199,"xmax":1925461.47659162,"ymax":8953479.47962199,"spatialReference":{"wkid":102100,"latestWkid":0,"vcsWkid":0,"latestVcsWkid":0,"wkt":""},"isEmpty":false
+				},
+				"x":1925461.47659162,
+				"y":8953479.47962199
+			}
+		}
+	],
+	"fieldAliases":{"REQUESTID":"REQUESTID","DateTimeInit":"Date Initiated","Description":"Description","ProbAddress":"Address","MapPage":"Map Page","Details":"Details","Status":"Status","DomainId":"Domain","SRX":"X","SRY":"Y"},"count":4
+}

@@ -108,6 +108,7 @@
 				            "name": "Planområde",
 				        	"isGroupLayer": false,
 				        	"queryable": true,
+				        	"clickable": true,
 				            "wms": {
 				                "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
 				                "params": {
@@ -125,12 +126,33 @@
 				                "url": "https://extmaptest.sundsvall.se/geoserver/wfs",
 				                "featureType": "DetaljplanGallande_yta",
 				                "featurePrefix": "RIGES"
+				            },
+				            "metadata": {
+				                "attributes": {
+				                    "AKTBET_LOK": {
+				                        "alias": "Lokal aktbet.",
+				                        "main": true
+				                    },
+				                    "AKTBET": {
+				                        "alias": "Aktbeteckning"
+				                    },
+				                    "AREA_NUMBE": {
+				                        "alias": "Planområdesnr"
+				                    },
+				                    "LEGAL_APPR": {
+				                        "alias": "Lagakraft datum"
+				                    },
+				                    "ACCEPTED_D": {
+				                        "alias": "Antagande datum"
+				                    }
+				                }
 				            }
 				        },
 				        {
 							"name" : "Användningsbestämmelse",
 				        	"isGroupLayer": false,
 				        	"queryable": true,
+				        	"clickable": true,
 							"wms": {
 				    	        "url" : "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
 				    	        "params": {
@@ -155,6 +177,7 @@
 					"name" : "Användningsbestämmelse 2",
 		        	"isGroupLayer": false,
 		        	"queryable": true,
+		        	"clickable": true,
 					"wms": {
 		    	        "url" : "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
 		    	        "params": {
@@ -188,6 +211,7 @@
 		            "name": "Planområde 2",
 		        	"isGroupLayer": false,
 		        	"queryable": false,
+				    "clickable": false,
 		            "wms": {
 		                "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
 		                "params": {

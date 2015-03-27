@@ -128,6 +128,8 @@ Ext.define('OpenEMap.view.IdentifyResults', {
             });
         };
         
+        // TODO - add code to specify main attribute
+		        
         features.forEach(processFeature);
     }
 });
