@@ -129,12 +129,12 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
         var url;
         if (node.raw.legendURL !== undefined) {
             url = layer.legendURL;
-        } else if (node.raw.wms && node.raw.wms.params && node.raw.wms.params.LAYERS) {
+        } else if (node.raw.wms && node.raw.wms.params && (node.raw.wms.params.LAYERS || node.raw.wms.params.layers)) {
             var layerRecord = GeoExt.data.LayerModel.createFromLayer(layer);
             var legend = Ext.create('GeoExt.container.WmsLegend', {
                 layerRecord: layerRecord
             });
-            url = legend.getLegendUrl(node.raw.wms.params.LAYERS);
+            url = legend.getLegendUrl(node.raw.wms.params.LAYERS || node.raw.wms.params.layers);
         }
         if (url && url.length > 0) {
             node.set('text', '<div style="display:inline-block;width:20px;height:20px;margin-right:2px;overflow:hidden;"><img class="legendimg" src="' + url + '" style="height:20px;"></div>' + node.get('text')); 
