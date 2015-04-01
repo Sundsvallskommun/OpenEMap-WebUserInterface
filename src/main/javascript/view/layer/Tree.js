@@ -104,12 +104,12 @@ Ext.define('OpenEMap.view.layer.Tree' ,{
                 var url;
                 if (node.raw.legendURL !== undefined) {
                     url = layer.legendURL;
-                } else if (node.raw.wms && node.raw.wms.params.LAYERS) {
+                } else if (node.raw.wms && (node.raw.wms.params.LAYERS || node.raw.wms.params.layers)) {
                     var layerRecord = GeoExt.data.LayerModel.createFromLayer(layer);
                     var legend = Ext.create('GeoExt.container.WmsLegend', {
                         layerRecord: layerRecord
                     });
-                    url = legend.getLegendUrl(node.raw.wms.params.LAYERS);
+                    url = legend.getLegendUrl(node.raw.wms.params.LAYERS || node.raw.wms.params.layers);
                 }
                 return url;
             };
