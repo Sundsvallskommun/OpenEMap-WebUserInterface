@@ -87,6 +87,23 @@ Ext.define('OpenEMap.Client', {
      * @property {OpenLayers.Layer.Vector}
      */
     drawLayer: null,
+    constructor: function() {
+        this.params = Ext.Object.fromQueryString(document.location.search);
+        if (this.params.permalink) {
+            Ext.Ajax.request({
+		    	url: this.params.permalink,
+		    	success: function(response) {
+		    		var permalinkdata = Ext.decode(response.responseText);
+		    		this.configure(permalinkdata.config, permalinkdata.options);
+		    		var format = new OpenLayers.Format.GeoJSON();
+		    		var features = format.read(permalinkdata.drawLayer.geojson);
+		    		this.drawLayer.addFeatures(features);
+		    		this.map.zoomToExtent(permalinkdata.extent);
+		        },
+		        scope: this
+		    });
+        }
+    },
     /**
      * Configure map
      * 
@@ -133,6 +150,20 @@ Ext.define('OpenEMap.Client', {
         
         if (this.gui.controlToActivate) {
             this.gui.controlToActivate.activate();
+        }
+    },
+    getPermalinkdata: function() {
+        var features = this.drawLayer.features;
+        var format = new OpenLayers.Format.GeoJSON();
+        var geojson = format.write(features);
+    
+        return {
+            config: this.getConfig(),
+            options: this.initialOptions,
+            extent: this.map.getExtent().toArray(),
+            drawLayer: {
+                geojson: geojson
+            }
         }
     },
     /**
