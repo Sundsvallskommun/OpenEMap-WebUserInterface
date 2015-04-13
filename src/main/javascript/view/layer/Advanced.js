@@ -200,11 +200,7 @@ Ext.define('OpenEMap.view.layer.Advanced' ,{
             selectionchange: function(sm, selections) {
                 if (selections.length === 1 && selections[0].data.isGroupLayer) {
                     renameAction.enable();
-                    if (selections[0].internalId === 'root') {
-                        createGroupAction.enable();
-                    } else {
-                        createGroupAction.disable();
-                    }
+                    createGroupAction.enable();
                 } else {
                     renameAction.disable();
                     createGroupAction.disable();
