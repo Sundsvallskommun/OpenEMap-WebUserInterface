@@ -91,7 +91,7 @@ Ext.define('OpenEMap.Client', {
         this.params = Ext.Object.fromQueryString(document.location.search);
         if (this.params.permalink) {
             Ext.Ajax.request({
-		    	url: this.params.permalink,
+		    	url: OpenEMap.wsUrls.permalinks + '/' + this.params.permalink,
 		    	success: function(response) {
 		    		var permalinkdata = Ext.decode(response.responseText);
 		    		this.configure(permalinkdata.config, permalinkdata.options);
@@ -99,6 +99,9 @@ Ext.define('OpenEMap.Client', {
 		    		var features = format.read(permalinkdata.drawLayer.geojson);
 		    		this.drawLayer.addFeatures(features);
 		    		this.map.zoomToExtent(permalinkdata.extent);
+		        },
+		        failure: function(response) {
+		            Ext.Msg.alert('Fel', Ext.decode(response.responseText).message);
 		        },
 		        scope: this
 		    });
@@ -158,13 +161,14 @@ Ext.define('OpenEMap.Client', {
         var geojson = format.write(features);
     
         return {
+            version: this.version,
             config: this.getConfig(),
             options: this.initialOptions,
             extent: this.map.getExtent().toArray(),
             drawLayer: {
                 geojson: geojson
             }
-        }
+        };
     },
     /**
      * @param {boolean} includeLayerRef include reference to OpenLayers layer if available
@@ -574,6 +578,8 @@ Ext.apply(OpenEMap, {
      */
     wsUrls: {
         basePath:   	'/openemapadmin',
+        permalinks:     '/openemap-permalink/permalinks',
+        permalinkclient:'/dev/debug_permalink.html',
         configs:    	'/configs',
         adminconfigs: 	'/adminconfigs',
         servers:    	'settings/servers',
