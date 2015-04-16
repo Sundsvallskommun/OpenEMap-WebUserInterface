@@ -335,7 +335,7 @@ Ext.define('OpenEMap.view.Map' ,{
         
         var searchStyle = {
                 "Point": {
-                    externalGraphic: "../resources/images/point_added.png", 
+                    externalGraphic: OpenEMap.basePathImages + "point_added.png", 
                     graphicWidth: 15, 
                     graphicOpacity: 1
                 },
