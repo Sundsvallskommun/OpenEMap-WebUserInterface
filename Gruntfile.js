@@ -216,7 +216,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('default', ['auto_install', 'jshint']);
   grunt.registerTask('build', ['default', 'sencha:release', 'sencha:debug', 'sencha:geoext_release', 'sencha:geoext_debug'] );
-  grunt.registerTask('distcopy', ['copy']);
+  grunt.registerTask('distcopy', ['copy', 'compress']);
   grunt.registerTask('dist', ['clean', 'build', 'copy', 'compress']);
   grunt.registerTask('devserver', ['default', 'configureProxies', 'connect', 'watch']);
 };
