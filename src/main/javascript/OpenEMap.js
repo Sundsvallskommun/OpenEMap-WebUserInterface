@@ -31,7 +31,7 @@ var loadCssFiles = function(files, callback) {
 
 	for (var index in files) {
 		fileCounter++;
-		if(checkFileType(files[index]) == "css") {
+		if(checkFileType(files[index])) {
 			var link = document.createElement("link");
 			link.href = files[index];
 			link.rel = "stylesheet";
@@ -82,22 +82,32 @@ var loadCssFiles = function(files, callback) {
 	}
 };
 
+function loadJavaScriptSync(filePath, async)
+{
+    var req = new XMLHttpRequest();
+    req.open("GET", filePath, async); // 'false': synchronous.
+    req.send(null);
+
+    var headElement = document.getElementsByTagName("head")[0];
+    var newScriptElement = document.createElement("script");
+    newScriptElement.type = "text/javascript";
+    newScriptElement.text = req.responseText;
+    headElement.appendChild(newScriptElement);
+}
+
+
 var loadJsScripts = function(files) {
-	var scriptTags = new Array(files.length);
+	var head = document.getElementsByTagName("head")[0];
     for (var i = 0; i < files.length; i++) {
-		scriptTags[i] = "<script src='" + files[i] + "' type='text/javascript'></script>";
-    }
-    
-    if (scriptTags.length > 0) {
-		var $head = $("head");
-		for (i = 0, len = scriptTags.length; i < len; i++) {
-			$head.append(scriptTags[i]);
-		}
+		var script = document.createElement('script');
+		script.type = 'text/javascript';
+	 	script.src = files[i];
+		head.appendChild(script);
     }
 };
 
 (function () {
-/*	var scriptNameRaw = "OpenEMap.js";
+	var scriptNameRaw = "OpenEMap.js";
 	var openEMapScriptName = new RegExp("(^|(.*?\\/))(" + scriptNameRaw + ")(\\?|$)");
 	var scripts = document.getElementsByTagName("script");
 	for (var i = 0; i < scripts.length; i++) {
@@ -110,34 +120,36 @@ var loadJsScripts = function(files) {
             }
         }
     }
-*/	
-	var cssFiles = new Array(
-		"lib/ext-theme-oep/ext-theme-oep-all.css",
-		"resources/css/OpenEMap.css"
-	);
+	
+	var cssFiles = [
+		openEMapScriptLocation + "lib/ext-theme-oep/ext-theme-oep-all.css",
+		openEMapScriptLocation + "resources/css/OpenEMap.css"
+	];
 
-	var scripts = new Array(
-		"lib/ext-all.js",
-		"lib/ext-theme-neptune.js",
-		"lib/locale/ext-lang-sv_SE.js",
-		"lib/OpenLayers.js",
-		"lib/proj4-compressed.js",
-		"proj4_defs.js",
-		"lib/geoext-2.0.2-rc.1-all.js",
-		"lib/es5-shim.min.js",	
-		"OpenEMap-min.js"
-    );
+	scripts = [
+		openEMapScriptLocation + "lib/ext/ext-all.js",
+		openEMapScriptLocation + "lib/ext/ext-theme-neptune.js",
+		openEMapScriptLocation + "lib/ext/locale/ext-lang-sv_SE.js",
+		openEMapScriptLocation + "lib/OpenLayers/OpenLayers.js",
+		openEMapScriptLocation + "lib/proj4js/proj4-compressed.js",
+		openEMapScriptLocation + "proj4_defs.js",
+		openEMapScriptLocation + "lib/geoext/geoext-all.js",
+		openEMapScriptLocation + "lib/es5-shim/es5-shim.min.js",	
+		openEMapScriptLocation + "OpenEMap-min.js"
+    ];
 	
 	// Ensure css files are loaded before js files
 	loadCssFiles(cssFiles, function() {
-		loadJsScripts(scripts);
+		loadJsScripts(scripts, false);
 		waitUntilOpenEMapIsLoaded();
 	});
-});
+}) ();
 
-var waitUntilOpenEMapIsLoaded = function() {
-	if (!((typeof OpenEMap === "undefined") && (typeof OpenEMap.Client === "undefined"))) {
-		setTimeout(function() { waitUntilOpenEMapIsLoaded(); }, 5);
+var waitUntilOpenEMapIsLoaded = function(callback) {
+	if ((typeof OpenEMap === "undefined") || (typeof OpenEMap.Client === "undefined") || (typeof Ext === "undefined")) {
+		setTimeout(function() { waitUntilOpenEMapIsLoaded(callback); }, 5);
+	} else {
+		callback();
 	}
 };
 
@@ -157,7 +169,8 @@ var waitUntilOpenEMapIsLoaded = function() {
 * @param {Object} [options.gui.objectConfig] A generic form to configure feature attributes similar to a PropertyList
 * @param {Object} [options.gui.zoomTools={}] Zoom slider and buttons intended to be used as a floating control
 * @param {Object} [options.gui.searchFastighet={}] Search "fastighet" control
-* @param {Object} [options.gui.showCoordinate] Simple control to show map coordinates 
+* @param {Object} [options.gui.showCoordinate] Simple control to show map coordinates
+* @return {OpenEMap.Client} reference to an initialized OpenEMap.Client object, or null if it wasnt possible to create it 
 */
 var initOpenEMap = function(configPath, options) {
 	// Apply defaults to gui
@@ -172,11 +185,7 @@ var initOpenEMap = function(configPath, options) {
 		searchFastighet : options.gui.searchFastighet || {}
 	};
 
-	// check configPath
-	if (configPath) {
-		// Make sure OpenEMap is loaded
-		waitUntilOpenEMapIsLoaded();
-	
+	var init = function() {
 		var mapClient = Ext.create('OpenEMap.Client');
 		
 		Ext.Ajax.request({
@@ -184,9 +193,7 @@ var initOpenEMap = function(configPath, options) {
 			method : 'GET',
 			success : function(evt){
 				var config = JSON.parse(evt.responseText);
-				mapClient.configure(Ext.clone(config), {
-					gui : gui
-				});
+				mapClient.configure(Ext.clone(config), options);
 				var labels = new OpenLayers.Rule({
 					filter : new OpenLayers.Filter.Comparison({
 						type : OpenLayers.Filter.Comparison.EQUAL_TO,
@@ -201,12 +208,20 @@ var initOpenEMap = function(configPath, options) {
 					}
 				});
 				mapClient.drawLayer.styleMap.styles['default'].addRules([ labels ]);
+				return mapClient;
 			},
 			failure: function(response, opts) {
 				mapClient.destroy();
 				throw 'Hittar inte konfigurationen';
 			}
 		});
+	};
+
+	// check configPath
+	if (configPath) {
+		// Make sure OpenEMap is loaded
+		waitUntilOpenEMapIsLoaded(init);
+	
 	} else {
 		throw 'Hittar inte konfigurationen';
 	} 
