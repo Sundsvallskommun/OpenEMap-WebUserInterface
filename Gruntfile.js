@@ -3,6 +3,7 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     releasePath: 'release/<%= pkg.name %>-<%= pkg.version %>', 
+    modulesStaticPath: '<%= pkg.modulesStaticPath %>', 
     
     clean: ['<%= releasePath %>', '<%= releasePath %>.zip'],
     
@@ -125,7 +126,8 @@ module.exports = function(grunt) {
             { expand: true, flatten: true, src: ['dev/config/**'], dest: '<%= releasePath %>/config' },
             { expand: false, src: ['<%= releasePath %>/<%= pkg.name %>-<%= pkg.version %>-min.js'], dest: '<%= releasePath %>/<%= pkg.name %>-min.js' },
             { expand: false, src: ['<%= releasePath %>/<%= pkg.name %>-<%= pkg.version %>-debug.js'], dest: '<%= releasePath %>/<%= pkg.name %>-debug.js' },
-            { expand: false, src: ['src/main/javascript/OpenEMap.js'], dest: '<%= releasePath %>/OpenEMap.js' }
+            { expand: false, src: ['src/main/javascript/OpenEMap.js'], dest: '<%= releasePath %>/OpenEMap.js' },
+            { expand: true, cwd: '<%= releasePath %>/', src: ['**'], dest: '<%= modulesStaticPath %>/<%= pkg.name %>' }
             ]        
         }
     },
@@ -214,7 +216,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('default', ['auto_install', 'jshint']);
   grunt.registerTask('build', ['default', 'sencha:release', 'sencha:debug', 'sencha:geoext_release', 'sencha:geoext_debug'] );
-//  grunt.registerTask('dist', ['clean', 'copy', 'compress']);
+  grunt.registerTask('distcopy', ['copy']);
   grunt.registerTask('dist', ['clean', 'build', 'copy', 'compress']);
   grunt.registerTask('devserver', ['default', 'configureProxies', 'connect', 'watch']);
 };
