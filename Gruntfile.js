@@ -81,6 +81,24 @@ module.exports = function(grunt) {
             'exclude -all', 'and',
             'include -namespace OpenEMap', 'and',
             'concat <%= releasePath %>/<%= pkg.name %>-<%= pkg.version %>-debug.js']
+      },
+      geoext_release: {
+        command: [
+            '-sdk bower_components/ext-4.2.1',
+            'compile',
+            '--classpath=bower_components/geoext2/src',
+            'exclude -all', 'and',
+            'include -namespace GeoExt', 'and',
+            'concat --closure bower_components/geoext2/release/geoext-all.js']
+      },
+      geoext_debug: {
+        command: [
+            '-sdk bower_components/ext-4.2.1',
+            'compile',
+            '--classpath=bower_components/geoext2/src',
+            'exclude -all', 'and',
+            'include -namespace GeoExt', 'and',
+            'concat --closure bower_components/geoext2/release/geoext-debug.js']
       }
     },
     
@@ -100,10 +118,10 @@ module.exports = function(grunt) {
             { expand: false, src: ['bower_components/OpenLayers-2.13.1/OpenLayers.debug.js'], dest: '<%= releasePath %>/lib/OpenLayers/OpenLayers.debug.js' },
             { expand: true, cwd: 'bower_components/OpenLayers-2.13.1/', src: ['theme/**'], dest: '<%= releasePath %>/lib/OpenLayers/'},
             { expand: false, src: ['bower_components/proj4/dist/proj4-compressed.js'], dest: '<%= releasePath %>/lib/proj4js/proj4-compressed.js' },
-            { expand: false, src: ['../libs/es5-shim.min.js'], dest: '<%= releasePath %>/lib/es5-shim/es5-shim.min.js' },
-            { expand: false, src: ['../libs/es5-shim.map'], dest: '<%= releasePath %>/lib/es5-shim/es5-shim.map' },
-            { expand: false, src: ['../libs/geoext-2.0.1/release/geoext-2.0.2-rc.1-all.js'], dest: '<%= releasePath %>/lib/geoext/geoext-all.js'},
-            { expand: false, src: ['../libs/geoext-2.0.1/release/geoext-2.0.2-rc.1-debug.js'], dest: '<%= releasePath %>/lib/geoext/geoext-debug.js'},
+            { expand: false, src: ['bower_components/es5-shim/es5-shim.min.js'], dest: '<%= releasePath %>/lib/es5-shim/es5-shim.min.js' },
+            { expand: false, src: ['bower_components/es5-shim/es5-shim.map'], dest: '<%= releasePath %>/lib/es5-shim/es5-shim.map' },
+            { expand: false, src: ['bower_components/geoext2/release/geoext-all.js'], dest: '<%= releasePath %>/lib/geoext/geoext-all.js'},
+            { expand: false, src: ['bower_components/geoext2/release/geoext-debug.js'], dest: '<%= releasePath %>/lib/geoext/geoext-debug.js'},
             { expand: true, flatten: true, src: ['dev/config/**'], dest: '<%= releasePath %>/config' },
             { expand: false, src: ['<%= releasePath %>/<%= pkg.name %>-<%= pkg.version %>-min.js'], dest: '<%= releasePath %>/<%= pkg.name %>-min.js' },
             { expand: false, src: ['<%= releasePath %>/<%= pkg.name %>-<%= pkg.version %>-debug.js'], dest: '<%= releasePath %>/<%= pkg.name %>-debug.js' },
@@ -195,7 +213,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-compress');
 
   grunt.registerTask('default', ['auto_install', 'jshint']);
-  grunt.registerTask('build', ['default', 'sencha:release', 'sencha:debug']);
+  grunt.registerTask('build', ['default', 'sencha:release', 'sencha:debug', 'sencha:geoext_release', 'sencha:geoext_debug'] );
 //  grunt.registerTask('dist', ['clean', 'copy', 'compress']);
   grunt.registerTask('dist', ['clean', 'build', 'copy', 'compress']);
   grunt.registerTask('devserver', ['default', 'configureProxies', 'connect', 'watch']);
