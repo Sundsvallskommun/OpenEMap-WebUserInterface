@@ -98,7 +98,7 @@ module.exports = function(grunt) {
             '--classpath=bower_components/geoext2/src',
             'exclude -all', 'and',
             'include -namespace GeoExt', 'and',
-            'concat --closure bower_components/geoext2/release/geoext-debug.js']
+            'concat bower_components/geoext2/release/geoext-debug.js']
       }
     },
     
@@ -125,7 +125,8 @@ module.exports = function(grunt) {
             { expand: true, flatten: true, src: ['dev/config/**'], dest: '<%= releasePath %>/config' },
             { expand: false, src: ['<%= releasePath %>/<%= pkg.name %>-<%= pkg.version %>-min.js'], dest: '<%= releasePath %>/<%= pkg.name %>-min.js' },
             { expand: false, src: ['<%= releasePath %>/<%= pkg.name %>-<%= pkg.version %>-debug.js'], dest: '<%= releasePath %>/<%= pkg.name %>-debug.js' },
-            { expand: false, src: ['src/main/javascript/OpenEMap.js'], dest: '<%= releasePath %>/OpenEMap.js' }
+            { expand: false, src: ['src/main/javascript/OpenEMap.js'], dest: '<%= releasePath %>/OpenEMap.js' },
+            { expand: true, cwd: '<%= releasePath %>/', src: ['**'], dest: '/workspaces/openhierarchy/OpenEMap-Admin-Services/src/org/oemap/services/modules/staticcontent/OpenEMap' }
             ]        
         }
     },
@@ -214,7 +215,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('default', ['auto_install', 'jshint']);
   grunt.registerTask('build', ['default', 'sencha:release', 'sencha:debug', 'sencha:geoext_release', 'sencha:geoext_debug'] );
-//  grunt.registerTask('dist', ['clean', 'copy', 'compress']);
+  grunt.registerTask('distcopy', ['copy']);
   grunt.registerTask('dist', ['clean', 'build', 'copy', 'compress']);
   grunt.registerTask('devserver', ['default', 'configureProxies', 'connect', 'watch']);
 };
