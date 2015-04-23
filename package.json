@@ -13,5 +13,6 @@
     "grunt-contrib-jshint": "~0.10.0",
     "grunt-contrib-watch": "~0.6.1",
     "grunt-sencha-build": "^0.1.5"
-  }
+  },
+  "modulesStaticPath": "d:/workspaces/openhierarchy/OpenEMap-Admin-Services/src/org/oemap/services/modules/staticcontent"
 }

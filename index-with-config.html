@@ -28,7 +28,7 @@
 		<meta name="author" content="Anders Erlandsson, Sundsvalls kommun" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	
-	    <link rel="stylesheet" type="text/css" href="lib/ext-theme-oep/ext-theme-oep-all.css">
+<!--	    <link rel="stylesheet" type="text/css" href="lib/ext-theme-oep/ext-theme-oep-all.css">
 	    <link rel="stylesheet" type="text/css" href="resources/css/OpenEMap.css">  
 	    <script type="text/javascript" src="lib/ext/ext-all.js"></script>
 	    <script type="text/javascript" src="lib/ext/ext-theme-neptune.js"></script>
@@ -38,63 +38,46 @@
 	    <script type="text/javascript" src="proj4_defs.js"></script>
 	    <script type="text/javascript" src="lib/geoext/geoext-all.js"></script> 
 	    <script type="text/javascript" src="lib/es5-shim/es5-shim.min.js"></script>
-	    <script type="text/javascript" src="OpenEMap-min.js"></script>
-	
+	    <script type="text/javascript" src="OpenEMap-debug.js"></script>
+-->
+    <script type="text/javascript" src="OpenEMap.js"></script>
 	<script type="text/javascript">
-		Ext.onReady(function() {
-	
-					var idx = window.location.href.indexOf('?');
-					if (!~idx) {
-						Ext.MessageBox.alert('Konfiguration','Du måste ange en konfigurationsid i url adresen t ex http://{url}/index.html?configid=16.')
+		function idFromQueryString(queryString) {
+			keyValuePairObject = {}
+			keyValuePairs = queryString.split('&');
+			var id = null;
+			keyValuePairs.forEach(function(keyValuePair) {
+				var keyValuePairArray = keyValuePair.split('=');
+				if (keyValuePairArray.length === 2) {
+					if (keyValuePairArray[0].toLowerCase() === 'configid' || keyValuePairArray[0].toLowerCase() === 'id') {
+						id = keyValuePairArray[1]; 
 					}
-					var queryString = Ext.Object.fromQueryString(window.location.href.substring(idx + 1));
+				}
+			});
+			return id;
+		}
+		
+		var idx = window.location.href.indexOf('?');
+		if (!~idx) {
+			alert('Du måste ange ett konfigurationsid i url adresen t ex http://{url}/index.html?configid=16.')
+		}
+		var id = idFromQueryString(window.location.href.substring(idx + 1));
+		
+		var configUrl = '/openemapadmin-1.6.0-rc.3/adminconfigs/config/' + id;
 	
-					var id = queryString[Object.keys(queryString)[0]];
-					
-					
-					function init(config) {
-						var mapClient = Ext.create('OpenEMap.Client');
-						var gui = {
-							map : false,
-							toolbar : {},
-							zoomTools : {},
-							layers : {},
-							baseLayers : {},
-							searchFastighet : {}
-							//objectConfig : {x: 100, y: 400, width: 300, height: 200, collapsed: true}
-						};
-						
-						mapClient.destroy();
-						mapClient.configure(Ext.clone(config), {
-							gui : gui
-						});
-	
-						var labels = new OpenLayers.Rule({
-							filter : new OpenLayers.Filter.Comparison({
-								type : OpenLayers.Filter.Comparison.EQUAL_TO,
-								property : "type",
-								value : "label"
-							}),
-							symbolizer : {
-								pointRadius : 20,
-								fillOpacity : 0,
-								strokeOpacity : 0,
-								label : "${label}"
-							}
-						});
-						mapClient.drawLayer.styleMap.styles['default'].addRules([ labels ]);
-					}
-					
-					Ext.Ajax.request({
-						url : OpenEMap.wsUrls.basePath + OpenEMap.wsUrls.configs + '/config/' + id,
-						method : 'GET',
-						success : function(evt){
-							var config = JSON.parse(evt.responseText);
-							init(config);
-						}
-					});
-				});
-	</script>
+		var options = {
+			gui: {
+				map : false,
+				toolbar : {},
+				zoomTools : {},
+				layers : {},
+				baseLayers : {},
+				searchFastighet : {}
+			}
+		};
+		
+		initOpenEMap(configUrl, options)
+	</script>
 	</head>
 	<body>
 	</body>
