@@ -166,9 +166,10 @@ var waitUntilOpenEMapIsLoaded = function(callback) {
 * @param {Object} [options.gui.zoomTools={}] Zoom slider and buttons intended to be used as a floating control
 * @param {Object} [options.gui.searchFastighet={}] Search "fastighet" control
 * @param {Object} [options.gui.showCoordinate] Simple control to show map coordinates
+* @param [callback] optional callback to be run after Open eMap is initialized
 * @return {OpenEMap.Client} reference to an initialized OpenEMap.Client object, or null if it wasnt possible to create it 
 */
-var initOpenEMap = function(configPath, options) {
+var initOpenEMap = function(configPath, options, callback) {
 	// Apply defaults to gui
 	// Defaults to show map, toolbar, zoomTools, layers, baseLayers and search controls
 	options.gui = options.gui || {};
@@ -215,7 +216,7 @@ var initOpenEMap = function(configPath, options) {
 				throw 'Hittar inte konfigurationen';
 			}
 		});
-
+		callback();
 		return mapClient;
 	};
 
