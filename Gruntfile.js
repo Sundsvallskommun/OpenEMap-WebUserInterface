@@ -99,7 +99,7 @@ module.exports = function(grunt) {
             '--classpath=bower_components/geoext2/src',
             'exclude -all', 'and',
             'include -namespace GeoExt', 'and',
-            'concat --closure bower_components/geoext2/release/geoext-debug.js']
+            'concat bower_components/geoext2/release/geoext-debug.js']
       }
     },
     
