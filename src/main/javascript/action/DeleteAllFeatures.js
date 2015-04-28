@@ -7,16 +7,8 @@ Ext.define('OpenEMap.action.DeleteAllFeatures', {
     constructor : function(config){
         
          config.control = new OpenLayers.Control.Button({
-            trigger: function(){
-                
-                config.mapPanel.measureLayer.removeAllFeatures();
-                config.mapPanel.measureLayerSegmentsLayer.removeAllFeatures();
-
-                config.mapPanel.map.layers.forEach(function(l){
-                    if(l instanceof OpenLayers.Layer.Vector){
-                        l.removeAllFeatures();
-                    }
-                });
+            trigger: function() {
+                config.mapPanel.drawLayer.removeAllFeatures();
             }
         });
 
