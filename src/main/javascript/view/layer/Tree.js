@@ -128,7 +128,7 @@ Ext.define('OpenEMap.view.layer.Tree' ,{
         
         this.callParent(arguments);
     },
-    getBaseLayersConfiguration() {
+    getBaseLayersConfiguration: function() {
         var layerConfigs = [];
 
         function configAddLayer(layer) {
@@ -137,7 +137,7 @@ Ext.define('OpenEMap.view.layer.Tree' ,{
 	            wms: {
 	            	url: layer.url, 
 	            	options: layer.options, 
-	            	params: layer.params,
+	            	params: layer.params
 	        	},
             	visibility: layer.visibility
 	        };

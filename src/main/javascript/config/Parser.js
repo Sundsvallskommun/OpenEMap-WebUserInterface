@@ -92,9 +92,9 @@ Ext.define('OpenEMap.config.Parser', {
         return map;
     },
 
-    sortBaseLayers(layers) {
-    	var baseLayers = layers.filter(function(layer) {return (layer.layer && layer.layer.isBaseLayer)});
-    	var overlays = layers.filter(function(layer) {return !(layer.layer && layer.layer.isBaseLayer)});
+    sortBaseLayers: function(layers) {
+    	var baseLayers = layers.filter(function(layer) {return (layer.layer && layer.layer.isBaseLayer);});
+    	var overlays = layers.filter(function(layer) {return !(layer.layer && layer.layer.isBaseLayer);});
     	var sorted = false;
     	var sortedBaseLayers = [];
     	for (var ix=0; baseLayers.length > ix; ix++) {
