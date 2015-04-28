@@ -137,16 +137,17 @@ Ext.define('OpenEMap.view.layer.Tree' ,{
 	            wms: {
 	            	url: layer.url, 
 	            	options: layer.options, 
-	            	params: layer.params, 
-	            	visibility: layer.visibility
-	        	}
+	            	params: layer.params,
+	        	},
+            	visibility: layer.visibility
 	        };
+			layerCfg.wms.options.visibility = layer.visibility; 
 			return layerCfg;
         }
 
         var baseLayers = this.mapPanel.map.layers.filter(function(layer) { return layer.isBaseLayer; });
         for (var i=0; i<baseLayers.length;i++) {
-	        layerConfigs.push(configAddLayer(baseLayers[i]));
+	        layerConfigs.unshift(configAddLayer(baseLayers[i]));
         }
 	    return layerConfigs;
     },

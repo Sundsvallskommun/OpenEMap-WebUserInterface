@@ -69,6 +69,9 @@ Ext.define('OpenEMap.config.Parser', {
         // filter out plain layer definitions (no group)
         var layers = this.extractLayers(layerTree);
         
+        // Sort baselayers to put the layer with visibility=true first, because OpenLayers uses the first baselayer as the active one.
+        layers = this.sortBaseLayers(layers);
+
         options.allOverlays = !layers.some(this.isBaseLayer, this);
         
         // Create OpenLayers.Layer.WMS from layer definitions that describe WMS source
@@ -89,6 +92,20 @@ Ext.define('OpenEMap.config.Parser', {
         return map;
     },
 
+    sortBaseLayers(layers) {
+    	var baseLayers = layers.filter(function(layer) {return (layer.layer && layer.layer.isBaseLayer)});
+    	var overlays = layers.filter(function(layer) {return !(layer.layer && layer.layer.isBaseLayer)});
+    	var sorted = false;
+    	var sortedBaseLayers = [];
+    	for (var ix=0; baseLayers.length > ix; ix++) {
+    		if (baseLayers[ix].visibility) {
+    			sortedBaseLayers.unshift(baseLayers[ix]);
+    		} else {
+    			sortedBaseLayers.push(baseLayers[ix]);
+    		}
+    	}
+    	return sortedBaseLayers.concat(overlays);
+    },
     /**
     * Iterate over the layertree and create a ExtJS-tree structure
     * @private
