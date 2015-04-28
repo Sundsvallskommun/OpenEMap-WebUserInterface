@@ -105,6 +105,50 @@ Ext.define('OpenEMap.Client', {
 		        },
 		        scope: this
 		    });
+        } else if ((typeof this.params.id !== 'undefined') || (typeof this.params.configid !== 'undefined')) {
+        	var id = typeof this.params.configid !== 'undefined ' ? this.params.configid : this.params.id;
+			Ext.Ajax.request({
+				url : OpenEMap.wsUrls.basePath + OpenEMap.wsUrls.configs + '/config/' + id,
+				method : 'GET',
+				success : function(evt){
+					var config = JSON.parse(evt.responseText);
+					if (config) {
+						var gui = {
+							map : false,
+							toolbar : {},
+							zoomTools : {},
+							layers : {},
+							baseLayers : {},
+							searchFastighet : {}
+						};
+						
+						this.destroy();
+						this.configure(Ext.clone(config), {
+							gui : gui
+						});
+	
+						var labels = new OpenLayers.Rule({
+							filter : new OpenLayers.Filter.Comparison({
+								type : OpenLayers.Filter.Comparison.EQUAL_TO,
+								property : "type",
+								value : "label"
+							}),
+							symbolizer : {
+								pointRadius : 20,
+								fillOpacity : 0,
+								strokeOpacity : 0,
+								label : "${label}"
+							}
+						});
+						this.drawLayer.styleMap.styles['default'].addRules([ labels ]);
+					} else {
+			            Ext.Msg.alert('Fel', 'Kartkonfiguration med angivet id saknas');
+					}
+				},
+				failure: function(response) {
+		            Ext.Msg.alert('Fel', Ext.decode(response.responseText).message);
+				}
+			});
         }
     },
     /**
@@ -575,6 +619,15 @@ Ext.apply(OpenEMap, {
 
     /**
      * @property {Object} [wsUrls] WS paths to be used for AJAX requests
+     * @property {string} [wsUrls.basePath] basepath to Open eMap Admin services 
+     * @property {string} [wsUrls.configs] relative path to publig configs within Open eMap Admin services
+     * @property {string} [wsUrls.adminconfigs] path to admin config service within Open eMap Admin services 
+     * @property {string} [wsUrls.permalinks] path to Open eMap Permalink service 
+     * @property {string} [wsUrls.permalinkclient] path to HTML-page that the permalink should point to 
+     * @property {string} [wsUrls.metadata]  path to Open eMap Geo Metadata service
+     * @property {string} [wsUrls.metadataAbstract] path to Open eMap Geo Metadata Abstract service
+     * @property {string} [wsUrls.servers] unused
+     * @property {string} [wsUrls.layers] unused 
      */
     wsUrls: {
         basePath:   	'/openemapadmin',
