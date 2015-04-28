@@ -71,7 +71,7 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
             };
             
             if (Object.keys(layerCfg.wms).length === 0) layerCfg.wms = undefined;
-            if (Object.keys(layerCfg.wfs).length === 0) layerCfg.wms = undefined;
+            if (Object.keys(layerCfg.wfs).length === 0) layerCfg.wfs = undefined;
             if (layers.length === 0) layerCfg.layers = undefined;
 
 	        for(var j=0; j<node.childNodes.length;j++) {
