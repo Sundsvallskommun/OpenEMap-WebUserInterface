@@ -128,7 +128,29 @@ Ext.define('OpenEMap.view.layer.Tree' ,{
         
         this.callParent(arguments);
     },
-    
+    getBaseLayersConfiguration() {
+        var layerConfigs = [];
+
+        function configAddLayer(layer) {
+	        var layerCfg = {
+	            name: layer.name,
+	            wms: {
+	            	url: layer.url, 
+	            	options: layer.options, 
+	            	params: layer.params, 
+	            	visibility: layer.visibility
+	        	}
+	        };
+			return layerCfg;
+        }
+
+        var baseLayers = this.mapPanel.map.layers.filter(function(layer) { return layer.isBaseLayer; });
+        for (var i=0; i<baseLayers.length;i++) {
+	        layerConfigs.push(configAddLayer(baseLayers[i]));
+        }
+	    return layerConfigs;
+    },
+
     getConfig: function(includeLayerRef) {
     	// Start with initial config to get a complete config object
         var config = Ext.clone(this.client.initialConfig);
@@ -140,6 +162,9 @@ Ext.define('OpenEMap.view.layer.Tree' ,{
     	var baseLayers = config.layers.filter(function(layer) {
     		return (layer.wms && layer.wms.options.isBaseLayer) ? layer : false;
     	});
+    	
+    	baseLayers = this.getBaseLayersConfiguration();
+    	
     	config.layers = baseLayers.concat(layers);
     	
     	return config;
