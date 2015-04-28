@@ -54,7 +54,7 @@ Ext.define('OpenEMap.action.Permalink', {
         });
     },
     createWindow: function(id) {
-        var url = OpenEMap.wsUrls.permalinkclient + '?permalink=' + id;
+        var url = document.location.origin + OpenEMap.wsUrls.permalinkclient + '?permalink=' + id;
         var label = '<a href="' + url + '" target="_blank">' + url + '</a>';
     
         if (this.w) {
