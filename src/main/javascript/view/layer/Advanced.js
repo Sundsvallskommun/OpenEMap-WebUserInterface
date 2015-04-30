@@ -33,11 +33,11 @@ Ext.define('OpenEMap.view.layer.Advanced' ,{
 	],
 
 	layout: {
-		type: 'hbox',
+		type: 'vbox',
 	    pack: 'end',
 	    align: 'stretch'
 	},
-	width: 500,
+	width: 300,
 	height: 650,
 	resizable: true,
 	resizeHandles: "s",
@@ -102,10 +102,9 @@ Ext.define('OpenEMap.view.layer.Advanced' ,{
 
 		this.showOnMapLayerView = Ext.create('OpenEMap.view.layer.Tree', {
 			title: 'Visas på kartan',
-			width: '50%',
-			height: '80%',
 			region: 'north',
     		split: true,
+    		border: true,
     		mapPanel: this.mapPanel,
     		client: this.client,
     		rootVisible: false,
@@ -209,14 +208,6 @@ Ext.define('OpenEMap.view.layer.Advanced' ,{
         });
 
 	  	this.items = [
-			Ext.create('OpenEMap.view.layer.Add', {
-			    mapPanel: this.mapPanel,
-			    dataHandler: this.dataHandler,
-			    metadataColumn: Ext.create('OpenEMap.action.MetadataInfoColumn',{
-		 			metadataWindow: this.metadataWindow,
-		 			dataHandler: this.dataHandler
-		 		})
-			}),
 /*
 			Ext.create('Ext.Component',{
 				html: 'foo'
@@ -224,8 +215,7 @@ Ext.define('OpenEMap.view.layer.Advanced' ,{
 */
 	    	{
 	    		xtype: 'panel',
-	    		layout: 'border',
-	    		width: '50%',
+	    		layout: 'vbox',
 	    		border: false,
 	    		colapsible: true,
 	    		items: [
@@ -235,7 +225,6 @@ Ext.define('OpenEMap.view.layer.Advanced' ,{
 						region: 'center',
 						xtype: 'panel',
 						border: false,
-						layout: 'fit',
 						collapsible: false,
 						titleCollapse: true,
 						items: me.savedMapConfigs

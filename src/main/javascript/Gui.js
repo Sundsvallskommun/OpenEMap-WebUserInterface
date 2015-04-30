@@ -266,6 +266,7 @@ Ext.define('OpenEMap.Gui', {
     createRightPanel: function() {
         
         var rightPanelItems = [];
+        var rightColumnPanelItems = [];
         var width = 300;
         // default position for rightPanel
         if (!this.gui.rightPanel.y) {this.gui.rightPanel.y = 20;}
@@ -274,7 +275,7 @@ Ext.define('OpenEMap.Gui', {
         if (this.gui.layers) {
 	        // Checks whether the advanced or basic Layer control should be used
 	        if (this.gui.layers && this.gui.layers.type === 'advanced') {
-	        	width = 500;
+	        	width = 300;
 	            this.mapLayers = Ext.create('OpenEMap.view.layer.Advanced', Ext.apply({
 	                mapPanel : this.mapPanel,
 	                orginalConfig: this.orginalConfig,
@@ -289,7 +290,7 @@ Ext.define('OpenEMap.Gui', {
 	        
 	        // If the layers panel not should be rendered to div, add it to the right panels items
 	        if (!this.gui.layers.renderTo) {
-	        	rightPanelItems.push(this.mapLayers);
+	        	rightColumnPanelItems.push(this.mapLayers);
 	        }
 	    }
         
@@ -303,22 +304,51 @@ Ext.define('OpenEMap.Gui', {
 	            width: 300 
 	        }, this.gui.searchFastighet));
             if (!this.gui.searchFastighet.renderTo) {
-            	rightPanelItems.push(this.searchFastighet);
+            	rightColumnPanelItems.push(this.searchFastighet);
             }
         }
 
         // Create right panel including both layrer control and searchParcel
         // create right panel containing layers and search panels if no renderTo target is configured
+        if (rightColumnPanelItems.length > 0) {
+            var rightColumnPanel = Ext.create('Ext.panel.Panel', {
+                layout : {
+                    type: 'vbox',
+                    align : 'stretch'
+                },
+                width : 300,
+                border: false,
+                style : this.gui.rightPanel.style,
+                bodyStyle: {
+                    background: 'transparent'
+                },
+                items : rightColumnPanelItems
+	        });
+	    }
+
+
+		var addLayersPanel = Ext.create('OpenEMap.view.layer.Add', {
+		    mapPanel: this.mapPanel,
+		    dataHandler: this.dataHandler,
+		    metadataColumn: Ext.create('OpenEMap.action.MetadataInfoColumn',{
+	 			metadataWindow: this.metadataWindow,
+	 			dataHandler: this.dataHandler
+	 		})
+		});
+		
+		rightPanelItems.push(addLayersPanel);
+		rightPanelItems.push(rightColumnPanel);
+
         if (rightPanelItems.length > 0) {
             this.rightPanel = Ext.create('Ext.panel.Panel', {
             	renderTo: this.gui.rightPanel.renderTo,
                 y : this.gui.rightPanel.y,
                 layout : {
-                    type: 'vbox',
+                    type: 'hbox',
                     align : 'stretch'
                 },
-                width : width,
-                border: false,
+                width : 600,
+                border: true,
                 style : this.gui.rightPanel.style,
                 bodyStyle: {
                     background: 'transparent'
