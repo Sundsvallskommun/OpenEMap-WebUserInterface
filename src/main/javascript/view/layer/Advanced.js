@@ -31,14 +31,6 @@ Ext.define('OpenEMap.view.layer.Advanced' ,{
 		'Ext.tree.plugin.TreeViewDragDrop',
 		'Ext.util.Point' // For some reason needed to use drag drop
 	],
-
-	layout: {
-		type: 'vbox',
-	    pack: 'end',
-	    align: 'stretch'
-	},
-	width: 300,
-	height: 650,
 	resizable: true,
 	resizeHandles: "s",
 	
@@ -53,7 +45,10 @@ Ext.define('OpenEMap.view.layer.Advanced' ,{
 
  		this.savedMapConfigs = Ext.create('OpenEMap.view.SavedMapConfigs', {
  			dataHandler: this.dataHandler,
- 			client: this.client
+ 			autoScroll: true,
+ 			client: this.client,
+	        title: 'Kartor',
+	        collapsible: true
  		});
  		
  		var renameAction = Ext.create('Ext.Action', {
@@ -102,12 +97,13 @@ Ext.define('OpenEMap.view.layer.Advanced' ,{
 
 		this.showOnMapLayerView = Ext.create('OpenEMap.view.layer.Tree', {
 			title: 'Visas på kartan',
-			region: 'north',
     		split: true,
-    		border: true,
+    		region: 'north',
+    		border: false,
     		mapPanel: this.mapPanel,
     		client: this.client,
     		rootVisible: false,
+	        collapsible: true,
     		
     		viewConfig: {
 		        plugins: {
@@ -208,30 +204,20 @@ Ext.define('OpenEMap.view.layer.Advanced' ,{
         });
 
 	  	this.items = [
-/*
-			Ext.create('Ext.Component',{
-				html: 'foo'
-			}),
-*/
+			me.showOnMapLayerView,
+			me.savedMapConfigs
+/*			
 	    	{
-	    		xtype: 'panel',
-	    		layout: 'vbox',
-	    		border: false,
-	    		colapsible: true,
-	    		items: [
-	    			me.showOnMapLayerView,
-			    	{
-						title: 'Sparade kartor',
-						region: 'center',
-						xtype: 'panel',
-						border: false,
-						collapsible: false,
-						titleCollapse: true,
-						items: me.savedMapConfigs
-					}
-	    		]
-	    	}
-		];
+				title: 'Sparade kartor',
+				region: 'center',
+				xtype: 'panel',
+				border: false,
+				collapsible: false,
+				titleCollapse: true,
+				items: me.savedMapConfigs
+			}
+*/		];
+
     	this.callParent(arguments);
     },
     getConfig: function(includeLayerRef) {

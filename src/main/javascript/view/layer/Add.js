@@ -29,10 +29,6 @@ Ext.define('OpenEMap.view.layer.Add' ,{
     ],
 
     title: 'Lägg till lager',
-
-    width: 300,
-    height: 600,
-
     headerPosition: 'top',
     collapsible: true,
     collapseMode: 'header',
@@ -87,7 +83,7 @@ Ext.define('OpenEMap.view.layer.Add' ,{
             me.metadataColumn
         ];
 
-  /*      this.store = Ext.create('OpenEMap.data.GroupedLayerTree');
+        this.store = Ext.create('OpenEMap.data.GroupedLayerTree');
         
         Ext.Ajax.request({
             url: OpenEMap.basePathProxy + OpenEMap.wmsURLs.getCapabilities,
@@ -95,7 +91,7 @@ Ext.define('OpenEMap.view.layer.Add' ,{
             scope: this,
             disableCaching: false
         });
-*/
+
         this.callParent(arguments);      
     },
     
