@@ -33,6 +33,7 @@ Ext.define('OpenEMap.Gui', {
                'OpenEMap.action.MetadataInfoColumn',
                'OpenEMap.action.ModifyGeometry',
                'OpenEMap.action.ModifyText',
+               'OpenEMap.action.Permalink',
                'OpenEMap.action.Popup',
                'OpenEMap.action.Print',
                'OpenEMap.action.SelectGeometry',
@@ -196,6 +197,8 @@ Ext.define('OpenEMap.Gui', {
                 } else if (type == 'Identify') {
                     config.basePath = basePath;
                     config.layers = layers;
+                    config.client = this.client;
+                } else if (type == 'Permalink') {
                     config.client = this.client;
                 } else if (type == 'Popup') {
                     config.layers = layers;
