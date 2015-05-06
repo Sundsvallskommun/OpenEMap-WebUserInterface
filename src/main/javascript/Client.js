@@ -106,7 +106,7 @@ Ext.define('OpenEMap.Client', {
 		        scope: this
 		    });
         } else if ((typeof this.params.id !== 'undefined') || (typeof this.params.configid !== 'undefined')) {
-        	var id = typeof this.params.configid !== 'undefined ' ? this.params.configid : this.params.id;
+        	var id = (typeof this.params.configid !== 'undefined') ? this.params.configid : this.params.id;
 			Ext.Ajax.request({
 				url : OpenEMap.wsUrls.basePath + OpenEMap.wsUrls.configs + '/config/' + id,
 				method : 'GET',
@@ -147,7 +147,8 @@ Ext.define('OpenEMap.Client', {
 				},
 				failure: function(response) {
 		            Ext.Msg.alert('Fel', Ext.decode(response.responseText).message);
-				}
+				},
+				scope: this
 			});
         }
     },

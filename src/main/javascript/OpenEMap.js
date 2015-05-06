@@ -219,7 +219,6 @@ var initOpenEMap = function(configPath, options, callback) {
 				}
 			});
 		}
-		
 		return mapClient;
 	};
 

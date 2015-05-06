@@ -107,6 +107,7 @@ module.exports = function(grunt) {
         dist: {
             files: [
             { expand: true, src: ['index*.html'], dest: '<%= releasePath %>' },
+            { expand: true, src: ['default.json'], dest: '<%= releasePath %>' },
             { expand: true, src: ['proj4_defs.js'], dest: '<%= releasePath %>' },
             { expand: true, src: ['resources/**'], dest: '<%= releasePath %>' },
             { expand: true, src: ['examples/**'], dest: '<%= releasePath %>' },
@@ -215,8 +216,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-compress');
 
   grunt.registerTask('default', ['auto_install', 'jshint']);
-  grunt.registerTask('build', ['default', 'sencha:release', 'sencha:debug', 'sencha:geoext_release', 'sencha:geoext_debug'] );
+  grunt.registerTask('buildall', ['default', 'sencha:release', 'sencha:debug', 'sencha:geoext_release', 'sencha:geoext_debug'] );
+  grunt.registerTask('build', ['default', 'sencha:release', 'sencha:debug'] );
   grunt.registerTask('distcopy', ['copy', 'compress']);
   grunt.registerTask('dist', ['clean', 'build', 'copy', 'compress']);
+  grunt.registerTask('distall', ['clean', 'buildall', 'copy', 'compress']);
   grunt.registerTask('devserver', ['default', 'configureProxies', 'connect', 'watch']);
 };
