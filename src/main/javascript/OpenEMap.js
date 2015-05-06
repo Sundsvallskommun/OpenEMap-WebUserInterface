@@ -141,11 +141,12 @@ var loadJsScripts = function(files) {
 }) ();
 
 
-var waitUntilOpenEMapIsLoaded = function(callback) {
+var waitUntilOpenEMapIsLoaded = function(callback, conf, options) {
 	if ((typeof OpenEMap === "undefined") || (typeof OpenEMap.Client === "undefined")) {
-		setTimeout(function() { waitUntilOpenEMapIsLoaded(callback); }, 5);
+		setTimeout(function() { waitUntilOpenEMapIsLoaded(callback, conf, options); }, 5);
 	} else {
-		return callback();
+		Ext.apply(OpenEMap, options.OpenEMap);
+		return callback(conf);
 	}
 };
 
@@ -182,7 +183,7 @@ var initOpenEMap = function(configPath, options, callback) {
 		searchFastighet : options.gui.searchFastighet || {}
 	};
 
-	var init = function() {
+	var init = function(confPath) {
 		var mapClient = Ext.create('OpenEMap.Client');
 
 		var configure = function(config) {
@@ -205,27 +206,23 @@ var initOpenEMap = function(configPath, options, callback) {
 			mapClient.drawLayer.styleMap.styles['default'].addRules([ labels ]);
 		};
 		
-		Ext.Ajax.request({
-			url : configPath,
-			method : 'GET',
-			success : function(evt){
-				configure(JSON.parse(evt.responseText));
-			},
-			failure: function(response, opts) {
-				mapClient.destroy();
-				throw 'Hittar inte konfigurationen';
-			}
-		});
-		callback();
+		if (confPath) {
+			Ext.Ajax.request({
+				url : confPath,
+				method : 'GET',
+				success : function(evt){
+					configure(JSON.parse(evt.responseText));
+				},
+				failure: function(response, opts) {
+					mapClient.destroy();
+					throw 'Hittar inte konfigurationen';
+				}
+			});
+		}
+		
 		return mapClient;
 	};
 
-	// check configPath
-	if (configPath) {
-		// Make sure OpenEMap is loaded
-		var mapClient = waitUntilOpenEMapIsLoaded(init);
-	
-	} else {
-		throw 'Hittar inte konfigurationen';
-	} 
+	// Make sure OpenEMap is loaded
+	var mapClient = waitUntilOpenEMapIsLoaded(init, configPath, options);
 };

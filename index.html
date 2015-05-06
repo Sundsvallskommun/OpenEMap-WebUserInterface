@@ -28,26 +28,61 @@
 		<meta name="author" content="Anders Erlandsson, Sundsvalls kommun" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	
-	    <link rel="stylesheet" type="text/css" href="/libs/ext-theme-oep/ext-theme-oep-all.css">
-	    <link rel="stylesheet" type="text/css" href="resources/css/OpenEMap.css">  
-	    <script type="text/javascript" src="/libs/ext-4.2.1/ext-all.js"></script>
-	    <script type="text/javascript" src="/libs/ext-4.2.1/ext-theme-neptune.js"></script>
-	    <script type="text/javascript" src="/libs/ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
-	    <script type="text/javascript" src="/libs/OpenLayers-2.13.1/OpenLayers.js"></script>
-	    <script type="text/javascript" src="/libs/proj4js/proj4-compressed.js"></script>
-	    <script type="text/javascript" src="proj4_defs.js"></script>
-	    <script type="text/javascript" src="/libs/geoext-2.0.2-rc.1-all.js"></script> 
-	    <script type="text/javascript" src="/libs/es5-shim.min.js"></script>
-	    <script type="text/javascript" src="OpenEMap-1.6.0-rc.3-min.js"></script>
-	    <script type="text/javascript"></script>
-		  Ext.onReady(function() {
+	    <script type="text/javascript" src="OpenEMap.js"></script>
+	    <script type="text/javascript">
 			
-			OpenEMap.wsUrls.basePath = '/openemapadmin-1.5.0-rc.2/';
-			OpenEMap.basePathImages = '../resources/images/';
-			OpenEMap.basePathMapFish = '/print/pdf';
+			var options = {
+				gui: {
+					map : false,
+					toolbar : {},
+					zoomTools : {},
+					layers : {},
+					baseLayers : {},
+					searchFastighet : {}
+				},
+				OpenEMap: {
+					// Base path to be used for mapfish print servlet requests
+				    basePathMapFish: '/print/pdf', 
+				    // Base path to be used for all AJAX requests against search-lm REST API
+				    basePathLM: '/search/lm/', 
+				    // name of user to be used when calling search-lm REST API
+				    lmUser: 'sundsvall', 
+				    // Base path to be used for all AJAX requests against Elasticsearch REST API
+				    basePathES: '/search/es/', 
+				    // URL/paths related to WMS usage / advanced layer list
+				    wmsURLs: { 
+				    	// URL to be used to fetch WMS capabilities etc. for add layer
+				        basePath: '/geoserver/wms', 
+				        // URL to be used when WMS layer has been added to config
+				        url: 'https://extmaptest.sundsvall.se/geoserver/wms', 
+				        // URL to getcapabilities document. Must include request parameter (eg. https://extmap.sundsvall.se/geoserver/wms?request=GetCapabilities&version=1.1.1)
+				        getCapabilities: 'https://extmaptest.sundsvall.se/getcapabilities/wms.xml' 
+				    },
+				    //Base path to proxy to be used for WFS-post
+				    basePathProxy: '/cgi-bin/proxy.py?url=', 
+				    // WS paths to be used for AJAX requests
+				    wsUrls: { 
+				    	//basepath to Open eMap Admin
+						basePath: '/openemapadmin-1.6.0-rc.4/',
+						// relative path to configs, set in admin of modules in OpenHierarchy
+				        configs:    	'/configs',  
+				        // relative path to adminconfigs, set in admin of modules in OpenHierarchy
+				        adminconfigs: 	'/adminconfigs',  
+				        // path to permalinks
+				        permalinks:     '/openemap-permalink/permalinks',
+				        //path to html-file used for opening permalinks 
+				        permalinkclient:'index.html', 
+				        metadata:   	'geometadata/getmetadatabyid', 
+				        metadata_abstract: 'geometadata/getabstractbyid'
+				    },
+				}
+			};
 			
-			mapClient = Ext.create('OpenEMap.Client');
-		  });
+			try {
+				initOpenEMap(null, options);
+			} catch(msg) {
+				alert(msg);
+			}
 		</script>
 	</head>
 	<body>
