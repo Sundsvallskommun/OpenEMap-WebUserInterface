@@ -63,7 +63,7 @@ Each release is documented under Releases/Release number (see versioning below)
 
 ## Building a release verison
 
-Done by running `grunt dist` in a working development clone. Requires Sencha Cmd installed and available on the path.
+Done by running `grunt distall` in a working development clone. Requires Sencha Cmd installed and available on the path.
 
 ## Versioning
 
