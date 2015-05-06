@@ -54,12 +54,28 @@
     
     <script type="text/javascript">
 	  Ext.onReady(function() {
+		  OpenEMap.wsUrls.basePath = '/openemapadmin-1.5.0-rc.2/';
+		  OpenEMap.basePathImages = '../resources/images/';
+		  OpenEMap.basePathMapFish = '/print/pdf';
 		
-		OpenEMap.wsUrls.basePath = '/openemapadmin-1.5.0-rc.2/';
-		OpenEMap.basePathImages = '../resources/images/';
-		OpenEMap.basePathMapFish = '/print/pdf';
+		  var callback = function() {
+		    var labels = new OpenLayers.Rule({
+          	filter: new OpenLayers.Filter.Comparison({
+              	type: OpenLayers.Filter.Comparison.EQUAL_TO,
+              	property: "type",
+              	value: "label"
+          	}),
+            symbolizer: {
+              	pointRadius: 20,
+              	fillOpacity: 0,
+              	strokeOpacity: 0,
+              	label: "${label}"   
+           	}
+        });
+      	mapClient.drawLayer.styleMap.styles['default'].addRules([labels]);
+		  };
 		
-		mapClient = Ext.create('OpenEMap.Client');
+		  mapClient = Ext.create('OpenEMap.Client', callback);
 	  });
     </script>
     

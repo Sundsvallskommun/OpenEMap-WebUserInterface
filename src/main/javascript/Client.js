@@ -87,7 +87,7 @@ Ext.define('OpenEMap.Client', {
      * @property {OpenLayers.Layer.Vector}
      */
     drawLayer: null,
-    constructor: function() {
+    constructor: function(callback) {
         this.params = Ext.Object.fromQueryString(document.location.search);
         if (this.params.permalink) {
             Ext.Ajax.request({
@@ -159,6 +159,7 @@ Ext.define('OpenEMap.Client', {
      * 
      * @param {Object} config Map configuration object
      * @param {Object} options Additional MapClient options
+     * @param {Function options.callback Callback that is called when the client is configured and ready 
      * @param {Object} options.gui Options to control GUI elements. Each property in this object is
      * essentially a config object used to initialize an Ext JS component. If a property is undefined or false
      * that component will not be initialized except for the map component. If a property is a defined
@@ -198,6 +199,10 @@ Ext.define('OpenEMap.Client', {
         
         if (this.gui.controlToActivate) {
             this.gui.controlToActivate.activate();
+        }
+        
+        if (options.callback) {
+            options.callback.call(this);
         }
     },
     getPermalinkdata: function() {
