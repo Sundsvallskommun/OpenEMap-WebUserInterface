@@ -141,15 +141,6 @@ var loadJsScripts = function(files) {
 }) ();
 
 
-var waitUntilOpenEMapIsLoaded = function(callback, conf, options) {
-	if ((typeof OpenEMap === "undefined") || (typeof OpenEMap.Client === "undefined")) {
-		setTimeout(function() { waitUntilOpenEMapIsLoaded(callback, conf, options); }, 5);
-	} else {
-		Ext.apply(OpenEMap, options.OpenEMap);
-		return callback(conf);
-	}
-};
-
 /**
 * Initialize the map
 * @param {string}configPath path to config
@@ -175,7 +166,7 @@ var initOpenEMap = function(configPath, options, callback) {
 	// Defaults to show map, toolbar, zoomTools, layers, baseLayers and search controls
 	options.gui = options.gui || {};
 	options.gui = {
-		map : options.gui.map || {},
+		map : options.gui.map,
 		toolbar : options.gui.toolbar || {},
 		zoomTools : options.gui.zoomTools || {},
 		layers : options.gui.layers || {},
@@ -183,45 +174,105 @@ var initOpenEMap = function(configPath, options, callback) {
 		searchFastighet : options.gui.searchFastighet || {}
 	};
 
-	var init = function(confPath) {
-		var mapClient = Ext.create('OpenEMap.Client');
+	var waitUntilOpenEMapIsLoaded = function(conf, options, callback) {
+		if ((typeof OpenEMap === "undefined") || (typeof OpenEMap.Client === "undefined")) {
+			setTimeout(function() { waitUntilOpenEMapIsLoaded(conf, options, callback); }, 5);
+		} else {
+			Ext.apply(OpenEMap, options.OpenEMap);
+			var mapClient = Ext.create('OpenEMap.Client');
 
-		var configure = function(config) {
 			mapClient.destroy();
-			var configClone = Ext.clone(config);
-			mapClient.configure(configClone, options);
-			var labels = new OpenLayers.Rule({
-				filter : new OpenLayers.Filter.Comparison({
-					type : OpenLayers.Filter.Comparison.EQUAL_TO,
-					property : "type",
-					value : "label"
-				}),
-				symbolizer : {
-					pointRadius : 20,
-					fillOpacity : 0,
-					strokeOpacity : 0,
-					label : "${label}"
-				}
-			});
-			mapClient.drawLayer.styleMap.styles['default'].addRules([ labels ]);
-		};
-		
-		if (confPath) {
-			Ext.Ajax.request({
-				url : confPath,
-				method : 'GET',
-				success : function(evt){
-					configure(JSON.parse(evt.responseText));
-				},
-				failure: function(response, opts) {
-					mapClient.destroy();
-					throw 'Hittar inte konfigurationen';
-				}
-			});
-		}
-		return mapClient;
-	};
+	        mapClient.params = Ext.Object.fromQueryString(document.location.search);
 
+			// If a config is specified in function call, use it
+			if (conf) {
+				Ext.Ajax.request({
+					url : conf,
+					method : 'GET',
+					success : function(evt){
+						mapClient.configure(JSON.parse(evt.responseText), options);
+						var labels = new OpenLayers.Rule({
+							filter : new OpenLayers.Filter.Comparison({
+								type : OpenLayers.Filter.Comparison.EQUAL_TO,
+								property : "type",
+								value : "label"
+							}),
+							symbolizer : {
+								pointRadius : 20,
+								fillOpacity : 0,
+								strokeOpacity : 0,
+								label : "${label}"
+							}
+						});
+						mapClient.drawLayer.styleMap.styles['default'].addRules([ labels ]);
+					},
+					failure: function(response, opts) {
+						mapClient.destroy();
+						throw 'Hittar inte konfigurationen';
+					}
+				});
+			
+			// If a permalink parameter is used in URL, use it
+			} else if (mapClient.params.permalink) {
+	            Ext.Ajax.request({
+			    	url: OpenEMap.wsUrls.permalinks + '/' + this.params.permalink,
+			    	success: function(response) {
+			    		var permalinkdata = Ext.decode(response.responseText);
+			    		mapClient.configure(permalinkdata.config, permalinkdata.options);
+			    		var format = new OpenLayers.Format.GeoJSON();
+			    		var features = format.read(permalinkdata.drawLayer.geojson);
+			    		mapClient.drawLayer.addFeatures(features);
+			    		mapClient.map.zoomToExtent(permalinkdata.extent);
+			        },
+			        failure: function(response) {
+			            Ext.Msg.alert('Fel', Ext.decode(response.responseText).message);
+			        },
+			        scope: mapClient
+			    });
+	        
+	        // If a configid URL-parameter is specified, use it
+	        } else if ((typeof mapClient.params.id !== 'undefined') || (typeof mapClient.params.configid !== 'undefined')) {
+	        	var id = (typeof mapClient.params.configid !== 'undefined') ? mapClient.params.configid : mapClient.params.id;
+				Ext.Ajax.request({
+					url : OpenEMap.wsUrls.basePath + OpenEMap.wsUrls.configs + '/config/' + id,
+					method : 'GET',
+					success : function(evt){
+						var config = JSON.parse(evt.responseText);
+						if (config) {
+							
+							mapClient.destroy();
+							mapClient.configure(Ext.clone(config), options);
+		
+							var labels = new OpenLayers.Rule({
+								filter : new OpenLayers.Filter.Comparison({
+									type : OpenLayers.Filter.Comparison.EQUAL_TO,
+									property : "type",
+									value : "label"
+								}),
+								symbolizer : {
+									pointRadius : 20,
+									fillOpacity : 0,
+									strokeOpacity : 0,
+									label : "${label}"
+								}
+							});
+							mapClient.drawLayer.styleMap.styles['default'].addRules([ labels ]);
+						} else {
+				            Ext.Msg.alert('Fel', 'Kartkonfiguration med angivet id saknas');
+						}
+					},
+					failure: function(response) {
+			            Ext.Msg.alert('Fel', Ext.decode(response.responseText).message);
+					},
+					scope: mapClient
+				});
+	        }
+			
+			if (callback) {
+				callback(mapClient);
+			}
+		}
+	};
 	// Make sure OpenEMap is loaded
-	var mapClient = waitUntilOpenEMapIsLoaded(init, configPath, options);
+	waitUntilOpenEMapIsLoaded(configPath, options, callback);
 };

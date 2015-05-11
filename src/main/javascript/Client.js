@@ -28,7 +28,7 @@ Ext.define('OpenEMap.Client', {
                'OpenEMap.view.PopupResults',
                'OpenEMap.OpenLayers.Control.ModifyFeature',
                'OpenEMap.OpenLayers.Control.DynamicMeasure'],
-    version: '1.6.0-rc.3',
+    version: '1.6.0-rc.4',
     /**
      * OpenLayers Map instance
      * 
@@ -87,71 +87,6 @@ Ext.define('OpenEMap.Client', {
      * @property {OpenLayers.Layer.Vector}
      */
     drawLayer: null,
-    constructor: function(callback) {
-        this.params = Ext.Object.fromQueryString(document.location.search);
-        if (this.params.permalink) {
-            Ext.Ajax.request({
-		    	url: OpenEMap.wsUrls.permalinks + '/' + this.params.permalink,
-		    	success: function(response) {
-		    		var permalinkdata = Ext.decode(response.responseText);
-		    		this.configure(permalinkdata.config, permalinkdata.options);
-		    		var format = new OpenLayers.Format.GeoJSON();
-		    		var features = format.read(permalinkdata.drawLayer.geojson);
-		    		this.drawLayer.addFeatures(features);
-		    		this.map.zoomToExtent(permalinkdata.extent);
-		        },
-		        failure: function(response) {
-		            Ext.Msg.alert('Fel', Ext.decode(response.responseText).message);
-		        },
-		        scope: this
-		    });
-        } else if ((typeof this.params.id !== 'undefined') || (typeof this.params.configid !== 'undefined')) {
-        	var id = (typeof this.params.configid !== 'undefined') ? this.params.configid : this.params.id;
-			Ext.Ajax.request({
-				url : OpenEMap.wsUrls.basePath + OpenEMap.wsUrls.configs + '/config/' + id,
-				method : 'GET',
-				success : function(evt){
-					var config = JSON.parse(evt.responseText);
-					if (config) {
-						var gui = {
-							map : false,
-							toolbar : {},
-							zoomTools : {},
-							layers : {},
-							baseLayers : {},
-							searchFastighet : {}
-						};
-						
-						this.destroy();
-						this.configure(Ext.clone(config), {
-							gui : gui
-						});
-	
-						var labels = new OpenLayers.Rule({
-							filter : new OpenLayers.Filter.Comparison({
-								type : OpenLayers.Filter.Comparison.EQUAL_TO,
-								property : "type",
-								value : "label"
-							}),
-							symbolizer : {
-								pointRadius : 20,
-								fillOpacity : 0,
-								strokeOpacity : 0,
-								label : "${label}"
-							}
-						});
-						this.drawLayer.styleMap.styles['default'].addRules([ labels ]);
-					} else {
-			            Ext.Msg.alert('Fel', 'Kartkonfiguration med angivet id saknas');
-					}
-				},
-				failure: function(response) {
-		            Ext.Msg.alert('Fel', Ext.decode(response.responseText).message);
-				},
-				scope: this
-			});
-        }
-    },
     /**
      * Configure map
      * 
@@ -637,9 +572,9 @@ Ext.apply(OpenEMap, {
      */
     wsUrls: {
         basePath:   	'/openemapadmin',
-        permalinks:     '/openemap-permalink/permalinks',
-        permalinkclient:'/dev/debug_permalink.html',
-        configs:    	'/configs',
+        permalinks:     '/openemappermalink/permalinks',
+        permalinkclient:'index.html',
+        configs:    	'/configlist',
         adminconfigs: 	'/adminconfigs',
         servers:    	'settings/servers',
         layers:     	'layers/layers',
