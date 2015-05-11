@@ -161,7 +161,7 @@ Ext.define('OpenEMap.view.layer.Tree' ,{
 
         // layer tree does not include base layers so extract them from initial config
     	var baseLayers = config.layers.filter(function(layer) {
-    		return (layer.wms && layer.wms.options.isBaseLayer) ? layer : false;
+    		return (layer.wms && layer.wms.options && layer.wms.options.isBaseLayer) ? layer : false;
     	});
     	
     	baseLayers = this.getBaseLayersConfiguration();

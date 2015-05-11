@@ -70,9 +70,9 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
                 layers: []
             };
             
-            if (Object.keys(layerCfg.wms).length === 0) layerCfg.wms = undefined;
-            if (Object.keys(layerCfg.wfs).length === 0) layerCfg.wfs = undefined;
-            if (layers.length === 0) layerCfg.layers = undefined;
+            if (!layerCfg.wms || Object.keys(layerCfg.wms).length === 0) layerCfg.wms = undefined;
+            if (!layerCfg.wfs || Object.keys(layerCfg.wfs).length === 0) layerCfg.wfs = undefined;
+//            if (!layerCfg.layers || layerCfg.layers.length === 0) layerCfg.layers = undefined;
 
 	        for(var j=0; j<node.childNodes.length;j++) {
 		        layerCfg.layers.push(configAddLayer(node.childNodes[j], includeLayerRef));
