@@ -232,7 +232,7 @@ module.exports = function(grunt) {
   grunt.registerTask('build', ['default', 'sencha:release', 'sencha:debug'] );
   grunt.registerTask('copydist', ['copy:dist', 'compress']);
   grunt.registerTask('copytomodule', ['clean:module', 'copy:module']);
-  grunt.registerTask('dist', ['clean:dist', 'build', 'copy:dist', 'compress']);
-  grunt.registerTask('distall', ['clean', 'buildall', 'copy', 'compress']);
+  grunt.registerTask('dist', ['clean:dist', 'build', 'copydist']);
+  grunt.registerTask('distall', ['clean:dist', 'buildall', 'copydist']);
   grunt.registerTask('devserver', ['default', 'configureProxies', 'connect', 'watch']);
 };
