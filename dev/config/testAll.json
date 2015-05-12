@@ -548,6 +548,9 @@
             "iconCls": "action-deleteallfeatures"
         },
         {
+            "type": "Permalink",
+        },
+        {
             "type": "DetailReport",
             "tooltip": "Shows a detailed report for a specified point",
             "iconCls": "action-detailreport"
