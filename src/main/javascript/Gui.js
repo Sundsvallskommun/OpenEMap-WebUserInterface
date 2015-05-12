@@ -314,6 +314,7 @@ Ext.define('OpenEMap.Gui', {
 			 			dataHandler: this.dataHandler
 			 		})
 				});
+
 	        } else {
 	            this.mapLayers = Ext.create('OpenEMap.view.layer.Basic', Ext.apply({
 	                mapPanel : this.mapPanel,
@@ -336,7 +337,7 @@ Ext.define('OpenEMap.Gui', {
 	            basePath: this.config.basePath,
 	            search: this.search,
 		        collapsible: true,
-	            flex: 0,
+	            height: 120,
 	            width: this.gui.layerControl.width
 	        }, this.gui.searchFastighet));
             if (!this.gui.searchFastighet.renderTo) {

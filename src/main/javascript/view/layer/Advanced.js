@@ -31,8 +31,12 @@ Ext.define('OpenEMap.view.layer.Advanced' ,{
 		'Ext.tree.plugin.TreeViewDragDrop',
 		'Ext.util.Point' // For some reason needed to use drag drop
 	],
-	resizable: true,
-	resizeHandles: "s",
+//	resizable: true,
+//	resizeHandles: "s",
+	layout: {
+		type: 'vbox',
+		align: 'stretch'
+	},
 	
  	initComponent: function(config) {
  		var me = this;
@@ -48,7 +52,9 @@ Ext.define('OpenEMap.view.layer.Advanced' ,{
  			autoScroll: true,
  			client: this.client,
 	        title: 'Kartor',
-	        collapsible: true
+	        collapsible: true,
+	        flex: 1,
+	        minHeight: 100
  		});
  		
  		var renameAction = Ext.create('Ext.Action', {
@@ -98,12 +104,13 @@ Ext.define('OpenEMap.view.layer.Advanced' ,{
 		this.showOnMapLayerView = Ext.create('OpenEMap.view.layer.Tree', {
 			title: 'Visas på kartan',
     		split: true,
-    		region: 'north',
     		border: false,
     		mapPanel: this.mapPanel,
     		client: this.client,
     		rootVisible: false,
 	        collapsible: true,
+	        autoscroll: true,
+	        flex: 4,
     		
     		viewConfig: {
 		        plugins: {

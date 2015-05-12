@@ -574,7 +574,7 @@ Ext.apply(OpenEMap, {
         basePath:   	'/openemapadmin',
         permalinks:     '/openemappermalink/permalinks',
         permalinkclient:'index.html',
-        configs:    	'/configlist',
+        configs:    	'/configs',
         adminconfigs: 	'/adminconfigs',
         servers:    	'settings/servers',
         layers:     	'layers/layers',
