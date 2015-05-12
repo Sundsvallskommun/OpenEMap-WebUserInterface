@@ -215,7 +215,7 @@ var initOpenEMap = function(configPath, options, callback) {
 			// If a permalink parameter is used in URL, use it
 			} else if (mapClient.params.permalink) {
 	            Ext.Ajax.request({
-			    	url: OpenEMap.wsUrls.permalinks + '/' + this.params.permalink,
+			    	url: OpenEMap.wsUrls.permalinks + '/' + mapClient.params.permalink,
 			    	success: function(response) {
 			    		var permalinkdata = Ext.decode(response.responseText);
 			    		mapClient.configure(permalinkdata.config, permalinkdata.options);
