@@ -39,10 +39,22 @@ Ext.define('OpenEMap.view.SavedMapConfigs' ,{
                 },
 			    listeners: {
 		            click: function(grid, rowIndex, cellIndex, column, e, record, tr) {
-	                    this.client.destroy();
-				        this.client.configure(record.raw, this.client.initialOptions);
-	                    e.stopEvent();
-	                    return false;
+						var requestUrl = ((OpenEMap && OpenEMap.wsUrls && OpenEMap.wsUrls.basePath) ? OpenEMap.wsUrls.basePath : '') + 
+							((OpenEMap && OpenEMap.wsUrls && OpenEMap.wsUrls.configs) ? OpenEMap.wsUrls.configs : '') + 
+							'/config/' + record.get('configId');
+						Ext.Ajax.request({
+							scope: this,
+							url: requestUrl,
+							success: function(response) {
+								this.client.destroy();
+								this.client.configure(JSON.parse(response.responseText), this.client.initialOptions);
+								e.stopEvent();
+								return false;
+							},
+							failure: function(response) {
+								Ext.MessageBox.alert('Kommunikationsproblem', 'Kartan kan inte öppnas. Kontakta systemadministratör.');
+							}
+						});
 	               }.bind(this)
 			    }
             },
