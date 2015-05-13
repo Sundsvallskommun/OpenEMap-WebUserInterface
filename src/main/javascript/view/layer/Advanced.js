@@ -63,12 +63,21 @@ Ext.define('OpenEMap.view.layer.Advanced' ,{
             disabled: true,
             handler: function(widget, event) {
                 var node = this.showOnMapLayerView.getSelectionModel().getSelection()[0];
-                if (node) {
+                if (node && node.get('isGroupLayer')) {
                     Ext.Msg.prompt('Byt namn...', 'Ange nytt namn:', function(btn, text) {
                         if (btn == 'ok'){
                             node.set('text', text);
                         }
-                    });
+                    }, window, false, node.get('text'));
+
+                    // TODO - Add functionality for changing name of a ordinary layer 
+/*                } else if (node && node.get('name')) {
+                    Ext.Msg.prompt('Byt namn...', 'Ange nytt namn:', function(btn, text) {
+                        if (btn == 'ok'){
+                            node.set('name', text);
+                        }
+                    }, window, false, node.get('name'));
+*/                	
                 }
             }.bind(this)
         });
@@ -200,6 +209,7 @@ Ext.define('OpenEMap.view.layer.Advanced' ,{
     	
     	this.showOnMapLayerView.getSelectionModel().on({
             selectionchange: function(sm, selections) {
+//                renameAction.enable();
                 if (selections.length === 1 && selections[0].data.isGroupLayer) {
                     renameAction.enable();
                     createGroupAction.enable();
