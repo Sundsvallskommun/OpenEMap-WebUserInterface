@@ -107,7 +107,7 @@
 		                "options": {
 		                	"isBaseLayer": false,
 		                	"visibility": true,
-		                	"legendURL": "legendimage.png"
+		                	"legendURL": "https://extmaptest.sundsvall.se/teckenforklaring/Lantmateriet/fastighetsgranser_kvalitet.png"
 		                }
 		            },
 		            "wfs": {

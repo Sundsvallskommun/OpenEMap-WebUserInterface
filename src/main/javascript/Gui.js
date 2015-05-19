@@ -299,7 +299,7 @@ Ext.define('OpenEMap.Gui', {
 	            }, this.gui.layers));
 	            
 	            // Adds the Add layer control
-/*				this.addLayerControl = Ext.create('OpenEMap.view.layer.Add', {
+				this.addLayerControl = Ext.create('OpenEMap.view.layer.Add', {
 				    mapPanel: this.mapPanel,
 				    border: false,
 		        	renderTo: this.gui.addLayerControl.renderTo,
@@ -314,7 +314,7 @@ Ext.define('OpenEMap.Gui', {
 			 			dataHandler: this.dataHandler
 			 		})
 				});
-*/
+
 	        } else {
 	            this.mapLayers = Ext.create('OpenEMap.view.layer.Basic', Ext.apply({
 	                mapPanel : this.mapPanel,
