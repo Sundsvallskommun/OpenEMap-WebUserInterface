@@ -129,6 +129,12 @@ Ext.define('OpenEMap.Gui', {
                 height: element ? element.getHeight() : undefined,
                 items : items
             }, this.gui.map));
+//            window.addEventListener('resize', function() {
+//            	element.setWidth(window.innerWidth);
+//            	element.setHeight(window.innerHeight);
+//            	this.mapClient.mapPanel.setSize(window.innerWidth, window.innerHeight);
+//            	element.setSize(window.innerWidth, window.innerHeight);
+//           });
         } else {
             this.container = Ext.create('Ext.container.Viewport', {
                 layout : 'absolute',
