@@ -3,13 +3,13 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg version="1.1" id="Lager_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 width="22px" height="66px" viewBox="0 0 22 66" enable-background="new 0 0 22 66" xml:space="preserve">
-<polygon fill="#333333" points="11.726,13.792 8.028,14.427 8.662,10.728 "/>
-<rect x="12.932" y="0.722" transform="matrix(0.7073 0.7069 -0.7069 0.7073 9.2968 -8.6542)" fill="#333333" width="4.334" height="12.356"/>
-<text transform="matrix(1 0 0 1 1 18.2944)" fill="#333333" font-family="'Myriad-Roman'" font-size="12.9713">A</text>
-<polygon fill="#3C63AD" points="11.726,37.145 8.028,37.779 8.662,34.08 "/>
-<rect x="12.933" y="24.074" transform="matrix(0.7074 0.7068 -0.7068 0.7074 25.8015 -1.8206)" fill="#3C63AD" width="4.334" height="12.356"/>
-<text transform="matrix(1 0 0 1 1 41.6465)" fill="#3C63AD" font-family="'Myriad-Roman'" font-size="12.9713">A</text>
-<polygon fill="#FFFFFF" points="11.726,60.005 8.028,60.64 8.662,56.94 "/>
-<rect x="12.933" y="46.935" transform="matrix(0.7074 0.7068 -0.7068 0.7074 41.9598 4.8686)" fill="#FFFFFF" width="4.334" height="12.356"/>
-<text transform="matrix(1 0 0 1 1 64.5078)" fill="#FFFFFF" font-family="'Myriad-Roman'" font-size="12.9713">A</text>
+<polygon fill="#333333" points="11.736,12.897 8.041,13.487 8.674,10.048 "/>
+<polygon fill="#333333" points="17.938,1 21,3.849 12.273,11.976 9.21,9.126 "/>
+<text transform="matrix(1.0744 0 0 1 1.0195 19.083)" fill="#333333" font-family="'ArialMT'" font-size="12.0619">A</text>
+<polygon fill="#3366CC" points="11.736,34.896 8.041,35.486 8.674,32.048 "/>
+<polygon fill="#3366CC" points="17.938,23 21,25.849 12.273,33.975 9.21,31.126 "/>
+<text transform="matrix(1.0744 0 0 1 1.0195 41.083)" fill="#3366CC" font-family="'ArialMT'" font-size="12.0619">A</text>
+<polygon fill="#FFFFFF" points="11.736,56.896 8.041,57.486 8.674,54.047 "/>
+<polygon fill="#FFFFFF" points="17.938,45 21,47.85 12.273,55.975 9.21,53.127 "/>
+<text transform="matrix(1.0744 0 0 1 1.0195 63.083)" fill="#FFFFFF" font-family="'ArialMT'" font-size="12.0619">A</text>
 </svg>
