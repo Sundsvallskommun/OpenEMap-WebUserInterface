@@ -32,7 +32,7 @@ Ext.define('OpenEMap.action.Permalink', {
         });
         
         config.iconCls = config.iconCls || 'action-permalink';
-        config.tooltip = config.tooltip || 'Dela kartan';
+        config.tooltip = config.tooltip || 'Skapa länk till kartan';
         
         this.callParent(arguments);
     },

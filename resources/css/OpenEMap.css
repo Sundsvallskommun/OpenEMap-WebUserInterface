@@ -66,6 +66,9 @@ ul, li {
 .action-popup {
 	background-image: url("../images/oep-tools-icons/info.png");
 }
+.action-permalink {
+    background-image: url("../images/oep-tools-icons/link.png");
+}
 .action-measureline {
 	background-image: url("../images/oep-tools-icons/measure_line.png");
 }
