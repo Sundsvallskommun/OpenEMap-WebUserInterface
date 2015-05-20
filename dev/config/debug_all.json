@@ -388,7 +388,7 @@
         {
             "type": "DrawGeometry",
             "tooltip": "Draw text",
-            "iconCls": "action-drawpoint",
+            "iconCls": "action-drawtext",
             "geometry": "Point",
             "attributes": {
                 "type": "label",

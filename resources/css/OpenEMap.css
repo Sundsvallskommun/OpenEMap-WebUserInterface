@@ -67,7 +67,7 @@ ul, li {
 	background-image: url("../images/oep-tools-icons/info.png");
 }
 .action-permalink {
-    background-image: url("../images/oep-tools-icons/link.png");
+    background-image: url("../images/oep-tools-icons/chain.png");
 }
 .action-measureline {
 	background-image: url("../images/oep-tools-icons/measure_line.png");
@@ -76,7 +76,7 @@ ul, li {
 	background-image: url("../images/oep-tools-icons/measure_area.png");
 }
 .action-deletemeasure {
-	background-image: url("../images/oep-tools-icons/erase.png");
+	background-image: url("../images/oep-tools-icons/EraseMeassure.png");
 }
 .action-drawobject {
 	background-image: url("../images/oep-tools-icons/draw_geometry.png");
@@ -88,13 +88,13 @@ ul, li {
 	background-image: url("../images/oep-tools-icons/draw_point.png");
 }
 .action-drawpolygon {
-	background-image: url("../images/oep-tools-icons/draw_free.png");
+	background-image: url("../images/oep-tools-icons/DrawPolygon.png");
 }
 .action-drawgeometry {
 	background-image: url("../images/oep-tools-icons/draw_free.png");
 }
 .action-drawtext {
-	background-image: url("../images/oep-tools-icons/bookmark_area.png");
+	background-image: url("../images/oep-tools-icons/DrawText.png");
 }
 .action-draw-l {
 	background-image: url("../images/oep-tools-icons/geometry_l.png");
