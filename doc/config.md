@@ -140,6 +140,9 @@ Excluding a searchtag (search.searchEstates, search.searchAddresses, search.sear
 ```json
     "tools": [
         "FullExtent", ' Zoom to full extent
+        {
+            "type": "ZoomSelector" ' Show drop down with possibility to zoom to scales
+		},
         "Print", ' Print dialog
         {
             "type": "Identify", ' Identify features in map
@@ -151,6 +154,9 @@ Excluding a searchtag (search.searchEstates, search.searchAddresses, search.sear
             "type": "Popup", ' Show popup for features in "popupLayers"
         	"showOnlyFirstHit": whetherToShowOneOrManyHits, ' defaults to true
             "tolerance": toleranceInPixels ' defaults to radius 3 pixels
+		},
+        {
+            "type": "Permalink" ' Show popup with permalink to share map
 		},
        	{ ' Meassure lengths
        		"type": "MeasureLine", 

@@ -10,45 +10,36 @@ Based on Ext JS 4, GeoExt 2 and OpenLayers 2.13.1 and built as an Ext JS applica
 Integrate into HTML page using the following snippet:
 
 ```html
-    <link rel="stylesheet" type="text/css" href="/libs/ext-theme-oep/ext-theme-oep-all.css">
-    <link rel="stylesheet" type="text/css" href="release/OpenEMap-1.2.0/resources/css/OpenEMap.css">  
-    <script type="text/javascript" src="/libs/ext-4.2.1/ext-all.js"></script>
-    <script type="text/javascript" src="/libs/ext-4.2.1/ext-theme-neptune.js"></script>
-    <script type="text/javascript" src="/libs/ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
-    <script type="text/javascript" src="/libs/OpenLayers-2.13.1/OpenLayers.js"></script>
-    <script type="text/javascript" src="/libs/proj4js/proj4-compressed.js"></script> 
-    <script type="text/javascript" src="proj4_defs.js"></script> <!-- Definition of Swedish projections for Proj4js -->
-    <script type="text/javascript" src="/libs/geoext-2.0.1-oemap-all.js"></script> <!-- OEMap specific build of geoext2, correcting problem with borderwidth for popup window. --> 
-    <script type="text/javascript" src="/libs/es5-shim.min.js"></script>
-    <script type="text/javascript" src="OpenEMap-1.6.0-rc.2-min.js"></script>
+    <script type="text/javascript" src="OpenEMap.js"></script>
     
     <script type="text/javascript">
-	Ext.onReady(function() {
-	    var mapClient = Ext.create('OpenEMap.Client');
-	    var configFileName = 'config.json';
-		Ext.Ajax.request({
-			url : configFileName,
-			method : 'GET',
-			success : function(evt){
-				var config = JSON.parse(evt.responseText);
-			    mapClient.configure(config);
+		var configUrl = '/openemapadmin-1.6.0-rc.3/adminconfigs/config/' + id;
+	
+		var options = {
+			gui: {
+				map : {renderTo: 'map'},
+				toolbar : {},
+				zoomTools : {},
+				layers : {},
+				baseLayers : {},
+				searchFastighet : {}
 			}
-		});
-	}
+		};
+		
+		initOpenEMap(configUrl, options)
     </script>
     
 	<div id="map" style="position: absolute; width: 100%; height: 100%;" class="popup"></div>
 ```
 
-NOTE: The above snippet assumes the use of release build including all dependencies
-
-NOTE: es5-shim is required for IE 8 compatibility only
+NOTE: The above snippet uses build including all dependencies
 
 ## Homepage
 <a href="http://oemap.org"><img alt="Open eMap homepage" src="http://oemap.org/images/logo.png"></a>
 
 ## Documentation
 ###API Docs 
+####[1.5.0](http://oemap.org/doc/OpenEMapWebUserInterface/1.5.0/)
 ####[1.3.0](http://oemap.org/doc/OpenEMapWebUserInterface/1.3.0/)
 ####[1.2.0](http://oemap.org/doc/OpenEMapWebUserInterface/1.2.0/)
 ####[1.1.0](http://oemap.org/doc/OpenEMapWebUserInterface/1.1.0/)
@@ -72,7 +63,7 @@ Each release is documented under Releases/Release number (see versioning below)
 
 ## Building a release verison
 
-Done by running `grunt dist` in a working development clone. Requires Sencha Cmd installed and available on the path.
+Done by running `grunt distall` in a working development clone. Requires Sencha Cmd installed and available on the path.
 
 ## Versioning
 

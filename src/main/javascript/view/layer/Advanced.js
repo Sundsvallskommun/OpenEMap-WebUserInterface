@@ -31,16 +31,12 @@ Ext.define('OpenEMap.view.layer.Advanced' ,{
 		'Ext.tree.plugin.TreeViewDragDrop',
 		'Ext.util.Point' // For some reason needed to use drag drop
 	],
-
+//	resizable: true,
+//	resizeHandles: "s",
 	layout: {
-		type: 'hbox',
-	    pack: 'end',
-	    align: 'stretch'
+		type: 'vbox',
+		align: 'stretch'
 	},
-	width: 500,
-	height: 650,
-	resizable: true,
-	resizeHandles: "s",
 	
  	initComponent: function(config) {
  		var me = this;
@@ -53,7 +49,12 @@ Ext.define('OpenEMap.view.layer.Advanced' ,{
 
  		this.savedMapConfigs = Ext.create('OpenEMap.view.SavedMapConfigs', {
  			dataHandler: this.dataHandler,
- 			client: this.client
+ 			autoScroll: true,
+ 			client: this.client,
+	        title: 'Kartor',
+	        collapsible: true,
+	        flex: 1,
+	        minHeight: 100
  		});
  		
  		var renameAction = Ext.create('Ext.Action', {
@@ -62,12 +63,21 @@ Ext.define('OpenEMap.view.layer.Advanced' ,{
             disabled: true,
             handler: function(widget, event) {
                 var node = this.showOnMapLayerView.getSelectionModel().getSelection()[0];
-                if (node) {
+                if (node && node.get('isGroupLayer')) {
                     Ext.Msg.prompt('Byt namn...', 'Ange nytt namn:', function(btn, text) {
                         if (btn == 'ok'){
                             node.set('text', text);
                         }
-                    });
+                    }, window, false, node.get('text'));
+
+                    // TODO - Add functionality for changing name of a ordinary layer 
+/*                } else if (node && node.get('name')) {
+                    Ext.Msg.prompt('Byt namn...', 'Ange nytt namn:', function(btn, text) {
+                        if (btn == 'ok'){
+                            node.set('name', text);
+                        }
+                    }, window, false, node.get('name'));
+*/                	
                 }
             }.bind(this)
         });
@@ -102,13 +112,14 @@ Ext.define('OpenEMap.view.layer.Advanced' ,{
 
 		this.showOnMapLayerView = Ext.create('OpenEMap.view.layer.Tree', {
 			title: 'Visas på kartan',
-			width: '50%',
-			height: '80%',
-			region: 'north',
     		split: true,
+    		border: false,
     		mapPanel: this.mapPanel,
     		client: this.client,
     		rootVisible: false,
+	        collapsible: true,
+	        autoscroll: true,
+	        flex: 4,
     		
     		viewConfig: {
 		        plugins: {
@@ -131,11 +142,11 @@ Ext.define('OpenEMap.view.layer.Advanced' ,{
 	                flex: 1,
 	                dataIndex: 'text'
 	            }, 
-	            Ext.create('OpenEMap.action.MetadataInfoColumn', {
+/*	            Ext.create('OpenEMap.action.MetadataInfoColumn', {
 		 			metadataWindow: this.metadataWindow,
 		 			dataHandler: this.dataHandler
 		 		}),
-	            {
+*/	            {
 	                xtype: 'actioncolumn',
 	                width: 40,
 	                iconCls: 'action-remove',
@@ -198,13 +209,10 @@ Ext.define('OpenEMap.view.layer.Advanced' ,{
     	
     	this.showOnMapLayerView.getSelectionModel().on({
             selectionchange: function(sm, selections) {
+//                renameAction.enable();
                 if (selections.length === 1 && selections[0].data.isGroupLayer) {
                     renameAction.enable();
-                    if (selections[0].internalId === 'root') {
-                        createGroupAction.enable();
-                    } else {
-                        createGroupAction.disable();
-                    }
+                    createGroupAction.enable();
                 } else {
                     renameAction.disable();
                     createGroupAction.disable();
@@ -213,40 +221,20 @@ Ext.define('OpenEMap.view.layer.Advanced' ,{
         });
 
 	  	this.items = [
-			Ext.create('OpenEMap.view.layer.Add', {
-			    mapPanel: this.mapPanel,
-			    dataHandler: this.dataHandler,
-			    metadataColumn: Ext.create('OpenEMap.action.MetadataInfoColumn',{
-		 			metadataWindow: this.metadataWindow,
-		 			dataHandler: this.dataHandler
-		 		})
-			}),
-/*
-			Ext.create('Ext.Component',{
-				html: 'foo'
-			}),
-*/
+			me.showOnMapLayerView,
+			me.savedMapConfigs
+/*			
 	    	{
-	    		xtype: 'panel',
-	    		layout: 'border',
-	    		width: '50%',
-	    		border: false,
-	    		colapsible: true,
-	    		items: [
-	    			me.showOnMapLayerView,
-			    	{
-						title: 'Sparade kartor',
-						region: 'center',
-						xtype: 'panel',
-						border: false,
-						layout: 'fit',
-						collapsible: false,
-						titleCollapse: true,
-						items: me.savedMapConfigs
-					}
-	    		]
-	    	}
-		];
+				title: 'Sparade kartor',
+				region: 'center',
+				xtype: 'panel',
+				border: false,
+				collapsible: false,
+				titleCollapse: true,
+				items: me.savedMapConfigs
+			}
+*/		];
+
     	this.callParent(arguments);
     },
     getConfig: function(includeLayerRef) {

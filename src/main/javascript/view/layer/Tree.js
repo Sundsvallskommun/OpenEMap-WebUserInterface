@@ -102,7 +102,7 @@ Ext.define('OpenEMap.view.layer.Tree' ,{
             var getLegendUrl = function(node) {
                 var layer = node.raw.layer;
                 var url;
-                if (node.raw.legendURL !== undefined) {
+                if (layer.legendURL !== undefined) {
                     url = layer.legendURL;
                 } else if (node.raw.wms && (node.raw.wms.params.LAYERS || node.raw.wms.params.layers)) {
                     var layerRecord = GeoExt.data.LayerModel.createFromLayer(layer);
@@ -128,7 +128,30 @@ Ext.define('OpenEMap.view.layer.Tree' ,{
         
         this.callParent(arguments);
     },
-    
+    getBaseLayersConfiguration: function() {
+        var layerConfigs = [];
+
+        function configAddLayer(layer) {
+	        var layerCfg = {
+	            name: layer.name,
+	            wms: {
+	            	url: layer.url, 
+	            	options: layer.options, 
+	            	params: layer.params
+	        	},
+            	visibility: layer.visibility
+	        };
+			layerCfg.wms.options.visibility = layer.visibility; 
+			return layerCfg;
+        }
+
+        var baseLayers = this.mapPanel.map.layers.filter(function(layer) { return layer.isBaseLayer; });
+        for (var i=0; i<baseLayers.length;i++) {
+	        layerConfigs.unshift(configAddLayer(baseLayers[i]));
+        }
+	    return layerConfigs;
+    },
+
     getConfig: function(includeLayerRef) {
     	// Start with initial config to get a complete config object
         var config = Ext.clone(this.client.initialConfig);
@@ -138,8 +161,11 @@ Ext.define('OpenEMap.view.layer.Tree' ,{
 
         // layer tree does not include base layers so extract them from initial config
     	var baseLayers = config.layers.filter(function(layer) {
-    		return (layer.wms && layer.wms.options.isBaseLayer) ? layer : false;
+    		return (layer.wms && layer.wms.options && layer.wms.options.isBaseLayer) ? layer : false;
     	});
+    	
+    	baseLayers = this.getBaseLayersConfiguration();
+    	
     	config.layers = baseLayers.concat(layers);
     	
     	return config;

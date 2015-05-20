@@ -69,6 +69,10 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
                 metadata: typeof node.get('metadata') === 'string' ? {} : node.get('metadata'),
                 layers: []
             };
+            
+            if (!layerCfg.wms || Object.keys(layerCfg.wms).length === 0) layerCfg.wms = undefined;
+            if (!layerCfg.wfs || Object.keys(layerCfg.wfs).length === 0) layerCfg.wfs = undefined;
+//            if (!layerCfg.layers || layerCfg.layers.length === 0) layerCfg.layers = undefined;
 
 	        for(var j=0; j<node.childNodes.length;j++) {
 		        layerCfg.layers.push(configAddLayer(node.childNodes[j], includeLayerRef));
@@ -127,7 +131,7 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
         }
         var layer = node.raw.layer;
         var url;
-        if (node.raw.legendURL !== undefined) {
+        if (layer.legendURL !== undefined) {
             url = layer.legendURL;
         } else if (node.raw.wms && node.raw.wms.params && (node.raw.wms.params.LAYERS || node.raw.wms.params.layers)) {
             var layerRecord = GeoExt.data.LayerModel.createFromLayer(layer);

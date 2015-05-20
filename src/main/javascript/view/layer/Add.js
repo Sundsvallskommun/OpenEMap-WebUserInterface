@@ -29,10 +29,6 @@ Ext.define('OpenEMap.view.layer.Add' ,{
     ],
 
     title: 'Lägg till lager',
-
-    width: 250,
-    height: 550,
-
     headerPosition: 'top',
     collapsible: true,
     collapseMode: 'header',
@@ -83,8 +79,8 @@ Ext.define('OpenEMap.view.layer.Add' ,{
                 xtype: 'treecolumn',
                 flex: 1,
                 dataIndex: 'text'
-            },
-            me.metadataColumn
+            }
+//            , me.metadataColumn
         ];
 
         this.store = Ext.create('OpenEMap.data.GroupedLayerTree');

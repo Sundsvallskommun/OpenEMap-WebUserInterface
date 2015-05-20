@@ -19,7 +19,6 @@ Ext.define('OpenEMap.view.layer.Basic' ,{
 
     rootVisible: false,
     width: 300,
-	border: false,
 	resizable: true,
 	resizeHandles: 's',
 

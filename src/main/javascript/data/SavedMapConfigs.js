@@ -27,11 +27,8 @@ Ext.define('OpenEMap.data.SavedMapConfigs' ,{
     requires: [
         'OpenEMap.model.MapConfig'
     ],
-
     model: 'OpenEMap.model.MapConfig',
-
     storeId: 'savedMapConfigs',
-
     autoLoad: true,
     
     constructor: function(config) {
@@ -39,7 +36,7 @@ Ext.define('OpenEMap.data.SavedMapConfigs' ,{
             type: 'rest',
             appendId: true,
 	        url: ((OpenEMap && OpenEMap.wsUrls && OpenEMap.wsUrls.basePath) ? OpenEMap.wsUrls.basePath : '') + 
-	        		((OpenEMap && OpenEMap.wsUrls && OpenEMap.wsUrls.adminconfigs) ? OpenEMap.wsUrls.adminconfigs : ''),
+	        		((OpenEMap && OpenEMap.wsUrls && OpenEMap.wsUrls.configs) ? OpenEMap.wsUrls.configs : ''),
             reader: {
                 type: 'json',
                 root: 'configs'
@@ -48,6 +45,7 @@ Ext.define('OpenEMap.data.SavedMapConfigs' ,{
                 type: 'json'
             }
         };
+
         this.callParent(arguments);
     }
 });

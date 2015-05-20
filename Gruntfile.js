@@ -3,8 +3,17 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     releasePath: 'release/<%= pkg.name %>-<%= pkg.version %>', 
+    modulesStaticPath: '<%= pkg.modulesStaticPath %>', 
     
-    clean: ['<%= releasePath %>', '<%= releasePath %>.zip'],
+    clean: {
+    	dist: {
+	    	src: ['<%= releasePath %>', '<%= releasePath %>.zip']
+    	},
+    	module: {
+	    	options: {force: true},
+	    	src: ['<%= modulesStaticPath %>/<%= pkg.name %>']
+	  	}
+    },
     
     auto_install: {
       local: {}
@@ -81,35 +90,59 @@ module.exports = function(grunt) {
             'exclude -all', 'and',
             'include -namespace OpenEMap', 'and',
             'concat <%= releasePath %>/<%= pkg.name %>-<%= pkg.version %>-debug.js']
+      },
+      geoext_release: {
+        command: [
+            '-sdk bower_components/ext-4.2.1',
+            'compile',
+            '--classpath=bower_components/geoext2/src',
+            'exclude -all', 'and',
+            'include -namespace GeoExt', 'and',
+            'concat --closure bower_components/geoext2/release/geoext-all.js']
+      },
+      geoext_debug: {
+        command: [
+            '-sdk bower_components/ext-4.2.1',
+            'compile',
+            '--classpath=bower_components/geoext2/src',
+            'exclude -all', 'and',
+            'include -namespace GeoExt', 'and',
+            'concat bower_components/geoext2/release/geoext-debug.js']
       }
     },
     
     copy: {
         dist: {
             files: [
-            { expand: true, src: ['index*.html'], dest: '<%= releasePath %>' },
-            { expand: true, src: ['proj4_defs.js'], dest: '<%= releasePath %>' },
-            { expand: true, src: ['resources/**'], dest: '<%= releasePath %>' },
-            { expand: true, src: ['examples/**'], dest: '<%= releasePath %>' },
-            { expand: true, cwd: 'bower_components/ext-theme-oep/build/resources/', src: ['**'], dest: '<%= releasePath %>/lib/ext-theme-oep' },
-            { expand: false, src: ['bower_components/ext-4.2.1/ext-all.js'], dest: '<%= releasePath %>/lib/ext/ext-all.js' },
-            { expand: false, src: ['bower_components/ext-4.2.1/ext-all-debug.js'], dest: '<%= releasePath %>/lib/ext/ext-all-debug.js' },
-            { expand: false, src: ['bower_components/ext-4.2.1/ext-theme-neptune.js'], dest: '<%= releasePath %>/lib/ext/ext-theme-neptune.js' },
-            { expand: false, src: ['bower_components/ext-4.2.1/locale/ext-lang-sv_SE.js'], dest: '<%= releasePath %>/lib/ext/locale/ext-lang-sv_SE.js' },
-            { expand: false, src: ['bower_components/OpenLayers-2.13.1/OpenLayers.js'], dest: '<%= releasePath %>/lib/OpenLayers/OpenLayers.js' },
-            { expand: false, src: ['bower_components/OpenLayers-2.13.1/OpenLayers.debug.js'], dest: '<%= releasePath %>/lib/OpenLayers/OpenLayers.debug.js' },
-            { expand: true, cwd: 'bower_components/OpenLayers-2.13.1/', src: ['theme/**'], dest: '<%= releasePath %>/lib/OpenLayers/'},
-            { expand: false, src: ['bower_components/proj4/dist/proj4-compressed.js'], dest: '<%= releasePath %>/lib/proj4js/proj4-compressed.js' },
-            { expand: false, src: ['../libs/es5-shim.min.js'], dest: '<%= releasePath %>/lib/es5-shim/es5-shim.min.js' },
-            { expand: false, src: ['../libs/es5-shim.map'], dest: '<%= releasePath %>/lib/es5-shim/es5-shim.map' },
-            { expand: false, src: ['../libs/geoext-2.0.1/release/geoext-2.0.2-rc.1-all.js'], dest: '<%= releasePath %>/lib/geoext/geoext-all.js'},
-            { expand: false, src: ['../libs/geoext-2.0.1/release/geoext-2.0.2-rc.1-debug.js'], dest: '<%= releasePath %>/lib/geoext/geoext-debug.js'},
-            { expand: true, flatten: true, src: ['dev/config/**'], dest: '<%= releasePath %>/config' },
-            { expand: false, src: ['<%= releasePath %>/<%= pkg.name %>-<%= pkg.version %>-min.js'], dest: '<%= releasePath %>/<%= pkg.name %>-min.js' },
-            { expand: false, src: ['<%= releasePath %>/<%= pkg.name %>-<%= pkg.version %>-debug.js'], dest: '<%= releasePath %>/<%= pkg.name %>-debug.js' },
-            { expand: false, src: ['src/main/javascript/OpenEMap.js'], dest: '<%= releasePath %>/OpenEMap.js' }
+	            { expand: true, src: ['index*.html'], dest: '<%= releasePath %>' },
+	            { expand: true, src: ['default.json'], dest: '<%= releasePath %>' },
+	            { expand: true, src: ['proj4_defs.js'], dest: '<%= releasePath %>' },
+	            { expand: true, src: ['resources/**'], dest: '<%= releasePath %>' },
+	            { expand: true, src: ['examples/**'], dest: '<%= releasePath %>' },
+	            { expand: true, cwd: 'bower_components/ext-theme-oep/build/resources/', src: ['**'], dest: '<%= releasePath %>/lib/ext-theme-oep' },
+	            { expand: false, src: ['bower_components/ext-4.2.1/ext-all.js'], dest: '<%= releasePath %>/lib/ext/ext-all.js' },
+	            { expand: false, src: ['bower_components/ext-4.2.1/ext-all-debug.js'], dest: '<%= releasePath %>/lib/ext/ext-all-debug.js' },
+	            { expand: false, src: ['bower_components/ext-4.2.1/ext-theme-neptune.js'], dest: '<%= releasePath %>/lib/ext/ext-theme-neptune.js' },
+	            { expand: false, src: ['bower_components/ext-4.2.1/locale/ext-lang-sv_SE.js'], dest: '<%= releasePath %>/lib/ext/locale/ext-lang-sv_SE.js' },
+	            { expand: false, src: ['bower_components/OpenLayers-2.13.1/OpenLayers.js'], dest: '<%= releasePath %>/lib/OpenLayers/OpenLayers.js' },
+	            { expand: false, src: ['bower_components/OpenLayers-2.13.1/OpenLayers.debug.js'], dest: '<%= releasePath %>/lib/OpenLayers/OpenLayers.debug.js' },
+	            { expand: true, cwd: 'bower_components/OpenLayers-2.13.1/', src: ['theme/**'], dest: '<%= releasePath %>/lib/OpenLayers/'},
+	            { expand: false, src: ['bower_components/proj4/dist/proj4-compressed.js'], dest: '<%= releasePath %>/lib/proj4js/proj4-compressed.js' },
+	            { expand: false, src: ['bower_components/es5-shim/es5-shim.min.js'], dest: '<%= releasePath %>/lib/es5-shim/es5-shim.min.js' },
+	            { expand: false, src: ['bower_components/es5-shim/es5-shim.map'], dest: '<%= releasePath %>/lib/es5-shim/es5-shim.map' },
+	            { expand: false, src: ['bower_components/geoext2/release/geoext-all.js'], dest: '<%= releasePath %>/lib/geoext/geoext-all.js'},
+	            { expand: false, src: ['bower_components/geoext2/release/geoext-debug.js'], dest: '<%= releasePath %>/lib/geoext/geoext-debug.js'},
+	            { expand: true, flatten: true, src: ['dev/config/**'], dest: '<%= releasePath %>/config' },
+	            { expand: false, src: ['<%= releasePath %>/<%= pkg.name %>-<%= pkg.version %>-min.js'], dest: '<%= releasePath %>/<%= pkg.name %>-min.js' },
+	            { expand: false, src: ['<%= releasePath %>/<%= pkg.name %>-<%= pkg.version %>-debug.js'], dest: '<%= releasePath %>/<%= pkg.name %>-debug.js' },
+	            { expand: false, src: ['src/main/javascript/OpenEMap.js'], dest: '<%= releasePath %>/OpenEMap.js' }
             ]        
-        }
+        },
+        module: {
+        	files: [
+	            { expand: true, cwd: '<%= releasePath %>/', src: ['**'], dest: '<%= modulesStaticPath %>/<%= pkg.name %>' }
+	        ]
+	    }
     },
     
     connect: {
@@ -160,7 +193,7 @@ module.exports = function(grunt) {
             https: true,
             port: 443
         }, {
-            context: '/openemapadmin-1.5.0-rc.2',
+            context: '/openemapadmin-1.6.0-rc.4',
             host: 'kartatest.e-tjansteportalen.se',
             https: true,
             port: 443
@@ -195,8 +228,11 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-compress');
 
   grunt.registerTask('default', ['auto_install', 'jshint']);
-  grunt.registerTask('build', ['default', 'sencha:release', 'sencha:debug']);
-//  grunt.registerTask('dist', ['clean', 'copy', 'compress']);
-  grunt.registerTask('dist', ['clean', 'build', 'copy', 'compress']);
+  grunt.registerTask('buildall', ['default', 'sencha:release', 'sencha:debug', 'sencha:geoext_release', 'sencha:geoext_debug'] );
+  grunt.registerTask('build', ['default', 'sencha:release', 'sencha:debug'] );
+  grunt.registerTask('copydist', ['copy:dist', 'compress']);
+  grunt.registerTask('copytomodule', ['clean:module', 'copy:module']);
+  grunt.registerTask('dist', ['clean:dist', 'build', 'copydist']);
+  grunt.registerTask('distall', ['clean:dist', 'buildall', 'copydist']);
   grunt.registerTask('devserver', ['default', 'configureProxies', 'connect', 'watch']);
 };

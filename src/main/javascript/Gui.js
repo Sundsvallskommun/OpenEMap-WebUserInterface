@@ -33,6 +33,7 @@ Ext.define('OpenEMap.Gui', {
                'OpenEMap.action.MetadataInfoColumn',
                'OpenEMap.action.ModifyGeometry',
                'OpenEMap.action.ModifyText',
+               'OpenEMap.action.Permalink',
                'OpenEMap.action.Popup',
                'OpenEMap.action.Print',
                'OpenEMap.action.SelectGeometry',
@@ -66,7 +67,9 @@ Ext.define('OpenEMap.Gui', {
             this.gui = {};
         }
         if (this.gui.map === undefined) {this.gui.map = false;}
-        if (this.gui.rightPanel === undefined) {this.gui.rightPanel = {};}
+        if (this.gui.layerControl === undefined) {this.gui.layerControl = {};}
+        if (this.gui.addLayerControl === undefined) {this.gui.addLayerControl = {};}
+//        if (this.gui.rightPanel === undefined) {this.gui.rightPanel = {};}
         
         this.mapPanel = Ext.create('OpenEMap.view.Map', {
             map: this.map,
@@ -89,7 +92,7 @@ Ext.define('OpenEMap.Gui', {
         this.createScalebarPanel();
         this.createShowCoordinatePanel();
         this.createSearchCoordinatePanel();
-        this.createRightPanel();
+        this.createLayerControl();
         this.createBaseLayersPanel();
         
         var items = [];
@@ -99,7 +102,9 @@ Ext.define('OpenEMap.Gui', {
         if (this.scalebar && !this.gui.scalebar.renderTo) items.push(this.scalebar);
         if (this.showCoordinate && !this.gui.showCoordinate.renderTo) items.push(this.showCoordinate);
         if (this.searchCoordinate && !this.gui.searchCoordinate.renderTo) items.push(this.searchCoordinate);
-        if (this.rightPanel && !this.gui.rightPanel.renderTo) items.push(this.rightPanel);
+        if (this.layerControl && !this.gui.layerControl.renderTo) items.push(this.layerControl);
+        if (this.addLayerControl && !this.gui.addLayerControl.renderTo) items.push(this.addLayerControl);
+//        if (this.rightPanel && !this.gui.rightPanel.renderTo) items.push(this.rightPanel);
         if (this.baseLayers && !this.gui.baseLayers.renderTo) items.push(this.baseLayers);
         if (this.toolbar && !this.gui.toolbar.renderTo) items.push(this.toolbar);
         
@@ -124,6 +129,12 @@ Ext.define('OpenEMap.Gui', {
                 height: element ? element.getHeight() : undefined,
                 items : items
             }, this.gui.map));
+//            window.addEventListener('resize', function() {
+//            	element.setWidth(window.innerWidth);
+//            	element.setHeight(window.innerHeight);
+//            	this.mapClient.mapPanel.setSize(window.innerWidth, window.innerHeight);
+//            	element.setSize(window.innerWidth, window.innerHeight);
+//           });
         } else {
             this.container = Ext.create('Ext.container.Viewport', {
                 layout : 'absolute',
@@ -139,7 +150,9 @@ Ext.define('OpenEMap.Gui', {
         if (this.searchCoordinate) this.searchCoordinate.destroy();
         if (this.showCoordinate) this.showCoordinate.destroy();
         if (this.toolbar) this.toolbar.destroy();
-        if (this.rightPanel) this.rightPanel.destroy();
+        if (this.layerControl) this.layerControl.destroy();
+        if (this.addLayerControl) this.addLayerControl.destroy();
+//        if (this.rightPanel) this.rightPanel.destroy();
         if (this.baseLayers) this.baseLayers.destroy();
         if (this.objectConfig) this.objectConfig.destroy();
         if (this.objectConfigWindow) this.objectConfigWindow.destroy();
@@ -196,6 +209,8 @@ Ext.define('OpenEMap.Gui', {
                 } else if (type == 'Identify') {
                     config.basePath = basePath;
                     config.layers = layers;
+                    config.client = this.client;
+                } else if (type == 'Permalink') {
                     config.client = this.client;
                 } else if (type == 'Popup') {
                     config.layers = layers;
@@ -263,33 +278,60 @@ Ext.define('OpenEMap.Gui', {
      * - SearchParcel panel
      * @private
      */
-    createRightPanel: function() {
+    createLayerControl: function() {
         
-        var rightPanelItems = [];
-        var width = 300;
-        // default position for rightPanel
-        if (!this.gui.rightPanel.y) {this.gui.rightPanel.y = 20;}
-        if (!this.gui.rightPanel.style) {this.gui.rightPanel.style = 'right: 20px';}
+        var layerControlItems = [];
+        // default position for layerControl and addLayerControl
+        if (!this.gui.layerControl.y) {this.gui.layerControl.y = 20;}
+        if (!this.gui.layerControl.right) {this.gui.layerControl.right = 20;}
+        if (!this.gui.layerControl.style) {this.gui.layerControl.style = 'right: ' + this.gui.layerControl.right + 'px';}
+        if (!this.gui.layerControl.width) {this.gui.layerControl.width = 300;}
+        if (!this.gui.layerControl.maxHeight) {this.gui.layerControl.maxHeight = window.innerHeight-this.gui.layerControl.y-60;}
+
+        if (!this.gui.addLayerControl.y) {this.gui.addLayerControl.y = this.gui.layerControl.y;}
+        if (!this.gui.addLayerControl.right) {this.gui.addLayerControl.right = this.gui.layerControl.width + this.gui.layerControl.right;}
+        if (!this.gui.addLayerControl.style) {this.gui.addLayerControl.style = 'right: ' + this.gui.addLayerControl.right + 'px';}
+        if (!this.gui.addLayerControl.width) {this.gui.addLayerControl.width = 300;}
+        if (!this.gui.addLayerControl.maxHeight) {this.gui.addLayerControl.maxHeight = window.innerHeight-this.gui.addLayerControl.y-56;}
         
         if (this.gui.layers) {
 	        // Checks whether the advanced or basic Layer control should be used
 	        if (this.gui.layers && this.gui.layers.type === 'advanced') {
-	        	width = 500;
 	            this.mapLayers = Ext.create('OpenEMap.view.layer.Advanced', Ext.apply({
 	                mapPanel : this.mapPanel,
 	                orginalConfig: this.orginalConfig,
-	                client: this.client
+	                client: this.client,
+	                flex: 1
 	            }, this.gui.layers));
+	            
+	            // Adds the Add layer control
+				this.addLayerControl = Ext.create('OpenEMap.view.layer.Add', {
+				    mapPanel: this.mapPanel,
+				    border: false,
+		        	renderTo: this.gui.addLayerControl.renderTo,
+		        	y: this.gui.addLayerControl.y,
+		            style : this.gui.addLayerControl.style,
+				    width: this.gui.addLayerControl.width,
+				    maxHeight: this.gui.addLayerControl.maxHeight,
+				    collapsible: true,
+				    dataHandler: this.dataHandler,
+				    metadataColumn: Ext.create('OpenEMap.action.MetadataInfoColumn',{
+			 			metadataWindow: this.metadataWindow,
+			 			dataHandler: this.dataHandler
+			 		})
+				});
+
 	        } else {
 	            this.mapLayers = Ext.create('OpenEMap.view.layer.Basic', Ext.apply({
 	                mapPanel : this.mapPanel,
-	                client: this.client
+	                client: this.client,
+	                flex: 1
 	            }, this.gui.layers));
 	        }
 	        
 	        // If the layers panel not should be rendered to div, add it to the right panels items
 	        if (!this.gui.layers.renderTo) {
-	        	rightPanelItems.push(this.mapLayers);
+	        	layerControlItems.push(this.mapLayers);
 	        }
 	    }
         
@@ -300,32 +342,59 @@ Ext.define('OpenEMap.Gui', {
 	            mapPanel : this.mapPanel,
 	            basePath: this.config.basePath,
 	            search: this.search,
-	            width: 300 
+		        collapsible: true,
+	            height: 120,
+	            width: this.gui.layerControl.width
 	        }, this.gui.searchFastighet));
             if (!this.gui.searchFastighet.renderTo) {
-            	rightPanelItems.push(this.searchFastighet);
+            	layerControlItems.push(this.searchFastighet);
             }
         }
 
-        // Create right panel including both layrer control and searchParcel
         // create right panel containing layers and search panels if no renderTo target is configured
-        if (rightPanelItems.length > 0) {
-            this.rightPanel = Ext.create('Ext.panel.Panel', {
-            	renderTo: this.gui.rightPanel.renderTo,
-                y : this.gui.rightPanel.y,
+        if (layerControlItems.length > 0) {
+            this.layerControl = Ext.create('Ext.panel.Panel', {
+	        	renderTo: this.gui.layerControl.renderTo,
+	            y : this.gui.layerControl.y,
+                style : this.gui.layerControl.style,
                 layout : {
                     type: 'vbox',
                     align : 'stretch'
                 },
-                width : width,
+                width : this.gui.layerControl.width,
+                maxHeight: this.gui.layerControl.maxHeight,
                 border: false,
-                style : this.gui.rightPanel.style,
                 bodyStyle: {
                     background: 'transparent'
                 },
-                items : rightPanelItems
+                items : layerControlItems
 	        });
 	    }
+	    
+/*	    if (this.addLayerControl) {
+	        this.rightPanel = Ext.create('Ext.panel.Panel', {
+	            title: 'Lager',
+	            collapsible: true,
+	        	renderTo: this.gui.rightPanel.renderTo,
+	            y : this.gui.layerControl.y,
+	            style : this.gui.layerControl.style,
+	            layout : {
+	                type: 'hbox'
+	            },
+	            width : this.gui.layerControl.width + this.gui.addLayerControl.width,
+	            maxHeight: this.gui.layerControl.maxHeight,
+	            border: false,
+	            bodyStyle: {
+	                background: 'transparent'
+	            },
+	            items : [
+	            	this.addLayerControl, 
+	            	this.layerControl
+	            ]
+	        });
+       	}
+*/
+
 	},
         
 	/** 
