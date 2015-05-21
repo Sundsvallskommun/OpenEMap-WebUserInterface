@@ -36,7 +36,7 @@ Ext.define('OpenEMap.data.SavedMapConfigs' ,{
             type: 'rest',
             appendId: true,
 	        url: ((OpenEMap && OpenEMap.wsUrls && OpenEMap.wsUrls.basePath) ? OpenEMap.wsUrls.basePath : '') + 
-	        		((OpenEMap && OpenEMap.wsUrls && OpenEMap.wsUrls.configs) ? OpenEMap.wsUrls.configs : ''),
+	        		((OpenEMap && OpenEMap.wsUrls && OpenEMap.wsUrls.adminconfigs) ? OpenEMap.wsUrls.adminconfigs : '') + '/configlist',
             reader: {
                 type: 'json',
                 root: 'configs'
