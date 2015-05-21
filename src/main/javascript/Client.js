@@ -572,7 +572,7 @@ Ext.apply(OpenEMap, {
     wsUrls: {
         basePath:   	'/openemapadmin',
         permalinks:     '/openemappermalink/permalinks',
-        configs:    	'/configs/listconfig',
+        configs:    	'/configs',
         adminconfigs: 	'/adminconfigs',
         servers:    	'settings/servers',
         layers:     	'layers/layers',
