@@ -1,0 +1,2993 @@
+{
+    "configId": 108,
+    "name": "PilotStrandskydd1",
+    "version": null,
+    "maxExtent": [
+        487000,
+        6887000,
+        749144,
+        7149144
+    ],
+    "extent": [
+        612608.27291221,
+        6909461.4823272,
+        618054.27291221,
+        6914823.4823272
+    ],
+    "attribution": "Copyright holder",
+    "autoClearDrawLayer": null,
+    "drawStyle": {},
+    "tools": [
+        {
+            "type": "ZoomSelector"
+        },
+        {
+            "type": "DrawGeometry",
+            "iconCls": "action-drawpoint",
+            "geometry": "Point"
+        },
+        {
+            "type": "DrawGeometry",
+            "iconCls": "action-drawline",
+            "geometry": "Path"
+        },
+        {
+            "type": "DrawGeometry",
+            "iconCls": "action-drawpolygon",
+            "geometry": "Polygon"
+        },
+        {
+            "type": "DeleteGeometry"
+        },
+        {
+            "type": "DeleteAllFeatures"
+        },
+        {
+            "type": "FullExtent"
+        },
+        {
+            "type": "Identify",
+            "tolerance": 10,
+            "useRegisterenhet": true,
+            "onlyVisibleLayers": true,
+            "activate": true
+        },
+        {
+            "type": "MeasureArea"
+        },
+        {
+            "type": "MeasureLine"
+        },
+        {
+            "type": "DeleteMeasure"
+        },
+        {
+            "type": "Print"
+        },
+        {
+            "type": "ModifyGeometry"
+        }
+    ],
+    "layers": [
+        {
+            "name": "Foto",
+            "wms": {
+                "params": {
+                    "LAYERS": "Lantmateriet:Ortofoto50_25cm",
+                    "EXCEPTIONS": "application/vnd.ogc.se_xml",
+                    "FORMAT": "image/jpeg",
+                    "TRANSPARENT": false,
+                    "VERSION": "1.1.1",
+                    "SERVICE": "WMS",
+                    "REQUEST": "GetMap",
+                    "STYLES": ""
+                },
+                "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms?SERVICE=WMS&",
+                "options": {
+                    "isBaseLayer": true,
+                    "visibility": false
+                }
+            },
+            "wfs": null,
+            "metadataUrl": null,
+            "isGroupLayer": false,
+            "queryable": false,
+            "clickable": false
+        },
+        {
+            "name": "SKarta",
+            "wms": {
+                "params": {
+                    "LAYERS": "Kartan",
+                    "EXCEPTIONS": "application/vnd.ogc.se_xml",
+                    "FORMAT": "image/png",
+                    "TRANSPARENT": true,
+                    "VERSION": "1.1.1",
+                    "SERVICE": "WMS",
+                    "REQUEST": "GetMap",
+                    "STYLES": ""
+                },
+                "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms?SERVICE=WMS&",
+                "options": {
+                    "isBaseLayer": true,
+                    "visibility": false
+                }
+            },
+            "wfs": null,
+            "metadataUrl": null,
+            "isGroupLayer": false,
+            "queryable": false,
+            "clickable": false
+        },
+        {
+            "name": "Karta",
+            "wms": {
+                "params": {
+                    "LAYERS": "Lantmateriet:topowebbkartan_nedtonad",
+                    "EXCEPTIONS": "application/vnd.ogc.se_xml",
+                    "FORMAT": "image/png",
+                    "TRANSPARENT": true,
+                    "VERSION": "1.1.1",
+                    "SERVICE": "WMS",
+                    "REQUEST": "GetMap",
+                    "STYLES": ""
+                },
+                "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms?SERVICE=WMS&",
+                "options": {
+                    "isBaseLayer": true,
+                    "visibility": false
+                }
+            },
+            "wfs": null,
+            "metadataUrl": null,
+            "isGroupLayer": false,
+            "queryable": false,
+            "clickable": false
+        },
+        {
+            "name": "Lansstyrelsen:PotentielltFororenadeOmraden_wms",
+            "wms": {
+                "params": {
+                    "LAYERS": "Lansstyrelsen:PotentielltFororenadeOmraden_wms",
+                    "EXCEPTIONS": "application/vnd.ogc.se_inimage",
+                    "FORMAT": "image/png",
+                    "TRANSPARENT": true,
+                    "VERSION": "1.1.1",
+                    "SERVICE": "WMS",
+                    "REQUEST": "GetMap",
+                    "STYLES": ""
+                },
+                "url": "https://extmaptest.sundsvall.se:443/geoserver/wms?SERVICE=WMS&",
+                "options": {
+                    "isBaseLayer": false,
+                    "visibility": false
+                }
+            },
+            "wfs": null,
+            "metadataUrl": null,
+            "isGroupLayer": false,
+            "queryable": true,
+            "clickable": true
+        },
+        {
+            "name": "Lansstyrelsen:Naturminnen_punkt",
+            "wms": {
+                "params": {
+                    "LAYERS": "Lansstyrelsen:Naturminnen_punkt",
+                    "EXCEPTIONS": "application/vnd.ogc.se_inimage",
+                    "FORMAT": "image/png",
+                    "TRANSPARENT": true,
+                    "VERSION": "1.1.1",
+                    "SERVICE": "WMS",
+                    "REQUEST": "GetMap",
+                    "STYLES": ""
+                },
+                "url": "https://extmaptest.sundsvall.se:443/geoserver/wms?SERVICE=WMS&",
+                "options": {
+                    "isBaseLayer": false,
+                    "visibility": false
+                }
+            },
+            "wfs": {
+                "featurePrefix": "Lansstyrelsen",
+                "featureType": "Naturminnen_punkt",
+                "url": "https://extmaptest.sundsvall.se/geoserver/wfs"
+            },
+            "metadataUrl": null,
+            "isGroupLayer": false,
+            "queryable": true,
+            "clickable": true,
+            "metadata": {
+                "attributes": {
+                    "the_geom": {
+                        "alias": "the_geom"
+                    },
+                    "AREA": {
+                        "alias": "AREA"
+                    },
+                    "PERIMETER": {
+                        "alias": "PERIMETER"
+                    },
+                    "OBJID": {
+                        "alias": "OBJID"
+                    },
+                    "NAMN": {
+                        "alias": "NAMN"
+                    },
+                    "BESLUTSDAT": {
+                        "alias": "BESLUTSDAT"
+                    },
+                    "OBJNR": {
+                        "alias": "OBJNR"
+                    },
+                    "X": {
+                        "alias": "X"
+                    },
+                    "Y": {
+                        "alias": "Y"
+                    },
+                    "URLFLD": {
+                        "alias": "URLFLD"
+                    }
+                }
+            }
+        },
+        {
+            "name": "Riksantikvarieambetet:Fornsok_wms",
+            "wms": {
+                "params": {
+                    "LAYERS": "Riksantikvarieambetet:Fornsok_wms",
+                    "EXCEPTIONS": "application/vnd.ogc.se_inimage",
+                    "FORMAT": "image/png",
+                    "TRANSPARENT": true,
+                    "VERSION": "1.1.1",
+                    "SERVICE": "WMS",
+                    "REQUEST": "GetMap",
+                    "STYLES": ""
+                },
+                "url": "https://extmaptest.sundsvall.se:443/geoserver/wms?SERVICE=WMS&",
+                "options": {
+                    "isBaseLayer": false,
+                    "visibility": false
+                }
+            },
+            "wfs": null,
+            "metadataUrl": null,
+            "isGroupLayer": false,
+            "queryable": true,
+            "clickable": true
+        },
+        {
+            "name": "SundsvallsKommun:LISOmraden_yta",
+            "wms": {
+                "params": {
+                    "LAYERS": "SundsvallsKommun:LISOmraden_yta",
+                    "EXCEPTIONS": "application/vnd.ogc.se_inimage",
+                    "FORMAT": "image/png",
+                    "TRANSPARENT": true,
+                    "VERSION": "1.1.1",
+                    "SERVICE": "WMS",
+                    "REQUEST": "GetMap",
+                    "STYLES": ""
+                },
+                "url": "https://extmaptest.sundsvall.se:443/geoserver/wms?SERVICE=WMS&",
+                "options": {
+                    "isBaseLayer": false,
+                    "visibility": false
+                }
+            },
+            "wfs": {
+                "featurePrefix": "SundsvallsKommun",
+                "featureType": "LISOmraden_yta",
+                "url": "https://extmaptest.sundsvall.se/geoserver/wfs"
+            },
+            "metadataUrl": null,
+            "isGroupLayer": null,
+            "queryable": true,
+            "clickable": true,
+            "metadata": {
+                "attributes": {
+                    "the_geom": {
+                        "alias": "the_geom"
+                    },
+                    "Id": {
+                        "alias": "Id"
+                    },
+                    "Kod": {
+                        "alias": "Kod"
+                    },
+                    "Syfte": {
+                        "alias": "Syfte"
+                    },
+                    "Beskrivn": {
+                        "alias": "Beskrivn"
+                    },
+                    "Område": {
+                        "alias": "Område"
+                    }
+                }
+            }
+        },
+        {
+            "layers": [
+                {
+                    "name": "SundsvallsKommun:PilotBeslutStrandskyddsdispens_punkt",
+                    "wms": {
+                        "params": {
+                            "LAYERS": "SundsvallsKommun:PilotBeslutStrandskyddsdispens_punkt",
+                            "EXCEPTIONS": "application/vnd.ogc.se_inimage",
+                            "FORMAT": "image/png",
+                            "TRANSPARENT": true,
+                            "VERSION": "1.1.1",
+                            "SERVICE": "WMS",
+                            "REQUEST": "GetMap",
+                            "STYLES": ""
+                        },
+                        "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms?SERVICE=WMS&",
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": true
+                        }
+                    },
+                    "wfs": {
+                        "featurePrefix": "SundsvallsKommun",
+                        "featureType": "PilotBeslutStrandskyddsdispens_punkt",
+                        "url": "https://extmaptest.sundsvall.se/geoserver/wfs"
+                    },
+                    "metadataUrl": null,
+                    "isGroupLayer": false,
+                    "queryable": true,
+                    "clickable": true,
+                    "metadata": {
+                        "attributes": {
+                            "the_geom": {
+                                "alias": "the_geom"
+                            },
+                            "FNR": {
+                                "alias": "FNR"
+                            },
+                            "FBET": {
+                                "alias": "FBET"
+                            },
+                            "OMR": {
+                                "alias": "OMR"
+                            },
+                            "FBETNR": {
+                                "alias": "FBETNR"
+                            },
+                            "SAMJELOTT": {
+                                "alias": "SAMJELOTT"
+                            },
+                            "TILLAGG": {
+                                "alias": "TILLAGG"
+                            },
+                            "Dnr": {
+                                "alias": "Dnr"
+                            },
+                            "Fastighet": {
+                                "alias": "Fastighet"
+                            },
+                            "Adress": {
+                                "alias": "Adress"
+                            },
+                            "StartDatum": {
+                                "alias": "StartDatum"
+                            },
+                            "Ärendemeni": {
+                                "alias": "Ärendemeni"
+                            },
+                            "Grupp": {
+                                "alias": "Grupp"
+                            },
+                            "Typ": {
+                                "alias": "Typ"
+                            },
+                            "Slag": {
+                                "alias": "Slag"
+                            },
+                            "Klass": {
+                                "alias": "Klass"
+                            },
+                            "HvdHandl": {
+                                "alias": "HvdHandl"
+                            },
+                            "Beslutsdat": {
+                                "alias": "Beslutsdat"
+                            },
+                            "Åtgärd": {
+                                "alias": "Åtgärd"
+                            },
+                            "Lagakraft": {
+                                "alias": "Lagakraft"
+                            },
+                            "Beslutande": {
+                                "alias": "Beslutande"
+                            },
+                            "Orsak_till": {
+                                "alias": "Orsak_till"
+                            },
+                            "Beslut": {
+                                "alias": "Beslut"
+                            },
+                            "Skäl": {
+                                "alias": "Skäl"
+                            },
+                            "Beslutsnum": {
+                                "alias": "Beslutsnum"
+                            },
+                            "Dispensbes": {
+                                "alias": "Dispensbes"
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "SundsvallsKommun:PilotStrandskyddsomrade_yta",
+                    "wms": {
+                        "params": {
+                            "LAYERS": "SundsvallsKommun:PilotStrandskyddsomrade_yta",
+                            "EXCEPTIONS": "application/vnd.ogc.se_inimage",
+                            "FORMAT": "image/png",
+                            "TRANSPARENT": true,
+                            "VERSION": "1.1.1",
+                            "SERVICE": "WMS",
+                            "REQUEST": "GetMap",
+                            "STYLES": ""
+                        },
+                        "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms?SERVICE=WMS&",
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": true
+                        }
+                    },
+                    "wfs": {
+                        "featurePrefix": "SundsvallsKommun",
+                        "featureType": "PilotStrandskyddsomrade_yta",
+                        "url": "https://extmaptest.sundsvall.se/geoserver/wfs"
+                    },
+                    "metadataUrl": null,
+                    "isGroupLayer": false,
+                    "queryable": true,
+                    "clickable": true,
+                    "metadata": {
+                        "attributes": {
+                            "the_geom": {
+                                "alias": "the_geom"
+                            },
+                            "DETALJTYP": {
+                                "alias": "DETALJTYP"
+                            },
+                            "ADAT": {
+                                "alias": "ADAT"
+                            },
+                            "XYFEL": {
+                                "alias": "XYFEL"
+                            },
+                            "BUFF_DIST": {
+                                "alias": "BUFF_DIST"
+                            },
+                            "Typ_av_omr": {
+                                "alias": "Typ_av_omr"
+                            },
+                            "Kvalitet": {
+                                "alias": "Kvalitet"
+                            },
+                            "Lansstyrel": {
+                                "alias": "Lansstyrel"
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Lansstyrelsen:UtvidgatStrandskydd_linje",
+                    "wms": {
+                        "params": {
+                            "LAYERS": "Lansstyrelsen:UtvidgatStrandskydd_linje",
+                            "EXCEPTIONS": "application/vnd.ogc.se_inimage",
+                            "FORMAT": "image/png",
+                            "TRANSPARENT": true,
+                            "VERSION": "1.1.1",
+                            "SERVICE": "WMS",
+                            "REQUEST": "GetMap",
+                            "STYLES": ""
+                        },
+                        "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms?SERVICE=WMS&",
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    },
+                    "wfs": {
+                        "featurePrefix": "Lansstyrelsen",
+                        "featureType": "UtvidgatStrandskydd_linje",
+                        "url": "https://extmaptest.sundsvall.se/geoserver/wfs"
+                    },
+                    "metadataUrl": null,
+                    "isGroupLayer": false,
+                    "queryable": true,
+                    "clickable": true,
+                    "metadata": {
+                        "attributes": {
+                            "the_geom": {
+                                "alias": "the_geom"
+                            },
+                            "OBJECTID": {
+                                "alias": "OBJECTID"
+                            },
+                            "Id": {
+                                "alias": "Id"
+                            },
+                            "NAMN": {
+                                "alias": "NAMN"
+                            },
+                            "Length": {
+                                "alias": "Length"
+                            },
+                            "LANSKOD": {
+                                "alias": "LANSKOD"
+                            },
+                            "BESKRIVNIN": {
+                                "alias": "BESKRIVNIN"
+                            },
+                            "REFERENS": {
+                                "alias": "REFERENS"
+                            },
+                            "METODBESKR": {
+                                "alias": "METODBESKR"
+                            },
+                            "OBJTYP": {
+                                "alias": "OBJTYP"
+                            },
+                            "TILLKDATUM": {
+                                "alias": "TILLKDATUM"
+                            },
+                            "REVDATUM": {
+                                "alias": "REVDATUM"
+                            },
+                            "BESLMYND": {
+                                "alias": "BESLMYND"
+                            },
+                            "LAGRUM": {
+                                "alias": "LAGRUM"
+                            },
+                            "KKOD": {
+                                "alias": "KKOD"
+                            },
+                            "KNAMN": {
+                                "alias": "KNAMN"
+                            },
+                            "EXTERNID": {
+                                "alias": "EXTERNID"
+                            },
+                            "DEP": {
+                                "alias": "DEP"
+                            },
+                            "PLANFORK": {
+                                "alias": "PLANFORK"
+                            },
+                            "GILTIG_T": {
+                                "alias": "GILTIG_T"
+                            },
+                            "ORIGINALID": {
+                                "alias": "ORIGINALID"
+                            },
+                            "Shape_len": {
+                                "alias": "Shape_len"
+                            }
+                        }
+                    }
+                }
+            ],
+            "name": "Strandskydd",
+            "isGroupLayer": true
+        },
+        {
+            "layers": [
+                {
+                    "name": "Pågående detaljplaner",
+                    "wms": {
+                        "params": {
+                            "LAYERS": "SundsvallsKommun:DetaljplanPagaende_punkt",
+                            "EXCEPTIONS": "application/vnd.ogc.se_inimage",
+                            "FORMAT": "image/png",
+                            "TRANSPARENT": true,
+                            "VERSION": "1.1.1",
+                            "SERVICE": "WMS",
+                            "REQUEST": "GetMap",
+                            "STYLES": ""
+                        },
+                        "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms?SERVICE=WMS&",
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    },
+                    "wfs": {
+                        "featurePrefix": "SundsvallsKommun",
+                        "featureType": "DetaljplanPagaende_punkt",
+                        "url": "https://extmaptest.sundsvall.se/geoserver/wfs"
+                    },
+                    "metadataUrl": null,
+                    "isGroupLayer": false,
+                    "queryable": true,
+                    "clickable": true,
+                    "metadata": {
+                        "attributes": {
+                            "FID": {
+                                "alias": "FID"
+                            },
+                            "OBJ": {
+                                "alias": "OBJ"
+                            },
+                            "TYP": {
+                                "alias": "TYP"
+                            },
+                            "EGN": {
+                                "alias": "EGN"
+                            },
+                            "URSPRUNG_KOD": {
+                                "alias": "URSPRUNG_KOD"
+                            },
+                            "OBJ_BESKR": {
+                                "alias": "OBJ_BESKR"
+                            },
+                            "TYP_BESKR": {
+                                "alias": "TYP_BESKR"
+                            },
+                            "EGN_BESKR": {
+                                "alias": "EGN_BESKR"
+                            },
+                            "URSPRUNG_BESKR": {
+                                "alias": "URSPRUNG_BESKR"
+                            },
+                            "GEOM": {
+                                "alias": "GEOM"
+                            },
+                            "DATE_MODIFIED": {
+                                "alias": "DATE_MODIFIED"
+                            },
+                            "USER_MODIFIED": {
+                                "alias": "USER_MODIFIED"
+                            },
+                            "AREA": {
+                                "alias": "AREA"
+                            },
+                            "PERIMETER": {
+                                "alias": "PERIMETER"
+                            },
+                            "SITECODE": {
+                                "alias": "SITECODE"
+                            },
+                            "NAMN": {
+                                "alias": "NAMN"
+                            },
+                            "AREA_HA": {
+                                "alias": "AREA_HA"
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Gällande detaljplan",
+                    "wms": {
+                        "params": {
+                            "LAYERS": "SundsvallsKommun:DetaljplanGallande_yta",
+                            "EXCEPTIONS": "application/vnd.ogc.se_inimage",
+                            "FORMAT": "image/png",
+                            "TRANSPARENT": true,
+                            "VERSION": "1.1.1",
+                            "SERVICE": "WMS",
+                            "REQUEST": "GetMap",
+                            "STYLES": ""
+                        },
+                        "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms?SERVICE=WMS&",
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    },
+                    "wfs": {
+                        "featurePrefix": "SundsvallsKommun",
+                        "featureType": "DetaljplanGallande_yta",
+                        "url": "https://extmaptest.sundsvall.se/geoserver/wfs"
+                    },
+                    "metadataUrl": null,
+                    "isGroupLayer": false,
+                    "queryable": true,
+                    "clickable": true,
+                    "metadata": {
+                        "attributes": {
+                            "the_geom": {
+                                "alias": "the_geom"
+                            },
+                            "PLANNUMMER": {
+                                "alias": "PLANNUMMER"
+                            },
+                            "TEXT": {
+                                "alias": "TEXT"
+                            },
+                            "PLANTYP": {
+                                "alias": "PLANTYP"
+                            },
+                            "AKT": {
+                                "alias": "AKT"
+                            },
+                            "URSPRUNG": {
+                                "alias": "URSPRUNG"
+                            },
+                            "PLANKARTA": {
+                                "alias": "PLANKARTA"
+                            },
+                            "PLANHANDL": {
+                                "alias": "PLANHANDL"
+                            },
+                            "AREA": {
+                                "alias": "AREA"
+                            },
+                            "PERIMETER": {
+                                "alias": "PERIMETER"
+                            },
+                            "SITECODE": {
+                                "alias": "SITECODE"
+                            },
+                            "NAMN": {
+                                "alias": "NAMN"
+                            },
+                            "AREA_HA": {
+                                "alias": "AREA_HA"
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Sammanhållen bebyggelse",
+                    "wms": {
+                        "params": {
+                            "LAYERS": "RIGES:SammanhallenBebyggelse_yta",
+                            "EXCEPTIONS": "application/vnd.ogc.se_xml",
+                            "FORMAT": "image/png",
+                            "TRANSPARENT": true,
+                            "VERSION": "1.1.1",
+                            "SERVICE": "WMS",
+                            "REQUEST": "GetMap",
+                            "STYLES": ""
+                        },
+                        "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms?SERVICE=WMS&",
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    },
+                    "wfs": {
+                        "featurePrefix": "RIGES",
+                        "featureType": "SammanhallenBebyggelse_yta",
+                        "url": "https://extmaptest.sundsvall.se/geoserver/wfs"
+                    },
+                    "metadataUrl": null,
+                    "isGroupLayer": false,
+                    "queryable": true,
+                    "clickable": true,
+                    "metadata": {
+                        "attributes": {
+                            "the_geom": {
+                                "alias": "the_geom"
+                            },
+                            "TYP": {
+                                "alias": "TYP"
+                            },
+                            "KOMMUN": {
+                                "alias": "KOMMUN"
+                            },
+                            "AREA": {
+                                "alias": "AREA"
+                            },
+                            "PERIMETER": {
+                                "alias": "PERIMETER"
+                            },
+                            "SITECODE": {
+                                "alias": "SITECODE"
+                            },
+                            "NAMN": {
+                                "alias": "NAMN"
+                            },
+                            "AREA_HA": {
+                                "alias": "AREA_HA"
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Riges Gällande DP",
+                    "wms": {
+                        "params": {
+                            "LAYERS": "RIGES:DetaljplanGallande_yta",
+                            "EXCEPTIONS": "application/vnd.ogc.se_inimage",
+                            "FORMAT": "image/png",
+                            "TRANSPARENT": true,
+                            "VERSION": "1.1.1",
+                            "SERVICE": "WMS",
+                            "REQUEST": "GetMap",
+                            "STYLES": ""
+                        },
+                        "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms?SERVICE=WMS&",
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    },
+                    "wfs": {
+                        "featurePrefix": "RIGES",
+                        "featureType": "DetaljplanGallande_yta",
+                        "url": "https://extmaptest.sundsvall.se/geoserver/wfs"
+                    },
+                    "metadataUrl": null,
+                    "isGroupLayer": false,
+                    "queryable": true,
+                    "clickable": true,
+                    "metadata": {
+                        "attributes": {
+                            "the_geom": {
+                                "alias": "the_geom"
+                            },
+                            "AKTBET": {
+                                "alias": "AKTBET"
+                            },
+                            "AKTBET_LOK": {
+                                "alias": "AKTBET_LOK"
+                            },
+                            "LEGAL_APPR": {
+                                "alias": "LEGAL_APPR"
+                            },
+                            "ACCEPTED_D": {
+                                "alias": "ACCEPTED_D"
+                            },
+                            "AREA_NUMBE": {
+                                "alias": "AREA_NUMBE"
+                            },
+                            "AREA": {
+                                "alias": "AREA"
+                            },
+                            "PERIMETER": {
+                                "alias": "PERIMETER"
+                            },
+                            "SITECODE": {
+                                "alias": "SITECODE"
+                            },
+                            "NAMN": {
+                                "alias": "NAMN"
+                            },
+                            "AREA_HA": {
+                                "alias": "AREA_HA"
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Användningsbestämmelser",
+                    "wms": {
+                        "params": {
+                            "LAYERS": "RIGES:AnvandningsBestammelser_yta",
+                            "EXCEPTIONS": "application/vnd.ogc.se_inimage",
+                            "FORMAT": "image/png",
+                            "TRANSPARENT": true,
+                            "VERSION": "1.1.1",
+                            "SERVICE": "WMS",
+                            "REQUEST": "GetMap",
+                            "STYLES": ""
+                        },
+                        "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms?SERVICE=WMS&",
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    },
+                    "wfs": {
+                        "featurePrefix": "RIGES",
+                        "featureType": "AnvandningsBestammelser_yta",
+                        "url": "https://extmaptest.sundsvall.se/geoserver/wfs"
+                    },
+                    "metadataUrl": null,
+                    "isGroupLayer": false,
+                    "queryable": true,
+                    "clickable": true,
+                    "metadata": {
+                        "attributes": {
+                            "the_geom": {
+                                "alias": "the_geom"
+                            },
+                            "DESCRIPTIO": {
+                                "alias": "DESCRIPTIO"
+                            },
+                            "REMARK": {
+                                "alias": "REMARK"
+                            },
+                            "CATEGORY": {
+                                "alias": "CATEGORY"
+                            },
+                            "CLARIFICAT": {
+                                "alias": "CLARIFICAT"
+                            },
+                            "MAPTEXT": {
+                                "alias": "MAPTEXT"
+                            },
+                            "AREA": {
+                                "alias": "AREA"
+                            },
+                            "PERIMETER": {
+                                "alias": "PERIMETER"
+                            },
+                            "SITECODE": {
+                                "alias": "SITECODE"
+                            },
+                            "NAMN": {
+                                "alias": "NAMN"
+                            },
+                            "AREA_HA": {
+                                "alias": "AREA_HA"
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Användningsform",
+                    "wms": {
+                        "params": {
+                            "LAYERS": "RIGES:Anvandningsform_yta",
+                            "EXCEPTIONS": "application/vnd.ogc.se_inimage",
+                            "FORMAT": "image/png",
+                            "TRANSPARENT": true,
+                            "VERSION": "1.1.1",
+                            "SERVICE": "WMS",
+                            "REQUEST": "GetMap",
+                            "STYLES": ""
+                        },
+                        "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms?SERVICE=WMS&",
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    },
+                    "wfs": {
+                        "featurePrefix": "RIGES",
+                        "featureType": "Anvandningsform_yta",
+                        "url": "https://extmaptest.sundsvall.se/geoserver/wfs"
+                    },
+                    "metadataUrl": null,
+                    "isGroupLayer": false,
+                    "queryable": true,
+                    "clickable": true,
+                    "metadata": {
+                        "attributes": {
+                            "the_geom": {
+                                "alias": "the_geom"
+                            },
+                            "DESCRIPTIO": {
+                                "alias": "DESCRIPTIO"
+                            },
+                            "REMARK": {
+                                "alias": "REMARK"
+                            },
+                            "CATEGORY": {
+                                "alias": "CATEGORY"
+                            },
+                            "CLARIFICAT": {
+                                "alias": "CLARIFICAT"
+                            },
+                            "MAPTEXT": {
+                                "alias": "MAPTEXT"
+                            },
+                            "DP_OID": {
+                                "alias": "DP_OID"
+                            },
+                            "DIGPRO_DES": {
+                                "alias": "DIGPRO_DES"
+                            },
+                            "DPL_STANDA": {
+                                "alias": "DPL_STANDA"
+                            },
+                            "SUBCAT": {
+                                "alias": "SUBCAT"
+                            },
+                            "MIN": {
+                                "alias": "MIN"
+                            },
+                            "MAX": {
+                                "alias": "MAX"
+                            },
+                            "BUILDING_T": {
+                                "alias": "BUILDING_T"
+                            },
+                            "BUILDING_H": {
+                                "alias": "BUILDING_H"
+                            },
+                            "BUILDING_R": {
+                                "alias": "BUILDING_R"
+                            },
+                            "HEIGHT": {
+                                "alias": "HEIGHT"
+                            },
+                            "PLACE": {
+                                "alias": "PLACE"
+                            },
+                            "AREA": {
+                                "alias": "AREA"
+                            },
+                            "PERIMETER": {
+                                "alias": "PERIMETER"
+                            },
+                            "SITECODE": {
+                                "alias": "SITECODE"
+                            },
+                            "NAMN": {
+                                "alias": "NAMN"
+                            },
+                            "AREA_HA": {
+                                "alias": "AREA_HA"
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Egenskapsbestämmelser linje",
+                    "wms": {
+                        "params": {
+                            "LAYERS": "RIGES:EgenskapsBestammelser_linje",
+                            "EXCEPTIONS": "application/vnd.ogc.se_inimage",
+                            "FORMAT": "image/png",
+                            "TRANSPARENT": true,
+                            "VERSION": "1.1.1",
+                            "SERVICE": "WMS",
+                            "REQUEST": "GetMap",
+                            "STYLES": ""
+                        },
+                        "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms?SERVICE=WMS&",
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    },
+                    "wfs": {
+                        "featurePrefix": "RIGES",
+                        "featureType": "EgenskapsBestammelser_linje",
+                        "url": "https://extmaptest.sundsvall.se/geoserver/wfs"
+                    },
+                    "metadataUrl": null,
+                    "isGroupLayer": false,
+                    "queryable": true,
+                    "clickable": true,
+                    "metadata": {
+                        "attributes": {
+                            "the_geom": {
+                                "alias": "the_geom"
+                            },
+                            "DESCRIPTIO": {
+                                "alias": "DESCRIPTIO"
+                            },
+                            "DP_OID": {
+                                "alias": "DP_OID"
+                            },
+                            "DIGPRO_DES": {
+                                "alias": "DIGPRO_DES"
+                            },
+                            "REMARK": {
+                                "alias": "REMARK"
+                            },
+                            "DPL_STANDA": {
+                                "alias": "DPL_STANDA"
+                            },
+                            "CATEGORY": {
+                                "alias": "CATEGORY"
+                            },
+                            "SUBCAT": {
+                                "alias": "SUBCAT"
+                            },
+                            "CLARIFICAT": {
+                                "alias": "CLARIFICAT"
+                            },
+                            "MAPTEXT": {
+                                "alias": "MAPTEXT"
+                            },
+                            "MIN": {
+                                "alias": "MIN"
+                            },
+                            "MAX": {
+                                "alias": "MAX"
+                            },
+                            "BUILDING_T": {
+                                "alias": "BUILDING_T"
+                            },
+                            "BUILDING_H": {
+                                "alias": "BUILDING_H"
+                            },
+                            "BUILDING_R": {
+                                "alias": "BUILDING_R"
+                            },
+                            "HEIGHT": {
+                                "alias": "HEIGHT"
+                            },
+                            "PLACE": {
+                                "alias": "PLACE"
+                            },
+                            "DP_OTYPE": {
+                                "alias": "DP_OTYPE"
+                            },
+                            "COUNTS": {
+                                "alias": "COUNTS"
+                            },
+                            "FREE_TEXT": {
+                                "alias": "FREE_TEXT"
+                            },
+                            "EXCEPTION": {
+                                "alias": "EXCEPTION"
+                            },
+                            "START_DATE": {
+                                "alias": "START_DATE"
+                            },
+                            "END_DATE": {
+                                "alias": "END_DATE"
+                            },
+                            "PLAN_ID": {
+                                "alias": "PLAN_ID"
+                            },
+                            "INCLUSION": {
+                                "alias": "INCLUSION"
+                            },
+                            "boundedBy": {
+                                "alias": "boundedBy"
+                            },
+                            "ogc_fid": {
+                                "alias": "ogc_fid"
+                            },
+                            "objekt_id": {
+                                "alias": "objekt_id"
+                            },
+                            "geometri_id": {
+                                "alias": "geometri_id"
+                            },
+                            "raa_nummer": {
+                                "alias": "raa_nummer"
+                            },
+                            "acl_id": {
+                                "alias": "acl_id"
+                            },
+                            "lan": {
+                                "alias": "lan"
+                            },
+                            "kommun": {
+                                "alias": "kommun"
+                            },
+                            "landskap": {
+                                "alias": "landskap"
+                            },
+                            "socken": {
+                                "alias": "socken"
+                            },
+                            "lamningtyp": {
+                                "alias": "lamningtyp"
+                            },
+                            "antikv_bed": {
+                                "alias": "antikv_bed"
+                            },
+                            "skadestat": {
+                                "alias": "skadestat"
+                            },
+                            "undsokstat": {
+                                "alias": "undsokstat"
+                            },
+                            "antal": {
+                                "alias": "antal"
+                            },
+                            "matmetod": {
+                                "alias": "matmetod"
+                            },
+                            "medfelfalt": {
+                                "alias": "medfelfalt"
+                            },
+                            "reg_org": {
+                                "alias": "reg_org"
+                            },
+                            "ansv_reg": {
+                                "alias": "ansv_reg"
+                            },
+                            "reg_datum": {
+                                "alias": "reg_datum"
+                            },
+                            "url": {
+                                "alias": "url"
+                            },
+                            "gtype": {
+                                "alias": "gtype"
+                            },
+                            "egenskap1": {
+                                "alias": "egenskap1"
+                            },
+                            "egenskap2": {
+                                "alias": "egenskap2"
+                            },
+                            "osak_pos": {
+                                "alias": "osak_pos"
+                            },
+                            "osak_utbr": {
+                                "alias": "osak_utbr"
+                            },
+                            "ansv_org": {
+                                "alias": "ansv_org"
+                            },
+                            "ansv_pers": {
+                                "alias": "ansv_pers"
+                            },
+                            "dok_datum": {
+                                "alias": "dok_datum"
+                            },
+                            "AREA": {
+                                "alias": "AREA"
+                            },
+                            "PERIMETER": {
+                                "alias": "PERIMETER"
+                            },
+                            "SITECODE": {
+                                "alias": "SITECODE"
+                            },
+                            "NAMN": {
+                                "alias": "NAMN"
+                            },
+                            "AREA_HA": {
+                                "alias": "AREA_HA"
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Egenskapsbestämmelser yta",
+                    "wms": {
+                        "params": {
+                            "LAYERS": "RIGES:EgenskapsBestammelser_yta",
+                            "EXCEPTIONS": "application/vnd.ogc.se_inimage",
+                            "FORMAT": "image/png",
+                            "TRANSPARENT": true,
+                            "VERSION": "1.1.1",
+                            "SERVICE": "WMS",
+                            "REQUEST": "GetMap",
+                            "STYLES": ""
+                        },
+                        "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms?SERVICE=WMS&",
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    },
+                    "wfs": {
+                        "featurePrefix": "RIGES",
+                        "featureType": "EgenskapsBestammelser_yta",
+                        "url": "https://extmaptest.sundsvall.se/geoserver/wfs"
+                    },
+                    "metadataUrl": null,
+                    "isGroupLayer": false,
+                    "queryable": true,
+                    "clickable": true,
+                    "metadata": {
+                        "attributes": {
+                            "the_geom": {
+                                "alias": "the_geom"
+                            },
+                            "DESCRIPTIO": {
+                                "alias": "DESCRIPTIO"
+                            },
+                            "DIGPRO_DES": {
+                                "alias": "DIGPRO_DES"
+                            },
+                            "DP_OID": {
+                                "alias": "DP_OID"
+                            },
+                            "REMARK": {
+                                "alias": "REMARK"
+                            },
+                            "DPL_STANDA": {
+                                "alias": "DPL_STANDA"
+                            },
+                            "CATEGORY": {
+                                "alias": "CATEGORY"
+                            },
+                            "SUBCAT": {
+                                "alias": "SUBCAT"
+                            },
+                            "CLARIFICAT": {
+                                "alias": "CLARIFICAT"
+                            },
+                            "MAPTEXT": {
+                                "alias": "MAPTEXT"
+                            },
+                            "MIN": {
+                                "alias": "MIN"
+                            },
+                            "MAX": {
+                                "alias": "MAX"
+                            },
+                            "BUILDING_T": {
+                                "alias": "BUILDING_T"
+                            },
+                            "BUILDING_H": {
+                                "alias": "BUILDING_H"
+                            },
+                            "BUILDING_R": {
+                                "alias": "BUILDING_R"
+                            },
+                            "HEIGHT": {
+                                "alias": "HEIGHT"
+                            },
+                            "PLACE": {
+                                "alias": "PLACE"
+                            },
+                            "DP_OTYPE": {
+                                "alias": "DP_OTYPE"
+                            },
+                            "COUNTS": {
+                                "alias": "COUNTS"
+                            },
+                            "FREE_TEXT": {
+                                "alias": "FREE_TEXT"
+                            },
+                            "EXCEPTION": {
+                                "alias": "EXCEPTION"
+                            },
+                            "START_DATE": {
+                                "alias": "START_DATE"
+                            },
+                            "END_DATE": {
+                                "alias": "END_DATE"
+                            },
+                            "PLAN_ID": {
+                                "alias": "PLAN_ID"
+                            },
+                            "INCLUSION": {
+                                "alias": "INCLUSION"
+                            },
+                            "boundedBy": {
+                                "alias": "boundedBy"
+                            },
+                            "ogc_fid": {
+                                "alias": "ogc_fid"
+                            },
+                            "objekt_id": {
+                                "alias": "objekt_id"
+                            },
+                            "geometri_id": {
+                                "alias": "geometri_id"
+                            },
+                            "raa_nummer": {
+                                "alias": "raa_nummer"
+                            },
+                            "acl_id": {
+                                "alias": "acl_id"
+                            },
+                            "lan": {
+                                "alias": "lan"
+                            },
+                            "kommun": {
+                                "alias": "kommun"
+                            },
+                            "landskap": {
+                                "alias": "landskap"
+                            },
+                            "socken": {
+                                "alias": "socken"
+                            },
+                            "lamningtyp": {
+                                "alias": "lamningtyp"
+                            },
+                            "antikv_bed": {
+                                "alias": "antikv_bed"
+                            },
+                            "egenskap1": {
+                                "alias": "egenskap1"
+                            },
+                            "egenskap2": {
+                                "alias": "egenskap2"
+                            },
+                            "skadestat": {
+                                "alias": "skadestat"
+                            },
+                            "undsokstat": {
+                                "alias": "undsokstat"
+                            },
+                            "antal": {
+                                "alias": "antal"
+                            },
+                            "osak_pos": {
+                                "alias": "osak_pos"
+                            },
+                            "osak_utbr": {
+                                "alias": "osak_utbr"
+                            },
+                            "matmetod": {
+                                "alias": "matmetod"
+                            },
+                            "medfelfalt": {
+                                "alias": "medfelfalt"
+                            },
+                            "reg_org": {
+                                "alias": "reg_org"
+                            },
+                            "ansv_reg": {
+                                "alias": "ansv_reg"
+                            },
+                            "reg_datum": {
+                                "alias": "reg_datum"
+                            },
+                            "ansv_org": {
+                                "alias": "ansv_org"
+                            },
+                            "ansv_pers": {
+                                "alias": "ansv_pers"
+                            },
+                            "dok_datum": {
+                                "alias": "dok_datum"
+                            },
+                            "url": {
+                                "alias": "url"
+                            },
+                            "gtype": {
+                                "alias": "gtype"
+                            },
+                            "AREA": {
+                                "alias": "AREA"
+                            },
+                            "PERIMETER": {
+                                "alias": "PERIMETER"
+                            },
+                            "SITECODE": {
+                                "alias": "SITECODE"
+                            },
+                            "NAMN": {
+                                "alias": "NAMN"
+                            },
+                            "AREA_HA": {
+                                "alias": "AREA_HA"
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Administrativa egenskaper",
+                    "wms": {
+                        "params": {
+                            "LAYERS": "RIGES:AdministrativaEgenskaper_yta",
+                            "EXCEPTIONS": "application/vnd.ogc.se_inimage",
+                            "FORMAT": "image/png",
+                            "TRANSPARENT": true,
+                            "VERSION": "1.1.1",
+                            "SERVICE": "WMS",
+                            "REQUEST": "GetMap",
+                            "STYLES": ""
+                        },
+                        "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms?SERVICE=WMS&",
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    },
+                    "wfs": {
+                        "featurePrefix": "RIGES",
+                        "featureType": "AdministrativaEgenskaper_yta",
+                        "url": "https://extmaptest.sundsvall.se/geoserver/wfs"
+                    },
+                    "metadataUrl": null,
+                    "isGroupLayer": false,
+                    "queryable": true,
+                    "clickable": true,
+                    "metadata": {
+                        "attributes": {
+                            "the_geom": {
+                                "alias": "the_geom"
+                            },
+                            "DESCRIPTIO": {
+                                "alias": "DESCRIPTIO"
+                            },
+                            "DP_OTYPE": {
+                                "alias": "DP_OTYPE"
+                            },
+                            "REMARK": {
+                                "alias": "REMARK"
+                            },
+                            "COUNTS": {
+                                "alias": "COUNTS"
+                            },
+                            "DPL_STANDA": {
+                                "alias": "DPL_STANDA"
+                            },
+                            "FREE_TEXT": {
+                                "alias": "FREE_TEXT"
+                            },
+                            "CATEGORY": {
+                                "alias": "CATEGORY"
+                            },
+                            "EXCEPTION": {
+                                "alias": "EXCEPTION"
+                            },
+                            "MAPTEXT": {
+                                "alias": "MAPTEXT"
+                            },
+                            "START_DATE": {
+                                "alias": "START_DATE"
+                            },
+                            "END_DATE": {
+                                "alias": "END_DATE"
+                            },
+                            "PLAN_ID": {
+                                "alias": "PLAN_ID"
+                            },
+                            "INCLUSION": {
+                                "alias": "INCLUSION"
+                            },
+                            "boundedBy": {
+                                "alias": "boundedBy"
+                            },
+                            "ogc_fid": {
+                                "alias": "ogc_fid"
+                            },
+                            "objekt_id": {
+                                "alias": "objekt_id"
+                            },
+                            "geometri_id": {
+                                "alias": "geometri_id"
+                            },
+                            "raa_nummer": {
+                                "alias": "raa_nummer"
+                            },
+                            "acl_id": {
+                                "alias": "acl_id"
+                            },
+                            "lan": {
+                                "alias": "lan"
+                            },
+                            "kommun": {
+                                "alias": "kommun"
+                            },
+                            "landskap": {
+                                "alias": "landskap"
+                            },
+                            "socken": {
+                                "alias": "socken"
+                            },
+                            "lamningtyp": {
+                                "alias": "lamningtyp"
+                            },
+                            "antikv_bed": {
+                                "alias": "antikv_bed"
+                            },
+                            "egenskap1": {
+                                "alias": "egenskap1"
+                            },
+                            "egenskap2": {
+                                "alias": "egenskap2"
+                            },
+                            "skadestat": {
+                                "alias": "skadestat"
+                            },
+                            "undsokstat": {
+                                "alias": "undsokstat"
+                            },
+                            "antal": {
+                                "alias": "antal"
+                            },
+                            "osak_pos": {
+                                "alias": "osak_pos"
+                            },
+                            "osak_utbr": {
+                                "alias": "osak_utbr"
+                            },
+                            "matmetod": {
+                                "alias": "matmetod"
+                            },
+                            "medfelfalt": {
+                                "alias": "medfelfalt"
+                            },
+                            "reg_org": {
+                                "alias": "reg_org"
+                            },
+                            "ansv_reg": {
+                                "alias": "ansv_reg"
+                            },
+                            "reg_datum": {
+                                "alias": "reg_datum"
+                            },
+                            "ansv_org": {
+                                "alias": "ansv_org"
+                            },
+                            "ansv_pers": {
+                                "alias": "ansv_pers"
+                            },
+                            "dok_datum": {
+                                "alias": "dok_datum"
+                            },
+                            "url": {
+                                "alias": "url"
+                            },
+                            "gtype": {
+                                "alias": "gtype"
+                            },
+                            "AREA": {
+                                "alias": "AREA"
+                            },
+                            "PERIMETER": {
+                                "alias": "PERIMETER"
+                            },
+                            "SITECODE": {
+                                "alias": "SITECODE"
+                            },
+                            "NAMN": {
+                                "alias": "NAMN"
+                            },
+                            "AREA_HA": {
+                                "alias": "AREA_HA"
+                            }
+                        }
+                    }
+                }
+            ],
+            "name": "Detaljplaner",
+            "isGroupLayer": true
+        },
+        {
+            "layers": [
+                {
+                    "name": "Yrkesfiske",
+                    "wms": {
+                        "params": {
+                            "LAYERS": "Lansstyrelsen:RiksintresseYrkesfiskeHav_wms",
+                            "EXCEPTIONS": "application/vnd.ogc.se_xml",
+                            "FORMAT": "image/png",
+                            "TRANSPARENT": true,
+                            "VERSION": "1.1.1",
+                            "SERVICE": "WMS",
+                            "REQUEST": "GetMap",
+                            "STYLES": ""
+                        },
+                        "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms?SERVICE=WMS&",
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    },
+                    "wfs": null,
+                    "metadataUrl": null,
+                    "isGroupLayer": false,
+                    "queryable": false,
+                    "clickable": false
+                },
+                {
+                    "name": "Farled",
+                    "wms": {
+                        "params": {
+                            "LAYERS": "Trafikverket:RiksintresseFarled_wms",
+                            "EXCEPTIONS": "application/vnd.ogc.se_xml",
+                            "FORMAT": "image/png",
+                            "TRANSPARENT": true,
+                            "VERSION": "1.1.1",
+                            "SERVICE": "WMS",
+                            "REQUEST": "GetMap",
+                            "STYLES": ""
+                        },
+                        "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms?SERVICE=WMS&",
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    },
+                    "wfs": {
+                        "featurePrefix": "Trafikverket",
+                        "featureType": "RiksintresseFarled_wms",
+                        "url": "https://extmaptest.sundsvall.se/geoserver/wfs"
+                    },
+                    "metadataUrl": null,
+                    "isGroupLayer": false,
+                    "queryable": true,
+                    "clickable": true
+                },
+                {
+                    "name": "Friluftsliv wms",
+                    "wms": {
+                        "params": {
+                            "LAYERS": "Lansstyrelsen:RiksintresseFriluftsliv_wms",
+                            "EXCEPTIONS": "application/vnd.ogc.se_xml",
+                            "FORMAT": "image/png",
+                            "TRANSPARENT": true,
+                            "VERSION": "1.1.1",
+                            "SERVICE": "WMS",
+                            "REQUEST": "GetMap",
+                            "STYLES": ""
+                        },
+                        "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms?SERVICE=WMS&",
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    },
+                    "wfs": null,
+                    "metadataUrl": null,
+                    "isGroupLayer": false,
+                    "queryable": false,
+                    "clickable": false
+                },
+                {
+                    "name": "Rennäring",
+                    "wms": {
+                        "params": {
+                            "LAYERS": "Lansstyrelsen:RiksintresseRennaring_wms",
+                            "EXCEPTIONS": "application/vnd.ogc.se_xml",
+                            "FORMAT": "image/png",
+                            "TRANSPARENT": true,
+                            "VERSION": "1.1.1",
+                            "SERVICE": "WMS",
+                            "REQUEST": "GetMap",
+                            "STYLES": ""
+                        },
+                        "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms?SERVICE=WMS&",
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    },
+                    "wfs": null,
+                    "metadataUrl": null,
+                    "isGroupLayer": false,
+                    "queryable": false,
+                    "clickable": false
+                },
+                {
+                    "name": "Kulturmiljövård wms",
+                    "wms": {
+                        "params": {
+                            "LAYERS": "Lansstyrelsen:RiksintresseKulturmiljovard_wms",
+                            "EXCEPTIONS": "application/vnd.ogc.se_xml",
+                            "FORMAT": "image/png",
+                            "TRANSPARENT": true,
+                            "VERSION": "1.1.1",
+                            "SERVICE": "WMS",
+                            "REQUEST": "GetMap",
+                            "STYLES": ""
+                        },
+                        "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms?SERVICE=WMS&",
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    },
+                    "wfs": null,
+                    "metadataUrl": null,
+                    "isGroupLayer": false,
+                    "queryable": false,
+                    "clickable": false
+                },
+                {
+                    "name": "Skyddade vattendrag",
+                    "wms": {
+                        "params": {
+                            "LAYERS": "Lansstyrelsen:RiksintresseSkyddadeVattendrag_wms",
+                            "EXCEPTIONS": "application/vnd.ogc.se_xml",
+                            "FORMAT": "image/png",
+                            "TRANSPARENT": true,
+                            "VERSION": "1.1.1",
+                            "SERVICE": "WMS",
+                            "REQUEST": "GetMap",
+                            "STYLES": ""
+                        },
+                        "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms?SERVICE=WMS&",
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    },
+                    "wfs": null,
+                    "metadataUrl": null,
+                    "isGroupLayer": false,
+                    "queryable": false,
+                    "clickable": false
+                },
+                {
+                    "name": "Vindbruk",
+                    "wms": {
+                        "params": {
+                            "LAYERS": "Lansstyrelsen:RiksintresseVindbruk_wms",
+                            "EXCEPTIONS": "application/vnd.ogc.se_xml",
+                            "FORMAT": "image/png",
+                            "TRANSPARENT": true,
+                            "VERSION": "1.1.1",
+                            "SERVICE": "WMS",
+                            "REQUEST": "GetMap",
+                            "STYLES": ""
+                        },
+                        "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms?SERVICE=WMS&",
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    },
+                    "wfs": null,
+                    "metadataUrl": null,
+                    "isGroupLayer": false,
+                    "queryable": false,
+                    "clickable": false
+                },
+                {
+                    "name": "Naturvård",
+                    "wms": {
+                        "params": {
+                            "LAYERS": "Lansstyrelsen:RiksintresseNaturvard_wms",
+                            "EXCEPTIONS": "application/vnd.ogc.se_xml",
+                            "FORMAT": "image/png",
+                            "TRANSPARENT": true,
+                            "VERSION": "1.1.1",
+                            "SERVICE": "WMS",
+                            "REQUEST": "GetMap",
+                            "STYLES": ""
+                        },
+                        "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms?SERVICE=WMS&",
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    },
+                    "wfs": null,
+                    "metadataUrl": null,
+                    "isGroupLayer": false,
+                    "queryable": false,
+                    "clickable": false
+                },
+                {
+                    "name": "Järnväg anläggning planerad",
+                    "wms": {
+                        "params": {
+                            "LAYERS": "Trafikverket:RiksintresseJarnvagAnlaggningPlaneradFramtida_punkt",
+                            "EXCEPTIONS": "application/vnd.ogc.se_xml",
+                            "FORMAT": "image/png",
+                            "TRANSPARENT": true,
+                            "VERSION": "1.1.1",
+                            "SERVICE": "WMS",
+                            "REQUEST": "GetMap",
+                            "STYLES": ""
+                        },
+                        "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms?SERVICE=WMS&",
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    },
+                    "wfs": {
+                        "featurePrefix": "Trafikverket",
+                        "featureType": "RiksintresseJarnvagAnlaggningPlaneradFramtida_punkt",
+                        "url": "https://extmaptest.sundsvall.se/geoserver/wfs"
+                    },
+                    "metadataUrl": null,
+                    "isGroupLayer": false,
+                    "queryable": true,
+                    "clickable": true,
+                    "metadata": {
+                        "attributes": {
+                            "the_geom": {
+                                "alias": "the_geom"
+                            },
+                            "OBJECTID": {
+                                "alias": "OBJECTID"
+                            },
+                            "NAMN": {
+                                "alias": "NAMN"
+                            },
+                            "STATUS": {
+                                "alias": "STATUS"
+                            },
+                            "REFBESLUT": {
+                                "alias": "REFBESLUT"
+                            },
+                            "REVDATUM": {
+                                "alias": "REVDATUM"
+                            },
+                            "METOD": {
+                                "alias": "METOD"
+                            },
+                            "NYTT": {
+                                "alias": "NYTT"
+                            },
+                            "GENNAMN": {
+                                "alias": "GENNAMN"
+                            },
+                            "GENBESKRID": {
+                                "alias": "GENBESKRID"
+                            },
+                            "GENBESKR": {
+                                "alias": "GENBESKR"
+                            },
+                            "SPECBESKID": {
+                                "alias": "SPECBESKID"
+                            },
+                            "SPECNAMN": {
+                                "alias": "SPECNAMN"
+                            },
+                            "SPECBESKR": {
+                                "alias": "SPECBESKR"
+                            },
+                            "IDENTIFIER": {
+                                "alias": "IDENTIFIER"
+                            },
+                            "AREA": {
+                                "alias": "AREA"
+                            },
+                            "PERIMETER": {
+                                "alias": "PERIMETER"
+                            },
+                            "SITECODE": {
+                                "alias": "SITECODE"
+                            },
+                            "AREA_HA": {
+                                "alias": "AREA_HA"
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Järnväg anläggning befintlig",
+                    "wms": {
+                        "params": {
+                            "LAYERS": "Trafikverket:RiksintresseJarnvagAnlaggningBefintlig_punkt",
+                            "EXCEPTIONS": "application/vnd.ogc.se_xml",
+                            "FORMAT": "image/png",
+                            "TRANSPARENT": true,
+                            "VERSION": "1.1.1",
+                            "SERVICE": "WMS",
+                            "REQUEST": "GetMap",
+                            "STYLES": ""
+                        },
+                        "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms?SERVICE=WMS&",
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    },
+                    "wfs": {
+                        "featurePrefix": "Trafikverket",
+                        "featureType": "RiksintresseJarnvagAnlaggningBefintlig_punkt",
+                        "url": "https://extmaptest.sundsvall.se/geoserver/wfs"
+                    },
+                    "metadataUrl": null,
+                    "isGroupLayer": false,
+                    "queryable": true,
+                    "clickable": true,
+                    "metadata": {
+                        "attributes": {
+                            "the_geom": {
+                                "alias": "the_geom"
+                            },
+                            "OBJECTID": {
+                                "alias": "OBJECTID"
+                            },
+                            "NAMN": {
+                                "alias": "NAMN"
+                            },
+                            "STATUS": {
+                                "alias": "STATUS"
+                            },
+                            "REFBESLUT": {
+                                "alias": "REFBESLUT"
+                            },
+                            "REVDATUM": {
+                                "alias": "REVDATUM"
+                            },
+                            "METOD": {
+                                "alias": "METOD"
+                            },
+                            "NYTT": {
+                                "alias": "NYTT"
+                            },
+                            "GENBESKRID": {
+                                "alias": "GENBESKRID"
+                            },
+                            "GENNAMN": {
+                                "alias": "GENNAMN"
+                            },
+                            "GENBESKR": {
+                                "alias": "GENBESKR"
+                            },
+                            "SPECBESKID": {
+                                "alias": "SPECBESKID"
+                            },
+                            "SPECNAMN": {
+                                "alias": "SPECNAMN"
+                            },
+                            "SPECBESKR": {
+                                "alias": "SPECBESKR"
+                            },
+                            "IDENTIFIER": {
+                                "alias": "IDENTIFIER"
+                            },
+                            "AREA": {
+                                "alias": "AREA"
+                            },
+                            "PERIMETER": {
+                                "alias": "PERIMETER"
+                            },
+                            "SITECODE": {
+                                "alias": "SITECODE"
+                            },
+                            "AREA_HA": {
+                                "alias": "AREA_HA"
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Hamn befintlig",
+                    "wms": {
+                        "params": {
+                            "LAYERS": "Trafikverket:RiksintresseHamnBefintlig_wms",
+                            "EXCEPTIONS": "application/vnd.ogc.se_xml",
+                            "FORMAT": "image/png",
+                            "TRANSPARENT": true,
+                            "VERSION": "1.1.1",
+                            "SERVICE": "WMS",
+                            "REQUEST": "GetMap",
+                            "STYLES": ""
+                        },
+                        "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms?SERVICE=WMS&",
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    },
+                    "wfs": {
+                        "featurePrefix": "Trafikverket",
+                        "featureType": "RiksintresseHamnBefintlig_wms",
+                        "url": "https://extmaptest.sundsvall.se/geoserver/wfs"
+                    },
+                    "metadataUrl": null,
+                    "isGroupLayer": false,
+                    "queryable": true,
+                    "clickable": true
+                },
+                {
+                    "name": "Järnväg befintlig",
+                    "wms": {
+                        "params": {
+                            "LAYERS": "Trafikverket:RiksintresseJarnvagBefintlig_wms",
+                            "EXCEPTIONS": "application/vnd.ogc.se_xml",
+                            "FORMAT": "image/png",
+                            "TRANSPARENT": true,
+                            "VERSION": "1.1.1",
+                            "SERVICE": "WMS",
+                            "REQUEST": "GetMap",
+                            "STYLES": ""
+                        },
+                        "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms?SERVICE=WMS&",
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    },
+                    "wfs": {
+                        "featurePrefix": "Trafikverket",
+                        "featureType": "RiksintresseJarnvagBefintlig_wms",
+                        "url": "https://extmaptest.sundsvall.se/geoserver/wfs"
+                    },
+                    "metadataUrl": null,
+                    "isGroupLayer": false,
+                    "queryable": true,
+                    "clickable": true
+                },
+                {
+                    "name": "Järnväg framtida",
+                    "wms": {
+                        "params": {
+                            "LAYERS": "Trafikverket:RiksintresseJarnvagFramtida_yta",
+                            "EXCEPTIONS": "application/vnd.ogc.se_xml",
+                            "FORMAT": "image/png",
+                            "TRANSPARENT": true,
+                            "VERSION": "1.1.1",
+                            "SERVICE": "WMS",
+                            "REQUEST": "GetMap",
+                            "STYLES": ""
+                        },
+                        "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms?SERVICE=WMS&",
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    },
+                    "wfs": {
+                        "featurePrefix": "Trafikverket",
+                        "featureType": "RiksintresseJarnvagFramtida_yta",
+                        "url": "https://extmaptest.sundsvall.se/geoserver/wfs"
+                    },
+                    "metadataUrl": null,
+                    "isGroupLayer": false,
+                    "queryable": true,
+                    "clickable": true,
+                    "metadata": {
+                        "attributes": {
+                            "the_geom": {
+                                "alias": "the_geom"
+                            },
+                            "OBJECTID": {
+                                "alias": "OBJECTID"
+                            },
+                            "IDENTIFIER": {
+                                "alias": "IDENTIFIER"
+                            },
+                            "NAMN": {
+                                "alias": "NAMN"
+                            },
+                            "STATUS": {
+                                "alias": "STATUS"
+                            },
+                            "REFBESLUT": {
+                                "alias": "REFBESLUT"
+                            },
+                            "REVDATUM": {
+                                "alias": "REVDATUM"
+                            },
+                            "METOD": {
+                                "alias": "METOD"
+                            },
+                            "NYTT": {
+                                "alias": "NYTT"
+                            },
+                            "GENBESKRID": {
+                                "alias": "GENBESKRID"
+                            },
+                            "GENNAMN": {
+                                "alias": "GENNAMN"
+                            },
+                            "GENBESKR": {
+                                "alias": "GENBESKR"
+                            },
+                            "SPECBESKID": {
+                                "alias": "SPECBESKID"
+                            },
+                            "SPECNAMN": {
+                                "alias": "SPECNAMN"
+                            },
+                            "SPECBESKR": {
+                                "alias": "SPECBESKR"
+                            },
+                            "SHAPE_LENG": {
+                                "alias": "SHAPE_LENG"
+                            },
+                            "SHAPE_AREA": {
+                                "alias": "SHAPE_AREA"
+                            },
+                            "AREA": {
+                                "alias": "AREA"
+                            },
+                            "PERIMETER": {
+                                "alias": "PERIMETER"
+                            },
+                            "SITECODE": {
+                                "alias": "SITECODE"
+                            },
+                            "AREA_HA": {
+                                "alias": "AREA_HA"
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Järnvägsstation befintlig",
+                    "wms": {
+                        "params": {
+                            "LAYERS": "Trafikverket:RiksintresseJarnvagsstationBefintlig_wms",
+                            "EXCEPTIONS": "application/vnd.ogc.se_xml",
+                            "FORMAT": "image/png",
+                            "TRANSPARENT": true,
+                            "VERSION": "1.1.1",
+                            "SERVICE": "WMS",
+                            "REQUEST": "GetMap",
+                            "STYLES": ""
+                        },
+                        "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms?SERVICE=WMS&",
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    },
+                    "wfs": {
+                        "featurePrefix": "Trafikverket",
+                        "featureType": "RiksintresseJarnvagsstationBefintlig_wms",
+                        "url": "https://extmaptest.sundsvall.se/geoserver/wfs"
+                    },
+                    "metadataUrl": null,
+                    "isGroupLayer": false,
+                    "queryable": true,
+                    "clickable": true
+                },
+                {
+                    "name": "vägnät befintligt",
+                    "wms": {
+                        "params": {
+                            "LAYERS": "Trafikverket:RiksintresseVagnatBefintlig_wms",
+                            "EXCEPTIONS": "application/vnd.ogc.se_xml",
+                            "FORMAT": "image/png",
+                            "TRANSPARENT": true,
+                            "VERSION": "1.1.1",
+                            "SERVICE": "WMS",
+                            "REQUEST": "GetMap",
+                            "STYLES": ""
+                        },
+                        "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms?SERVICE=WMS&",
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    },
+                    "wfs": {
+                        "featurePrefix": "Trafikverket",
+                        "featureType": "RiksintresseVagnatBefintlig_wms",
+                        "url": "https://extmaptest.sundsvall.se/geoserver/wfs"
+                    },
+                    "metadataUrl": null,
+                    "isGroupLayer": false,
+                    "queryable": true,
+                    "clickable": true
+                },
+                {
+                    "name": "vägnät framtida",
+                    "wms": {
+                        "params": {
+                            "LAYERS": "Trafikverket:RiksintresseVagnatFramtida_wms",
+                            "EXCEPTIONS": "application/vnd.ogc.se_xml",
+                            "FORMAT": "image/png",
+                            "TRANSPARENT": true,
+                            "VERSION": "1.1.1",
+                            "SERVICE": "WMS",
+                            "REQUEST": "GetMap",
+                            "STYLES": ""
+                        },
+                        "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms?SERVICE=WMS&",
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    },
+                    "wfs": {
+                        "featurePrefix": "Trafikverket",
+                        "featureType": "RiksintresseVagnatFramtida_wms",
+                        "url": "https://extmaptest.sundsvall.se/geoserver/wfs"
+                    },
+                    "metadataUrl": null,
+                    "isGroupLayer": false,
+                    "queryable": true,
+                    "clickable": true
+                },
+                {
+                    "name": "ObrutenKust",
+                    "wms": {
+                        "params": {
+                            "LAYERS": "Lansstyrelsen:RiksintresseObrutenKust_wms",
+                            "EXCEPTIONS": "application/vnd.ogc.se_xml",
+                            "FORMAT": "image/png",
+                            "TRANSPARENT": true,
+                            "VERSION": "1.1.1",
+                            "SERVICE": "WMS",
+                            "REQUEST": "GetMap",
+                            "STYLES": ""
+                        },
+                        "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms?SERVICE=WMS&",
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    },
+                    "wfs": null,
+                    "metadataUrl": null,
+                    "isGroupLayer": false,
+                    "queryable": false,
+                    "clickable": false
+                },
+                {
+                    "name": "Flygplats rullbana befintlig",
+                    "wms": {
+                        "params": {
+                            "LAYERS": "Trafikverket:RiksintresseFlygplatsRullbanaBefintlig_wms",
+                            "EXCEPTIONS": "application/vnd.ogc.se_xml",
+                            "FORMAT": "image/png",
+                            "TRANSPARENT": true,
+                            "VERSION": "1.1.1",
+                            "SERVICE": "WMS",
+                            "REQUEST": "GetMap",
+                            "STYLES": ""
+                        },
+                        "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms?SERVICE=WMS&",
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    },
+                    "wfs": {
+                        "featurePrefix": "Trafikverket",
+                        "featureType": "RiksintresseFlygplatsRullbanaBefintlig_wms",
+                        "url": "https://extmaptest.sundsvall.se/geoserver/wfs"
+                    },
+                    "metadataUrl": null,
+                    "isGroupLayer": false,
+                    "queryable": true,
+                    "clickable": true
+                },
+                {
+                    "name": "Flygplats befintlig",
+                    "wms": {
+                        "params": {
+                            "LAYERS": "Trafikverket:RiksintresseFlygplatsBefintlig_wms",
+                            "EXCEPTIONS": "application/vnd.ogc.se_xml",
+                            "FORMAT": "image/png",
+                            "TRANSPARENT": true,
+                            "VERSION": "1.1.1",
+                            "SERVICE": "WMS",
+                            "REQUEST": "GetMap",
+                            "STYLES": ""
+                        },
+                        "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms?SERVICE=WMS&",
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    },
+                    "wfs": {
+                        "featurePrefix": "Trafikverket",
+                        "featureType": "RiksintresseFlygplatsBefintlig_wms",
+                        "url": "https://extmaptest.sundsvall.se/geoserver/wfs"
+                    },
+                    "metadataUrl": null,
+                    "isGroupLayer": false,
+                    "queryable": true,
+                    "clickable": true
+                }
+            ],
+            "name": "Riksintressen",
+            "isGroupLayer": true
+        },
+        {
+            "layers": [
+                {
+                    "name": "Naturvardsverket:DjurVaxtskyddsomraden_wms",
+                    "wms": {
+                        "params": {
+                            "LAYERS": "Naturvardsverket:DjurVaxtskyddsomraden_wms",
+                            "EXCEPTIONS": "application/vnd.ogc.se_inimage",
+                            "FORMAT": "image/png",
+                            "TRANSPARENT": true,
+                            "VERSION": "1.1.1",
+                            "SERVICE": "WMS",
+                            "REQUEST": "GetMap",
+                            "STYLES": ""
+                        },
+                        "url": "https://extmaptest.sundsvall.se/geoserver/wms?SERVICE=WMS&",
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    },
+                    "wfs": null,
+                    "metadataUrl": null,
+                    "isGroupLayer": false,
+                    "queryable": false,
+                    "clickable": false
+                },
+                {
+                    "name": "Naturvardsverket:Kulturreservat_wms2",
+                    "wms": {
+                        "params": {
+                            "LAYERS": "Naturvardsverket:Kulturreservat_wms2",
+                            "EXCEPTIONS": "application/vnd.ogc.se_inimage",
+                            "FORMAT": "image/png",
+                            "TRANSPARENT": true,
+                            "VERSION": "1.1.1",
+                            "SERVICE": "WMS",
+                            "REQUEST": "GetMap",
+                            "STYLES": ""
+                        },
+                        "url": "https://extmaptest.sundsvall.se/geoserver/wms?SERVICE=WMS&",
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    },
+                    "wfs": null,
+                    "metadataUrl": null,
+                    "isGroupLayer": false,
+                    "queryable": false,
+                    "clickable": false
+                },
+                {
+                    "name": "Naturvardsverket:Nationalparker_wms",
+                    "wms": {
+                        "params": {
+                            "LAYERS": "Naturvardsverket:Nationalparker_wms",
+                            "EXCEPTIONS": "application/vnd.ogc.se_inimage",
+                            "FORMAT": "image/png",
+                            "TRANSPARENT": true,
+                            "VERSION": "1.1.1",
+                            "SERVICE": "WMS",
+                            "REQUEST": "GetMap",
+                            "STYLES": ""
+                        },
+                        "url": "https://extmaptest.sundsvall.se/geoserver/wms?SERVICE=WMS&",
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    },
+                    "wfs": null,
+                    "metadataUrl": null,
+                    "isGroupLayer": false,
+                    "queryable": false,
+                    "clickable": false
+                },
+                {
+                    "name": "Naturvardsverket:Natura2000Fageldirektivet_wms",
+                    "wms": {
+                        "params": {
+                            "LAYERS": "Naturvardsverket:Natura2000Fageldirektivet_wms",
+                            "EXCEPTIONS": "application/vnd.ogc.se_inimage",
+                            "FORMAT": "image/png",
+                            "TRANSPARENT": true,
+                            "VERSION": "1.1.1",
+                            "SERVICE": "WMS",
+                            "REQUEST": "GetMap",
+                            "STYLES": ""
+                        },
+                        "url": "https://extmaptest.sundsvall.se/geoserver/wms?SERVICE=WMS&",
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    },
+                    "wfs": null,
+                    "metadataUrl": null,
+                    "isGroupLayer": false,
+                    "queryable": false,
+                    "clickable": false
+                },
+                {
+                    "name": "Naturvardsverket:Natura2000ArtHabitatdirektivet",
+                    "wms": {
+                        "params": {
+                            "LAYERS": "Naturvardsverket:Natura2000ArtHabitatdirektivet",
+                            "EXCEPTIONS": "application/vnd.ogc.se_inimage",
+                            "FORMAT": "image/png",
+                            "TRANSPARENT": true,
+                            "VERSION": "1.1.1",
+                            "SERVICE": "WMS",
+                            "REQUEST": "GetMap",
+                            "STYLES": ""
+                        },
+                        "url": "https://extmaptest.sundsvall.se/geoserver/wms?SERVICE=WMS&",
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    },
+                    "wfs": null,
+                    "metadataUrl": null,
+                    "isGroupLayer": false,
+                    "queryable": false,
+                    "clickable": false
+                },
+                {
+                    "name": "Naturvardsverket:Naturreservat_wms2",
+                    "wms": {
+                        "params": {
+                            "LAYERS": "Naturvardsverket:Naturreservat_wms2",
+                            "EXCEPTIONS": "application/vnd.ogc.se_inimage",
+                            "FORMAT": "image/png",
+                            "TRANSPARENT": true,
+                            "VERSION": "1.1.1",
+                            "SERVICE": "WMS",
+                            "REQUEST": "GetMap",
+                            "STYLES": ""
+                        },
+                        "url": "https://extmaptest.sundsvall.se/geoserver/wms?SERVICE=WMS&",
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    },
+                    "wfs": null,
+                    "metadataUrl": null,
+                    "isGroupLayer": false,
+                    "queryable": false,
+                    "clickable": false
+                },
+                {
+                    "name": "Naturvardsverket:Vattenskyddsomraden_wms",
+                    "wms": {
+                        "params": {
+                            "LAYERS": "Naturvardsverket:Vattenskyddsomraden_wms",
+                            "EXCEPTIONS": "application/vnd.ogc.se_inimage",
+                            "FORMAT": "image/png",
+                            "TRANSPARENT": true,
+                            "VERSION": "1.1.1",
+                            "SERVICE": "WMS",
+                            "REQUEST": "GetMap",
+                            "STYLES": ""
+                        },
+                        "url": "https://extmaptest.sundsvall.se/geoserver/wms?SERVICE=WMS&",
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    },
+                    "wfs": null,
+                    "metadataUrl": null,
+                    "isGroupLayer": false,
+                    "queryable": false,
+                    "clickable": false
+                }
+            ],
+            "name": "Skyddade områden",
+            "isGroupLayer": true
+        },
+        {
+            "layers": [
+                {
+                    "name": "SundsvallsKommun:BeskrivnaOmradenOP2021_yta",
+                    "wms": {
+                        "params": {
+                            "LAYERS": "SundsvallsKommun:BeskrivnaOmradenOP2021_yta",
+                            "EXCEPTIONS": "application/vnd.ogc.se_inimage",
+                            "FORMAT": "image/png",
+                            "TRANSPARENT": true,
+                            "VERSION": "1.1.1",
+                            "SERVICE": "WMS",
+                            "REQUEST": "GetMap",
+                            "STYLES": ""
+                        },
+                        "url": "https://extmaptest.sundsvall.se:443/geoserver/wms?SERVICE=WMS&",
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    },
+                    "wfs": {
+                        "featurePrefix": "SundsvallsKommun",
+                        "featureType": "BeskrivnaOmradenOP2021_yta",
+                        "url": "https://extmaptest.sundsvall.se/geoserver/wfs"
+                    },
+                    "metadataUrl": null,
+                    "isGroupLayer": false,
+                    "queryable": true,
+                    "clickable": true,
+                    "metadata": {
+                        "attributes": {
+                            "the_geom": {
+                                "alias": "the_geom"
+                            },
+                            "Id": {
+                                "alias": "Id"
+                            },
+                            "Delområde": {
+                                "alias": "Delområde"
+                            },
+                            "Länk": {
+                                "alias": "Länk"
+                            },
+                            "sida": {
+                                "alias": "sida"
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "SundsvallsKommun:OversiktsPlanOmraden_yta",
+                    "wms": {
+                        "params": {
+                            "LAYERS": "SundsvallsKommun:OversiktsPlanOmraden_yta",
+                            "EXCEPTIONS": "application/vnd.ogc.se_inimage",
+                            "FORMAT": "image/png",
+                            "TRANSPARENT": true,
+                            "VERSION": "1.1.1",
+                            "SERVICE": "WMS",
+                            "REQUEST": "GetMap",
+                            "STYLES": ""
+                        },
+                        "url": "https://extmaptest.sundsvall.se:443/geoserver/wms?SERVICE=WMS&",
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    },
+                    "wfs": {
+                        "featurePrefix": "SundsvallsKommun",
+                        "featureType": "OversiktsPlanOmraden_yta",
+                        "url": "https://extmaptest.sundsvall.se/geoserver/wfs"
+                    },
+                    "metadataUrl": null,
+                    "isGroupLayer": false,
+                    "queryable": true,
+                    "clickable": true,
+                    "metadata": {
+                        "attributes": {
+                            "the_geom": {
+                                "alias": "the_geom"
+                            },
+                            "Id": {
+                                "alias": "Id"
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "SundsvallsKommun:Bostadsomraden_yta",
+                    "wms": {
+                        "params": {
+                            "LAYERS": "SundsvallsKommun:Bostadsomraden_yta",
+                            "EXCEPTIONS": "application/vnd.ogc.se_inimage",
+                            "FORMAT": "image/png",
+                            "TRANSPARENT": true,
+                            "VERSION": "1.1.1",
+                            "SERVICE": "WMS",
+                            "REQUEST": "GetMap",
+                            "STYLES": ""
+                        },
+                        "url": "https://extmaptest.sundsvall.se:443/geoserver/wms?SERVICE=WMS&",
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    },
+                    "wfs": {
+                        "featurePrefix": "SundsvallsKommun",
+                        "featureType": "Bostadsomraden_yta",
+                        "url": "https://extmaptest.sundsvall.se/geoserver/wfs"
+                    },
+                    "metadataUrl": null,
+                    "isGroupLayer": false,
+                    "queryable": true,
+                    "clickable": true,
+                    "metadata": {
+                        "attributes": {
+                            "the_geom": {
+                                "alias": "the_geom"
+                            },
+                            "Id": {
+                                "alias": "Id"
+                            },
+                            "Kod": {
+                                "alias": "Kod"
+                            },
+                            "Syfte": {
+                                "alias": "Syfte"
+                            },
+                            "Area_m2": {
+                                "alias": "Area_m2"
+                            },
+                            "Beskrivn": {
+                                "alias": "Beskrivn"
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "SundsvallsKommun:BevarandeNaturKultur_yta",
+                    "wms": {
+                        "params": {
+                            "LAYERS": "SundsvallsKommun:BevarandeNaturKultur_yta",
+                            "EXCEPTIONS": "application/vnd.ogc.se_inimage",
+                            "FORMAT": "image/png",
+                            "TRANSPARENT": true,
+                            "VERSION": "1.1.1",
+                            "SERVICE": "WMS",
+                            "REQUEST": "GetMap",
+                            "STYLES": ""
+                        },
+                        "url": "https://extmaptest.sundsvall.se:443/geoserver/wms?SERVICE=WMS&",
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    },
+                    "wfs": {
+                        "featurePrefix": "SundsvallsKommun",
+                        "featureType": "BevarandeNaturKultur_yta",
+                        "url": "https://extmaptest.sundsvall.se/geoserver/wfs"
+                    },
+                    "metadataUrl": null,
+                    "isGroupLayer": false,
+                    "queryable": true,
+                    "clickable": true,
+                    "metadata": {
+                        "attributes": {
+                            "the_geom": {
+                                "alias": "the_geom"
+                            },
+                            "Id": {
+                                "alias": "Id"
+                            },
+                            "Typ": {
+                                "alias": "Typ"
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "SundsvallsKommun:Miljohansynsomraden_yta",
+                    "wms": {
+                        "params": {
+                            "LAYERS": "SundsvallsKommun:Miljohansynsomraden_yta",
+                            "EXCEPTIONS": "application/vnd.ogc.se_inimage",
+                            "FORMAT": "image/png",
+                            "TRANSPARENT": true,
+                            "VERSION": "1.1.1",
+                            "SERVICE": "WMS",
+                            "REQUEST": "GetMap",
+                            "STYLES": ""
+                        },
+                        "url": "https://extmaptest.sundsvall.se:443/geoserver/wms?SERVICE=WMS&",
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    },
+                    "wfs": {
+                        "featurePrefix": "SundsvallsKommun",
+                        "featureType": "Miljohansynsomraden_yta",
+                        "url": "https://extmaptest.sundsvall.se/geoserver/wfs"
+                    },
+                    "metadataUrl": null,
+                    "isGroupLayer": false,
+                    "queryable": true,
+                    "clickable": true,
+                    "metadata": {
+                        "attributes": {
+                            "the_geom": {
+                                "alias": "the_geom"
+                            },
+                            "Id": {
+                                "alias": "Id"
+                            },
+                            "Kod": {
+                                "alias": "Kod"
+                            },
+                            "Syfte": {
+                                "alias": "Syfte"
+                            },
+                            "Antal": {
+                                "alias": "Antal"
+                            },
+                            "Area_m2": {
+                                "alias": "Area_m2"
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "SundsvallsKommun:TurismRekreation_yta",
+                    "wms": {
+                        "params": {
+                            "LAYERS": "SundsvallsKommun:TurismRekreation_yta",
+                            "EXCEPTIONS": "application/vnd.ogc.se_inimage",
+                            "FORMAT": "image/png",
+                            "TRANSPARENT": true,
+                            "VERSION": "1.1.1",
+                            "SERVICE": "WMS",
+                            "REQUEST": "GetMap",
+                            "STYLES": ""
+                        },
+                        "url": "https://extmaptest.sundsvall.se:443/geoserver/wms?SERVICE=WMS&",
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    },
+                    "wfs": {
+                        "featurePrefix": "SundsvallsKommun",
+                        "featureType": "TurismRekreation_yta",
+                        "url": "https://extmaptest.sundsvall.se/geoserver/wfs"
+                    },
+                    "metadataUrl": null,
+                    "isGroupLayer": false,
+                    "queryable": true,
+                    "clickable": true,
+                    "metadata": {
+                        "attributes": {
+                            "the_geom": {
+                                "alias": "the_geom"
+                            },
+                            "Id": {
+                                "alias": "Id"
+                            },
+                            "Kod": {
+                                "alias": "Kod"
+                            },
+                            "Syfte": {
+                                "alias": "Syfte"
+                            },
+                            "Beskrivn": {
+                                "alias": "Beskrivn"
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "SundsvallsKommun:Verksamhet_yta",
+                    "wms": {
+                        "params": {
+                            "LAYERS": "SundsvallsKommun:Verksamhet_yta",
+                            "EXCEPTIONS": "application/vnd.ogc.se_inimage",
+                            "FORMAT": "image/png",
+                            "TRANSPARENT": true,
+                            "VERSION": "1.1.1",
+                            "SERVICE": "WMS",
+                            "REQUEST": "GetMap",
+                            "STYLES": ""
+                        },
+                        "url": "https://extmaptest.sundsvall.se:443/geoserver/wms?SERVICE=WMS&",
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    },
+                    "wfs": {
+                        "featurePrefix": "SundsvallsKommun",
+                        "featureType": "Verksamhet_yta",
+                        "url": "https://extmaptest.sundsvall.se/geoserver/wfs"
+                    },
+                    "metadataUrl": null,
+                    "isGroupLayer": false,
+                    "queryable": true,
+                    "clickable": true,
+                    "metadata": {
+                        "attributes": {
+                            "the_geom": {
+                                "alias": "the_geom"
+                            },
+                            "Id": {
+                                "alias": "Id"
+                            },
+                            "Kod": {
+                                "alias": "Kod"
+                            },
+                            "Syfte": {
+                                "alias": "Syfte"
+                            },
+                            "Storlek_m2": {
+                                "alias": "Storlek_m2"
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "SundsvallsKommun:VindkraftTematisktTillagg_yta",
+                    "wms": {
+                        "params": {
+                            "LAYERS": "SundsvallsKommun:VindkraftTematisktTillagg_yta",
+                            "EXCEPTIONS": "application/vnd.ogc.se_inimage",
+                            "FORMAT": "image/png",
+                            "TRANSPARENT": true,
+                            "VERSION": "1.1.1",
+                            "SERVICE": "WMS",
+                            "REQUEST": "GetMap",
+                            "STYLES": ""
+                        },
+                        "url": "https://extmaptest.sundsvall.se:443/geoserver/wms?SERVICE=WMS&",
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    },
+                    "wfs": {
+                        "featurePrefix": "SundsvallsKommun",
+                        "featureType": "VindkraftTematisktTillagg_yta",
+                        "url": "https://extmaptest.sundsvall.se/geoserver/wfs"
+                    },
+                    "metadataUrl": null,
+                    "isGroupLayer": false,
+                    "queryable": true,
+                    "clickable": true,
+                    "metadata": {
+                        "attributes": {
+                            "the_geom": {
+                                "alias": "the_geom"
+                            },
+                            "ID": {
+                                "alias": "ID"
+                            },
+                            "NAMN": {
+                                "alias": "NAMN"
+                            },
+                            "TYP": {
+                                "alias": "TYP"
+                            },
+                            "OMRÅDE": {
+                                "alias": "OMRÅDE"
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "SundsvallsKommun:Vatten_yta",
+                    "wms": {
+                        "params": {
+                            "LAYERS": "SundsvallsKommun:Vatten_yta",
+                            "EXCEPTIONS": "application/vnd.ogc.se_inimage",
+                            "FORMAT": "image/png",
+                            "TRANSPARENT": true,
+                            "VERSION": "1.1.1",
+                            "SERVICE": "WMS",
+                            "REQUEST": "GetMap",
+                            "STYLES": ""
+                        },
+                        "url": "https://extmaptest.sundsvall.se:443/geoserver/wms?SERVICE=WMS&",
+                        "options": {
+                            "isBaseLayer": false,
+                            "visibility": false
+                        }
+                    },
+                    "wfs": {
+                        "featurePrefix": "SundsvallsKommun",
+                        "featureType": "Vatten_yta",
+                        "url": "https://extmaptest.sundsvall.se/geoserver/wfs"
+                    },
+                    "metadataUrl": null,
+                    "isGroupLayer": false,
+                    "queryable": true,
+                    "clickable": true,
+                    "metadata": {
+                        "attributes": {
+                            "the_geom": {
+                                "alias": "the_geom"
+                            },
+                            "Kod": {
+                                "alias": "Kod"
+                            },
+                            "Syfte": {
+                                "alias": "Syfte"
+                            }
+                        }
+                    }
+                }
+            ],
+            "name": "Översiktsplan",
+            "isGroupLayer": true
+        }
+    ],
+    "resolutions": [
+        280,
+        140,
+        70,
+        28,
+        14,
+        7,
+        4.2,
+        2.8,
+        1.4,
+        0.56,
+        0.28,
+        0.14,
+        0.112
+    ],
+    "units": null,
+    "projection": null,
+    "username": "riges",
+    "options": null,
+    "search": {
+        "searchEstates": {
+            "options": {
+                "municipalities": [
+                    "Sundsvall"
+                ]
+            }
+        },
+        "searchAddresses": {
+            "options": {
+                "municipalities": [
+                    "Sundsvall"
+                ]
+            }
+        },
+        "searchPlacenames": {
+            "options": {
+                "municipalities": [
+                    "2281"
+                ]
+            }
+        }
+    },
+    "isPublic": true
+}

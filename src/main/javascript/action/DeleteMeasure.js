@@ -38,7 +38,7 @@ Ext.define('OpenEMap.action.DeleteMeasure', {
             }
         });
 
-        config.iconCls = config.iconCls || 'action-deletegeometry';
+        config.iconCls = config.iconCls || 'action-deletemeasure';
         config.tooltip = config.tooltip || 'Ta bort m&auml;tning(ar).';
         
         this.callParent(arguments);

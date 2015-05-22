@@ -1,7 +1,7 @@
-/**
- * @author Anders Erlandsson, Sundsvalls kommun
- * Projection definitions for proj4js.
- */
+ /**
+  * @author Anders Erlandsson, Sundsvalls kommun
+  * Projection definitions for proj4.
+  */
 Proj4js.defs["EPSG:3006"] = "+title=Sweref99TM +proj=utm +zone=33 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs";	
 Proj4js.defs["EPSG:3007"] = "+title=Sweref991200 +proj=tmerc +lat_0=0 +lon_0=12 +k=1 +x_0=150000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs";
 Proj4js.defs["EPSG:3008"] = "+title=Sweref991350 +proj=tmerc +lat_0=0 +lon_0=13.5 +k=1 +x_0=150000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs";

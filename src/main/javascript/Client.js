@@ -28,7 +28,7 @@ Ext.define('OpenEMap.Client', {
                'OpenEMap.view.PopupResults',
                'OpenEMap.OpenLayers.Control.ModifyFeature',
                'OpenEMap.OpenLayers.Control.DynamicMeasure'],
-    version: '1.5.0',
+    version: '1.6.0-rc.5',
     /**
      * OpenLayers Map instance
      * 
@@ -94,6 +94,7 @@ Ext.define('OpenEMap.Client', {
      * 
      * @param {Object} config Map configuration object
      * @param {Object} options Additional MapClient options
+     * @param {Function options.callback Callback that is called when the client is configured and ready 
      * @param {Object} options.gui Options to control GUI elements. Each property in this object is
      * essentially a config object used to initialize an Ext JS component. If a property is undefined or false
      * that component will not be initialized except for the map component. If a property is a defined
@@ -134,6 +135,25 @@ Ext.define('OpenEMap.Client', {
         if (this.gui.controlToActivate) {
             this.gui.controlToActivate.activate();
         }
+        
+        if (options.callback) {
+            options.callback.call(this);
+        }
+    },
+    getPermalinkdata: function() {
+        var features = this.drawLayer.features;
+        var format = new OpenLayers.Format.GeoJSON();
+        var geojson = format.write(features);
+    
+        return {
+            version: this.version,
+            config: this.getConfig(),
+            options: this.initialOptions,
+            extent: this.map.getExtent().toArray(),
+            drawLayer: {
+                geojson: geojson
+            }
+        };
     },
     /**
      * @param {boolean} includeLayerRef include reference to OpenLayers layer if available
@@ -184,9 +204,18 @@ Ext.define('OpenEMap.Client', {
      * Enable additional labels for polygon edges
      * NOTE: deactivation not yet implemented
      * @param style hash of style properties that will override a default label style
+     * @param {number} [accuracy=2] number of digits for edge labels 
      */
-    toggleEdgeLabels: function(style) {
+    toggleEdgeLabels: function(style, accuracy) {
         var styleOverride = style || {};
+		function isInt(value) {
+		  return !isNaN(value) && 
+		         parseInt(Number(value)) == value && 
+		         !isNaN(parseInt(value, 10));
+		}
+        if (!isInt(accuracy)) {
+        	accuracy = 2;
+        }
         
         var drawLabels = function() {
             var createEdgeLabels = function(feature) {
@@ -202,7 +231,7 @@ Ext.define('OpenEMap.Client', {
                     var lineString = new OpenLayers.Geometry.LineString([start, end]);
                     var centroid = lineString.getCentroid({weighted: true});
                     var style = Ext.applyIf(Ext.clone(styleOverride), {
-                        label: lineString.getLength().toFixed(2).toString() + " m",
+                        label: lineString.getLength().toFixed(accuracy).toString() + " m",
                         strokeColor: "#000000",
                         strokeWidth: 3,
                         labelAlign: 'cm'
@@ -516,7 +545,11 @@ Ext.apply(OpenEMap, {
         /**
          * URL to be used when WMS layer has been added to config
          */
-        url: 'https://extmaptest.sundsvall.se/geoserver/wms'
+        url: 'https://extmaptest.sundsvall.se/geoserver/wms',
+        /**
+         * URL to getcapabilities document. Must include request parameter (eg. https://extmap.sundsvall.se/geoserver/wms?request=GetCapabilities&version=1.1.1) 
+         */
+        getCapabilities: 'https://extmaptest.sundsvall.se/getcapabilities/wms.xml'
     },
 
     /**
@@ -527,16 +560,29 @@ Ext.apply(OpenEMap, {
 
     /**
      * @property {Object} [wsUrls] WS paths to be used for AJAX requests
+     * @property {string} [wsUrls.basePath] basepath to Open eMap Admin services 
+     * @property {string} [wsUrls.configs] relative path to publig configs within Open eMap Admin services
+     * @property {string} [wsUrls.adminconfigs] path to admin config service within Open eMap Admin services 
+     * @property {string} [wsUrls.permalinks] path to Open eMap Permalink service 
+     * @property {string} [wsUrls.metadata]  path to Open eMap Geo Metadata service
+     * @property {string} [wsUrls.metadataAbstract] path to Open eMap Geo Metadata Abstract service
+     * @property {string} [wsUrls.servers] unused
+     * @property {string} [wsUrls.layers] unused 
      */
     wsUrls: {
-        basePath:   	'/openemapadmin/',
-        configs:    	'configs',
-        adminconfigs: 	'adminconfigs',
+        basePath:   	'/openemapadmin',
+        permalinks:     '/openemappermalink/permalinks',
+        configs:    	'/configs',
+        adminconfigs: 	'/adminconfigs',
         servers:    	'settings/servers',
         layers:     	'layers/layers',
         metadata:   	'geometadata/getmetadatabyid', 
         metadata_abstract: 'geometadata/getabstractbyid'
-    }
+    },
+    /**
+     * @property {String} user to use when saving map config 
+     */
+    username: null
 });
 
 Ext.apply(OpenEMap, {
@@ -551,6 +597,9 @@ Ext.apply(OpenEMap, {
 
 
 OpenLayers.Layer.Vector.prototype.renderers = ["Canvas", "SVG", "VML"];
+// Setting resolution to coerce with GeoWebCache
+OpenLayers.DOTS_PER_INCH = 90.71446714322;
+ 						   
 	/**
 	 * @event popupfeatureselected 
 	 * fires when a feature in a popup layer is selected

@@ -80,6 +80,29 @@
             }
         },
         { "name": "Detaljplaner", "layers": [
+        
+        {
+            "name": "Subtest", "layers": [
+            
+                {
+                    "name": "Planområde 2",
+                    "wms": {
+                        "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
+                        "params": {
+                            "layers": "RIGES:Planomrade",
+                            "format": "image/png",
+                            "transparent": true
+                        },
+                        "options": {
+                        	"isBaseLayer": false,
+                        	"visibility": false
+                        }
+                    }
+                }
+            
+            ]
+        },
+        
         {
             "name": "Planområde",
             "wms": {

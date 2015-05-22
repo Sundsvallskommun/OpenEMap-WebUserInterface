@@ -69,6 +69,9 @@ Ext.define('OpenEMap.config.Parser', {
         // filter out plain layer definitions (no group)
         var layers = this.extractLayers(layerTree);
         
+        // Sort baselayers to put the layer with visibility=true first, because OpenLayers uses the first baselayer as the active one.
+        layers = this.sortBaseLayers(layers);
+
         options.allOverlays = !layers.some(this.isBaseLayer, this);
         
         // Create OpenLayers.Layer.WMS from layer definitions that describe WMS source
@@ -89,6 +92,20 @@ Ext.define('OpenEMap.config.Parser', {
         return map;
     },
 
+    sortBaseLayers: function(layers) {
+    	var baseLayers = layers.filter(function(layer) {return (layer.layer && layer.layer.isBaseLayer);});
+    	var overlays = layers.filter(function(layer) {return !(layer.layer && layer.layer.isBaseLayer);});
+    	var sorted = false;
+    	var sortedBaseLayers = [];
+    	for (var ix=0; baseLayers.length > ix; ix++) {
+    		if (baseLayers[ix].visibility) {
+    			sortedBaseLayers.unshift(baseLayers[ix]);
+    		} else {
+    			sortedBaseLayers.push(baseLayers[ix]);
+    		}
+    	}
+    	return sortedBaseLayers.concat(overlays);
+    },
     /**
     * Iterate over the layertree and create a ExtJS-tree structure
     * @private
@@ -284,12 +301,29 @@ Ext.define('OpenEMap.config.Parser', {
             throw new Error("Unknown layer type");
         }
     },
-
+	/**
+	 *	Checks if the layer or any sublayer is checked
+	 *	@private 
+	 *  @param layer [Object] layer object in the config structure
+	 */
+	isLayerChecked: function(layer) {
+		if (layer.isGroupLayer && layer.layers && layer.layers.length) {
+			return layer.layers.some(this.isLayerChecked, this);
+		} else {
+			return layer.wms && layer.wms.options && layer.wms.options.visibility ? layer.wms.options.visibility : false;
+		}
+	},
+	/**
+	 *	Sets properties for layers based on config options and creates OpenLayers layer 
+	 *	@private 
+	 *  @param layer [Object] layer object in the config structure
+	 */
     iterateLayers: function(layer) {
         // Set node text
         layer.text = layer.name;
         // Is node checked?
-        layer.checked = layer.wms && layer.wms.options && layer.wms.options.visibility ? layer.wms.options.visibility : false;
+        layer.checked = this.isLayerChecked(layer);
+         
         // Get url from Server and set to layer
         if(typeof layer.serverId !== 'undefined' && layer.serverId !== '') {
             var server = this.serverStore.getById(layer.serverId);
@@ -314,7 +348,7 @@ Ext.define('OpenEMap.config.Parser', {
             layer.layer.queryable = layer.queryable ? layer.queryable : false;
         }
         // Do the node have sublayers, iterate over them
-        if(layer.layers) {
+        if(layer.layers && (Object.prototype.toString.call(layer.layers) === '[object Array]') && layer.layers.length > 0) {
             layer.isGroupLayer = true;
             layer.expanded = layer.expanded === undefined ? true : layer.expanded;
             layer.layers.forEach(arguments.callee, this);

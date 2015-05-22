@@ -29,7 +29,6 @@ Ext.define('OpenEMap.view.ZoomTools', {
         var scale = oep ? 'large' : 'large';
         var margin = oep ? '5 0 5 0' : '5 0 5 0';
         
-        
         var pile = [];
         var slider = Ext.create('GeoExt.slider.Zoom', {
             height : 160,

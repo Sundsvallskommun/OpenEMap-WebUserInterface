@@ -86,29 +86,32 @@ Ext.define('OpenEMap.action.DrawGeometry', {
         config.control = new Control(layer, OpenLayers.Handler[config.geometry]);
 
         layer.events.register('beforefeatureadded', this, function(evt){
-            if (this.isText(evt.feature)){
-                Ext.Msg.prompt('Text', 'Mata in text:', function(btn, text){
-                    if (btn == 'ok'){
-                        evt.feature.attributes.label = text;
-                        evt.feature.data.label = text;
-                        layer.redraw();
-                    }
-                });
+            if (this.isText(evt.feature)) {
+            	if (evt.feature.state || evt.feature.state === 'insert') {
+	                Ext.Msg.prompt('Text', 'Mata in text:', function(btn, text){
+	                    if (btn == 'ok'){
+	                        evt.feature.attributes.label = text;
+	                        evt.feature.data.label = text;
+	                        layer.redraw();
+	                    }
+	                });
+	            } 
             }
         });
         
                 
-        config.iconCls = config.iconCls || 'action-drawgeometry';
-       
-       if (!config.tooltip){
+       	if (!config.tooltip){
        		config.tooltip = config.geometry === 'Polygon' ? 'Rita område' :
          		config.geometry === 'Path' ? 'Rita linje' :
          		config.geometry === 'Point' ? 'Rita punkt' : 'Rita geometri';
-         		
+         	config.iconCls = config.geometry === 'Polygon' ? 'action-drawpolygon' :
+         		config.geometry === 'Path' ? 'action-drawline' :
+         		config.geometry === 'Point' ? 'action-drawpoint' : 'action-drawgeometry';
          	if (this.isText(config)){
          		config.tooltip = 'Placera ut text.';	
+         		config.iconCls = 'action-drawtext';
          	}
-       }
+       	}
         config.toggleGroup = 'extraTools';
         
         this.callParent(arguments);

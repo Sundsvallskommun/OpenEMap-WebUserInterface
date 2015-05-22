@@ -48,17 +48,19 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
         config = Ext.apply({}, config);
         this.callParent([config]);
     },
-    
+        
     /**
     * Returns all layers as OpenEMap layer configuration tree.
     * @return {Object} layerConfig  OpenEMap layer configuration
     */
     getLayerConfiguration: function(includeLayerRef) {
         var layerConfig = [];
+
         function configAddLayer(node, includeLayerRef) {
             var layerCfg = {
                 name: node.get('name'),
                 isGroupLayer: node.get('isGroupLayer'),
+                expanded: node.get('expanded'),
                 queryable: node.get('queryable'),
                 clickable: node.get('clickable'),
                 wms: typeof node.get('wms') === 'string' ? {} : node.get('wms'),
@@ -67,19 +69,51 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
                 metadata: typeof node.get('metadata') === 'string' ? {} : node.get('metadata'),
                 layers: []
             };
+            
+            if (!layerCfg.wms || Object.keys(layerCfg.wms).length === 0) layerCfg.wms = undefined;
+            if (!layerCfg.wfs || Object.keys(layerCfg.wfs).length === 0) layerCfg.wfs = undefined;
+//            if (!layerCfg.layers || layerCfg.layers.length === 0) layerCfg.layers = undefined;
 
-	        for (var j=0; j<node.childNodes.length;j++) {
+	        for(var j=0; j<node.childNodes.length;j++) {
 		        layerCfg.layers.push(configAddLayer(node.childNodes[j], includeLayerRef));
 	        }
-
 			return layerCfg;
         }
+
         var childNodes = this.getRootNode().childNodes;
         for (var i=0; i<childNodes.length;i++) {
 	        layerConfig.push(configAddLayer(childNodes[i], includeLayerRef));
-        }
-        
-        return layerConfig;
+/*
+            var parseLayer = function(layer) {
+                return {
+                    name: layer.name,
+                    isGroupLayer: layer.isGroupLayer,
+                    queryable: layer.queryable,
+                    clickable: layer.clickable,
+                    wms: typeof layer.wms === 'string' ? {} : layer.wms,
+                    wfs: typeof layer.wfs === 'string' ? {} : layer.wfs,
+                    layer: includeLayerRef ? layer.layer : undefined,
+                    layers: layer.layers ? layer.layers.map(parseLayer) : undefined,
+                    metadata: typeof layer.metadata === 'string' ? {} : layer.metadata
+                };
+            };
+            
+        	var node = this.getRootNode();
+            node.childNodes.forEach(function(subnode) {
+                layerConfig[i].layers.push({
+                    name: subnode.get('name'),
+                    isGroupLayer: subnode.get('isGroupLayer'),
+                    queryable: subnode.get('queryable'),
+                    clickable: subnode.get('clickable'),
+                    wms: typeof subnode.get('wms') === 'string' ? {} : subnode.get('wms'),
+                    wfs: typeof subnode.get('wfs') === 'string' ? {} : subnode.get('wfs'),
+                    layer: includeLayerRef ? subnode.get('layer') : undefined,
+                    layers: subnode.get('layers') instanceof Array ? subnode.get('layers').map(parseLayer) : undefined,
+                    metadata: typeof subnode.get('metadata') === 'string' ? {} : subnode.get('metadata')
+                });
+            });
+*/        }
+       return layerConfig;
     },
 
     /**
@@ -88,11 +122,28 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
     * @param {Ext.data.Model} appendNode
     */
     onBeforeAppend: function(node, appendNode) {
-        // Prevent groups from being added to groups
-        if ((node && !node.isRoot()) && !appendNode.isLeaf()) {
-            return false;
-        }
         return true;
+    },
+    
+    createInlineLegend: function(node) {
+        if (!node.raw.layer || node.get('hasInlineLegend')) {
+            return;
+        }
+        var layer = node.raw.layer;
+        var url;
+        if (layer.legendURL !== undefined) {
+            url = layer.legendURL;
+        } else if (node.raw.wms && node.raw.wms.params && (node.raw.wms.params.LAYERS || node.raw.wms.params.layers)) {
+            var layerRecord = GeoExt.data.LayerModel.createFromLayer(layer);
+            var legend = Ext.create('GeoExt.container.WmsLegend', {
+                layerRecord: layerRecord
+            });
+            url = legend.getLegendUrl(node.raw.wms.params.LAYERS || node.raw.wms.params.layers);
+        }
+        if (url && url.length > 0) {
+            node.set('text', '<div style="display:inline-block;width:20px;height:20px;margin-right:2px;overflow:hidden;"><img class="legendimg" src="' + url + '" style="height:20px;"></div>' + node.get('text')); 
+        }
+        node.set('hasInlineLegend', true);
     },
 
     /**
@@ -102,10 +153,6 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
     * @param {Ext.data.Model} refNode
     */
     onBeforeInsert: function(store, node, refNode) {
-        // Prevent groups from being added to groups
-        if(!refNode.parentNode.isRoot() && !node.isLeaf()) {
-            return false;
-        }
         return true;
     },
 
@@ -118,26 +165,35 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
         if(!this._inserting) {
             this._inserting = true;
             
-            // Add this node layers and subnodes to map.
-            node.cascadeBy(function(subnode) {
-                var layer = subnode.get('layer');
-
-                // Add getLayer function to support GeoExt
-                subnode.getLayer = function() {
-                    return this.get('layer');
-                };
-                // Add WMS legened 
-                this.addWMSLegend(subnode);
-
-                if(layer && layer !== '' && this.map) {
-                    var mapLayer = this.map.getLayer(layer);
-                    if(mapLayer === null && layer && layer.displayInLayerSwitcher === true) {
-                        this.map.addLayer(layer);
-                    }
+            var isFromAdd = node.getOwnerTree() instanceof OpenEMap.view.layer.Add;
+           
+            if (!isFromAdd) {
+                // use from add internal checked status
+                if (node.raw.checked_) {
+                    node.set('checked', node.raw.checked_);
                 }
-            }, this);
+            
+                // Add this node layers and subnodes to map.
+                node.cascadeBy(function(subnode) {
+                    var layer = subnode.get('layer');
 
-            this.reorderLayersOnMap();
+                    // Add getLayer function to support GeoExt
+                    subnode.getLayer = function() {
+                        return this.get('layer');
+                    };
+
+                    if(layer && layer !== '' && this.map) {
+                        var mapLayer = this.map.getLayer(layer);
+                        if(mapLayer === null && layer && layer.displayInLayerSwitcher === true) {
+                            this.map.addLayer(layer);
+                        }
+                    }
+                }, this);
+            
+                this.reorderLayersOnMap();
+                
+                this.createInlineLegend(node);
+            }
             
             delete this._inserting;
         }
@@ -186,43 +242,6 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
             }, this);
         }
     },
-
-    /**
-    * Adds a WMS-legend to a node
-    * @param {Ext.data.Model} node
-    * @return {Ext.data.Model} node
-    */
-    addWMSLegend: function(node) {
-        var layer = node.get('layer');
-    
-        if (layer) {
-            if (Ext.isIE9) return node;
-            if (layer.legendURL) {
-                node.set('legendURL', layer.legendURL);
-                node.gx_urllegend = Ext.create('GeoExt.container.UrlLegend', {
-                    layerRecord: node,
-                    showTitle: false,
-                    hidden: true,
-                    deferRender: true,
-                    // custom class for css positioning
-                    // see tree-legend.html
-                    cls: "legend"
-                });
-            } else if (layer.CLASS_NAME == "OpenLayers.Layer.WMS") {
-                node.gx_wmslegend = Ext.create('GeoExt.container.WmsLegend', {
-                    layerRecord: node,
-                    showTitle: false,
-                    hidden: true,
-                    deferRender: true,
-                    // custom class for css positioning
-                    // see tree-legend.html
-                    cls: "legend"
-                });
-            }
-        }
-        return node;
-    },
-
     /**
      * Unbind this store from the map it is currently bound.
      */

@@ -128,7 +128,7 @@ Ext.define('OpenEMap.data.DataHandler', {
     */
     saveNewConfiguration: function(conf, callback) {
         this.doRequest({
-            url: this.wsUrls.basePath + this.wsUrls.adminconfigs + '/config',
+            url: this.wsUrls.basePath + this.wsUrls.adminconfigs + '/config/',
             method: 'POST',
             jsonData: conf
         }, callback);

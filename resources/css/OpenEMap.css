@@ -26,6 +26,32 @@ ul, li {
 .x-grid-with-row-lines .x-grid-td {
     border-bottom-width: 1px;
 }
+.x-grid-cell-inner-treecolumn {
+    border-bottom-width: 0px;
+}
+.x-tree-icon-parent {
+    width: 0px;
+}
+.x-tree-icon-leaf {
+    width: 0px;
+}
+.x-tree-node-text {
+    font-size: 13px;
+    font-weight: normal;
+    vertical-align: top;
+}
+
+.x-tip {
+  width: auto !important;
+}
+ 
+.x-tip-body {
+  width: auto !important;
+}
+ 
+.x-tip-body span {
+  width: auto !important;
+}
 
 /* Action icons */
 .action-fullextent {
@@ -40,6 +66,9 @@ ul, li {
 .action-popup {
 	background-image: url("../images/oep-tools-icons/info.png");
 }
+.action-permalink {
+    background-image: url("../images/oep-tools-icons/chain.png");
+}
 .action-measureline {
 	background-image: url("../images/oep-tools-icons/measure_line.png");
 }
@@ -47,7 +76,7 @@ ul, li {
 	background-image: url("../images/oep-tools-icons/measure_area.png");
 }
 .action-deletemeasure {
-	background-image: url("../images/oep-tools-icons/erase.png");
+	background-image: url("../images/oep-tools-icons/EraseMeassure.png");
 }
 .action-drawobject {
 	background-image: url("../images/oep-tools-icons/draw_geometry.png");
@@ -59,13 +88,13 @@ ul, li {
 	background-image: url("../images/oep-tools-icons/draw_point.png");
 }
 .action-drawpolygon {
-	background-image: url("../images/oep-tools-icons/draw_free.png");
+	background-image: url("../images/oep-tools-icons/DrawPolygon.png");
 }
 .action-drawgeometry {
 	background-image: url("../images/oep-tools-icons/draw_free.png");
 }
 .action-drawtext {
-	background-image: url("../images/oep-tools-icons/bookmark_area.png");
+	background-image: url("../images/oep-tools-icons/DrawText.png");
 }
 .action-draw-l {
 	background-image: url("../images/oep-tools-icons/geometry_l.png");
@@ -97,10 +126,13 @@ ul, li {
 .action-detailreport {
     background-image: url("../images/oep-tools-icons/info.png");
 }
-
-
 .action-load {
     background-image: url("../images/load.png");
+}
+.action-none {
+	background-image: none;
+	width: 0px !important;
+	height: 0px !important;
 }
 
 

@@ -1,6 +1,6 @@
 {
   "name": "OpenEMap",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "devDependencies": {
     "grunt": "~0.4.5",
     "grunt-auto-install": "^0.2.2",
@@ -13,5 +13,6 @@
     "grunt-contrib-jshint": "~0.10.0",
     "grunt-contrib-watch": "~0.6.1",
     "grunt-sencha-build": "^0.1.5"
-  }
+  },
+  "modulesStaticPath": "d:/workspaces/openhierarchy/gitrepos/OpenEMap-Admin-Services/src/org/oemap/services/modules/staticcontent"
 }

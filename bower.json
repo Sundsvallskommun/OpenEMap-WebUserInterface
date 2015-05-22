@@ -4,6 +4,8 @@
     "ext-4.2.1": "bjornharrtell/extjs#4.2.1.883",
     "geoext2": "Sundsvallskommun/geoext2",
     "OpenLayers-2.13.1": "http://github.com/openlayers/openlayers/releases/download/release-2.13.1/OpenLayers-2.13.1.zip",
-    "proj4": "proj4js/proj4js"
+    "proj4": "proj4js/proj4js",
+    "ext-theme-oep": "Sundsvallskommun/ext-theme-oep#1.7.0",
+	"es5-shim": "es-shims/es5-shim"
   }
 }

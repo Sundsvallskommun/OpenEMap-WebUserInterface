@@ -41,8 +41,6 @@ Ext.define('OpenEMap.view.layer.Tree' ,{
         }
 
         this.on('checkchange', function(node, checked, eOpts) {
-            var parent = node.parentNode;
-        
             // Loop this node and children
             node.cascadeBy(function(n){
                 n.set('checked', checked);
@@ -50,41 +48,110 @@ Ext.define('OpenEMap.view.layer.Tree' ,{
                 // Change layer visibility (Layer groups have no layer reference)
                 if(olLayerRef) {
                     olLayerRef.setVisibility(checked);
+                  	olLayerRef.options.visibility = checked;
+                }
+                var wms = n.get('wms');
+                if (wms) {
+                    wms.options.visibility = checked;
                 }
 
-           });
-            // Checking/unchecking parent node
-            if (checked) {
-                // check parent if not root
-                if (!parent.isRoot()) {
-                    parent.set('checked', checked);
-                }
-            } else {
-                if (!parent.isRoot() && !parent.childNodes.some(function(node) { return node.get('checked'); })) {
-                    parent.set('checked', checked);
-                }
-            }
-
+           	});
+           
+           	function checkParent(n, checked) {
+	            var parent = n.parentNode;
+	            if (parent.get("checked") != n.get("checked")) {
+		           	if (checked) {
+		           	    // check parent if not root
+		            	if (!parent.isRoot()) {
+		                	parent.set("checked", checked);
+		                	checkParent(parent, checked);
+		               	}
+		           	} else {
+		               	if (!parent.isRoot() && !parent.childNodes.some(function(node) { return node.get('checked'); })) {
+		                   	parent.set("checked", checked);
+		                   	checkParent(parent, checked);
+		               	}
+		           	}
+	            }
+	       	}
+           	// Checking/unchecking parent node
+			checkParent(node, checked);
+			
         });
 
-        this.on('cellclick', function(tree, td, cellIndex, node) {
-            // Add legend if node have a wms legend and the node isnt removed
-            if((node.gx_wmslegend || node.gx_urllegend) && node.store) {
-                var legend = node.gx_wmslegend || node.gx_urllegend;
-                if (legend.isHidden()) {
-                    if (!legend.rendered) {
-                        legend.render(td);
-                    }
-                    legend.show();
-                } else {
-                    legend.hide();
+        this.on('cellclick', function(tree, td, cellIndex, node, el, columnIndex, e) {
+            
+            // function to create legend tooltip
+            var createLegend = function(url) {
+                var img = Ext.create('Ext.Img', {
+                    src: url
+                });
+                var tip = Ext.create('Ext.tip.ToolTip', {
+                    title: 'Legend ' + node.raw.name,
+                    closable: true,
+                    items: img
+                });
+                tip.showBy(el);
+                img.getEl().on('load', function() {
+                    tip.doLayout();
+                });
+            };
+            
+            // function to get legend url
+            // TODO: could share code with inline legend creation in GroupedLayerTree
+            var getLegendUrl = function(node) {
+                var layer = node.raw.layer;
+                var url;
+                if (layer.legendURL !== undefined) {
+                    url = layer.legendURL;
+                } else if (node.raw.wms && (node.raw.wms.params.LAYERS || node.raw.wms.params.layers)) {
+                    var layerRecord = GeoExt.data.LayerModel.createFromLayer(layer);
+                    var legend = Ext.create('GeoExt.container.WmsLegend', {
+                        layerRecord: layerRecord
+                    });
+                    url = legend.getLegendUrl(node.raw.wms.params.LAYERS || node.raw.wms.params.layers);
+                }
+                return url;
+            };
+        
+            // Get target element in an IE9 compatible way
+            var target = e.browserEvent.target || e.browserEvent.srcElement;
+            
+            // check if target is the inline legend image
+            if (Ext.get(target).hasCls('legendimg') && node.raw.layer) {
+                var url = getLegendUrl(node);
+                if (url && url.length > 0) {
+                    createLegend(url);
                 }
             }
         });
         
         this.callParent(arguments);
     },
-    
+    getBaseLayersConfiguration: function() {
+        var layerConfigs = [];
+
+        function configAddLayer(layer) {
+	        var layerCfg = {
+	            name: layer.name,
+	            wms: {
+	            	url: layer.url, 
+	            	options: layer.options, 
+	            	params: layer.params
+	        	},
+            	visibility: layer.visibility
+	        };
+			layerCfg.wms.options.visibility = layer.visibility; 
+			return layerCfg;
+        }
+
+        var baseLayers = this.mapPanel.map.layers.filter(function(layer) { return layer.isBaseLayer; });
+        for (var i=0; i<baseLayers.length;i++) {
+	        layerConfigs.unshift(configAddLayer(baseLayers[i]));
+        }
+	    return layerConfigs;
+    },
+
     getConfig: function(includeLayerRef) {
     	// Start with initial config to get a complete config object
         var config = Ext.clone(this.client.initialConfig);
@@ -94,8 +161,11 @@ Ext.define('OpenEMap.view.layer.Tree' ,{
 
         // layer tree does not include base layers so extract them from initial config
     	var baseLayers = config.layers.filter(function(layer) {
-    		return (layer.wms && layer.wms.options.isBaseLayer) ? layer : false;
+    		return (layer.wms && layer.wms.options && layer.wms.options.isBaseLayer) ? layer : false;
     	});
+    	
+    	baseLayers = this.getBaseLayersConfiguration();
+    	
     	config.layers = baseLayers.concat(layers);
     	
     	return config;

@@ -26,46 +26,51 @@ Ext.define('OpenEMap.view.SavedMapConfigs' ,{
     id: 'savedMapConfigsGrid',
 
     constructor: function() {
-        /*this.selModel = Ext.create('Ext.selection.CheckboxModel', {
-		    mode: 'SINGLE',
-            checkOnly: true,
-		    listeners: { 
-			    select: function( t, record, index, eOpts ) {
-			        this.client.destroy();
-			        this.client.configure(record.raw, this.client.initialOptions);
-				    //var configId = record.get('configId');
-				    //init(OpenEMap.wsUrls.basePath + OpenEMap.wsUrls.configs + '/' + configId);
-			    },
-			    scope: this
-		    }
-	    });*/
-	
 	    this.store = Ext.create('OpenEMap.data.SavedMapConfigs');
         this.columns = [
             { 
             	header: 'Name',  
             	dataIndex: 'name',
-            	flex: 1
-            },
-            {
-                xtype: 'actioncolumn',
-                width: 40,
-                iconCls: 'action-load',
+            	flex: 1,
                 tooltip: 'Ladda',
-                handler: function(grid, rowIndex, cellIndex, column, e, record, tr) {
-                    this.client.destroy();
-			        this.client.configure(record.raw, this.client.initialOptions);
-                    e.stopEvent();
-                    return false;
-                }.bind(this)
+                renderer: function(value, metadata, record) {
+                	metadata.tdAttr = 'data-qtip="Ladda karta"';
+                	return value;
+                },
+			    listeners: {
+		            click: function(grid, rowIndex, cellIndex, column, e, record, tr) {
+						var requestUrl = ((OpenEMap && OpenEMap.wsUrls && OpenEMap.wsUrls.basePath) ? OpenEMap.wsUrls.basePath : '') + 
+							((OpenEMap && OpenEMap.wsUrls && OpenEMap.wsUrls.configs) ? OpenEMap.wsUrls.configs : '') + 
+							'/config/' + record.get('configId');
+						Ext.Ajax.request({
+							scope: this,
+							url: requestUrl,
+							success: function(response) {
+								this.client.destroy();
+								this.client.configure(JSON.parse(response.responseText), this.client.initialOptions);
+								e.stopEvent();
+								return false;
+							},
+							failure: function(response) {
+								Ext.MessageBox.alert('Kommunikationsproblem', 'Kartan kan inte öppnas. Kontakta systemadministratör.');
+							}
+						});
+	               }.bind(this)
+			    }
             },
             {
                 xtype: 'actioncolumn',
                 width: 40,
-                iconCls: 'action-remove',
+                getClass: function(value, meta) {
+			    	return meta.record.get('isPublic') ? 'action-none' : 'action-remove';
+	    		},
                 tooltip: 'Ta bort',
                 handler: function(grid, rowIndex, cellIndex, column, e, record, tr) {
                     //TODO! change to proper rest store delete
+                    if (record.get('isPublic')) {
+                    	return false;
+                    }
+                    
                     Ext.MessageBox.confirm('Ta bort', 'Vill du verkligen ta bort konfigurationen?', function(btn) {
                         if(btn === 'yes') {
                             var store = grid.getStore();

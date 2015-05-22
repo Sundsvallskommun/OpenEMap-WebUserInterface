@@ -29,10 +29,6 @@ Ext.define('OpenEMap.view.layer.Add' ,{
     ],
 
     title: 'Lägg till lager',
-
-    width: 250,
-    height: 550,
-
     headerPosition: 'top',
     collapsible: true,
     collapseMode: 'header',
@@ -83,16 +79,17 @@ Ext.define('OpenEMap.view.layer.Add' ,{
                 xtype: 'treecolumn',
                 flex: 1,
                 dataIndex: 'text'
-            },
-            me.metadataColumn
+            }
+//            , me.metadataColumn
         ];
 
         this.store = Ext.create('OpenEMap.data.GroupedLayerTree');
         
         Ext.Ajax.request({
-            url: OpenEMap.basePathProxy + OpenEMap.wmsURLs.url + '?service=WMS&request=GetCapabilities',
+            url: OpenEMap.basePathProxy + OpenEMap.wmsURLs.getCapabilities,
             success: this.parseCapabilities,
-            scope: this
+            scope: this,
+            disableCaching: false
         });
 
         this.callParent(arguments);      
@@ -123,22 +120,24 @@ Ext.define('OpenEMap.view.layer.Add' ,{
             var layerConfig = {
                 'text': stripName(layer.name),
                 'leaf': true,
-                'checked': true,
+                'checked_': true, // internal checked status
                 'title': layer.title,
                 'name': layer.title,
                 'queryable': layer.queryable,
                 'clickable': layer.queryable,
                 'isGroupLayer': false,
                 'visibility': true,
+                'metadataURL': layer.metadataURLs.length > 0 ? layer.metadataURLs[0] : null,
                 'wms':{
                     'url': OpenEMap.wmsURLs.url,
                     'params': {
-                        'layers': layer.name,
-                        'format': 'image/png',
-                        'transparent': true
+                        'LAYERS': layer.name,
+                        'FORMAT': 'image/png',
+                        'TRANSPARENT': true
                     },
                     'options': {
-                        'isBaseLayer': false
+                        'isBaseLayer': false,
+                        'visibility': true
                     }
                 }
             };

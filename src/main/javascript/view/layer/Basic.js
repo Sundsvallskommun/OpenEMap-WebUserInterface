@@ -17,13 +17,10 @@
 Ext.define('OpenEMap.view.layer.Basic' ,{
     extend: 'OpenEMap.view.layer.Tree',
 
-    //autoScroll: true,
-    //lines: false,
-    overflowY: 'auto',
     rootVisible: false,
-    //width: 300,
-    height: 300,
-    border: false,
+    width: 300,
+	resizable: true,
+	resizeHandles: 's',
 
     initComponent: function() {
         if (!this.renderTo) {

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<!--
+    Copyright (C) 2014 Härnösands kommun
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<!--
+	Uses parameter "configid" to open a config from Open eMap Admin service
+-->
+
+<html lang="sv">
+	<head>
+		<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>Open eMap Client</title>
+		<meta name="description" content="">
+		<meta name="author" content="Anders Erlandsson, Sundsvalls kommun" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	    <link rel="stylesheet" type="text/css" href="/libs/ext-theme-oep/ext-theme-oep-all.css">
+	    <link rel="stylesheet" type="text/css" href="resources/css/OpenEMap.css">  
+	    <script type="text/javascript" src="/libs/ext-4.2.1/ext-all.js"></script>
+	    <script type="text/javascript" src="/libs/ext-4.2.1/ext-theme-neptune.js"></script>
+	    <script type="text/javascript" src="/libs/ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
+	    <script type="text/javascript" src="/libs/OpenLayers-2.13.1/OpenLayers.js"></script>
+	    <script type="text/javascript" src="/libs/proj4js/proj4-compressed.js"></script>
+	    <script type="text/javascript" src="proj4_defs.js"></script>
+	    <script type="text/javascript" src="/libs/geoext-2.0.2-rc.1-all.js"></script> 
+	    <script type="text/javascript" src="/libs/es5-shim.min.js"></script>
+	    <script type="text/javascript" src="OpenEMap-debug.js"></script>
+	
+	<script type="text/javascript">
+		Ext.onReady(function() {
+	
+					var idx = window.location.href.indexOf('?');
+					if (!~idx) {
+						Ext.MessageBox.alert('Konfiguration','Du måste ange en konfigurationsid i url adresen t ex http://{url}/index.html?configid=16.')
+					}
+					var queryString = Ext.Object.fromQueryString(window.location.href.substring(idx + 1));
+					var	id = queryString.configid; 
+					if (!id) {
+						Ext.MessageBox.alert('Konfiguration','Du måste ange en konfigurationsid i url adresen t ex http://{url}/index.html?configid=16.')
+					}
+					
+					var demotext = "";
+					if (queryString.demotext) {
+						demotext = queryString.demotext;
+					};
+					document.getElementById("demotext").innerText = demotext; 
+					
+					function init(config) {
+						var mapClient = Ext.create('OpenEMap.Client');
+						var gui = {
+							map : false,
+							toolbar : {},
+							zoomTools : {},
+							layers : {},
+							baseLayers : {},
+							searchFastighet : {}
+							//objectConfig : {x: 100, y: 400, width: 300, height: 200, collapsed: true}
+						};
+						
+						mapClient.destroy();
+						mapClient.configure(Ext.clone(config), {
+							gui : gui
+						});
+	
+						var labels = new OpenLayers.Rule({
+							filter : new OpenLayers.Filter.Comparison({
+								type : OpenLayers.Filter.Comparison.EQUAL_TO,
+								property : "type",
+								value : "label"
+							}),
+							symbolizer : {
+								pointRadius : 20,
+								fillOpacity : 0,
+								strokeOpacity : 0,
+								label : "${label}"
+							}
+						});
+						mapClient.drawLayer.styleMap.styles['default'].addRules([ labels ]);
+					}
+					
+					Ext.Ajax.request({
+						url : OpenEMap.wsUrls.basePath + OpenEMap.wsUrls.configs + '/config/' + id,
+						method : 'GET',
+						success : function(evt){
+							var config = JSON.parse(evt.responseText);
+							init(config);
+						}
+					});
+				});
+	</script>
+	</head>
+	<body>
+		<div id="demotext" style="position: absolute; opacity: 0.20; font-size: 4rem;   text-align: center; top: 50%;left: 10%;;transform: rotate(30deg);"></div>
+	<body>
+</html>

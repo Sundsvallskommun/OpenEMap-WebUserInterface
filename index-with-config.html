@@ -28,73 +28,27 @@
 		<meta name="author" content="Anders Erlandsson, Sundsvalls kommun" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	
-	    <link rel="stylesheet" type="text/css" href="/libs/ext-theme-oep/oepTheme-all.css">
-	    <link rel="stylesheet" type="text/css" href="resources/css/OpenEMap.css">  
-	    <script type="text/javascript" src="/libs/ext-4.2.1/ext-all.js"></script>
-	    <script type="text/javascript" src="/libs/ext-4.2.1/ext-theme-neptune.js"></script>
-	    <script type="text/javascript" src="/libs/ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
-	    <script type="text/javascript" src="/libs/OpenLayers-2.13.1/OpenLayers.js"></script>
-	    <script type="text/javascript" src="/libs/proj4js/proj4-compressed.js"></script>
-	    <script type="text/javascript" src="proj4_defs.js"></script>
-	    <script type="text/javascript" src="/libs/geoext-2.0.2-rc.1-all.js"></script> 
-	    <script type="text/javascript" src="/libs/es5-shim.min.js"></script>
-	    <script type="text/javascript" src="OpenEMap-1.5.0-min.js"></script>
-	
-	<script type="text/javascript">
-		Ext.onReady(function() {
-	
-					var idx = window.location.href.indexOf('?');
-					if (!~idx) {
-						Ext.MessageBox.alert('Konfiguration','Du måste ange en konfigurationsid i url adresen t ex http://{url}/index.html?configid=16.')
-					}
-					var queryString = Ext.Object.fromQueryString(window.location.href.substring(idx + 1));
-	
-					var id = queryString[Object.keys(queryString)[0]];
-					
-					
-					function init(config) {
-						var mapClient = Ext.create('OpenEMap.Client');
-						var gui = {
-							map : false,
-							toolbar : {},
-							zoomTools : {},
-							layers : {},
-							baseLayers : {},
-							searchFastighet : {}
-							//objectConfig : {x: 100, y: 400, width: 300, height: 200, collapsed: true}
-						};
-						
-						mapClient.destroy();
-						mapClient.configure(Ext.clone(config), {
-							gui : gui
-						});
-	
-						var labels = new OpenLayers.Rule({
-							filter : new OpenLayers.Filter.Comparison({
-								type : OpenLayers.Filter.Comparison.EQUAL_TO,
-								property : "type",
-								value : "label"
-							}),
-							symbolizer : {
-								pointRadius : 20,
-								fillOpacity : 0,
-								strokeOpacity : 0,
-								label : "${label}"
-							}
-						});
-						mapClient.drawLayer.styleMap.styles['default'].addRules([ labels ]);
-					}
-					
-					Ext.Ajax.request({
-						url : OpenEMap.wsUrls.basePath + OpenEMap.wsUrls.configs + '/config/' + id,
-						method : 'GET',
-						success : function(evt){
-							var config = JSON.parse(evt.responseText);
-							init(config);
-						}
-					});
-				});
-	</script>
+	    <script type="text/javascript" src="OpenEMap.js"></script>
+	    <script type="text/javascript">
+			
+			var options = {
+				gui: {
+					map : false,
+					toolbar : {},
+					zoomTools : {},
+					layers : {},
+					baseLayers : {},
+					searchFastighet : {},
+					scalebar: {}
+				}
+			};
+			
+			try {
+				initOpenEMap(null, options);
+			} catch(msg) {
+				alert(msg);
+			}
+		</script>
 	</head>
 	<body>
 	</body>
