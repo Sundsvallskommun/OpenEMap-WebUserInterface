@@ -139,50 +139,69 @@ Excluding a searchtag (search.searchEstates, search.searchAddresses, search.sear
 ## Specifying tools included in map
 ```json
     "tools": [
-        "FullExtent", ' Zoom to full extent
-        {
-            "type": "ZoomSelector" ' Show drop down with possibility to zoom to scales
-		},
-        "Print", ' Print dialog
-        {
-            "type": "Identify", ' Identify features in map
-			"onlyVisibleLayers": whetherOrNotToIdentifyLayersNotShownInMap, ' defaults to true
+    	{' Zoom to full extent
+            "id": "FullExtent", 
+            "type": "FullExtent" 
+        },
+        {' Show drop down with possibility to zoom to scales
+            "id": "ZoomSelector",
+            "type": "ZoomSelector" 
+	},
+        {' Print dialog
+            "id": "Print", 
+            "type": "Print"
+        },
+        {' Identify features in map
+            "id": "Identify", 
+            "type": "Identify", 
+	    "onlyVisibleLayers": whetherOrNotToIdentifyLayersNotShownInMap, ' defaults to true
             "useRegisterenhet": whetherOrNotToUseRegisterenhet, ' turns on identifying real estate parcels
             "tolerance": toleranceInPixels ' defaults to radius 3 pixels
-		},
-        {
-            "type": "Popup", ' Show popup for features in "popupLayers"
+	},
+        {' Show popup for features in "popupLayers"
+            "id": "Popup", 
+            "type": "Popup", 
         	"showOnlyFirstHit": whetherToShowOneOrManyHits, ' defaults to true
             "tolerance": toleranceInPixels ' defaults to radius 3 pixels
-		},
-        {
-            "type": "Permalink" ' Show popup with permalink to share map
-		},
+	},
+        {' Show popup with permalink to share map
+            "id": "Permalink", 
+            "type": "Permalink" 
+        },
        	{ ' Meassure lengths
+       	    "id": "MeasureLine",
        		"type": "MeasureLine", 
        		"accuracy": AccuracyOfMeasurements 
        	}, 
        	{ ' Meassure areas
+       		"id": "MeasureArea",
        		"type": "MeasureArea", 
        		"accuracy": AccuracyOfMeasurements 
        	}, 
-        "DeleteMeasure", ' deletes all meassures in map
+       	{' deletes all meassures in map
+        	"id": "DeleteMeasure", 
+        	"type": "DeleteMeasure"
+        },
         { ' Draw polygons on map
+            "id": "DrawPolygon",
             "type": "DrawGeometry",
             "iconCls": "action-drawpolygon",
             "geometry": "Polygon"
         },
         { ' Draw lines on map
+            "id": "DrawLine",
             "type": "DrawGeometry",
             "iconCls": "action-drawline",
             "geometry": "Path"
         },
         { ' Draw points on map
+            "id": "DrawPoint",
             "type": "DrawGeometry",
             "iconCls": "action-drawpoint",
             "geometry": "Point"
         },
         { ' Draw label on map
+            "id": "DrawText",
             "type": "DrawGeometry",
             "tooltip": "Rita etikett",
             "iconCls": "action-drawpoint",
@@ -198,6 +217,7 @@ Excluding a searchtag (search.searchEstates, search.searchAddresses, search.sear
             }
         },
         { ' Draw rectangular object on map
+            "id": "DrawRectangle",
             "itemId": "DrawObjectR",
             "type": "DrawObject",
             "objectConfig": {
@@ -216,6 +236,7 @@ Excluding a searchtag (search.searchEstates, search.searchAddresses, search.sear
             }
         },
         { ' Draw octagonal object
+            "id": "DrawOctagon",
             "itemId": "DrawObjectO",
             "type": "DrawObject",
             "objectConfig": {
@@ -234,6 +255,7 @@ Excluding a searchtag (search.searchEstates, search.searchAddresses, search.sear
             }
         },
         { ' Draw L-shaped object
+            "id": "DrawL-shape",
             "itemId": "DrawObjectL",
             "type": "DrawObject",
             "objectConfig": {
@@ -252,6 +274,7 @@ Excluding a searchtag (search.searchEstates, search.searchAddresses, search.sear
             }
         },
         { Draw D-shaped object
+            "id": "DrawD-shape",
             "itemId": "DrawObjectD",
             "type": "DrawObject",
             "objectConfig": {
@@ -269,13 +292,24 @@ Excluding a searchtag (search.searchEstates, search.searchAddresses, search.sear
                 }
             }
         },
-        "ModifyGeometry", ' Modify drawn geometries
-        "SelectGeometry", ' Selects drawn geometries
-        "DeleteGeometry", ' Delete selected geometry
+        {' Modify drawn geometries
+        	"id": "ModifyGeometry",
+        	"type": "ModifyGeometry"
+        },
+        { ' Selects drawn geometries
+        	"id": "SelectGeometry", 
+        	"type": "SelectGeometry"
+        },
+        {' Delete selected geometry
+        	"id": "DeleteGeometry", 
+        	"type": "DeleteGeometry"
+        },
         { ' Deletes all drawn geometries
+            "id": "DeleteAllFeatures"
             "type": "DeleteAllFeatures"
         },
         { ' Shows a detailed report for a specified point
+            "id": "DetailReport"
             "type": "DetailReport"
         }
     ]
