@@ -12,6 +12,9 @@ module.exports = function(grunt) {
     	module: {
 	    	options: {force: true},
 	    	src: ['<%= modulesStaticPath %>/<%= pkg.name %>']
+	  	},
+	  	doc: {
+	  		src: ['<%= releasePath %>/doc']
 	  	}
     },
     
@@ -214,7 +217,37 @@ module.exports = function(grunt) {
           { expand: true, cwd: '<%= releasePath %>', src: ['**'] }
         ]
       }
-    }
+    },
+
+	jsduck: {
+	    main: {
+	        // source paths with your code
+	        src: [
+	            'src/main/javascript', 'src/main/javascript/OpenEMap.js'
+	        ],
+	
+	        // docs output dir
+	        dest: 'doc/<%= pkg.name %>-<%= pkg.version %>',
+	
+	        // extra options
+	        options: {
+	            'builtin-classes': true,
+	            'warnings': ['-no_doc', '-dup_member', '-link_ambiguous', '-no_doc_member', '-link', '-type_name'],
+	            'external': ['XMLHttpRequest'],
+				'title' : 'Open eMap documentation',
+				'warnings': [
+					'-all:jsduck.categories'
+				],
+				'ignore-html': [
+					'locale',
+					'debug'
+				],
+				'images': ['doc/img'],
+				'builtin-classes': true,
+				'external': 'OpenLayers.*',
+	        }
+	    }
+	}
   });
 
   grunt.loadNpmTasks('grunt-auto-install');
@@ -226,7 +259,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-compress');
-
+  grunt.loadNpmTasks('grunt-jsduck');
+  
   grunt.registerTask('default', ['auto_install', 'jshint']);
   grunt.registerTask('buildall', ['default', 'sencha:release', 'sencha:debug', 'sencha:geoext_release', 'sencha:geoext_debug'] );
   grunt.registerTask('build', ['default', 'sencha:release', 'sencha:debug'] );
@@ -235,4 +269,6 @@ module.exports = function(grunt) {
   grunt.registerTask('dist', ['clean:dist', 'build', 'copydist']);
   grunt.registerTask('distall', ['clean:dist', 'buildall', 'copydist']);
   grunt.registerTask('devserver', ['default', 'configureProxies', 'connect', 'watch']);
+  grunt.registerTask('doc', ['clean:doc', 'jsduck']);
+  
 };

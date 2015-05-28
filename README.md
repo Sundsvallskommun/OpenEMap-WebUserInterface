@@ -39,6 +39,7 @@ NOTE: The above snippet uses build including all dependencies
 
 ## Documentation
 ###API Docs 
+####[1.6.0](http://oemap.org/doc/OpenEMapWebUserInterface/1.6.0/)
 ####[1.5.0](http://oemap.org/doc/OpenEMapWebUserInterface/1.5.0/)
 ####[1.3.0](http://oemap.org/doc/OpenEMapWebUserInterface/1.3.0/)
 ####[1.2.0](http://oemap.org/doc/OpenEMapWebUserInterface/1.2.0/)
