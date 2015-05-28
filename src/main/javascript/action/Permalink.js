@@ -32,7 +32,7 @@ Ext.define('OpenEMap.action.Permalink', {
         });
         
         config.iconCls = config.iconCls || 'action-permalink';
-        config.tooltip = config.tooltip || 'Generera permalink';
+        config.tooltip = config.tooltip || 'Skapa länk till kartan';
         
         this.callParent(arguments);
     },
@@ -54,7 +54,7 @@ Ext.define('OpenEMap.action.Permalink', {
         });
     },
     createWindow: function(id) {
-        var url = document.location.origin + OpenEMap.wsUrls.permalinkclient + '?permalink=' + id;
+	 	var url = document.location.protocol + '//'+ document.location.host + document.location.pathname + '?permalink=' + id;
         var label = '<a href="' + url + '" target="_blank">' + url + '</a>';
     
         if (this.w) {

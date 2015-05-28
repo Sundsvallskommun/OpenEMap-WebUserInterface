@@ -79,8 +79,8 @@ Ext.define('OpenEMap.view.layer.Add' ,{
                 xtype: 'treecolumn',
                 flex: 1,
                 dataIndex: 'text'
-            },
-            me.metadataColumn
+            }
+//            , me.metadataColumn
         ];
 
         this.store = Ext.create('OpenEMap.data.GroupedLayerTree');

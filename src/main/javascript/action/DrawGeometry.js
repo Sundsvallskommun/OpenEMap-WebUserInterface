@@ -100,15 +100,16 @@ Ext.define('OpenEMap.action.DrawGeometry', {
         });
         
                 
-        config.iconCls = config.iconCls || 'action-drawgeometry';
-       
        	if (!config.tooltip){
        		config.tooltip = config.geometry === 'Polygon' ? 'Rita område' :
          		config.geometry === 'Path' ? 'Rita linje' :
          		config.geometry === 'Point' ? 'Rita punkt' : 'Rita geometri';
-         		
+         	config.iconCls = config.geometry === 'Polygon' ? 'action-drawpolygon' :
+         		config.geometry === 'Path' ? 'action-drawline' :
+         		config.geometry === 'Point' ? 'action-drawpoint' : 'action-drawgeometry';
          	if (this.isText(config)){
          		config.tooltip = 'Placera ut text.';	
+         		config.iconCls = 'action-drawtext';
          	}
        	}
         config.toggleGroup = 'extraTools';

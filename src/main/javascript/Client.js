@@ -564,7 +564,6 @@ Ext.apply(OpenEMap, {
      * @property {string} [wsUrls.configs] relative path to publig configs within Open eMap Admin services
      * @property {string} [wsUrls.adminconfigs] path to admin config service within Open eMap Admin services 
      * @property {string} [wsUrls.permalinks] path to Open eMap Permalink service 
-     * @property {string} [wsUrls.permalinkclient] path to HTML-page that the permalink should point to 
      * @property {string} [wsUrls.metadata]  path to Open eMap Geo Metadata service
      * @property {string} [wsUrls.metadataAbstract] path to Open eMap Geo Metadata Abstract service
      * @property {string} [wsUrls.servers] unused
@@ -573,7 +572,6 @@ Ext.apply(OpenEMap, {
     wsUrls: {
         basePath:   	'/openemapadmin',
         permalinks:     '/openemappermalink/permalinks',
-        permalinkclient:'index.html',
         configs:    	'/configs',
         adminconfigs: 	'/adminconfigs',
         servers:    	'settings/servers',

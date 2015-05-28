@@ -123,7 +123,9 @@ var loadJsScripts = function(files) {
 	];
 
 	scripts = [
-		{src: openEMapScriptLocation + "lib/ext/ext-all-debug.js", dependencies: function() {return true;}},
+/*		
+ 		Debug versions of scripts. Uncomment to switch. 
+ 		{src: openEMapScriptLocation + "lib/ext/ext-all-debug.js", dependencies: function() {return true;}},
 		{src: openEMapScriptLocation + "lib/ext/ext-theme-neptune.js", dependencies: function() {return (typeof Ext !== "undefined" && Ext.isReady);}},
 		{src: openEMapScriptLocation + "lib/ext/locale/ext-lang-sv_SE.js", dependencies:  function() {return (typeof Ext !== "undefined" && Ext.isReady);}},
 		{src: openEMapScriptLocation + "lib/OpenLayers/OpenLayers.debug.js", dependencies: function() {return true;}},
@@ -132,6 +134,16 @@ var loadJsScripts = function(files) {
 		{src: openEMapScriptLocation + "lib/geoext/geoext-debug.js", dependencies: function() {return ((typeof Ext !== "undefined") && Ext.isReady &&  (typeof OpenLayers !== "undefined"));}},
 		{src: openEMapScriptLocation + "lib/es5-shim/es5-shim.min.js", dependencies: function() {return true;}},
 		{src: openEMapScriptLocation + "OpenEMap-debug.js", dependencies:  function() {return ((typeof Ext !== "undefined") && Ext.isReady &&  (typeof OpenLayers !== "undefined") && (typeof Proj4js !== "undefined") && (typeof GeoExt !== "undefined"));}}
+*/
+		{src: openEMapScriptLocation + "lib/ext/ext-all.js", dependencies: function() {return true;}},
+		{src: openEMapScriptLocation + "lib/ext/ext-theme-neptune.js", dependencies: function() {return (typeof Ext !== "undefined" && Ext.isReady);}},
+		{src: openEMapScriptLocation + "lib/ext/locale/ext-lang-sv_SE.js", dependencies:  function() {return (typeof Ext !== "undefined" && Ext.isReady);}},
+		{src: openEMapScriptLocation + "lib/OpenLayers/OpenLayers.js", dependencies: function() {return true;}},
+		{src: openEMapScriptLocation + "lib/proj4js/proj4-compressed.js", dependencies: function() {return true;}},
+		{src: openEMapScriptLocation + "proj4_defs.js", dependencies: function() {return (typeof Proj4js !== "undefined");}},
+		{src: openEMapScriptLocation + "lib/geoext/geoext-all.js", dependencies: function() {return ((typeof Ext !== "undefined") && Ext.isReady &&  (typeof OpenLayers !== "undefined"));}},
+		{src: openEMapScriptLocation + "lib/es5-shim/es5-shim.min.js", dependencies: function() {return true;}},
+		{src: openEMapScriptLocation + "OpenEMap-min.js", dependencies:  function() {return ((typeof Ext !== "undefined") && Ext.isReady &&  (typeof OpenLayers !== "undefined") && (typeof Proj4js !== "undefined") && (typeof GeoExt !== "undefined"));}}
     ];
 	
 	// Ensure css files are loaded before js files
@@ -164,15 +176,16 @@ var loadJsScripts = function(files) {
 var initOpenEMap = function(configPath, options, callback) {
 	// Apply defaults to gui
 	// Defaults to show map, toolbar, zoomTools, layers, baseLayers and search controls
-	options.gui = options.gui || {};
-	options.gui = {
-		map : options.gui.map,
-		toolbar : options.gui.toolbar || {},
-		zoomTools : options.gui.zoomTools || {},
-		layers : options.gui.layers || {},
-		baseLayers : options.gui.baseLayers || {},
-		searchFastighet : options.gui.searchFastighet || {}
-	};
+	if (typeof options === undefined) {
+		options.gui = {
+			map : false,
+			toolbar : {},
+			zoomTools : {},
+			layers : {},
+			baseLayers : {},
+			searchFastighet : {}
+		};
+	}
 
 	var waitUntilOpenEMapIsLoaded = function(conf, options, callback) {
 		if ((typeof OpenEMap === "undefined") || (typeof OpenEMap.Client === "undefined")) {
@@ -262,7 +275,7 @@ var initOpenEMap = function(configPath, options, callback) {
 						}
 					},
 					failure: function(response) {
-			            Ext.Msg.alert('Fel', Ext.decode(response.responseText).message);
+			            Ext.Msg.alert('Fel', 'Fel i Open eMap Admin Services: ' + response.status + ' ' + response.statusText);
 					},
 					scope: mapClient
 				});

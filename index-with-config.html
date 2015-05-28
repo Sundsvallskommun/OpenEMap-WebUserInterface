@@ -28,56 +28,27 @@
 		<meta name="author" content="Anders Erlandsson, Sundsvalls kommun" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	
-<!--	    <link rel="stylesheet" type="text/css" href="lib/ext-theme-oep/ext-theme-oep-all.css">
-	    <link rel="stylesheet" type="text/css" href="resources/css/OpenEMap.css">  
-	    <script type="text/javascript" src="lib/ext/ext-all.js"></script>
-	    <script type="text/javascript" src="lib/ext/ext-theme-neptune.js"></script>
-	    <script type="text/javascript" src="lib/ext/locale/ext-lang-sv_SE.js"></script>
-	    <script type="text/javascript" src="lib/OpenLayers/OpenLayers.js"></script>
-	    <script type="text/javascript" src="lib/proj4js/proj4-compressed.js"></script>
-	    <script type="text/javascript" src="proj4_defs.js"></script>
-	    <script type="text/javascript" src="lib/geoext/geoext-all.js"></script> 
-	    <script type="text/javascript" src="lib/es5-shim/es5-shim.min.js"></script>
-	    <script type="text/javascript" src="OpenEMap-debug.js"></script>
--->
-    <script type="text/javascript" src="OpenEMap.js"></script>
-	<script type="text/javascript">
-		function idFromQueryString(queryString) {
-			keyValuePairObject = {}
-			keyValuePairs = queryString.split('&');
-			var id = null;
-			keyValuePairs.forEach(function(keyValuePair) {
-				var keyValuePairArray = keyValuePair.split('=');
-				if (keyValuePairArray.length === 2) {
-					if (keyValuePairArray[0].toLowerCase() === 'configid' || keyValuePairArray[0].toLowerCase() === 'id') {
-						id = keyValuePairArray[1]; 
-					}
+	    <script type="text/javascript" src="OpenEMap.js"></script>
+	    <script type="text/javascript">
+			
+			var options = {
+				gui: {
+					map : false,
+					toolbar : {},
+					zoomTools : {},
+					layers : {},
+					baseLayers : {},
+					searchFastighet : {},
+					scalebar: {}
 				}
-			});
-			return id;
-		}
-		
-		var idx = window.location.href.indexOf('?');
-		if (!~idx) {
-			alert('Du måste ange ett konfigurationsid i url adresen t ex http://{url}/index.html?configid=16.')
-		}
-		var id = idFromQueryString(window.location.href.substring(idx + 1));
-		
-		var configUrl = '/openemapadmin-1.6.0-rc.4/adminconfigs/config/' + id;
-	
-		var options = {
-			gui: {
-				map : false,
-				toolbar : {},
-				zoomTools : {},
-				layers : {},
-				baseLayers : {},
-				searchFastighet : {}
+			};
+			
+			try {
+				initOpenEMap(null, options);
+			} catch(msg) {
+				alert(msg);
 			}
-		};
-		
-		initOpenEMap(configUrl, options)
-	</script>
+		</script>
 	</head>
 	<body>
 	</body>
