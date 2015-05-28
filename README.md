@@ -13,8 +13,13 @@ Integrate into HTML page using the following snippet:
     <script type="text/javascript" src="OpenEMap.js"></script>
     
     <script type="text/javascript">
-		var configUrl = '/openemapadmin-1.6.0-rc.3/adminconfigs/config/' + id;
-	
+    	// URL to config object in json, see doc/config.md for details. Use one of two ways to get config-file
+		// Config from Open eMap Admin Services
+		var configUrl = '/openemapadmin/adminconfigs/config/' + id;
+		// Config from static json-file stored at same place as html-file
+		var configUrl = 'config.json';
+
+		// Object to set rendering of GUI-elements, see doc/options.md for details	
 		var options = {
 			gui: {
 				map : {renderTo: 'map'},
@@ -34,10 +39,15 @@ Integrate into HTML page using the following snippet:
 
 NOTE: The above snippet uses build including all dependencies
 
+
+
 ## Homepage
 <a href="http://oemap.org"><img alt="Open eMap homepage" src="http://oemap.org/images/logo.png"></a>
 
 ## Documentation
+### Initializing Open eMap
+#### [Config documentation](doc/config.md)
+#### [GUI Options](doc/options.md) 
 ###API Docs 
 ####[1.6.0](http://oemap.org/doc/OpenEMapWebUserInterface/1.6.0/)
 ####[1.5.0](http://oemap.org/doc/OpenEMapWebUserInterface/1.5.0/)

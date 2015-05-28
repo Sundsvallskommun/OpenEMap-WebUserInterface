@@ -103,11 +103,13 @@ Ext.define('OpenEMap.Client', {
      * @param {Object} options.gui.map If undefined or false MapClient will create the map in a full page viewport
      * @param {Object} options.gui.layers Map layers tree list
      * @param {Object} options.gui.baseLayers Base layer switcher intended to be used as a floating control
+     * @param {Object} options.gui.toolbar Control to show toolbar 
      * @param {Object} options.gui.searchCoordinate Simple coordinate search and pan control
      * @param {Object} options.gui.objectConfig A generic form to configure feature attributes similar to a PropertyList
      * @param {Object} options.gui.zoomTools Zoom slider and buttons intended to be used as a floating control
      * @param {Object} options.gui.searchFastighet Search "fastighet" control
      * @param {Object} options.gui.showCoordinate Simple control to show map coordinates 
+     * @param {Object} options.gui.scalebar Simple control to show scalebar 
      * 
      * For more information about the possible config properties for Ext JS components see Ext.container.Container.
      */
