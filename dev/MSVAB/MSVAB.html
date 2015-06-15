@@ -56,87 +56,97 @@
 						});
 						
 													
-						Ext.define('Features', {
-						    extend: 'Ext.data.Model',
-						    fields: ['features']
-						});
-						
-						var proxy = new Ext.data.proxy.Ajax({
-						    url: 'MSVABGeoJSON.json',
-//							url: '/cgi-bin/proxy.py?url=http://msvesri04/cityworks/gis/1/277/rest/services/cw/FeatureServer/1?f=json',
-						    reader: 'json', 
-						    model: 'Features'
-						});
-						var operation = new Ext.data.Operation({
-						    action: 'read'
-						}); 
-						
-						proxy.read(operation, handleResponse);
-						
-						var geojson = { 
-							"type": "FeatureCollection",    
-							"features": []
-						}
-						
-						function handleResponse(text) {
-							var features = text.resultSet.records[0].data.features; //JSON.parse(text);
-							var geojsonProjekt = {"type": "FeatureCollection","features": []};
-							var geojsonDriftstorning = {"type": "FeatureCollection","features": []};
-							var geojsonUnderhall = {"type": "FeatureCollection","features": []};
-							var geojsonAkut = {"type": "FeatureCollection","features": []};
-							features.forEach(function(feature) {
-								var d = new Date(feature.attributes.DateTimeInit).toLocaleString();
-								var popupText = d + '<br>' + feature.attributes.ProbAddress + '<br>' + feature.attributes.Details + '<br>'; 
-								var feat = {
-									"geometry": {
-										"type": "Point", 
-										"coordinates": [
-											feature.attributes.SRX, 
-											feature.attributes.SRY
-										]
-									}, 
-									"properties": {"REQUESTID": feature.attributes.REQUESTID, "Description": feature.attributes.Description, "popupText": popupText}};
-//									geojsonUnderhall.features.push(feat);
-								switch (feature.attributes.Description) {
-									case 'Driftstörning':
-										geojsonDriftstorning.features.push(feat);
-										break;
-									case 'Akuthändelse':
-										geojsonAkut.features.push(feat);
-										break;
-									case 'Projektarbeten': 
-										geojsonProjekt.features.push(feat);
-										break;
-									default:
-										geojsonUnderhall.features.push(feat);
-								}
-
+						var getInterruptions = function() {
+							Ext.define('Features', {
+							    extend: 'Ext.data.Model',
+							    fields: ['features']
 							});
-							// Create objects in map based on GeoJSON, see brandlarmGeojson.js with style specified in brandlarmStyles.js
-							var popupLayerUnderhall = mapClient.addPopupLayer(geojsonUnderhall, 'Underhåll', 'REQUESTID', 'popupText', '', '', 'Description', stylemap, 'EPSG:3014', false);
-							// Create objects in map based on GeoJSON, see brandlarmGeojson.js with style specified in brandlarmStyles.js
-							var popupLayerProjekt = mapClient.addPopupLayer(geojsonProjekt, 'Projekt', 'REQUESTID', 'popupText', '', '', 'Description', stylemapProjekt, 'EPSG:3014', false);
-							// Create objects in map based on GeoJSON, see brandlarmGeojson.js with style specified in brandlarmStyles.js
-							var popupLayerDriftstorning = mapClient.addPopupLayer(geojsonDriftstorning, 'Projekt', 'REQUESTID', 'popupText', '', '', 'Description', stylemapDriftstorning, 'EPSG:3014', false);
-							// Create objects in map based on GeoJSON, see brandlarmGeojson.js with style specified in brandlarmStyles.js
-							var popupLayerAkut = mapClient.addPopupLayer(geojsonAkut, 'Projekt', 'REQUESTID', 'popupText', '', '', 'Description', stylemapAkut, 'EPSG:3014', false);
-
-							// Listen to event for feature selected
-			               	mapClient.map.events.register('popupfeatureselected', this, function(arg) {
-			               		console.log('Feature in layer ' + arg.layer.name + ' with id ' + arg.featureid + ' was selected.');
-		               		});
-							// Listen to event for feature unselected
-			               	mapClient.map.events.register('popupfeatureunselected', this, function(arg) {
-			               		console.log('Feature in layer ' + arg.layer.name + ' with id ' + arg.featureid + ' was unselected.');
-		               		});
-		               		// Showing feature with id=1
-//									mapClient.showPopupFeature(popupLayerUnderhall, '1');
-						}
+							var proxy = new Ext.data.proxy.Ajax({
+							    url: 'MSVABGeoJSON.json',
+	//							url: '/cgi-bin/proxy.py?url=http://msvesri04/cityworks/gis/1/277/rest/services/cw/FeatureServer/1?f=json',
+	//							url: 'http://msvesri04/cityworks/gis/1/277/rest/services/cw/FeatureServer/1?f=json',
+							    reader: 'json', 
+							    model: 'Features'
+							});
+							var operation = new Ext.data.Operation({
+							    action: 'read'
+							}); 
+							
+							proxy.read(operation, handleResponse);
+							
+							var geojson = { 
+								"type": "FeatureCollection",    
+								"features": []
+							}
+							
+							function handleResponse(text) {
+								if (!(text && text.resultSet && text.resultSet.records[0] && text.resultSet.records[0].data && text.resultSet.records[0].data.features)) {
+									var errorCode = (text && text.error && text.error.status) ? text.error.status : '';
+									var errorText = (text && text.error && text.error.statusText) ? text.error.statusText : '';
+									alert('Kommunikationsproblem. Kan inte hämta pågående arbeten och driftavbrott.\n' + errorCode + ' ' + errorText);
+								} else 
+								{
+									var features = text.resultSet.records[0].data.features; //JSON.parse(text);
+									var geojsonProjekt = {"type": "FeatureCollection","features": []};
+									var geojsonDriftstorning = {"type": "FeatureCollection","features": []};
+									var geojsonUnderhall = {"type": "FeatureCollection","features": []};
+									var geojsonAkut = {"type": "FeatureCollection","features": []};
+									features.forEach(function(feature) {
+										var d = new Date(feature.attributes.DateTimeInit).toLocaleString();
+										var popupText = d + '<br>' + feature.attributes.ProbAddress + '<br>' + feature.attributes.Details + '<br>'; 
+										var feat = {
+											"geometry": {
+												"type": "Point", 
+												"coordinates": [
+													feature.attributes.SRX, 
+													feature.attributes.SRY
+												]
+											}, 
+											"properties": {"REQUESTID": feature.attributes.REQUESTID, "Description": feature.attributes.Description, "popupText": popupText}};
+		//									geojsonUnderhall.features.push(feat);
+										switch (feature.attributes.Description) {
+											case 'Driftstörning':
+												geojsonDriftstorning.features.push(feat);
+												break;
+											case 'Akuthändelse':
+												geojsonAkut.features.push(feat);
+												break;
+											case 'Projektarbeten': 
+												geojsonProjekt.features.push(feat);
+												break;
+											default:
+												geojsonUnderhall.features.push(feat);
+										}
+		
+									});
+									// Create objects in map based on GeoJSON, see brandlarmGeojson.js with style specified in brandlarmStyles.js
+									var popupLayerUnderhall = mapClient.addPopupLayer(geojsonUnderhall, 'Underhåll', 'REQUESTID', 'popupText', '', '', 'Description', stylemap, 'EPSG:3014', false);
+									// Create objects in map based on GeoJSON, see brandlarmGeojson.js with style specified in brandlarmStyles.js
+									var popupLayerProjekt = mapClient.addPopupLayer(geojsonProjekt, 'Projekt', 'REQUESTID', 'popupText', '', '', 'Description', stylemapProjekt, 'EPSG:3014', false);
+									// Create objects in map based on GeoJSON, see brandlarmGeojson.js with style specified in brandlarmStyles.js
+									var popupLayerDriftstorning = mapClient.addPopupLayer(geojsonDriftstorning, 'Projekt', 'REQUESTID', 'popupText', '', '', 'Description', stylemapDriftstorning, 'EPSG:3014', false);
+									// Create objects in map based on GeoJSON, see brandlarmGeojson.js with style specified in brandlarmStyles.js
+									var popupLayerAkut = mapClient.addPopupLayer(geojsonAkut, 'Projekt', 'REQUESTID', 'popupText', '', '', 'Description', stylemapAkut, 'EPSG:3014', false);
+		
+									// Listen to event for feature selected
+					               	mapClient.map.events.register('popupfeatureselected', this, function(arg) {
+					               		console.log('Feature in layer ' + arg.layer.name + ' with id ' + arg.featureid + ' was selected.');
+				               		});
+									// Listen to event for feature unselected
+					               	mapClient.map.events.register('popupfeatureunselected', this, function(arg) {
+					               		console.log('Feature in layer ' + arg.layer.name + ' with id ' + arg.featureid + ' was unselected.');
+				               		});
+				               		// Showing popup for feature with id=1
+		//							mapClient.showPopupFeature(popupLayerUnderhall, '1');
+								}
+							}
+						} // getInterruptions
+						getInterruptions();
 					}
 				});
 			}
 			
-			init('../config/default3006.json');
+			init('../config/popup3006.json');
 		});
 	  	</script>
 	</head>
