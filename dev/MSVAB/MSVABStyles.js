@@ -55,7 +55,7 @@ var stylemapProjekt = new OpenLayers.StyleMap({
 var stylemapAkut = new OpenLayers.StyleMap({
     'default': OpenLayers.Util.applyDefaults(
         {
-        	externalGraphic: "spade_röd5.png", 
+        	externalGraphic: "spade_rod.png", 
         	graphicWidth: 40,
         	graphicOpacity: 1
     	},
@@ -63,7 +63,7 @@ var stylemapAkut = new OpenLayers.StyleMap({
     ),
     'select': OpenLayers.Util.applyDefaults(
         {
-        	externalGraphic: "spade_röd5.png" 
+        	externalGraphic: "spade_rod.png" 
         	,graphicWidth: 40
     	},
         OpenLayers.Feature.Vector.style.select
@@ -72,7 +72,7 @@ var stylemapAkut = new OpenLayers.StyleMap({
 var stylemapDriftstorning = new OpenLayers.StyleMap({
     'default': OpenLayers.Util.applyDefaults(
         {
-        	externalGraphic: "spade hacka.png", 
+        	externalGraphic: "spade_hacka.png", 
         	graphicWidth: 40,
         	graphicOpacity: 1
     	},
@@ -80,7 +80,7 @@ var stylemapDriftstorning = new OpenLayers.StyleMap({
     ),
     'select': OpenLayers.Util.applyDefaults(
         {
-        	externalGraphic: "spade hacka.png" 
+        	externalGraphic: "spade_hacka.png" 
         	,graphicWidth: 40
     	},
         OpenLayers.Feature.Vector.style.select
