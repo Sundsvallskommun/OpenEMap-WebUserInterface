@@ -29,8 +29,8 @@
 		  });
 	    </script> 
 
-	    <script type="text/javascript" src="MSVABStyles.js"></script>
-	
+<!--	    <script type="text/javascript" src="MSVABStyles.js"></script>
+-->	
 	    <script type="text/javascript">
 	    var popupLayer = null;
 	    
@@ -79,6 +79,26 @@
 								"features": []
 							}
 							
+							var getStyle = function (graphicDefault, graphicSelected) {
+								return new OpenLayers.StyleMap({
+								    'default': OpenLayers.Util.applyDefaults(
+								        {
+								        	externalGraphic: graphicDefault, 
+								        	graphicWidth: 40,
+								        	graphicOpacity: 1
+								    	},
+								        OpenLayers.Feature.Vector.style['default']
+								    ),
+								    'select': OpenLayers.Util.applyDefaults(
+								        {
+								        	externalGraphic: graphicSelected 
+								        	,graphicWidth: 40
+								    	},
+								        OpenLayers.Feature.Vector.style.select
+								    )
+								});
+							};
+
 							function handleResponse(text) {
 								if (!(text && text.resultSet && text.resultSet.records[0] && text.resultSet.records[0].data && text.resultSet.records[0].data.features)) {
 									var errorCode = (text && text.error && text.error.status) ? text.error.status : '';
@@ -119,6 +139,11 @@
 										}
 		
 									});
+									var stylemap = getStyle("spade.png", "spade.png");
+									var stylemapProjekt = getStyle("linjal.png", "linjal.png");
+									var stylemapDriftstorning = getStyle("spade_rod.png", "spade_rod.png");
+									var stylemapAkut = getStyle("spade_hacka.png", "spade_hacka.png");
+
 									// Create objects in map based on GeoJSON, see brandlarmGeojson.js with style specified in brandlarmStyles.js
 									var popupLayerUnderhall = mapClient.addPopupLayer(geojsonUnderhall, 'Underhåll', 'REQUESTID', 'popupText', '', '', 'Description', stylemap, 'EPSG:3014', false);
 									// Create objects in map based on GeoJSON, see brandlarmGeojson.js with style specified in brandlarmStyles.js
