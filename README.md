@@ -39,8 +39,6 @@ Integrate into HTML page using the following snippet:
 
 NOTE: The above snippet uses build including all dependencies
 
-
-
 ## Homepage
 <a href="http://oemap.org"><img alt="Open eMap homepage" src="http://oemap.org/images/logo.png"></a>
 

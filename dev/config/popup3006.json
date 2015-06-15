@@ -1,8 +1,8 @@
 {
     "name": "Default",
-    "maxExtent": [487000.0, 6887000.0, 733000.0, 7102000.0],
+    "maxExtent": [487000.0, 6855000.0, 733000.0, 7110000.0],
     "extent" : [617928, 6919152, 619456, 6920280],
-    "resolutions": [280, 140, 70, 28, 14, 7, 4.2, 2.8, 1.4, 0.56, 0.28, 0.14, 0.112],
+    "resolutions": [1120, 560, 280, 140, 70, 28, 14, 7, 4.2, 2.8, 1.4, 0.56, 0.28, 0.14, 0.112],
     "projection": "EPSG:3006",
     "units": "m",
     "attribution": "Kartan har ingen rättsverkan du kan alltså INTE se exakta gränser i denna karttjänst ©Lantmäteriet Geodatasamverkan",
