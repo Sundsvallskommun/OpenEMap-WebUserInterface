@@ -27,7 +27,8 @@
     	{
     		"id": "Popup",
     		"type": "Popup",
-    		"activate": true
+    		"activate": true,
+    		tolerance: 10
     	}
 	]
 }
