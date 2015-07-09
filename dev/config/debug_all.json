@@ -1,6 +1,6 @@
 {
 	"name": "debug_all",
-	"maxExtent": [487000.0, 6887000.0, 749144.0, 7149144.0],
+	"maxExtent": [487000.0, 6855000.0, 733000.0, 7110000.0],
 	"extent" : [608114, 6910996, 641846, 6932596],
 	"attribution": "Test av attribution",
 	"autoClearDrawLayer": false,
