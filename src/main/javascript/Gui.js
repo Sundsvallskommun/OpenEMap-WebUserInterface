@@ -67,6 +67,7 @@ Ext.define('OpenEMap.Gui', {
             this.gui = {};
         }
         if (this.gui.map === undefined) {this.gui.map = false;}
+        if (this.gui.map === {}) {this.gui.map = false;}
         if (this.gui.layerControl === undefined) {this.gui.layerControl = {};}
         if (this.gui.addLayerControl === undefined) {this.gui.addLayerControl = {};}
 //        if (this.gui.rightPanel === undefined) {this.gui.rightPanel = {};}
@@ -499,14 +500,13 @@ Ext.define('OpenEMap.Gui', {
                 cls : this.cls,
 			    setCoord: function(e) {
 			    	var lonlat = this.getLonLatFromPixel(e.xy);
-			    	var eC = parent.mapClient.gui.showCoordinate.getComponent('e');
-			    	var nC = parent.mapClient.gui.showCoordinate.getComponent('n');
+			    	var eC = OpenEMap.mapClient.gui.showCoordinate.getComponent('e');
+			    	var nC = OpenEMap.mapClient.gui.showCoordinate.getComponent('n');
 			    	eC.setValue(Math.round(lonlat.lon));
 			    	nC.setValue(Math.round(lonlat.lat));
 			    }
         	};
             this.showCoordinate = Ext.create('OpenEMap.view.ShowCoordinate', Ext.apply(cfg, this.gui.showCoordinate));
-
 		    this.map.events.register("mousemove", this.map, this.showCoordinate.setCoord);
         }
 	},

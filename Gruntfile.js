@@ -232,19 +232,14 @@ module.exports = function(grunt) {
 	        // extra options
 	        options: {
 	            'builtin-classes': true,
-	            'warnings': ['-no_doc', '-dup_member', '-link_ambiguous', '-no_doc_member', '-link', '-type_name'],
-	            'external': ['XMLHttpRequest'],
+	            'warnings': ['-no_doc', '-dup_member', '-link_ambiguous', '-no_doc_member', '-link', '-type_name', '-all:jsduck.categories'],
+	            'external': ['XMLHttpRequest', 'OpenLayers.*'],
 				'title' : 'Open eMap documentation',
-				'warnings': [
-					'-all:jsduck.categories'
-				],
 				'ignore-html': [
 					'locale',
 					'debug'
 				],
-				'images': ['doc/img'],
-				'builtin-classes': true,
-				'external': 'OpenLayers.*',
+				'images': ['doc/img']
 	        }
 	    }
 	}

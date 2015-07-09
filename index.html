@@ -35,7 +35,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 					layers : {},
 					baseLayers : {},
 					searchFastighet : {},
-					scalebar : {}
+	    			searchCoordinate: {renderTo: 'searchcoordinate'},
+					scalebar : {},
+	    			showCoordinate: {renderTo: 'showcoordinate'}
 				},
 				OpenEMap : {
 					// Base path to be used for mapfish print servlet requests
@@ -80,5 +82,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			}
 		</script>
 	</head>
-	<body></body>
+	<body>
+		<div id="showcoordinate" style="position: absolute; bottom: 0px; left: 10px;" ></div>
+		<div id="searchcoordinate" style="position: absolute; left: 150px; bottom: 0px;" ></div>
+	</body>
 </html>

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html>
 <!--
     Copyright (C) 2014 Härnösands kommun
 
@@ -59,7 +59,7 @@
 		OpenEMap.basePathImages = '../resources/images/';
 		OpenEMap.basePathMapFish = '/print/pdf';
 		
-		mapClient = Ext.create('OpenEMap.Client');
+		OpenEMap.mapClient = Ext.create('OpenEMap.Client');
 		  
 		function init(name) {
 		    Ext.Ajax.request({
@@ -72,9 +72,8 @@
 		    		config.options.municipalities = ['Sundvsall', 'Timrå'];
 		    		
 		    		var gui = {
-		    			map: {
-		    			    renderTo: 'map'
-		    			},
+		    			map: false,
+//		    			map: {renderTo: 'map'},
 		    			toolbar: {
 		    			},
 		    			zoomTools: {},
@@ -101,8 +100,8 @@
 		    			scalebar: {}
 		    		};
 		    	
-		    		mapClient.destroy();
-		    		mapClient.configure(config, {
+		    		OpenEMap.mapClient.destroy();
+		    		OpenEMap.mapClient.configure(config, {
 		    			gui: gui
 		    		});
 		    		delete config.options.municipalities;
@@ -122,9 +121,9 @@
                            }
                           });
 	    	          
-	    	          mapClient.drawLayer.styleMap.styles['default'].addRules([labels]);
+	    	          OpenEMap.mapClient.drawLayer.styleMap.styles['default'].addRules([labels]);
 	    	          
-	    	          mapClient.drawLayer.events.register('featuremodified', null, function() {
+	    	          OpenEMap.mapClient.drawLayer.events.register('featuremodified', null, function() {
 	    	              console.log("featuremodified triggered");
 	    	          });
 		    	}
@@ -166,9 +165,10 @@
 <body>
 
 <div id="configcombo" style="position: absolute; bottom: 50; left: 0"></div>
-<div id="map" style="position: absolute; left: 0; right: 0; width: 100%; height: 100%;"></div>
+<!--<div id="map" style="position: absolute; left: 0; right: 0; width: 100%; height: 100%;"></div>
 <div id="layers" style="position: fixed; right: 10px; top: 10px;"></div>
 <div id="search" style="position: fixed; right: 10px; top: 670px; width: 300px; height: 100px;"></div>
+-->
 <div id="showcoordinate" style="position: absolute; bottom: 0px; left: 10px;" ></div>
 <div id="searchcoordinate" style="position: absolute; left: 150px; bottom: 0px;" ></div>
 

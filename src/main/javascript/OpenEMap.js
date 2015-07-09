@@ -123,9 +123,9 @@ var loadJsScripts = function(files) {
 	];
 
 	scripts = [
-/*		
- 		Debug versions of scripts. Uncomment to switch. 
- 		{src: openEMapScriptLocation + "lib/ext/ext-all-debug.js", dependencies: function() {return true;}},
+		
+		// Debug versions of scripts. Uncomment to switch. 
+/* 		{src: openEMapScriptLocation + "lib/ext/ext-all-debug.js", dependencies: function() {return true;}},
 		{src: openEMapScriptLocation + "lib/ext/ext-theme-neptune.js", dependencies: function() {return (typeof Ext !== "undefined" && Ext.isReady);}},
 		{src: openEMapScriptLocation + "lib/ext/locale/ext-lang-sv_SE.js", dependencies:  function() {return (typeof Ext !== "undefined" && Ext.isReady);}},
 		{src: openEMapScriptLocation + "lib/OpenLayers/OpenLayers.debug.js", dependencies: function() {return true;}},
@@ -144,6 +144,7 @@ var loadJsScripts = function(files) {
 		{src: openEMapScriptLocation + "lib/geoext/geoext-all.js", dependencies: function() {return ((typeof Ext !== "undefined") && Ext.isReady &&  (typeof OpenLayers !== "undefined"));}},
 		{src: openEMapScriptLocation + "lib/es5-shim/es5-shim.min.js", dependencies: function() {return true;}},
 		{src: openEMapScriptLocation + "OpenEMap-min.js", dependencies:  function() {return ((typeof Ext !== "undefined") && Ext.isReady &&  (typeof OpenLayers !== "undefined") && (typeof Proj4js !== "undefined") && (typeof GeoExt !== "undefined"));}}
+
     ];
 	
 	// Ensure css files are loaded before js files
@@ -192,10 +193,10 @@ var initOpenEMap = function(configPath, options, callback) {
 			setTimeout(function() { waitUntilOpenEMapIsLoaded(conf, options, callback); }, 5);
 		} else {
 			Ext.apply(OpenEMap, options.OpenEMap);
-			var mapClient = Ext.create('OpenEMap.Client');
+			OpenEMap.mapClient = Ext.create('OpenEMap.Client');
 
-			mapClient.destroy();
-	        mapClient.params = Ext.Object.fromQueryString(document.location.search);
+			OpenEMap.mapClient.destroy();
+	        OpenEMap.mapClient.params = Ext.Object.fromQueryString(document.location.search);
 
 			// If a config is specified in function call, use it
 			if (conf) {
@@ -203,7 +204,7 @@ var initOpenEMap = function(configPath, options, callback) {
 					url : conf,
 					method : 'GET',
 					success : function(evt){
-						mapClient.configure(JSON.parse(evt.responseText), options);
+						OpenEMap.mapClient.configure(JSON.parse(evt.responseText), options);
 						var labels = new OpenLayers.Rule({
 							filter : new OpenLayers.Filter.Comparison({
 								type : OpenLayers.Filter.Comparison.EQUAL_TO,
@@ -217,35 +218,35 @@ var initOpenEMap = function(configPath, options, callback) {
 								label : "${label}"
 							}
 						});
-						mapClient.drawLayer.styleMap.styles['default'].addRules([ labels ]);
+						OpenEMap.mapClient.drawLayer.styleMap.styles['default'].addRules([ labels ]);
 					},
 					failure: function(response, opts) {
-						mapClient.destroy();
+						OpenEMap.mapClient.destroy();
 						throw 'Hittar inte konfigurationen';
 					}
 				});
 			
 			// If a permalink parameter is used in URL, use it
-			} else if (mapClient.params.permalink) {
+			} else if (OpenEMap.mapClient.params.permalink) {
 	            Ext.Ajax.request({
-			    	url: OpenEMap.wsUrls.permalinks + '/' + mapClient.params.permalink,
+			    	url: OpenEMap.wsUrls.permalinks + '/' + OpenEMap.mapClient.params.permalink,
 			    	success: function(response) {
 			    		var permalinkdata = Ext.decode(response.responseText);
-			    		mapClient.configure(permalinkdata.config, permalinkdata.options);
+			    		OpenEMap.mapClient.configure(permalinkdata.config, permalinkdata.options);
 			    		var format = new OpenLayers.Format.GeoJSON();
 			    		var features = format.read(permalinkdata.drawLayer.geojson);
-			    		mapClient.drawLayer.addFeatures(features);
-			    		mapClient.map.zoomToExtent(permalinkdata.extent);
+			    		OpenEMap.mapClient.drawLayer.addFeatures(features);
+			    		OpenEMap.mapClient.map.zoomToExtent(permalinkdata.extent);
 			        },
 			        failure: function(response) {
 			            Ext.Msg.alert('Fel', Ext.decode(response.responseText).message);
 			        },
-			        scope: mapClient
+			        scope: OpenEMap.mapClient
 			    });
 	        
 	        // If a configid URL-parameter is specified, use it
-	        } else if ((typeof mapClient.params.id !== 'undefined') || (typeof mapClient.params.configid !== 'undefined')) {
-	        	var id = (typeof mapClient.params.configid !== 'undefined') ? mapClient.params.configid : mapClient.params.id;
+	        } else if ((typeof OpenEMap.mapClient.params.id !== 'undefined') || (typeof OpenEMap.mapClient.params.configid !== 'undefined')) {
+	        	var id = (typeof OpenEMap.mapClient.params.configid !== 'undefined') ? OpenEMap.mapClient.params.configid : OpenEMap.mapClient.params.id;
 				Ext.Ajax.request({
 					url : OpenEMap.wsUrls.basePath + OpenEMap.wsUrls.configs + '/config/' + id,
 					method : 'GET',
@@ -253,8 +254,8 @@ var initOpenEMap = function(configPath, options, callback) {
 						var config = JSON.parse(evt.responseText);
 						if (config) {
 							
-							mapClient.destroy();
-							mapClient.configure(Ext.clone(config), options);
+							OpenEMap.mapClient.destroy();
+							OpenEMap.mapClient.configure(Ext.clone(config), options);
 		
 							var labels = new OpenLayers.Rule({
 								filter : new OpenLayers.Filter.Comparison({
@@ -269,7 +270,7 @@ var initOpenEMap = function(configPath, options, callback) {
 									label : "${label}"
 								}
 							});
-							mapClient.drawLayer.styleMap.styles['default'].addRules([ labels ]);
+							OpenEMap.mapClient.drawLayer.styleMap.styles['default'].addRules([ labels ]);
 						} else {
 				            Ext.Msg.alert('Fel', 'Kartkonfiguration med angivet id saknas');
 						}
@@ -277,12 +278,12 @@ var initOpenEMap = function(configPath, options, callback) {
 					failure: function(response) {
 			            Ext.Msg.alert('Fel', 'Fel i Open eMap Admin Services: ' + response.status + ' ' + response.statusText);
 					},
-					scope: mapClient
+					scope: OpenEMap.mapClient
 				});
 	        }
 			
 			if (callback) {
-				callback(mapClient);
+				callback(OpenEMap.mapClient);
 			}
 		}
 	};
