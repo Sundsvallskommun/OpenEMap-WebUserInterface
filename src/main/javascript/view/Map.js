@@ -160,6 +160,7 @@ Ext.define('OpenEMap.view.Map' ,{
         this.map.setLayerIndex(this.measureLayerSegments, 98);
         
         this.selectControl = new OpenLayers.Control.SelectFeature(this.drawLayer);
+        this.selectControl.handlers.feature.stopDown = false;
         this.map.addControl(this.selectControl);
 
         // Define container for popup windows - initialize when first popupLayer is created. 
