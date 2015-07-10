@@ -27,140 +27,16 @@
     <!-- This will make the page reload automatically when source has changed and page is served using grunt devserver -->
     <script src="//localhost:35729/livereload.js"></script>
 
-	<link rel="stylesheet" type="text/css" href="../bower_components/ext-theme-oep/build/resources/ext-theme-oep-all-debug.css">
-
-    <link rel="stylesheet" type="text/css" href="../resources/css/OpenEMap.css">
-    
-    <script type="text/javascript" src="../bower_components/OpenLayers-2.13.1/lib/OpenLayers.js"></script>
-    <script type="text/javascript" src="../bower_components/ext-4.2.1/bootstrap.js"></script>
-    <script type="text/javascript" src="../bower_components/ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
-    <script type="text/javascript" src="../bower_components/ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
-    <script type="text/javascript" src="../bower_components/proj4/dist/proj4-compressed.js"></script>
-    <script type="text/javascript" src="../proj4_defs.js"></script>
-    
-    <script type="text/javascript">
-	  Ext.Loader.setConfig({
-	    disableCaching: false,
-	    paths: {
-	        OpenEMap: '../src/main/javascript',
-	        GeoExt: '../bower_components/geoext2/src/GeoExt'
-	    }
-	  });
+    <script type="text/javascript">    var debug='source';
     </script> 
-    
-    <script type="text/javascript" src="../../libs/es5-shim.min.js"></script>
-    
-    <script type="text/javascript" src="../src/main/javascript/Client.js"></script>
+    <script type="text/javascript" src="../src/main/javascript/OpenEMap.js"></script>
     
     <script type="text/javascript">
-	  Ext.onReady(function() {
-		
-		OpenEMap.wsUrls.basePath = '/openemapadmin-1.6.0-rc.5';
-		OpenEMap.basePathImages = '../resources/images/';
-		OpenEMap.basePathMapFish = '/print/pdf';
-		
-		OpenEMap.mapClient = Ext.create('OpenEMap.Client');
-		  
 		function init(name) {
-		    Ext.Ajax.request({
-		    	url: name,
-		    	success: function(response) {
-		    		var config = Ext.decode(response.responseText);
-
-		    		// moch municipality
-		    		config.options = {};
-		    		config.options.municipalities = ['Sundvsall', 'Timrå'];
-		    		
-		    		var gui = {
-		    			map: false,
-//		    			map: {renderTo: 'map'},
-		    			toolbar: {
-		    			},
-		    			zoomTools: {},
-		    			//legend: {},
-		    			layers: {
-//		    			    type: 'advanced'
-//		    			    ,renderTo: 'layers'
-		    			},
-		    		    searchFastighet: {
-		    				zoom: 10
-//		    			    ,renderTo: 'search'
-		    			},
-		    			searchCoordinate: {
-		    				renderTo: 'searchcoordinate',
-		    				listeners: {
-		    				    searchcomplete: function(e) {
-		    				        console.log('searchCoordinate searchcomplete ' + e);
-		    				    }
-		    				}
-		    			},
-		    			//objectConfig: {x : 10, y: 10},
-		    			baseLayers: {},
-		    			showCoordinate: {renderTo: 'showcoordinate'},
-		    			scalebar: {}
-		    		};
-		    	
-		    		OpenEMap.mapClient.destroy();
-		    		OpenEMap.mapClient.configure(config, {
-		    			gui: gui
-		    		});
-		    		delete config.options.municipalities;
-		    		delete config.options;
-		    		
-	    	          var labels = new OpenLayers.Rule({
-                          filter: new OpenLayers.Filter.Comparison({
-                              type: OpenLayers.Filter.Comparison.EQUAL_TO,
-                              property: "type",
-                              value: "label",
-                          }),
-                            symbolizer: {
-                              pointRadius: 20,
-                              fillOpacity: 0,
-                              strokeOpacity: 0,
-                              label: "${label}"   
-                           }
-                          });
-	    	          
-	    	          OpenEMap.mapClient.drawLayer.styleMap.styles['default'].addRules([labels]);
-	    	          
-	    	          OpenEMap.mapClient.drawLayer.events.register('featuremodified', null, function() {
-	    	              console.log("featuremodified triggered");
-	    	          });
-		    	}
-		    });
-		}
-	    
-	    var combo = Ext.create('Ext.form.ComboBox',  {
-			renderTo: 'configcombo',
-			store: ['debug_all.json',
-					'testAll.json',
-					'108.json',
-					'config2.json',
-			        'riges.json',
-			        'eldstad.json',
-			        'situationsplan.json',
-			        'komplementbyggnad.json',
-			        'transformator.json',
-			        'forhandsbesked.json',
-			        'preview.json',
-			        'detaljplaner.json',
-			        'OSM.json'],
-			queryMode: 'local',
-			listeners: {
-				"select": function(combo, records) {
-					var record = records[0];
-					init('config/' + record.get(record.fields.get(0).name));
-				}
-			}
-		});
-	    
-	    var record = combo.store.getAt(0);
-	    combo.setValue(record);
-	    combo.fireEvent('select', combo, [record]);
-	  });
-    </script>
+			var options = {				gui : {					map : false,					toolbar : {},					zoomTools : {},					layers : {},					baseLayers : {},					searchFastighet : {},	    			searchCoordinate: {renderTo: 'searchcoordinate'},					scalebar : {},	    			showCoordinate: {renderTo: 'showcoordinate'}				},				OpenEMap : {					basePathImages : '../resources/images/',					// Base path to be used for mapfish print servlet requests					basePathMapFish : '/print/pdf',					// Base path to be used for all AJAX requests against search-lm REST API					basePathLM : '/search/lm/',					// name of user to be used when calling search-lm REST API					lmUser : 'sundsvall',					// Base path to be used for all AJAX requests against Elasticsearch REST API					basePathES : '/search/es/',					// URL/paths related to WMS usage / advanced layer list					wmsURLs : {						// URL to be used to fetch WMS capabilities etc. for add layer						basePath : '/geoserver/wms',						// URL to be used when WMS layer has been added to config						url : 'https://extmaptest.sundsvall.se/geoserver/wms',						// URL to getcapabilities document. Must include request parameter (eg. https://extmap.sundsvall.se/geoserver/wms?request=GetCapabilities&version=1.1.1)						getCapabilities : 'https://extmaptest.sundsvall.se/getcapabilities/wms.xml'					},					//Base path to proxy to be used for WFS-post					basePathProxy : '/cgi-bin/proxy.py?url=',					// WS paths to be used for AJAX requests					wsUrls : {						//basepath to Open eMap Admin						basePath : '/openemapadmin-1.6.0',						// relative path to configs, set in admin of modules in OpenHierarchy						configs : '/configs',						// relative path to adminconfigs, set in admin of modules in OpenHierarchy						adminconfigs : '/adminconfigs',						// path to permalinks						permalinks : '/openemappermalink/permalinks',						metadata : 'geometadata/getmetadatabyid',						metadata_abstract : 'geometadata/getabstractbyid'					},				}			};			try {				initOpenEMap(name, options);			} catch(msg) {				alert(msg);			}		}
+		init('config/debug_all.json');
+    </script>
     
-    <script type="text/javascript" src="../src/main/javascript/locale/OpenEMap-lang-sv_SE.js"></script>
 </head>
 <body>
 

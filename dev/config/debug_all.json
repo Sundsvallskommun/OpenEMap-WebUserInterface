@@ -494,7 +494,12 @@
             "tooltip": "Delete all drawn geometries",
             "iconCls": "action-deleteallfeatures"
         },
-        {
+ 		{
+			"type": "Permalink",
+			"iconCls": "action-permalink",
+			"tooltip": "Dela karta"
+		},
+       {
             "type": "DetailReport",
             "tooltip": "Shows a detailed report for a specified point",
             "iconCls": "action-detailreport"

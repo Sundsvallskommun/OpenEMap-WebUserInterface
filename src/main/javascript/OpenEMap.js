@@ -82,7 +82,7 @@ var loadCssFiles = function(files, callback) {
 	}
 };
 
-var loadJsScripts = function(files) {
+var loadJsScripts = function(files, scriptCallback, scriptCallbackDependencies) {
 	var head = document.getElementsByTagName("head")[0];
 	var waitUntilDependenciesIsLoaded = function(dependencies, script) {
 		if (dependencies()) {
@@ -92,20 +92,34 @@ var loadJsScripts = function(files) {
 		}
 	};
 	
+	var waitForDependenciesToCallback = function() {
+		if (scriptCallbackDependencies()) {
+			scriptCallback();
+		} else {
+			setTimeout(function() { waitForDependenciesToCallback(); }, 5);
+		}
+	};
+
     for (var i = 0; i < files.length; i++) {
 		var script = {};
 		script = document.createElement('script');
 		script.type = 'text/javascript';
 	 	script.src = files[i].src;
-
     	waitUntilDependenciesIsLoaded(files[i].dependencies, script);
     }
+	waitForDependenciesToCallback();
 };
 
 (function () {
 	var scriptNameRaw = "OpenEMap.js";
 	var openEMapScriptName = new RegExp("(^|(.*?\\/))(" + scriptNameRaw + ")(\\?|$)");
 	var scripts = document.getElementsByTagName("script");
+	var cssFiles = [];
+    var scriptCallback = function() {};
+	var scriptCallbackDependencies = function() {
+		return true;
+	};
+	
 	for (var i = 0; i < scripts.length; i++) {
 		var src = scripts[i].getAttribute('src');
 		if (src) {
@@ -117,39 +131,78 @@ var loadJsScripts = function(files) {
         }
     }
 	
-	var cssFiles = [
-		openEMapScriptLocation + "lib/ext-theme-oep/ext-theme-oep-all.css",
-		openEMapScriptLocation + "resources/css/OpenEMap.css"
-	];
+	if (typeof debug !== "undefined" && debug === 'source') {
+		cssFiles = [
+			"../bower_components/ext-theme-oep/build/resources/ext-theme-oep-all-debug.css",
+			"../resources/css/OpenEMap.css"
+		];
+		scripts = [
+	 		{src: "../bower_components/ext-4.2.1/ext-all-debug.js", dependencies: function() {return true;}},
+	    	{src: "../bower_components/ext-4.2.1/packages/ext-theme-neptune/build/ext-theme-neptune.js", dependencies: function() {return (typeof Ext !== "undefined" && Ext.isReady);}},
+	    	{src: "../bower_components/ext-4.2.1/locale/ext-lang-sv_SE.js", dependencies:  function() {return (typeof Ext !== "undefined" && Ext.isReady);}},
+		    {src: "../bower_components/proj4/dist/proj4-compressed.js", dependencies: function() {return true;}},
+	    	{src: "../bower_components/OpenLayers-2.13.1/OpenLayers.debug.js", dependencies: function() {return true;}},
+	    	{src: "../proj4_defs.js",dependencies: function() {return (typeof Proj4js !== "undefined");}},
+	    	{src: "../bower_components/es5-shim/es5-shim.min.js", dependencies: function() {return true;}},
+			{src: "../bower_components/geoext2/release/geoext-debug.js", dependencies: function() {return ((typeof Ext !== "undefined") && Ext.isReady &&  (typeof OpenLayers !== "undefined"));}}
+	    ];
+	    scriptCallback = function() {
+			Ext.Loader.setConfig({
+				disableCaching: false,
+				paths: {
+			        GeoExt: '../bower_components/geoext2/src/GeoExt',
+					OpenEMap: '../src/main/javascript'
+				}
+			});
 
-	scripts = [
-		
-		// Debug versions of scripts. Uncomment to switch. 
-/* 		{src: openEMapScriptLocation + "lib/ext/ext-all-debug.js", dependencies: function() {return true;}},
-		{src: openEMapScriptLocation + "lib/ext/ext-theme-neptune.js", dependencies: function() {return (typeof Ext !== "undefined" && Ext.isReady);}},
-		{src: openEMapScriptLocation + "lib/ext/locale/ext-lang-sv_SE.js", dependencies:  function() {return (typeof Ext !== "undefined" && Ext.isReady);}},
-		{src: openEMapScriptLocation + "lib/OpenLayers/OpenLayers.debug.js", dependencies: function() {return true;}},
-		{src: openEMapScriptLocation + "lib/proj4js/proj4-compressed.js", dependencies: function() {return true;}},
-		{src: openEMapScriptLocation + "proj4_defs.js", dependencies: function() {return (typeof Proj4js !== "undefined");}},
-		{src: openEMapScriptLocation + "lib/geoext/geoext-debug.js", dependencies: function() {return ((typeof Ext !== "undefined") && Ext.isReady &&  (typeof OpenLayers !== "undefined"));}},
-		{src: openEMapScriptLocation + "lib/es5-shim/es5-shim.min.js", dependencies: function() {return true;}},
-		{src: openEMapScriptLocation + "OpenEMap-debug.js", dependencies:  function() {return ((typeof Ext !== "undefined") && Ext.isReady &&  (typeof OpenLayers !== "undefined") && (typeof Proj4js !== "undefined") && (typeof GeoExt !== "undefined"));}}
-*/
-		{src: openEMapScriptLocation + "lib/ext/ext-all.js", dependencies: function() {return true;}},
-		{src: openEMapScriptLocation + "lib/ext/ext-theme-neptune.js", dependencies: function() {return (typeof Ext !== "undefined" && Ext.isReady);}},
-		{src: openEMapScriptLocation + "lib/ext/locale/ext-lang-sv_SE.js", dependencies:  function() {return (typeof Ext !== "undefined" && Ext.isReady);}},
-		{src: openEMapScriptLocation + "lib/OpenLayers/OpenLayers.js", dependencies: function() {return true;}},
-		{src: openEMapScriptLocation + "lib/proj4js/proj4-compressed.js", dependencies: function() {return true;}},
-		{src: openEMapScriptLocation + "proj4_defs.js", dependencies: function() {return (typeof Proj4js !== "undefined");}},
-		{src: openEMapScriptLocation + "lib/geoext/geoext-all.js", dependencies: function() {return ((typeof Ext !== "undefined") && Ext.isReady &&  (typeof OpenLayers !== "undefined"));}},
-		{src: openEMapScriptLocation + "lib/es5-shim/es5-shim.min.js", dependencies: function() {return true;}},
-		{src: openEMapScriptLocation + "OpenEMap-min.js", dependencies:  function() {return ((typeof Ext !== "undefined") && Ext.isReady &&  (typeof OpenLayers !== "undefined") && (typeof Proj4js !== "undefined") && (typeof GeoExt !== "undefined"));}}
-
-    ];
+			var script = {};
+			script = document.createElement('script');
+			script.type = 'text/javascript';
+		 	script.src = openEMapScriptLocation + "Client.js";
+			var head = document.getElementsByTagName("head")[0];
+			head.appendChild(script);
+		};
+		scriptCallbackDependencies = function() {
+			return ((typeof Ext !== "undefined") && Ext.isReady &&  (typeof OpenLayers !== "undefined") && (typeof Proj4js !== "undefined") && (typeof GeoExt !== "undefined"));
+		};
+	} else {
+		cssFiles = [
+			openEMapScriptLocation + "lib/ext-theme-oep/ext-theme-oep-all.css",
+			openEMapScriptLocation + "resources/css/OpenEMap.css"
+		];
 	
+		if (typeof debug !== "undefined" && debug === "debugbuild") {
+	
+			// Debug versions of scripts.  
+			scripts = [
+		 		{src: openEMapScriptLocation + "lib/ext/ext-all-debug.js", dependencies: function() {return true;}},
+				{src: openEMapScriptLocation + "lib/ext/ext-theme-neptune.js", dependencies: function() {return (typeof Ext !== "undefined" && Ext.isReady);}},
+				{src: openEMapScriptLocation + "lib/ext/locale/ext-lang-sv_SE.js", dependencies:  function() {return (typeof Ext !== "undefined" && Ext.isReady);}},
+				{src: openEMapScriptLocation + "lib/OpenLayers/OpenLayers.debug.js", dependencies: function() {return true;}},
+				{src: openEMapScriptLocation + "lib/proj4js/proj4-compressed.js", dependencies: function() {return true;}},
+				{src: openEMapScriptLocation + "proj4_defs.js", dependencies: function() {return (typeof Proj4js !== "undefined");}},
+				{src: openEMapScriptLocation + "lib/geoext/geoext-debug.js", dependencies: function() {return ((typeof Ext !== "undefined") && Ext.isReady &&  (typeof OpenLayers !== "undefined"));}},
+				{src: openEMapScriptLocation + "lib/es5-shim/es5-shim.min.js", dependencies: function() {return true;}},
+				{src: openEMapScriptLocation + "OpenEMap-debug.js", dependencies:  function() {return ((typeof Ext !== "undefined") && Ext.isReady &&  (typeof OpenLayers !== "undefined") && (typeof Proj4js !== "undefined") && (typeof GeoExt !== "undefined"));}}
+			];
+		} else {
+			scripts = [
+				{src: openEMapScriptLocation + "lib/ext/ext-all.js", dependencies: function() {return true;}},
+				{src: openEMapScriptLocation + "lib/ext/ext-theme-neptune.js", dependencies: function() {return (typeof Ext !== "undefined" && Ext.isReady);}},
+				{src: openEMapScriptLocation + "lib/ext/locale/ext-lang-sv_SE.js", dependencies:  function() {return (typeof Ext !== "undefined" && Ext.isReady);}},
+				{src: openEMapScriptLocation + "lib/OpenLayers/OpenLayers.js", dependencies: function() {return true;}},
+				{src: openEMapScriptLocation + "lib/proj4js/proj4-compressed.js", dependencies: function() {return true;}},
+				{src: openEMapScriptLocation + "proj4_defs.js", dependencies: function() {return (typeof Proj4js !== "undefined");}},
+				{src: openEMapScriptLocation + "lib/geoext/geoext-all.js", dependencies: function() {return ((typeof Ext !== "undefined") && Ext.isReady &&  (typeof OpenLayers !== "undefined"));}},
+				{src: openEMapScriptLocation + "lib/es5-shim/es5-shim.min.js", dependencies: function() {return true;}},
+				{src: openEMapScriptLocation + "OpenEMap-min.js", dependencies:  function() {return ((typeof Ext !== "undefined") && Ext.isReady &&  (typeof OpenLayers !== "undefined") && (typeof Proj4js !== "undefined") && (typeof GeoExt !== "undefined"));}}
+		    ];
+		}
+	}
+
 	// Ensure css files are loaded before js files
 	loadCssFiles(cssFiles, function() {
-		loadJsScripts(scripts);
+		loadJsScripts(scripts, scriptCallback, scriptCallbackDependencies);
 	});
 }) ();
 
@@ -193,41 +246,31 @@ var initOpenEMap = function(configPath, options, callback) {
 			setTimeout(function() { waitUntilOpenEMapIsLoaded(conf, options, callback); }, 5);
 		} else {
 			Ext.apply(OpenEMap, options.OpenEMap);
-			OpenEMap.mapClient = Ext.create('OpenEMap.Client');
+
+			var creationCallback = function() {
+			    var labels = new OpenLayers.Rule({
+		          	filter: new OpenLayers.Filter.Comparison({
+		              	type: OpenLayers.Filter.Comparison.EQUAL_TO,
+		              	property: "type",
+		              	value: "label"
+		          	}),
+		            symbolizer: {
+		              	pointRadius: 20,
+		              	fillOpacity: 0,
+		              	strokeOpacity: 0,
+		              	label: "${label}"   
+		           	}
+	        	});
+				mapClient.drawLayer.styleMap.styles['default'].addRules([labels]);
+			};
+			
+			OpenEMap.mapClient = Ext.create('OpenEMap.Client', creationCallback);
 
 			OpenEMap.mapClient.destroy();
 	        OpenEMap.mapClient.params = Ext.Object.fromQueryString(document.location.search);
 
-			// If a config is specified in function call, use it
-			if (conf) {
-				Ext.Ajax.request({
-					url : conf,
-					method : 'GET',
-					success : function(evt){
-						OpenEMap.mapClient.configure(JSON.parse(evt.responseText), options);
-						var labels = new OpenLayers.Rule({
-							filter : new OpenLayers.Filter.Comparison({
-								type : OpenLayers.Filter.Comparison.EQUAL_TO,
-								property : "type",
-								value : "label"
-							}),
-							symbolizer : {
-								pointRadius : 20,
-								fillOpacity : 0,
-								strokeOpacity : 0,
-								label : "${label}"
-							}
-						});
-						OpenEMap.mapClient.drawLayer.styleMap.styles['default'].addRules([ labels ]);
-					},
-					failure: function(response, opts) {
-						OpenEMap.mapClient.destroy();
-						throw 'Hittar inte konfigurationen';
-					}
-				});
-			
 			// If a permalink parameter is used in URL, use it
-			} else if (OpenEMap.mapClient.params.permalink) {
+			if (OpenEMap.mapClient.params.permalink) {
 	            Ext.Ajax.request({
 			    	url: OpenEMap.wsUrls.permalinks + '/' + OpenEMap.mapClient.params.permalink,
 			    	success: function(response) {
@@ -243,9 +286,10 @@ var initOpenEMap = function(configPath, options, callback) {
 			        },
 			        scope: OpenEMap.mapClient
 			    });
-	        
+	        } 
+
 	        // If a configid URL-parameter is specified, use it
-	        } else if ((typeof OpenEMap.mapClient.params.id !== 'undefined') || (typeof OpenEMap.mapClient.params.configid !== 'undefined')) {
+	        else if ((typeof OpenEMap.mapClient.params.id !== 'undefined') || (typeof OpenEMap.mapClient.params.configid !== 'undefined')) {
 	        	var id = (typeof OpenEMap.mapClient.params.configid !== 'undefined') ? OpenEMap.mapClient.params.configid : OpenEMap.mapClient.params.id;
 				Ext.Ajax.request({
 					url : OpenEMap.wsUrls.basePath + OpenEMap.wsUrls.configs + '/config/' + id,
@@ -281,6 +325,22 @@ var initOpenEMap = function(configPath, options, callback) {
 					scope: OpenEMap.mapClient
 				});
 	        }
+
+			// If a config is specified in function call, use it
+			else if (conf) {
+				Ext.Ajax.request({
+					url : conf,
+					method : 'GET',
+					success : function(evt){
+						OpenEMap.mapClient.configure(JSON.parse(evt.responseText), options);
+					},
+					failure: function(response, opts) {
+						OpenEMap.mapClient.destroy();
+						throw 'Hittar inte konfigurationen';
+					}
+				});
+			
+			}  
 			
 			if (callback) {
 				callback(OpenEMap.mapClient);
