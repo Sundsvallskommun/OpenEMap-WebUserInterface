@@ -86,7 +86,7 @@ Ext.define('OpenEMap.Client', {
      * 
      * @property {OpenLayers.Layer.Vector}
      */
-    drawLayer: null,
+    drawLayer: undefined,
     /**
      * Configure map
      * 
@@ -233,8 +233,9 @@ Ext.define('OpenEMap.Client', {
                     var style = Ext.applyIf(Ext.clone(styleOverride), {
                         label: lineString.getLength().toFixed(accuracy).toString() + " m",
                         strokeColor: "#000000",
-                        strokeWidth: 3,
-                        labelAlign: 'cm'
+                        strokeWidth: 0,
+                        labelAlign: 'cm',
+                        pointRadius: 0
                     });
                     var feature = new OpenLayers.Feature.Vector(centroid, null, style);
                     return feature;
@@ -256,7 +257,7 @@ Ext.define('OpenEMap.Client', {
             }
         };
         
-        if (this.labelLayer === null) {
+        if (this.labelLayer === undefined) {
             this.labelLayer = new OpenLayers.Layer.Vector();
             this.map.addLayer(this.labelLayer);
             
