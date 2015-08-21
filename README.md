@@ -49,7 +49,9 @@ NOTE: The above snippet uses build including all dependencies
 
 Requirements:
 
-* Node JS >0.10
+* Install Git client (eg [http://git-scm.com/](http://git-scm.com/))
+* Clone repo using git `git clone https://github.com/Sundsvallskommun/OpenEMap-WebUserInterface OpenEMap-WebUserInterface` and cd into the new directory (eg `cd OpenEMap-WebUserInterface`)
+* Install [Node JS](https://nodejs.org/) >0.10 
 * Grunt CLI (install with `npm -g install grunt-cli`)
 * Bower (install with `npm -g install bower`)
 * Git command line client
