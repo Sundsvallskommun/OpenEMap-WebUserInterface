@@ -50,12 +50,11 @@ NOTE: The above snippet uses build including all dependencies
 Requirements:
 
 * Install Git client (eg [http://git-scm.com/](http://git-scm.com/))
-* Clone repo using git `git clone https://github.com/Sundsvallskommun/OpenEMap-WebUserInterface OpenEMap-WebUserInterface` 
+* Clone repo using git (eg. `git clone https://github.com/Sundsvallskommun/OpenEMap-WebUserInterface) OpenEMap-WebUserInterface` 
 * Install [Node JS](https://nodejs.org/) >0.10 
 * cd into the directory of the repo (eg `cd OpenEMap-WebUserInterface`)
 * Grunt CLI (install with `npm -g install grunt-cli`)
 * Bower (install with `npm -g install bower`)
-* Git command line client
 
 A fresh clone of the repository will require running `npm install` in its root. After that you can start devserver on `http://localhost:8000` by running `grunt devserver`. A development example should be runnable at `http://localhost:8000/dev/debug.html`. Changes to any source file will in the debug version automatically reload the page.
 
