@@ -28,7 +28,7 @@ Ext.define('OpenEMap.Client', {
                'OpenEMap.view.PopupResults',
                'OpenEMap.OpenLayers.Control.ModifyFeature',
                'OpenEMap.OpenLayers.Control.DynamicMeasure'],
-    version: '1.6.1-rc.1',
+    version: '1.6.1-rc.2',
     /**
      * OpenLayers Map instance
      * 
