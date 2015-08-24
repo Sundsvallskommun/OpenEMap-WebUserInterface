@@ -322,6 +322,13 @@ Ext.define('OpenEMap.Gui', {
 			 		})
 				});
 
+	        } else if (this.gui.layers && this.gui.layers.type === 'listconfigs') { 
+	            this.mapLayers = Ext.create('OpenEMap.view.layer.Advanced', Ext.apply({
+	                mapPanel : this.mapPanel,
+	                orginalConfig: this.orginalConfig,
+	                client: this.client,
+	                flex: 1
+	            }, this.gui.layers));
 	        } else {
 	            this.mapLayers = Ext.create('OpenEMap.view.layer.Basic', Ext.apply({
 	                mapPanel : this.mapPanel,
