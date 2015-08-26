@@ -284,14 +284,15 @@ Ext.define('OpenEMap.view.Map' ,{
                             strokeWidth: 3,
                             strokeOpacity: 1,
                             strokeColor: "#2969bf",
-                            fillOpacity: 0
+                            fillOpacity: 0.3,
+	                        fillColor: "#deecff"
                         }
                     },
                     "select": {
                         strokeWidth: 3,
                         strokeOpacity: 1,
                         fillColor: "#deecff",
-                        fillOpacity: 0.9,
+                        fillOpacity: 0.75,
                         strokeColor: "#2969bf"
                     },
                     "temporary": {
@@ -306,9 +307,23 @@ Ext.define('OpenEMap.view.Map' ,{
         
         this.drawLayer = new OpenLayers.Layer.Vector('Drawings', {
             displayInLayerSwitcher: false,
-            styleMap: this.parseStyle(config.drawStyle)
+            styleMap: this.parseStyle(config.drawStyle||this.drawLayerDefaultStyle)
         });
-        
+	    var labelRule = new OpenLayers.Rule({
+	      	filter: new OpenLayers.Filter.Comparison({
+	          	type: OpenLayers.Filter.Comparison.EQUAL_TO,
+	          	property: "type",
+	          	value: "label"
+	      	}),
+	        symbolizer: {
+	          	pointRadius: 20,
+	          	fillOpacity: 0,
+	          	strokeOpacity: 0,
+	          	label: "${label}"   
+	       	}
+	    });
+		this.drawLayer.styleMap.styles['default'].addRules([labelRule]);
+
         if (config.autoClearDrawLayer) {
             this.drawLayer.events.register('beforefeatureadded', this, function() {
                 this.drawLayer.destroyFeatures();
