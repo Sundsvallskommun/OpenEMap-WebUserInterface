@@ -403,7 +403,8 @@
 			"type": "Popup",
 			"iconCls": "action-popup",
 			"tooltip": "Show popup window",
-			"tolerance": 5
+			"tolerance": 5,
+			"showOnlyFirstHit": false
 		},
 		{
 			"type": "MeasureLine",

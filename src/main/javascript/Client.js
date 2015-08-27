@@ -452,6 +452,8 @@ Ext.define('OpenEMap.Client', {
 					    	feature.layer.map.events.triggerEvent("popupfeatureunselected",{layer: popupLayer, featureid: feature.attributes[popupLayer.idAttribute]});
 				    	}
 		    		});
+		    		// Remove popups too
+		    		popupLayer.popup.forEach(function(item) {item.destroy();});
 				});
 				
 	    		// Shows the first feature matching the id

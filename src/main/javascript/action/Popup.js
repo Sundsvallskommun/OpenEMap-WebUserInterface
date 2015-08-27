@@ -26,6 +26,7 @@
  * as constant text before and after the popupTextAttribute
  * @param {Object} [config] Configuration of the popup behaviour   
  * @param {Number} [config.tolerance=3] Tolerance to use when identifying in map. Radius in image pixels.
+ * @param {Boolean} [config.showOnlyFirstHit=true] true to show popup only for the first hit. false to show popups for each hit.
  */
 Ext.define('OpenEMap.action.Popup', {
     extend: 'OpenEMap.action.Action',
@@ -41,6 +42,11 @@ Ext.define('OpenEMap.action.Popup', {
 
         // Defaults to 3 pixels tolerance
         config.tolerance = config.tolerance || 3;  
+        // Deafults to only show first hit
+        if (config.showOnlyFirstHit === undefined || config.showOnlyFirstHit === null) {
+        	config.showOnlyFirstHit = true;
+        }
+        
         var Click = OpenLayers.Class(OpenLayers.Control, {
             initialize: function(options) {
                 OpenLayers.Control.prototype.initialize.apply(
