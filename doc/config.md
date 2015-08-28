@@ -65,7 +65,8 @@ A layer can include a WMS-specifgication and a WFS-specification. WMS are used t
 			"isBaseLayer": whetherTheLayerIsConsideredToBeABaseLayer,
 			"displayInLayerSwitcher": whetherToShowTheLayerInLayerSwitcher,
 			"visibility": whetherToShowLayerAtStartup,
-			"legendURL": "http://domainname/legend.png"
+			"legendURL": "http://domainname/legend.png",
+			"singleTile": true
 		}
 	}
 	"wfs": {
