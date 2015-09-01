@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<!--
+    Copyright (C) 2014 Härnösands kommun
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<html lang="en">
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>Open eMap - debug selectFeature</title>
+	<meta name="description" content="">
+	<meta name="author" content="Anders Erlandsson, Sundsvalls kommun" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- This will make the page reload automatically when source has changed and page is served using grunt devserver -->
+    <script src="//localhost:35729/livereload.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="../bower_components/ext-theme-oep/build/resources/ext-theme-oep-all-debug.css">
+
+    <link rel="stylesheet" type="text/css" href="../resources/css/OpenEMap.css">
+    
+    <script type="text/javascript" src="../bower_components/OpenLayers-2.13.1/lib/OpenLayers.js"></script>
+    <script type="text/javascript" src="../bower_components/ext-4.2.1/bootstrap.js"></script>
+    <script type="text/javascript" src="../bower_components/ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
+    <script type="text/javascript" src="../bower_components/ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
+    <script type="text/javascript" src="../bower_components/proj4/dist/proj4-compressed.js"></script>
+    <script type="text/javascript" src="../proj4_defs.js"></script>
+    
+    <script type="text/javascript">
+	  Ext.Loader.setConfig({
+	    disableCaching: false,
+	    paths: {
+	        OpenEMap: '../src/main/javascript',
+	        GeoExt: '../bower_components/geoext2/src/GeoExt'
+	    }
+	  });
+    </script> 
+    
+    <script type="text/javascript" src="../../libs/es5-shim.min.js"></script>
+    
+    <script type="text/javascript" src="../src/main/javascript/Client.js"></script>
+    
+    <script type="text/javascript">
+	  Ext.onReady(function() {
+		
+		OpenEMap.wsUrls.basePath = '/openemapadmin';
+		OpenEMap.basePathImages = '../resources/images/';
+		OpenEMap.basePathMapFish = '/print/pdf';
+		
+		OpenEMap.mapClient = Ext.create('OpenEMap.Client');
+		  
+		function init(name) {
+		    Ext.Ajax.request({
+		    	url: name,
+		    	success: function(response) {
+		    		var config = Ext.decode(response.responseText);
+
+		    		var gui = {
+		    			map: false,		    			layers: {},
+//		    			map: {renderTo: 'map'},
+		    			toolbar: {},		    		    searchFastighet: {		    				zoom: 10		    			},		    			zoomTools: {}		    		};
+		    	
+		    		OpenEMap.mapClient.destroy();
+		    		OpenEMap.mapClient.configure(config, {
+		    			gui: gui
+		    		});
+		    		
+		    	}
+		    });
+		}
+	    
+	    var combo = Ext.create('Ext.form.ComboBox',  {
+			renderTo: 'configcombo',
+			store: ['debug_selectFeature.json',					'debug_all.json',
+					'testAll.json',
+					'108.json',
+					'config2.json',
+			        'riges.json',
+			        'eldstad.json',
+			        'situationsplan.json',
+			        'komplementbyggnad.json',
+			        'transformator.json',
+			        'forhandsbesked.json',
+			        'preview.json',
+			        'detaljplaner.json',
+			        'OSM.json'],
+			queryMode: 'local',
+			listeners: {
+				"select": function(combo, records) {
+					var record = records[0];
+					init('config/' + record.get(record.fields.get(0).name));
+				}
+			}
+		});
+	    
+	    var record = combo.store.getAt(0);
+	    combo.setValue(record);
+	    combo.fireEvent('select', combo, [record]);
+	  });
+    </script>
+    
+    <script type="text/javascript" src="../src/main/javascript/locale/OpenEMap-lang-sv_SE.js"></script>
+</head>
+<body>
+
+<div id="configcombo" style="position: absolute; bottom: 50; left: 0"></div>
+</body>
+</html>

@@ -1,0 +1,338 @@
+{
+	"name": "debug_all",
+	"maxExtent": [487000.0, 6855000.0, 733000.0, 7110000.0],
+	"extent" : [608114, 6910996, 641846, 6932596],
+	"attribution": "Test av attribution",
+	"autoClearDrawLayer": false,
+    "resolutions": [
+        280,
+        140,
+        70,
+        28,
+        14,
+        7,
+        4.2,
+        2.8,
+        1.4,
+        0.56,
+        0.28,
+        0.14,
+        0.112,
+        0.056
+    ],
+    "units": "m",
+    "projection": "EPSG:3006",
+	"drawStyle" : {
+		"default": {
+            "Point": {
+        		"pointRadius": 4,
+                "graphicName": "square",
+                "fillColor": "#ff0000",
+                "fillOpacity": 0.25,
+                "strokeColor": "#ff0000",
+                "strokeWidth": 1
+        	},
+        	"Polygon": {
+	            "strokeWidth": 1,
+            	"strokeOpacity": 1,
+            	"fillColor": "#0000ff",
+            	"fillOpacity": 0.25,
+            	"strokeColor": "#0000ff"
+            }
+        },
+        "select": {
+            "strokeWidth": 2,
+            "strokeOpacity": 1,
+            "fillColor": "#ff00ff",
+            "fillOpacity": 0.25,
+            "strokeColor": "#ff0000"
+        },
+        "temporary": {
+            "strokeWidth": 2,
+            "strokeOpacity": 0.75,
+            "fillColor": "#ff00ff",
+            "fillOpacity": 0,
+            "strokeColor": "#ff00ff"
+        }
+	},
+    "layers": [
+        {
+            "name": "Image",
+        	"isGroupLayer": false,
+            "wms": {
+                "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
+                "params": {
+                "layers": "Lantmateriet:Ortofoto50_25cm",
+                "format": "image/jpeg"
+                },
+                "options": {
+                    "isBaseLayer": true,
+                    "displayInLayerSwitcher": false
+                }
+            }
+        },
+        {
+            "name": "Map",
+        	"isGroupLayer": false,
+            "wms": {
+                "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
+                "params": {
+                    "layers": "Lantmateriet:topowebbkartan_nedtonad",
+                    "format": "image/png"
+                },
+                "options": {
+                	"isBaseLayer": true,
+                	"displayInLayerSwitcher": false
+                }
+            }
+        },
+        {
+        	"name": "Expanded grouplayer", 
+        	"isGroupLayer": true,
+        	"expanded": true,
+        	"queryable": false,
+            "options": {
+                "visibility": true
+            },
+        	"layers": [
+		        {
+		        	"name": "Expanded sub grouplayer", 
+		        	"isGroupLayer": true,
+		        	"expanded": true,
+		        	"queryable": false,
+		            "options": {
+		                "visibility": true
+		            },
+		        	"layers": [
+				        {
+				            "name": "Planområde",
+				        	"isGroupLayer": false,
+				        	"queryable": true,
+				        	"clickable": true,
+				            "wms": {
+				                "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
+				                "params": {
+				                    "layers": "RIGES:Planomrade",
+				                    "format": "image/png",
+				                    "transparent": true
+				                },
+				                "options": {
+				                	"isBaseLayer": false,
+				                	"visibility": false,
+				                	"legendURL": "legendimage.png"
+				                }
+				            },
+				            "wfs": {
+				                "url": "https://extmaptest.sundsvall.se/geoserver/wfs",
+				                "featureType": "DetaljplanGallande_yta",
+				                "featurePrefix": "RIGES"
+				            },
+				            "metadata": {
+				                "attributes": {
+				                    "AKTBET_LOK": {
+				                        "alias": "Lokal aktbet.",
+				                        "main": true
+				                    },
+				                    "AKTBET": {
+				                        "alias": "Aktbeteckning"
+				                    },
+				                    "AREA_NUMBE": {
+				                        "alias": "Planområdesnr"
+				                    },
+				                    "LEGAL_APPR": {
+				                        "alias": "Lagakraft datum"
+				                    },
+				                    "ACCEPTED_D": {
+				                        "alias": "Antagande datum"
+				                    }
+				                }
+				            }
+				        },
+				        {
+							"name" : "Användningsbestämmelse",
+				        	"isGroupLayer": false,
+				        	"queryable": true,
+				        	"clickable": true,
+							"wms": {
+				    	        "url" : "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
+				    	        "params": {
+				    	            "layers": "RIGES:Anvandningsbestammelse",
+				    	            "format" : "image/png",
+				    	            "transparent" : true
+				    	        },
+				                "options": {
+				                	"isBaseLayer": false,
+				                	"visibility": false
+				                }
+				            },
+				            "wfs": {
+				                "url": "https://extmaptest.sundsvall.se/geoserver/wfs",
+				                "featureType": "AnvandningsBestammelser_yta",
+				                "featurePrefix": "RIGES"
+				            }
+						}
+					]
+				},
+		        {
+					"name" : "Användningsbestämmelse 2",
+		        	"isGroupLayer": false,
+		        	"queryable": true,
+		        	"clickable": true,
+					"wms": {
+		    	        "url" : "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
+		    	        "params": {
+		    	            "layers": "RIGES:Anvandningsbestammelse",
+		    	            "format" : "image/png",
+		    	            "transparent" : true
+		    	        },
+		                "options": {
+		                	"isBaseLayer": false,
+		                	"visibility": false
+		                }
+		            },
+		            "wfs": {
+		                "url": "https://extmaptest.sundsvall.se/geoserver/wfs",
+		                "featureType": "AnvandningsBestammelser_yta",
+		                "featurePrefix": "RIGES"
+		            }
+				}
+				
+        	]
+        },
+        {
+        	"name": "Collapsed grouplayer", 
+        	"isGroupLayer": true,
+        	"expanded": false,
+            "options": {
+                "visibility": false
+            },
+        	"layers": [
+		        {
+		            "name": "Planområde 2",
+		        	"isGroupLayer": false,
+		        	"queryable": false,
+				    "clickable": false,
+		            "wms": {
+		                "url": "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
+		                "params": {
+		                    "layers": "RIGES:Planomrade",
+		                    "format": "image/png",
+		                    "transparent": true
+		                },
+		                "options": {
+		                	"isBaseLayer": false,
+		                	"visibility": false
+		                }
+		            }
+		        },
+		        {
+					"name" : "Användningsbestämmelse 2",
+		        	"isGroupLayer": false,
+		        	"queryable": false,
+					"wms": {
+		    	        "url" : "https://extmaptest.sundsvall.se/geoserver/gwc/service/wms",
+		    	        "params": {
+		    	            "layers": "RIGES:Anvandningsbestammelse",
+		    	            "format" : "image/png",
+		    	            "transparent" : true
+		    	        },
+		                "options": {
+		                	"isBaseLayer": false,
+		                	"visibility": false
+		                }
+		            }
+				}
+        	]
+        },
+        {
+            "name": "Planområde",
+        	"isGroupLayer": false,
+	       	"queryable": true,
+            "wfs": {
+                "url": "https://extmaptest.sundsvall.se/geoserver/wfs",
+                "featureType": "DetaljplanGallande_yta",
+                "featurePrefix": "RIGES"
+            },
+            "metadata": {
+                "attributes": {
+                    "AKTBET": {
+                        "alias": "Aktbeteckning"
+                    },
+                    "AKTBET_LOK": {
+                        "alias": "Lokal aktbet."
+                    },
+                    "AREA_NUMBE": {
+                        "alias": "Planområdesnr"
+                    },
+                    "LEGAL_APPR": {
+                        "alias": "Lagakraft datum"
+                    },
+                    "ACCEPTED_D": {
+                        "alias": "Antagande datum"
+                    }
+                }
+            }
+        }
+    ],
+    "search": 
+    {
+        "searchEstates": 
+        {
+            "options": 
+            {
+                "municipalities": 
+                [
+                    "Nordanstig",
+                    "Sundsvall",
+                    "Timrå",
+                    "Härnösand",
+                    "Kramfors"
+                ]
+            }
+        },
+        "searchAddresses": 
+        {
+            "options": 
+           	{
+                "municipalities": 
+                [
+                    "Nordanstig",
+                    "Sundsvall",
+                    "Timrå",
+                    "Härnösand",
+                    "Kramfors"
+                ],
+				"zoom": 1
+            }
+        },
+        "searchPlacenames": 
+        {
+            "options": 
+            {
+                "municipalities": 
+                [
+                    "2132",
+                    "2281",
+                    "2262",
+                    "2280",
+                    "2282"
+                ],
+				"zoom": 1
+            }
+        },
+        "searchES": 
+        {
+        	"detaljplan": true
+		}     
+    },
+	"tools": [
+		{
+			"type": "Identify",
+			"iconCls": "action-identify",
+			"tooltip": "Identify objects in map",
+			"useRegisterenhet": false,
+			"tolerance": 5,
+			"activate": true
+		}
+	]
+}
