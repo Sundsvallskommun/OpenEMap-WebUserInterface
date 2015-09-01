@@ -181,12 +181,17 @@ module.exports = function(grunt) {
             https: false,
             port: 8080
         }, {
-            context: '/openemap-permalink',
-            host: 'localhost',
-            https: false,
-            port: 8080
+            context: '/openemappermalink',
+            host: 'kartatest.e-tjansteportalen.se',
+            https: true,
+            port: 443
         }, {
             context: '/mapfishprint-2.1.0',
+            host: 'kartatest.e-tjansteportalen.se',
+            https: true,
+            port: 443
+        }, {
+            context: '/mapfishprint-2.1.1',
             host: 'kartatest.e-tjansteportalen.se',
             https: true,
             port: 443

@@ -76,10 +76,17 @@ Ext.define('OpenEMap.view.SearchFastighet', {
             } ]
         });
         
+        // Creating selectControl to make it stopDown, which will make mousedown event available to other handlers too
+        // thus making map panable even when grabbing inside a feature 
+        var selectControl = new OpenLayers.Control.SelectFeature(this.mapPanel.searchLayer);
+        selectControl.handlers.feature.stopDown = false;
+        this.mapPanel.map.addControl(selectControl);
+        var selectionModel = Ext.create('GeoExt.selection.FeatureModel', {selectControl: selectControl});
+        
         var grid = Ext.create('Ext.grid.Panel', {
             columns : columns,
             store : store,
-            selType : 'featuremodel'
+            selModel : selectionModel
         });
         
         function defSearchCombo(type) {

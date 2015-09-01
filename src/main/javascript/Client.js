@@ -28,7 +28,7 @@ Ext.define('OpenEMap.Client', {
                'OpenEMap.view.PopupResults',
                'OpenEMap.OpenLayers.Control.ModifyFeature',
                'OpenEMap.OpenLayers.Control.DynamicMeasure'],
-    version: '1.6.0-rc.5',
+    version: '1.6.1',
     /**
      * OpenLayers Map instance
      * 
@@ -86,7 +86,7 @@ Ext.define('OpenEMap.Client', {
      * 
      * @property {OpenLayers.Layer.Vector}
      */
-    drawLayer: null,
+    drawLayer: undefined,
     /**
      * Configure map
      * 
@@ -233,8 +233,9 @@ Ext.define('OpenEMap.Client', {
                     var style = Ext.applyIf(Ext.clone(styleOverride), {
                         label: lineString.getLength().toFixed(accuracy).toString() + " m",
                         strokeColor: "#000000",
-                        strokeWidth: 3,
-                        labelAlign: 'cm'
+                        strokeWidth: 0,
+                        labelAlign: 'cm',
+                        pointRadius: 0
                     });
                     var feature = new OpenLayers.Feature.Vector(centroid, null, style);
                     return feature;
@@ -256,7 +257,7 @@ Ext.define('OpenEMap.Client', {
             }
         };
         
-        if (this.labelLayer === null) {
+        if (this.labelLayer === undefined) {
             this.labelLayer = new OpenLayers.Layer.Vector();
             this.map.addLayer(this.labelLayer);
             
@@ -451,6 +452,8 @@ Ext.define('OpenEMap.Client', {
 					    	feature.layer.map.events.triggerEvent("popupfeatureunselected",{layer: popupLayer, featureid: feature.attributes[popupLayer.idAttribute]});
 				    	}
 		    		});
+		    		// Remove popups too
+		    		popupLayer.popup.forEach(function(item) {item.destroy();});
 				});
 				
 	    		// Shows the first feature matching the id
