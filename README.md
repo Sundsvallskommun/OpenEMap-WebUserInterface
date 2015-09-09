@@ -10,6 +10,11 @@ Based on Ext JS 4, GeoExt 2 and OpenLayers 2.13.1 and built as an Ext JS applica
 Integrate into HTML page using the following snippet:
 
 ```html
+    <script type="text/javascript">
+    var debug='source'; // Use 'debugbuild' to use not minified files
+    var devPath = ''; // makes it possible to set a relative path for html-file
+    </script> 
+
     <script type="text/javascript" src="OpenEMap.js"></script>
     
     <script type="text/javascript">

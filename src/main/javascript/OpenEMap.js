@@ -286,6 +286,9 @@ var initOpenEMap = function(configPath, options, callback) {
 			    		var features = format.read(permalinkdata.drawLayer.geojson);
 			    		OpenEMap.mapClient.drawLayer.addFeatures(features);
 			    		OpenEMap.mapClient.map.zoomToExtent(permalinkdata.extent);
+						if (callback) {
+							callback(OpenEMap.mapClient);
+						}
 			        },
 			        failure: function(response) {
 			            Ext.Msg.alert('Fel', Ext.decode(response.responseText).message);
@@ -320,6 +323,9 @@ var initOpenEMap = function(configPath, options, callback) {
 								}
 							});
 							OpenEMap.mapClient.drawLayer.styleMap.styles['default'].addRules([ labels ]);
+							if (callback) {
+								callback(OpenEMap.mapClient);
+							}
 						} else {
 				            Ext.Msg.alert('Fel', 'Kartkonfiguration med angivet id saknas');
 						}
@@ -338,6 +344,9 @@ var initOpenEMap = function(configPath, options, callback) {
 					method : 'GET',
 					success : function(evt){
 						OpenEMap.mapClient.configure(JSON.parse(evt.responseText), options);
+						if (callback) {
+							callback(OpenEMap.mapClient);
+						}
 					},
 					failure: function(response, opts) {
 						OpenEMap.mapClient.destroy();
@@ -346,10 +355,6 @@ var initOpenEMap = function(configPath, options, callback) {
 				});
 			
 			}  
-			
-			if (callback) {
-				callback(OpenEMap.mapClient);
-			}
 		}
 	};
 	// Make sure OpenEMap is loaded

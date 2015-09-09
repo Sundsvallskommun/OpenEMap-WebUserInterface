@@ -8,64 +8,110 @@
 		<meta name="author" content="Anders Erlandsson, Sundsvalls kommun" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	    <link rel="stylesheet" type="text/css" href="/libs/ext-theme-oep/ext-theme-oep-all.css">
-	    <link rel="stylesheet" type="text/css" href="../resources/css/OpenEMap.css">
-	
-	    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/libs/OpenLayers-2.13.1/lib/OpenLayers.js"></script>  
-	    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/libs/ext-4.2.1/ext-all.js"></script>
-	    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/libs/ext-4.2.1/ext-theme-neptune.js"></script>
-	    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/libs/ext-4.2.1/locale/ext-lang-sv_SE.js"></script>
-	    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/libs/proj4js/proj4-compressed.js"></script>
-	    <script type="text/javascript" src="../proj4_defs.js"></script>
-	    <script type="text/javascript" src="https://kartatest.e-tjansteportalen.se/libs/geoext-2.0.2-rc.1-all.js"></script> 
-	    <script type="text/javascript" src="../OpenEMap-1.6.0-rc.3-min.js"></script>
+    <script type="text/javascript">
+    var debug='source';
+    var devPath = '../';
+    </script> 
+    <script type="text/javascript" src="../src/main/javascript/OpenEMap.js"></script>
+    
+    <script type="text/javascript" src="popupLayerGeojson.js"></script>
 
-	    <script type="text/javascript" src="popupLayerGeojson.js"></script>
-	    <script type="text/javascript" src="popupLayerStyles.js"></script>
-	
-	    <script type="text/javascript">
-	    var popupLayer = null;
-	    
-		Ext.onReady(function() {
-		    mapClient = Ext.create('OpenEMap.Client');
-			function init(name) {
-				Ext.Ajax.request({
-					url : name,
-					success : function(response) {
-						var config = Ext.decode(response.responseText);
-	
-						var gui = {
-							map : {
-								renderTo : 'map'
-							},
-							zoomTools : {}
-						};
-	
-						mapClient.destroy();
-						mapClient.configure(config, {
-							gui : gui
-						});
-						
-						// Create objects in map based on GeoJSON, see brandlarmGeojson.js with style specified in brandlarmStyles.js
-						popupLayer = mapClient.addPopupLayer(geojson, 'Popup layer example', 'id', 'popupText', 'Prefix', '<a href="javascript:alert(\'Suffix link!\');">Suffix</a>', 'popupTitle', stylemapGraphics, 'EPSG:3006');
-
-						// Listen to event for feature selected
-		               	mapClient.map.events.register('popupfeatureselected', this, function(arg) {
-		               		console.log('Feature in layer ' + arg.layer.name + ' with id ' + arg.featureid + ' was selected.');
-	               		});
-						// Listen to event for feature unselected
-		               	mapClient.map.events.register('popupfeatureunselected', this, function(arg) {
-		               		console.log('Feature in layer ' + arg.layer.name + ' with id ' + arg.featureid + ' was unselected.');
-	               		});
-	               		// Showing brandlarm with id=1
-						mapClient.showPopupFeature(popupLayer, 1);
-					}
-				});
-			}
+    <script type="text/javascript">
+		function callback(client) {
+			/*
+			* Layer stylemap
+			*/
+			// we want opaque external graphics and non-opaque internal graphics
+			var stylemapGraphics = new OpenLayers.StyleMap({
+			    'default': OpenLayers.Util.applyDefaults(
+			        {
+			        	externalGraphic: "../resources/images/point_added.png", 
+			        	graphicWidth: 15, 
+			        	graphicOpacity: 1
+			    	},
+			        OpenLayers.Feature.Vector.style['default']
+			    ),
+			    'select': OpenLayers.Util.applyDefaults(
+			        {
+			        	externalGraphic: "../resources/images/point_added.png", 
+			        	graphicWidth: 20
+			    	},
+			        OpenLayers.Feature.Vector.style.select
+			    )
+			});
+			stylemapGraphics.externalGraphic = "../resources/images/point_added.png"; 
+			stylemapGraphics.graphicWidth = 15; 
+			stylemapGraphics.graphicOpacity = 1; 
 			
-			init('popupLayerConfig.json');
-		});
-	    </script>
+			// Create objects in map based on GeoJSON, see brandlarmGeojson.js with style specified in brandlarmStyles.js
+			popupLayer = client.addPopupLayer(geojson, 'Popup layer example', 'id', 'popupText', 'Prefix', '<a href="javascript:alert(\'Suffix link!\');">Suffix</a>', 'popupTitle', stylemapGraphics, 'EPSG:3006');
+
+			// Listen to event for feature selected
+           	client.map.events.register('popupfeatureselected', this, function(arg) {
+           		console.log('Feature in layer ' + arg.layer.name + ' with id ' + arg.featureid + ' was selected.');
+       		});
+			// Listen to event for feature unselected
+           	client.map.events.register('popupfeatureunselected', this, function(arg) {
+           		console.log('Feature in layer ' + arg.layer.name + ' with id ' + arg.featureid + ' was unselected.');
+       		});
+       		// Showing brandlarm with id=1
+			client.showPopupFeature(popupLayer, 1);
+		}
+		
+		function init(name) {
+			var options = {
+				gui : {
+					map : {
+						renderTo: 'map'
+					},
+					zoomTools : {}
+				},
+				OpenEMap : {
+					basePathImages : '../resources/images/',
+					// Base path to be used for mapfish print servlet requests
+					basePathMapFish : '/mapfishprint-2.1.1/pdf',
+					// Base path to be used for all AJAX requests against search-lm REST API
+					basePathLM : '/search/lm/',
+					// name of user to be used when calling search-lm REST API
+					lmUser : 'sundsvall',
+					// Base path to be used for all AJAX requests against Elasticsearch REST API
+					basePathES : '/search/es/',
+					// URL/paths related to WMS usage / advanced layer list
+					wmsURLs : {
+						// URL to be used to fetch WMS capabilities etc. for add layer
+						basePath : '/geoserver/wms',
+						// URL to be used when WMS layer has been added to config
+						url : 'https://extmaptest.sundsvall.se/geoserver/wms',
+						// URL to getcapabilities document. Must include request parameter (eg. https://extmap.sundsvall.se/geoserver/wms?request=GetCapabilities&version=1.1.1)
+						getCapabilities : 'https://extmaptest.sundsvall.se/getcapabilities/wms.xml'
+					},
+					//Base path to proxy to be used for WFS-post
+					basePathProxy : '/cgi-bin/proxy.py?url=',
+					// WS paths to be used for AJAX requests
+					wsUrls : {
+						//basepath to Open eMap Admin
+						basePath : '/openemapadmin-1.6.0',
+						// relative path to configs, set in admin of modules in OpenHierarchy
+						configs : '/configs',
+						// relative path to adminconfigs, set in admin of modules in OpenHierarchy
+						adminconfigs : '/adminconfigs',
+						// path to permalinks
+						permalinks : '/openemappermalink/permalinks',
+						metadata : 'geometadata/getmetadatabyid',
+						metadata_abstract : 'geometadata/getabstractbyid'
+					},
+				}
+			};
+			
+			try {
+				initOpenEMap(name, options, callback);
+			} catch(msg) {
+				alert(msg);
+			}
+		}
+		
+		init('popupLayerConfig.json');
+    </script>
 	</head>
 	<body>
     <div id="map" style="position: absolute; width: 100%; height: 650px" class="popup"></div>
