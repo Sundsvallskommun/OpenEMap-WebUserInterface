@@ -14,7 +14,11 @@ Integrate into HTML page using the following snippet:
     
     <script type="text/javascript">
 		var configUrl = '/openemapadmin-1.6.0-rc.3/adminconfigs/config/' + id;
-	
+		
+		// Optional callback to run after Open eMap is initialized
+		var callback = function(mapClient) { 
+			// code to run after Open eMap is initialized
+		}
 		var options = {
 			gui: {
 				map : {renderTo: 'map'},
@@ -26,7 +30,7 @@ Integrate into HTML page using the following snippet:
 			}
 		};
 		
-		initOpenEMap(configUrl, options)
+		initOpenEMap(configUrl, options, callback)
     </script>
     
 	<div id="map" style="position: absolute; width: 100%; height: 100%;" class="popup"></div>
