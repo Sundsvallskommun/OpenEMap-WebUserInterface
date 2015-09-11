@@ -97,7 +97,7 @@ Ext.define('OpenEMap.action.Popup', {
 						popupLayer.popup = [];
 			    	}
                 	popupLayer.features.forEach(function(feature) {
-                		feature.renderIntent = 'default'
+                		feature.renderIntent = 'default';
 			    		feature.layer.drawFeature(feature);
 				    	// Fire action "popupfeatureunselected" on the feature including layer and featureid
 				    	map.events.triggerEvent("popupfeatureunselected",{layer: popupLayer, featureid: feature.attributes[popupLayer.idAttribute]});
