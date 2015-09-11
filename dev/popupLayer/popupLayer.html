@@ -47,7 +47,7 @@
 	            // Create objects in map based on GeoJSON, see brandlarmGeojson.js with style specified in brandlarmStyles.js
 				popupLayer = mapClient.addPopupLayer(geojson, 'Popup layer example', 'id', 'popupText', '', '', 'popupTitle', stylemapGraphics, 'EPSG:3006', true);
 	            // Create objects in map based on GeoJSON, see brandlarmGeojson.js with style specified in brandlarmStyles.js
-				popupLayer2 = mapClient.addPopupLayer(geojson2, 'Popup layer example 2', 'id', 'popupText', '', '', 'popupTitle', stylemapGraphics, 'EPSG:3006', true);
+				popupLayer2 = mapClient.addPopupLayer(geojson2, 'Popup layer example 2', 'id', null, '', '', 'popupTitle', stylemapGraphics, 'EPSG:3006', true);
 	
 	            // Listen to event for feature selected
 				mapClient.map.events.register('popupfeatureselected', this, function(arg) {

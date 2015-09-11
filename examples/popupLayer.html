@@ -44,7 +44,7 @@
 			stylemapGraphics.graphicOpacity = 1; 
 			
 			// Create objects in map based on GeoJSON, see brandlarmGeojson.js with style specified in brandlarmStyles.js
-			popupLayer = client.addPopupLayer(geojson, 'Popup layer example', 'id', 'popupText', 'Prefix', '<a href="javascript:alert(\'Suffix link!\');">Suffix</a>', 'popupTitle', stylemapGraphics, 'EPSG:3006');
+			popupLayer = client.addPopupLayer(geojson, 'Popup layer example', 'id', null, 'Prefix', '<a href="javascript:alert(\'Suffix link!\');">Suffix</a>', 'popupTitle', stylemapGraphics, 'EPSG:3006');
 
 			// Listen to event for feature selected
            	client.map.events.register('popupfeatureselected', this, function(arg) {

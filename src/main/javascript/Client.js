@@ -279,7 +279,7 @@ Ext.define('OpenEMap.Client', {
      * @param {string} geojson GeoJSON with features that should be added to map 
      * @param {string} layername Layer name 
      * @param {string} [idAttribute='id'] Name of the attribute stored in each feture that holds the a unique id. Defaults to 'id'. Must be unique.
-     * @param {string} [popupTextAttribute='popupText'] Name of the attribute stored in each feture that holds the information to be shown in a popup defaults to 'popupText'
+     * @param {string} [popupTextAttribute] Name of the attribute stored in each feture that holds the information to be shown in a popup. Set to null or undefined to not show popup
      * @param {string} [popupTextPrefix=''] Prefix to be shown in popup before the value in popupTextAttribute 
      * @param {string} [popupTextSuffix=''] Suffix to be shown in popup before the value in popupTextAttribute
      * @param {string} [popupTitleAttribute=null] Title for the popup
@@ -300,10 +300,6 @@ Ext.define('OpenEMap.Client', {
         	idAttribute = 'id';
         }
         
-        if (!popupTextAttribute) {
-        	popupTextAttribute = 'popupText';
-        }
-
 		if (!popupTextPrefix) {
 			popupTextPrefix ='';
 		}
@@ -390,7 +386,7 @@ Ext.define('OpenEMap.Client', {
 			layer.popup = [];
     	}
     	// Remove the layer
-		mapClient.map.removeLayer(layer);
+		layer.map.removeLayer(layer);
     },
     /**
      * Show popup for a feature
@@ -456,8 +452,10 @@ Ext.define('OpenEMap.Client', {
 		    		popupLayer.popup.forEach(function(item) {item.destroy();});
 				});
 				
-	    		// Shows the first feature matching the id
-	    		this.showPopupFeaturePopup(popupLayer, features[0]);
+      			if ((typeof popupLayer.popupTextAttribute !== 'undefined') && (popupLayer.popupTextAttribute !== null)) {
+		    		// Shows the first feature matching the id
+		    		this.showPopupFeaturePopup(popupLayer, features[0]);
+		    	}
 
 	    		// Highlight feature
 	    		features[0].renderIntent = 'select';
@@ -482,10 +480,11 @@ Ext.define('OpenEMap.Client', {
     destroyPopupLayers: function() {
         var parser = Ext.create('OpenEMap.config.Parser');
     	var popupLayers = parser.extractPopupLayers(this.map.layers);
+    	var mapClient = this;
 		if (popupLayers) {
 			// Remove popup layers
 			popupLayers.forEach(function(layer) {
-				this.removePopupLayer(layer);
+				mapClient.removePopupLayer(layer);
 			});
 		}
     },
