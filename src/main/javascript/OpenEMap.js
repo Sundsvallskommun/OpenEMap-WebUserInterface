@@ -144,8 +144,7 @@ var loadJsScripts = function(files, scriptCallback, scriptCallbackDependencies) 
 		    {src: devPath + "bower_components/proj4/dist/proj4-compressed.js", dependencies: function() {return true;}},
 	    	{src: devPath + "bower_components/OpenLayers-2.13.1/OpenLayers.debug.js", dependencies: function() {return true;}},
 	    	{src: devPath + "proj4_defs.js",dependencies: function() {return (typeof Proj4js !== "undefined");}},
-	    	{src: devPath + "bower_components/es5-shim/es5-shim.min.js", dependencies: function() {return true;}},
-			{src: devPath + "bower_components/geoext2/release/geoext-debug.js", dependencies: function() {return ((typeof Ext !== "undefined") && Ext.isReady &&  (typeof OpenLayers !== "undefined"));}}
+	    	{src: devPath + "bower_components/es5-shim/es5-shim.min.js", dependencies: function() {return true;}}
 	    ];
 	    scriptCallback = function() {
 			Ext.Loader.setConfig({
@@ -164,7 +163,7 @@ var loadJsScripts = function(files, scriptCallback, scriptCallbackDependencies) 
 			head.appendChild(script);
 		};
 		scriptCallbackDependencies = function() {
-			return ((typeof Ext !== "undefined") && Ext.isReady &&  (typeof OpenLayers !== "undefined") && (typeof Proj4js !== "undefined") && (typeof GeoExt !== "undefined"));
+			return ((typeof Ext !== "undefined") && Ext.isReady &&  (typeof OpenLayers !== "undefined") && (typeof Proj4js !== "undefined"));
 		};
 	} else {
 		cssFiles = [
@@ -225,8 +224,7 @@ var loadJsScripts = function(files, scriptCallback, scriptCallbackDependencies) 
 * @param {Object} [options.gui.zoomTools={}] Zoom slider and buttons intended to be used as a floating control
 * @param {Object} [options.gui.searchFastighet={}] Search "fastighet" control
 * @param {Object} [options.gui.showCoordinate] Simple control to show map coordinates
-* @param [callback] optional callback to be run after Open eMap is initialized
-* @return {OpenEMap.Client} reference to an initialized OpenEMap.Client object, or null if it wasnt possible to create it 
+* @param [callback] optional callback to be run after Open eMap is initialized. The MapClient object is passed as the only argument to this function
 */
 var initOpenEMap = function(configPath, options, callback) {
 	// Apply defaults to gui

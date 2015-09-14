@@ -28,7 +28,7 @@ Ext.define('OpenEMap.Client', {
                'OpenEMap.view.PopupResults',
                'OpenEMap.OpenLayers.Control.ModifyFeature',
                'OpenEMap.OpenLayers.Control.DynamicMeasure'],
-    version: '1.6.2-rc.1',
+    version: '1.6.2-rc.2',
     /**
      * OpenLayers Map instance
      * 
@@ -488,6 +488,22 @@ Ext.define('OpenEMap.Client', {
 			});
 		}
     },
+    /**
+     * Helper method to zoom to all features in all popup layers 
+     */
+    zoomToAllPopupLayers: function() {
+        var parser = Ext.create('OpenEMap.config.Parser');
+    	var popupLayers = parser.extractPopupLayers(this.map.layers);
+    	if (popupLayers.length > 0) {
+			var featureBounds = new OpenLayers.Bounds();
+	 		popupLayers.forEach(function(popupLayer) {
+				featureBounds.extend(popupLayer.getDataExtent());
+			});
+			// Zoom to bounds. And scale the bounds to make sure all features and thyeir presentation is inside it
+			popupLayers[0].map.zoomToExtent(featureBounds.scale(1.1, featureBounds.getCenterPixel()));
+		}    	
+    },
+    
     /**
      * Clean up rendered elements
      */
