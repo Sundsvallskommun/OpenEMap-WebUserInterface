@@ -57,10 +57,15 @@
 	            mapClient.map.events.register('popupfeatureunselected', this, function(arg) {
 	                console.log('Feature in layer ' + arg.layer.name + ' with id ' + arg.featureid + ' was unselected.');
 	            });
+				
+				mapClient.zoomToAllPopupLayers();
+				
+				document.getElementById("showfeature1").onclick=function(){mapClient.showPopupFeature(popupLayer, 1, false);};
+				
 	            // Showing object with id=1
-	            mapClient.showPopupFeature(popupLayer, 5, true);
-	            mapClient.showPopupFeature(popupLayer, 1, true);
-	            mapClient.showPopupFeature(popupLayer2, 9, true);
+//	            mapClient.showPopupFeature(popupLayer, 5, true);
+//	            mapClient.showPopupFeature(popupLayer, 1, true);
+//	            mapClient.showPopupFeature(popupLayer2, 9, true);
 			}
 
 			function waitUntilStyleIsLoaded(callback) {
@@ -136,5 +141,6 @@
 	</head>
 	<body>
     <div id="map" style="position: absolute; width: 100%; height: 650px" class="popup"/></div>
+    <div id="showfeature1" style="position: absolute; left: 10px; bottom: 50px;"><input type="button">Feature 1</button></div>
 	</body>
 </html>

@@ -1,63 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<title>Open eMap - Popup layer example</title>
-		<meta name="description" content="">
-		<meta name="author" content="Anders Erlandsson, Sundsvalls kommun" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Open eMap - Popup layer example</title>
 
     <script type="text/javascript">
-    var debug='source';
+    var debug=null;
     var devPath = '../';
     </script> 
-    <script type="text/javascript" src="../src/main/javascript/OpenEMap.js"></script>
+    <script type="text/javascript" src="../OpenEMap.js"></script>
     
     <script type="text/javascript" src="popupLayerGeojson.js"></script>
 
     <script type="text/javascript">
-		function callback(client) {
-			/*
-			* Layer stylemap
-			*/
-			// we want opaque external graphics and non-opaque internal graphics
-			var stylemapGraphics = new OpenLayers.StyleMap({
-			    'default': OpenLayers.Util.applyDefaults(
-			        {
-			        	externalGraphic: "../resources/images/point_added.png", 
-			        	graphicWidth: 15, 
-			        	graphicOpacity: 1
-			    	},
-			        OpenLayers.Feature.Vector.style['default']
-			    ),
-			    'select': OpenLayers.Util.applyDefaults(
-			        {
-			        	externalGraphic: "../resources/images/point_added.png", 
-			        	graphicWidth: 20
-			    	},
-			        OpenLayers.Feature.Vector.style.select
-			    )
-			});
-			stylemapGraphics.externalGraphic = "../resources/images/point_added.png"; 
-			stylemapGraphics.graphicWidth = 15; 
-			stylemapGraphics.graphicOpacity = 1; 
-			
-			// Create objects in map based on GeoJSON, see brandlarmGeojson.js with style specified in brandlarmStyles.js
-			popupLayer = client.addPopupLayer(geojson, 'Popup layer example', 'id', null, 'Prefix', '<a href="javascript:alert(\'Suffix link!\');">Suffix</a>', 'popupTitle', stylemapGraphics, 'EPSG:3006');
+	    function callback(mapClient) {
+			var head = document.getElementsByTagName("head")[0];
+			var script = {};
+			script = document.createElement('script');
+			script.type = 'text/javascript';
+		 	script.src = 'popupLayerStyles.js';
+			head.appendChild(script);
 
-			// Listen to event for feature selected
-           	client.map.events.register('popupfeatureselected', this, function(arg) {
-           		console.log('Feature in layer ' + arg.layer.name + ' with id ' + arg.featureid + ' was selected.');
-       		});
-			// Listen to event for feature unselected
-           	client.map.events.register('popupfeatureunselected', this, function(arg) {
-           		console.log('Feature in layer ' + arg.layer.name + ' with id ' + arg.featureid + ' was unselected.');
-       		});
-       		// Showing brandlarm with id=1
-			client.showPopupFeature(popupLayer, 1);
-		}
-		
+			function createPopupLayer() {
+	            // Create objects in map based on GeoJSON, see brandlarmGeojson.js with style specified in brandlarmStyles.js
+				popupLayer = mapClient.addPopupLayer(geojson, 'Popup layer example', 'id', 'popupText', '', '', 'popupTitle', stylemapGraphics, 'EPSG:3006', true);
+	            // Create objects in map based on GeoJSON, see brandlarmGeojson.js with style specified in brandlarmStyles.js
+//				popupLayer2 = mapClient.addPopupLayer(geojson2, 'Popup layer example 2', 'id', null, '', '', 'popupTitle', stylemapGraphics, 'EPSG:3006', true);
+	
+	            // Listen to event for feature selected
+				mapClient.map.events.register('popupfeatureselected', this, function(arg) {
+	            	console.log('Feature in layer ' + arg.layer.name + ' with id ' + arg.featureid + ' was selected.');
+				});
+	            // Listen to event for feature unselected
+	            mapClient.map.events.register('popupfeatureunselected', this, function(arg) {
+	                console.log('Feature in layer ' + arg.layer.name + ' with id ' + arg.featureid + ' was unselected.');
+	            });
+				
+				mapClient.zoomToAllPopupLayers();
+				
+				document.getElementById("showfeature1").onclick=function(){mapClient.showPopupFeature(popupLayer, 1, false);};
+				
+	            // Showing object with id=1
+//	            mapClient.showPopupFeature(popupLayer, 5, true);
+//	            mapClient.showPopupFeature(popupLayer, 1, true);
+//	            mapClient.showPopupFeature(popupLayer2, 9, true);
+			}
+
+			function waitUntilStyleIsLoaded(callback) {
+				if (typeof stylemapGraphics !== "undefined") {
+					callback();
+				} else {
+					setTimeout(function() { waitUntilStyleIsLoaded(callback); }, 5);
+				}
+			}
+			
+			waitUntilStyleIsLoaded(createPopupLayer);
+	    }
+
 		function init(name) {
 			var options = {
 				gui : {
@@ -114,6 +114,7 @@
     </script>
 	</head>
 	<body>
-    <div id="map" style="position: absolute; width: 100%; height: 650px" class="popup"></div>
+    <div id="map" style="position: absolute; width: 100%; height: 100%" class="popup"></div>
+    <div id="showfeature1" style="position: absolute; left: 10px; bottom: 50px;"><input type="button" value="Feature 1"></button></div>
 	</body>
 </html>
