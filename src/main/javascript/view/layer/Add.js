@@ -149,6 +149,7 @@ Ext.define('OpenEMap.view.layer.Add' ,{
         });
         
         root.appendChild(children);
+    	this.gui.fireEvent('addLayerControlLoaded', this);
     }
 
 });

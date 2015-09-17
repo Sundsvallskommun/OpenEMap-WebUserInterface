@@ -197,11 +197,11 @@ module.exports = function(grunt) {
             port: 443
         }, {
             context: '/openemapadmin',
-            host: 'kartatest.e-tjansteportalen.se',
-            https: true,
-            port: 443
+            host: 'localhost',
+            https: false,
+            port: 80
         }, {
-            context: '/openemapadmin-1.6.0-rc.4',
+            context: '/openemapadmin-1.6.1',
             host: 'kartatest.e-tjansteportalen.se',
             https: true,
             port: 443

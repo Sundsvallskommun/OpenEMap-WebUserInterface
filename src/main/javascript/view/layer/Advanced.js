@@ -37,8 +37,13 @@ Ext.define('OpenEMap.view.layer.Advanced' ,{
 		type: 'vbox',
 		align: 'stretch'
 	},
-	
+	listeners: {
+		afterrender: function() {
+	    	this.gui.fireEvent('layerControlLoaded', this);
+		}
+	},
  	initComponent: function(config) {
+    	this.setLoading(true);
  		var me = this;
 
  		this.dataHandler = Ext.create('OpenEMap.data.DataHandler');
