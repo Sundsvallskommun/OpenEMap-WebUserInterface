@@ -23,10 +23,16 @@ Ext.define('OpenEMap.view.layer.Tree' ,{
         'OpenEMap.data.GroupedLayerTree',
         'GeoExt.tree.Column'
     ],
-
-    rootVisible: false,
+    rootVisible: true,
     hideHeaders: true,
-
+	listeners: {
+		afterrender: function() {
+	    	this.gui.fireEvent('layerControlLoaded', this);
+		},
+    	beforeadd: function(me, node) {
+//	    	node.cls = 'oep-layerloading';
+    	}
+	},
     initComponent: function() {
         if(!this.store && this.mapPanel) {
             this.store = Ext.create('OpenEMap.data.GroupedLayerTree', {
@@ -38,6 +44,14 @@ Ext.define('OpenEMap.view.layer.Tree' ,{
                 },
                 map: this.mapPanel.map
             });
+            this.mapPanel.map.layers.forEach(function(layer) {
+            	layer.events.register('loadstart', this, function(evt) {
+            		this.items.items[0].cls = 'oep-layerloading';
+            		this.items.items[0].refresh();
+            		this.cls = 'oep-layerloading';
+        		});
+            }, this)
+
         }
 
         this.on('checkchange', function(node, checked, eOpts) {
