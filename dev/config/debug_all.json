@@ -118,7 +118,7 @@
 				                },
 				                "options": {
 				                	"isBaseLayer": false,
-				                	"visibility": false,
+				                	"visibility": true,
 				                	"legendURL": "legendimage.png"
 				                }
 				            },
@@ -130,17 +130,18 @@
 				            "metadata": {
 				                "attributes": {
 				                    "AKTBET_LOK": {
-				                        "alias": "Lokal aktbet.",
-				                        "main": true
+				                        "alias": "Lokal aktbet."
 				                    },
 				                    "AKTBET": {
-				                        "alias": "Aktbeteckning"
+				                        "alias": "Aktbeteckning",
+				                        "mainAttribute": true
 				                    },
 				                    "AREA_NUMBE": {
 				                        "alias": "Planområdesnr"
 				                    },
 				                    "LEGAL_APPR": {
-				                        "alias": "Lagakraft datum"
+				                        "alias": "Lagakraft datum",
+				                        "mainAttribute": true
 				                    },
 				                    "ACCEPTED_D": {
 				                        "alias": "Antagande datum"
@@ -187,7 +188,7 @@
 		    	        },
 		                "options": {
 		                	"isBaseLayer": false,
-		                	"visibility": true
+		                	"visibility": false
 		                }
 		            },
 		            "wfs": {
@@ -342,7 +343,8 @@
 			"tooltip": "Identify objects in map",
 			"useRegisterenhet": false,
 			"tolerance": 5,
-			"activate": true
+			"activate": true,
+			"onlyVisibleLayers": true
 		},
 		{
 			"type": "Popup",
