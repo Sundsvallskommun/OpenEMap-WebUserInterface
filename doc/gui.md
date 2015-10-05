@@ -49,7 +49,7 @@ Complete reference for possible settings for options when creating client object
 			"basePath" : "/openemapadmin", basepath_to_Open_eMap_Admin
 			"configs" : "/configs", relative_path_to_configs,_set_in_admin_of_modules_in_OpenHierarchy
 			"adminconfigs" : "/adminconfigs", relative_path_to_adminconfigs,_set_in_admin_of_modules_in_OpenHierarchy
-			"permalinks"" : "/openemappermalink/permalinks", path_to_permalinks
+			"permalinks" : "/openemappermalink/permalinks", path_to_permalinks
 			"metadata" : "geometadata/getmetadatabyid",
 			"metadata_abstract" : "geometadata/getabstractbyid"
 		}
