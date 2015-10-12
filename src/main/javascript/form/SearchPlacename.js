@@ -22,6 +22,14 @@ Ext.define('OpenEMap.form.SearchPlacename', {
     alias: 'widget.searchplacename',
     require: ['Ext.data.*',
               'Ext.form.*'],
+    emptyText: 'Sök ort...',
+    minChars: 4,
+    labelWidth: 60,
+    displayField: 'name',
+    valueField: 'id',
+    queryParam: 'q',
+    typeAhead: true,
+    forceSelection: true,
     initComponent : function() {
         var kommunkod;
         var zoom = 5;
@@ -53,13 +61,6 @@ Ext.define('OpenEMap.form.SearchPlacename', {
           store.lastOperation = operation;
         }, this);
         
-        this.labelWidth= 60;
-        this.displayField= 'name';
-        this.valueField= 'id';
-        this.queryParam='q';
-        this.typeAhead= true;
-        this.forceSelection= true;
-        
         this.listeners = {
             'select':  function(combo, records) {
                 var fake = records[0].raw;
@@ -79,6 +80,15 @@ Ext.define('OpenEMap.form.SearchPlacename', {
             scope: this
         };
         
+        // Drop down arrow replaced by reset button 
+	    this.trigger1Cls = 'x-form-clear-trigger';
+	    this.onTrigger1Click = function() {
+		    	this.clearValue();
+		    	this.collapse();
+		        layer.destroyFeatures();
+		        this.focus();
+	    };
+
         this.callParent(arguments);
     }
 });

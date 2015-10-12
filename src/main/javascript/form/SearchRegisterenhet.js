@@ -23,6 +23,14 @@ Ext.define('OpenEMap.form.SearchRegisterenhet', {
     require: ['Ext.data.*',
               'Ext.form.*'],
     queryDelay: 800,
+    emptyText: 'Sök fastighet...',
+    minChars: 4,
+    labelWidth: 60,
+    displayField: 'name',
+    valueField: 'id',
+    queryParam: 'q',
+    typeAhead: true,
+    forceSelection: true,
     initComponent : function() {
         var registeromrade;
         var zoom;
@@ -80,12 +88,6 @@ Ext.define('OpenEMap.form.SearchRegisterenhet', {
           store.lastOperation = operation;
         }, this);
         
-        this.labelWidth = 60;
-        this.displayField = 'name';
-        this.valueField = 'id';
-        this.queryParam = 'q';
-        this.typeAhead = true;
-        this.forceSelection = true;
         
         this.listeners = {
             'select':  function(combo, records) {
@@ -108,6 +110,15 @@ Ext.define('OpenEMap.form.SearchRegisterenhet', {
             scope: this
         };
         
+        // Drop down arrow replaced by reset button 
+	    this.trigger1Cls = 'x-form-clear-trigger';
+	    this.onTrigger1Click = function() {
+		    	this.clearValue();
+		    	this.collapse();
+		        layer.destroyFeatures();
+		        this.focus();
+	    };
+
         this.callParent(arguments);
     }
 });
