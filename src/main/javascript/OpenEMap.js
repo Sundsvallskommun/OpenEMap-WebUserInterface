@@ -20,7 +20,7 @@
  * Call the method initOpenEMap(configPath, options)
  * ###[Integration example](https://github.com/Sundsvallskommun/OpenEMap-WebUserInterface/blob/master/README.md)
  */
-var version = "-1.6.2-rc.2";
+var version = "-1.6.2";
 var openEMapScriptLocation;
 
 var loadCssFiles = function(files, callback) {
