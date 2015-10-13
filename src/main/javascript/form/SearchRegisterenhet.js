@@ -89,6 +89,16 @@ Ext.define('OpenEMap.form.SearchRegisterenhet', {
         }, this);
         
         
+	    this.clearSearchString = function(e,el,panel) {
+	    	if (typeof panel === "undefined") {
+	    		panel = this;
+	    	}
+		    panel.clearValue();
+		    panel.collapse();
+			layer.destroyFeatures();
+			panel.focus();
+	    };
+
         this.listeners = {
             'select':  function(combo, records) {
                 var id = records[0].get('id');
@@ -107,18 +117,16 @@ Ext.define('OpenEMap.form.SearchRegisterenhet', {
 		            }
 		        }
             },
+			'afterrender': function(panel) {
+				panel.el.on('click', this.clearSearchString, panel, panel);
+			},
             scope: this
         };
         
         // Drop down arrow replaced by reset button 
 	    this.trigger1Cls = 'x-form-clear-trigger';
-	    this.onTrigger1Click = function() {
-		    	this.clearValue();
-		    	this.collapse();
-		        layer.destroyFeatures();
-		        this.focus();
-	    };
-
+	    this.onTrigger1Click = this.clearSearchString;
+	    
         this.callParent(arguments);
     }
 });
