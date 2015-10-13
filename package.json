@@ -1,6 +1,6 @@
 {
   "name": "OpenEMap",
-  "version": "1.6.2",
+  "version": "1.6.3-rc.1",
   "devDependencies": {
     "grunt": "~0.4.5",
     "grunt-auto-install": "^0.2.2",
