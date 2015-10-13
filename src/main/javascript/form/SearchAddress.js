@@ -24,7 +24,7 @@ Ext.define('OpenEMap.form.SearchAddress', {
               'Ext.form.*'],
     emptyText: 'Sök adress...',
     selectOnFocus: true,
-    minChars: 4,
+    minChars: 3,
     labelWidth: 60,
     displayField: 'name',
     valueField: 'id',
@@ -103,17 +103,21 @@ Ext.define('OpenEMap.form.SearchAddress', {
                 doSearch.call(this, records[0].data.fnr, records[0].data.x, records[0].data.y);
             },
             'beforequery': function(queryPlan) {
-                if (registeromrade && queryPlan.query.match(registeromrade) === null) {
-                    queryPlan.query = registeromrade + ' ' + queryPlan.query;
-                }
-
-		        if (this.store.loading && this.store.lastOperation) {
-		          var requests = Ext.Ajax.requests;
-		          for (var id in requests)
-		            if (requests.hasOwnProperty(id) && requests[id].options == this.store.lastOperation.request) {
-		              Ext.Ajax.abort(requests[id]);
-		            }
-		        }
+            	if (queryPlan.query.length < this.minChars) {
+            		queryPlan.cancel = true;
+            	} else {
+	                if (registeromrade && queryPlan.query.match(registeromrade) === null) {
+	                    queryPlan.query = registeromrade + ' ' + queryPlan.query;
+	                }
+	
+			        if (this.store.loading && this.store.lastOperation) {
+			          var requests = Ext.Ajax.requests;
+			          for (var id in requests)
+			            if (requests.hasOwnProperty(id) && requests[id].options == this.store.lastOperation.request) {
+			              Ext.Ajax.abort(requests[id]);
+			            }
+			        }
+			    }
             },
             scope: this
         };

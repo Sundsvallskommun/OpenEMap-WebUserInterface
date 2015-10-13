@@ -24,7 +24,7 @@ Ext.define('OpenEMap.form.SearchPlacename', {
               'Ext.form.*'],
     emptyText: 'Sök ort...',
     selectOnFocus: true,
-    minChars: 4,
+    minChars: 3,
     labelWidth: 60,
     displayField: 'name',
     valueField: 'id',
@@ -79,14 +79,19 @@ Ext.define('OpenEMap.form.SearchPlacename', {
                 var switchedAxis = [coords[1], coords[0]];
                 this.mapPanel.map.setCenter(switchedAxis, zoom);
             },
-            'beforequery': function() {
-		        if (this.store.loading && this.store.lastOperation) {
-		          var requests = Ext.Ajax.requests;
-		          for (var id in requests)
-		            if (requests.hasOwnProperty(id) && requests[id].options == this.store.lastOperation.request) {
-		              Ext.Ajax.abort(requests[id]);
-		            }
-		        }
+            'beforequery': function(queryPlan) {
+            	this.minChars = typeof this.minChars !== 'undefined' ? this.minChars : 0; 
+            	if (queryPlan.query.length < this.minChars) {
+            		queryPlan.cancel = true;
+            	} else {
+			        if (this.store.loading && this.store.lastOperation) {
+			          var requests = Ext.Ajax.requests;
+			          for (var id in requests)
+			            if (requests.hasOwnProperty(id) && requests[id].options == this.store.lastOperation.request) {
+			              Ext.Ajax.abort(requests[id]);
+			            }
+			        }
+			    }
 		    },
             scope: this
         };

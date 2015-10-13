@@ -33,6 +33,7 @@ Ext.define('OpenEMap.form.SearchES', {
     allowBlank: false,
     allowOnlyWhitespace: false,
     preventMark: true,
+    minChars: 1,
     
     initComponent : function() {
         var map = this.mapPanel.map;
@@ -79,7 +80,11 @@ Ext.define('OpenEMap.form.SearchES', {
                 map.zoomToExtent(feature.geometry.getBounds());
             },
             'beforequery': function(queryPlan) {
-                queryPlan.query = '"' + queryPlan.query + '"' + '*';
+            	if (queryPlan.query.length < this.minChars) {
+            		queryPlan.cancel = true;
+            	} else {
+	                queryPlan.query = '"' + queryPlan.query + '"' + '*';
+	            }
             },
             scope: this
         };

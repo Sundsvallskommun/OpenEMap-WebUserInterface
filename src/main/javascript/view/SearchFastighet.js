@@ -142,11 +142,11 @@ Ext.define('OpenEMap.view.SearchFastighet', {
                 layout : 'fit',
                 border: false,
                 items : defSearchCombo.call(this,selectedValue)
-            } ]    }
-        ];
+            } ]    
+        } ];
         
         //if (!this.renderTo) {
-            this.items.push(grid);
+        this.items.push(grid);
         //}
 
         this.callParent(arguments);

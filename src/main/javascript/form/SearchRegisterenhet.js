@@ -22,19 +22,33 @@ Ext.define('OpenEMap.form.SearchRegisterenhet', {
     alias: 'widget.searchregisterenhet',
     require: ['Ext.data.*',
               'Ext.form.*'],
-    selectOnFocus: true,
-    forceSelection: true,
-    editable: true,
-
-    typeAhead: true,
-    minChars: 4,
-    
-    queryDelay: 800,
     emptyText: 'Sök fastighet...',
-    labelWidth: 60,
+    selectOnFocus: true,
+    minChars: 3,
     displayField: 'name',
     valueField: 'id',
+    labelWidth: 60,
     queryParam: 'q',
+    queryDelay: 800,
+    typeAhead: true,
+    forceSelection: true,
+    store: new Ext.data.Store({
+        proxy: {
+            type: 'ajax',
+            url : OpenEMap.basePathLM + 'registerenheter',
+            extraParams: {
+                lmuser: OpenEMap.lmUser
+            },
+            reader: {
+                type: 'json',
+                root: 'features'
+            }
+        },
+        fields: [
+             {name: 'id', mapping: 'properties.objid'},
+             {name: 'name', mapping: 'properties.name'}
+         ]
+    }),
     initComponent : function() {
         var registeromrade;
         var zoom;
@@ -70,24 +84,6 @@ Ext.define('OpenEMap.form.SearchRegisterenhet', {
             });
         }
         
-        this.store = Ext.create('Ext.data.Store', {
-            proxy: {
-                type: 'ajax',
-                url : OpenEMap.basePathLM + 'registerenheter',
-                extraParams: {
-                    lmuser: OpenEMap.lmUser
-                },
-                reader: {
-                    type: 'json',
-                    root: 'features'
-                }
-            },
-            fields: [
-                 {name: 'id', mapping: 'properties.objid'},
-                 {name: 'name', mapping: 'properties.name'}
-             ]
-        });
-        
         this.store.on('beforeload', function(store, operation) {
           store.lastOperation = operation;
         }, this);
@@ -109,17 +105,21 @@ Ext.define('OpenEMap.form.SearchRegisterenhet', {
                 doSearch.call(this, id);
             },
             'beforequery': function(queryPlan) {
-                if (registeromrade && queryPlan.query.match(registeromrade) === null) {
-                    queryPlan.query = registeromrade + ' ' + queryPlan.query;
-                }
-                var lastQ = this.store.lastOperation && this.store.lastOperation.request && this.store.lastOperation.request.params && this.store.lastOperation.request.params.q ? this.store.lastOperation.request.params.q : undefined;
-		        if (this.store.loading && this.store.lastOperation) {
-		          var requests = Ext.Ajax.requests;
-		          for (var id in requests)
-		            if (requests.hasOwnProperty(id) && requests[id].options == this.store.lastOperation.request) {
-		              Ext.Ajax.abort(requests[id]);
-		            }
-		        }
+            	if (queryPlan.query.length < this.minChars) {
+            		queryPlan.cancel = true;
+            	} else {
+	                if (registeromrade && queryPlan.query.match(registeromrade) === null) {
+	                    queryPlan.query = registeromrade + ' ' + queryPlan.query;
+	                }
+	                var lastQ = this.store.lastOperation && this.store.lastOperation.request && this.store.lastOperation.request.params && this.store.lastOperation.request.params.q ? this.store.lastOperation.request.params.q : undefined;
+			        if (this.store.loading && this.store.lastOperation) {
+			          var requests = Ext.Ajax.requests;
+			          for (var id in requests)
+			            if (requests.hasOwnProperty(id) && requests[id].options == this.store.lastOperation.request) {
+			              Ext.Ajax.abort(requests[id]);
+			            }
+			        }
+				}
             },
             scope: this
         };
