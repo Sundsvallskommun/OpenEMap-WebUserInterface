@@ -22,15 +22,19 @@ Ext.define('OpenEMap.form.SearchRegisterenhet', {
     alias: 'widget.searchregisterenhet',
     require: ['Ext.data.*',
               'Ext.form.*'],
+    selectOnFocus: true,
+    forceSelection: true,
+    editable: true,
+
+    typeAhead: true,
+    minChars: 4,
+    
     queryDelay: 800,
     emptyText: 'Sök fastighet...',
-    minChars: 4,
     labelWidth: 60,
     displayField: 'name',
     valueField: 'id',
     queryParam: 'q',
-    typeAhead: true,
-    forceSelection: true,
     initComponent : function() {
         var registeromrade;
         var zoom;
@@ -117,9 +121,6 @@ Ext.define('OpenEMap.form.SearchRegisterenhet', {
 		            }
 		        }
             },
-			'afterrender': function(panel) {
-				panel.el.on('click', this.clearSearchString, panel, panel);
-			},
             scope: this
         };
         

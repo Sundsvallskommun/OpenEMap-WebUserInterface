@@ -23,6 +23,7 @@ Ext.define('OpenEMap.form.SearchPlacename', {
     require: ['Ext.data.*',
               'Ext.form.*'],
     emptyText: 'Sök ort...',
+    selectOnFocus: true,
     minChars: 4,
     labelWidth: 60,
     displayField: 'name',
@@ -87,9 +88,6 @@ Ext.define('OpenEMap.form.SearchPlacename', {
 		            }
 		        }
 		    },
-			'afterrender': function(panel) {
-				panel.el.on('click', this.clearSearchString, panel, panel);
-			},
             scope: this
         };
         

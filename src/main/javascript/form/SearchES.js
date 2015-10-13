@@ -24,6 +24,7 @@ Ext.define('OpenEMap.form.SearchES', {
     require: ['Ext.data.*',
               'Ext.form.*'],
     emptyText: 'Sök detaljplan...',
+    selectOnFocus: true,
     displayField: 'hit',
     valueField: 'id',
     queryParam: 'q',
@@ -80,9 +81,6 @@ Ext.define('OpenEMap.form.SearchES', {
             'beforequery': function(queryPlan) {
                 queryPlan.query = '"' + queryPlan.query + '"' + '*';
             },
-			'afterrender': function(panel) {
-				panel.el.on('click', this.clearSearchString, panel, panel);
-			},
             scope: this
         };
         
