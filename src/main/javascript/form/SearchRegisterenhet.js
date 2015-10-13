@@ -32,6 +32,7 @@ Ext.define('OpenEMap.form.SearchRegisterenhet', {
     queryDelay: 800,
     typeAhead: true,
     forceSelection: true,
+    msgTarget: 'under',
     store: new Ext.data.Store({
         proxy: {
             type: 'ajax',
@@ -89,6 +90,20 @@ Ext.define('OpenEMap.form.SearchRegisterenhet', {
         }, this);
         
         
+        this.store.on('load', function(store, records, successful, eOpts) {
+         		if (successful) {
+         			if (store.count() === 0) { 
+         				this.setActiveError('Sökningen gav inga träffar');
+         				this.doComponentLayout();
+         			}
+         		} else {
+         			this.setActiveError('Söktjänsten fungerar inte');
+       				this.doComponentLayout();
+         		}
+         	}, 
+         	this 
+     	);
+
 	    this.clearSearchString = function(e,el,panel) {
 	    	if (typeof panel === "undefined") {
 	    		panel = this;

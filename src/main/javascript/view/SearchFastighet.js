@@ -28,6 +28,7 @@ Ext.define('OpenEMap.view.SearchFastighet', {
                 'GeoExt.selection.FeatureModel',
                 'GeoExt.data.FeatureStore'],
     border: false,
+    draggable: false,
     initComponent : function() {
 
         if (!this.renderTo) {

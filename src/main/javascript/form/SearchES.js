@@ -25,15 +25,14 @@ Ext.define('OpenEMap.form.SearchES', {
               'Ext.form.*'],
     emptyText: 'Sök detaljplan...',
     selectOnFocus: true,
+    minChars: 1,
+    labelWidth: 60,
     displayField: 'hit',
     valueField: 'id',
     queryParam: 'q',
     typeAhead: true,
     forceSelection: true,
-    allowBlank: false,
-    allowOnlyWhitespace: false,
-    preventMark: true,
-    minChars: 1,
+    msgTarget: 'under',
     
     initComponent : function() {
         var map = this.mapPanel.map;
@@ -57,6 +56,20 @@ Ext.define('OpenEMap.form.SearchES', {
             ]
         });
         
+        this.store.on('load', function(store, records, successful, eOpts) {
+         		if (successful) {
+         			if (store.count() === 0) { 
+         				this.setActiveError('Sökningen gav inga träffar');
+         				this.doComponentLayout();
+         			}
+         		} else {
+         			this.setActiveError('Söktjänsten fungerar inte');
+       				this.doComponentLayout();
+         		}
+         	}, 
+         	this 
+     	);
+
 	    this.clearSearchString = function(e,el,panel) {
 	    	if (typeof panel === "undefined") {
 	    		panel = this;

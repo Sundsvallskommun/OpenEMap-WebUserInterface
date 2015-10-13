@@ -31,6 +31,7 @@ Ext.define('OpenEMap.form.SearchAddress', {
     queryParam: 'q',
     typeAhead: true,
     forceSelection: true,
+    msgTarget: 'under',
     initComponent : function() {
         var registeromrade;
         var zoom = 5;
@@ -87,6 +88,20 @@ Ext.define('OpenEMap.form.SearchAddress', {
           store.lastOperation = operation;
         }, this);
         
+        this.store.on('load', function(store, records, successful, eOpts) {
+         		if (successful) {
+         			if (store.count() === 0) { 
+         				this.setActiveError('Sökningen gav inga träffar');
+         				this.doComponentLayout();
+         			}
+         		} else {
+         			this.setActiveError('Söktjänsten fungerar inte');
+       				this.doComponentLayout();
+         		}
+         	}, 
+         	this 
+     	);
+
 	    this.clearSearchString = function(e,el,panel) {
 	    	if (typeof panel === "undefined") {
 	    		panel = this;
