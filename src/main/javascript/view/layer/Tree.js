@@ -94,15 +94,19 @@ Ext.define('OpenEMap.view.layer.Tree' ,{
         });
 
         this.on('cellclick', function(tree, td, cellIndex, node, el, columnIndex, e) {
-            
+            // Setting default legendDelay to 5 seconds
+            if (typeof this.legendDelay === 'undefined' || this.legendDelay === null) {
+            	this.legendDelay = 5000;
+            }
             // function to create legend tooltip
-            var createLegend = function(url) {
+            var createLegend = function(url, legendDelay) {
                 var img = Ext.create('Ext.Img', {
                     src: url
                 });
                 var tip = Ext.create('Ext.tip.ToolTip', {
                     title: 'Legend ' + node.raw.name,
                     closable: true,
+                    dismissDelay: legendDelay,
                     items: img
                 });
                 tip.showBy(el);
@@ -136,7 +140,7 @@ Ext.define('OpenEMap.view.layer.Tree' ,{
             if (Ext.get(target).hasCls('legendimg') && node.raw.layer) {
                 var url = getLegendUrl(node);
                 if (url && url.length > 0) {
-                    createLegend(url);
+                    createLegend(url, this.legendDelay);
                 }
             }
         });

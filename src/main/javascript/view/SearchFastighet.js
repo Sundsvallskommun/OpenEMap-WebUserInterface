@@ -28,6 +28,7 @@ Ext.define('OpenEMap.view.SearchFastighet', {
                 'GeoExt.selection.FeatureModel',
                 'GeoExt.data.FeatureStore'],
     border: false,
+    draggable: false,
     initComponent : function() {
 
         if (!this.renderTo) {
@@ -35,18 +36,24 @@ Ext.define('OpenEMap.view.SearchFastighet', {
             this.bodyPadding = 5;
         }
         
+        var selectedValue = '';
         var data = [];
+        
         if (this.search && this.search.searchEstates) {
 			data.push(['searchregisterenhet', 'Fastighet' ]);
+			selectedValue = "searchregisterenhet";
 		}
         if (this.search && this.search.searchAddresses) {
 			data.push(['searchaddress', 'Adress']);
+			selectedValue = selectedValue === "" ? "searchaddress" : selectedValue;
 		}
         if (this.search && this.search.searchPlacenames) {
 			data.push(['searchplacename', 'Ort']);
+			selectedValue = selectedValue === "" ? "searchplacename" : selectedValue;
 		}
 		if (this.search && this.search.searchES && this.search.searchES.detaljplan) {
 			data.push(['searches', 'Detaljplaner']);
+			selectedValue = selectedValue === "" ? "searches" : selectedValue;
 		}
 //        data.push(['searchbyggnad', 'Byggnad']);
 
@@ -124,7 +131,7 @@ Ext.define('OpenEMap.view.SearchFastighet', {
                 store : data,
                 forceSelection : true,
                 queryMode : 'local',
-                value : 'searchregisterenhet',
+                value : selectedValue,
                 border: false,
                 listeners : {
                     change : onChange,
@@ -135,12 +142,12 @@ Ext.define('OpenEMap.view.SearchFastighet', {
                 columnWidth : 1,
                 layout : 'fit',
                 border: false,
-                items : defSearchCombo.call(this,'searchregisterenhet')
-            } ]    }
-        ];
+                items : defSearchCombo.call(this,selectedValue)
+            } ]    
+        } ];
         
         //if (!this.renderTo) {
-            this.items.push(grid);
+        this.items.push(grid);
         //}
 
         this.callParent(arguments);

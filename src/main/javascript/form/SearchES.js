@@ -23,6 +23,17 @@ Ext.define('OpenEMap.form.SearchES', {
     alias: 'widget.searches',
     require: ['Ext.data.*',
               'Ext.form.*'],
+    emptyText: 'Sök detaljplan...',
+    selectOnFocus: true,
+    minChars: 1,
+    labelWidth: 60,
+    displayField: 'hit',
+    valueField: 'id',
+    queryParam: 'q',
+    typeAhead: true,
+    forceSelection: true,
+    msgTarget: 'under',
+    
     initComponent : function() {
         var map = this.mapPanel.map;
         var layer = this.mapPanel.searchLayer;
@@ -45,18 +56,30 @@ Ext.define('OpenEMap.form.SearchES', {
             ]
         });
         
-        this.displayField = 'hit';
-        this.valueField = 'id';
-        this.queryParam ='q';
-        this.typeAhead = true;
-        this.forceSelection = true;
-        this.allowBlank = false;
-        this.allowOnlyWhitespace = false;
-        this.minChars = 4;
-        this.minLength = 4;
-        this.preventMark = true;
-        this.hideTrigger = true;
-        
+        this.store.on('load', function(store, records, successful, eOpts) {
+         		if (successful) {
+         			if (store.count() === 0) { 
+         				this.setActiveError('Sökningen gav inga träffar');
+         				this.doComponentLayout();
+         			}
+         		} else {
+         			this.setActiveError('Söktjänsten fungerar inte');
+       				this.doComponentLayout();
+         		}
+         	}, 
+         	this 
+     	);
+
+	    this.clearSearchString = function(e,el,panel) {
+	    	if (typeof panel === "undefined") {
+	    		panel = this;
+	    	}
+		    panel.clearValue();
+		    panel.collapse();
+			layer.destroyFeatures();
+			panel.focus();
+	    };
+
         this.listeners = {
             'select':  function(combo, records) {
                 var geojson = records[0].data.geometry;
@@ -70,11 +93,19 @@ Ext.define('OpenEMap.form.SearchES', {
                 map.zoomToExtent(feature.geometry.getBounds());
             },
             'beforequery': function(queryPlan) {
-                queryPlan.query = '"' + queryPlan.query + '"' + '*';
+            	if (queryPlan.query.length < this.minChars) {
+            		queryPlan.cancel = true;
+            	} else {
+	                queryPlan.query = '"' + queryPlan.query + '"' + '*';
+	            }
             },
             scope: this
         };
         
+        // Drop down arrow replaced by reset button 
+	    this.trigger1Cls = 'x-form-clear-trigger';
+	    this.onTrigger1Click = this.clearSearchString;
+
         this.callParent(arguments);
     }
 });

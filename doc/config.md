@@ -77,7 +77,8 @@ A layer can include a WMS-specifgication and a WFS-specification. WMS are used t
 	"metadata": {
 		"attributes": {
 			"attributeName": {
-				"alias": "attributeAlias"
+				"alias": "attributeAlias",
+				"mainAttribute": whetherOrNotThisAttributeIsUsedAsMainAttribute ' defaults to false
 			}
 		}
 	}
@@ -156,7 +157,7 @@ Excluding a searchtag (search.searchEstates, search.searchAddresses, search.sear
         {' Identify features in map
             "id": "Identify", 
             "type": "Identify", 
-	    "onlyVisibleLayers": whetherOrNotToIdentifyLayersNotShownInMap, ' defaults to true
+	    	"onlyVisibleLayers": whetherOrNotToIdentifyLayersNotShownInMap, ' defaults to true
             "useRegisterenhet": whetherOrNotToUseRegisterenhet, ' turns on identifying real estate parcels
             "tolerance": toleranceInPixels ' defaults to radius 3 pixels
 	},

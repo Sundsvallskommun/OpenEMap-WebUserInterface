@@ -40,8 +40,8 @@ Integrate into HTML page using the following snippet:
     
 	<div id="map" style="position: absolute; width: 100%; height: 100%;" class="popup"></div>
 ```
-
-NOTE: The above snippet uses build including all dependencies
+NOTE: The above snippet uses build including all dependencies.
+See [options object reference](/doc/gui.md) for complete reference.
 
 ## Homepage
 <a href="http://oemap.org"><img alt="Open eMap homepage" src="http://oemap.org/images/logo.png"></a>

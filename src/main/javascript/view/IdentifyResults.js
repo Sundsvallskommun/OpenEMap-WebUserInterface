@@ -119,9 +119,35 @@ Ext.define('OpenEMap.view.IdentifyResults', {
             expanded : true
         });
         
+        var getMainAttribute = function(feature, layer) {
+        	var str = '';
+        	if (layer.metadata && layer.metadata.attributes) {
+        		var mainAttributes = [];
+	        	for (var attribute in layer.metadata.attributes) {
+	        		if (layer.metadata.attributes[attribute].mainAttribute) {
+	        			mainAttributes.push(attribute);
+	        		}
+	        	}
+	        	for (attribute in feature.attributes) {
+	        		for (var index in mainAttributes) {
+		        		if (attribute === mainAttributes[index]) {
+		        			str += feature.attributes[attribute] + ' ';
+		        		}
+	        		}
+	        	}
+        	}
+        	
+        	if (str === '') {
+        		str = feature.attributes[Object.keys(feature.attributes)[0]]; // If no main attribute is specified use the first
+        	}
+        	
+        	str.trim();
+        	return str;
+        };
+        
         var processFeature = function(feature) {
             layerNode.appendChild({
-                text: feature.attributes[Object.keys(feature.attributes)[0]],
+                text: getMainAttribute(feature, layer),
                 leaf: true,
                 feature: feature,
                 layer: layer

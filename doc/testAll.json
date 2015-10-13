@@ -301,10 +301,12 @@
             "metadata": {
                 "attributes": {
                     "DESCRIPTIO": {
-                        "alias": "Beskrivning"
+                        "alias": "Beskrivning",
+				        "mainAttribute": true
                     },
                     "MIN": {
-                        "alias": "MIN"
+                        "alias": "MIN",
+				        "mainAttribute": true
                     },
                     "MAX": {
                         "alias": "MAX"
