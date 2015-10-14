@@ -172,8 +172,8 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
             	if (node.get('layer') !== '') {
 		        	node.get('layer').events.register('loadstart', node, function(evt) {
 		        		this.set('cls', 'oep-layerloading');
-		        		this.set('loadstatus', 'loading')
-	        			this.set('qtip', '')
+		        		this.set('loadstatus', 'loading');
+	        			this.set('qtip', '');
 		    		});
 		        	node.get('layer').events.register('loadend', node, function(evt) {
 		        		if (this.get('loadstatus') === 'loading') { 
