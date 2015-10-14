@@ -249,11 +249,11 @@ ul, li {
 	overflow: hidden;
 }
 .oep-layerloading {
-	background-color: yellow;
-}
-.oep-layerloaded {
-	background-color: green;
+	background-image: url('../ext-theme-oep/images/tree/loading.png') !important;
+	background-position: right !important;
+	background-repeat: no-repeat;
 }
 .oep-layererror {
-	background-color: red;
+	background-color: #ffeeee !important;
+	text-color: #999999 !important;
 }

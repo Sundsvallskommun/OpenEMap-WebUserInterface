@@ -28,10 +28,7 @@ Ext.define('OpenEMap.view.layer.Tree' ,{
 	listeners: {
 		afterrender: function() {
 	    	this.gui.fireEvent('layerControlLoaded', this);
-		},
-    	beforeadd: function(me, node) {
-//	    	node.cls = 'oep-layerloading';
-    	}
+		}
 	},
     initComponent: function() {
         if(!this.store && this.mapPanel) {
@@ -44,14 +41,6 @@ Ext.define('OpenEMap.view.layer.Tree' ,{
                 },
                 map: this.mapPanel.map
             });
-            this.mapPanel.map.layers.forEach(function(layer) {
-            	layer.events.register('loadstart', this, function(evt) {
-            		this.items.items[0].cls = 'oep-layerloading';
-            		this.items.items[0].refresh();
-            		this.cls = 'oep-layerloading';
-        		});
-            }, this)
-
         }
 
         this.on('checkchange', function(node, checked, eOpts) {
