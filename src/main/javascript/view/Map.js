@@ -349,29 +349,31 @@ Ext.define('OpenEMap.view.Map' ,{
         this.drawLayer.events.register('beforefeaturemodified', this, onBeforefeaturemodified);
         this.drawLayer.events.register('afterfeaturemodified', this, onAfterfeaturemodified);
         
-        var searchStyle = {
-                "Point": {
-                    externalGraphic: OpenEMap.basePathImages + "point_added.png", 
-                    graphicWidth: 15, 
-                    graphicOpacity: 1
-                },
-                "Line": {
-                    strokeWidth: 3,
-                    strokeColor: "#2969bf",
-                    strokeOpacity: 1
-                },
-                "Polygon": {
-                    strokeDashstyle: 'dot',
-                    strokeWidth: 3,
-                    strokeOpacity: 1,
-                    strokeColor: "#f58d1e",
-                    fillOpacity: 0
-                }
-        };
+        if (!config.searchStyle) {
+	        config.searchStyle = {
+	                "Point": {
+	                    externalGraphic: OpenEMap.basePathImages + "point_added.png", 
+	                    graphicWidth: 15, 
+	                    graphicOpacity: 1
+	                },
+	                "Line": {
+	                    strokeWidth: 3,
+	                    strokeColor: "#2969bf",
+	                    strokeOpacity: 1
+	                },
+	                "Polygon": {
+	                    strokeDashstyle: 'dot',
+	                    strokeWidth: 3,
+	                    strokeOpacity: 1,
+	                    strokeColor: "#f58d1e",
+	                    fillOpacity: 0
+	                }
+	        };
+        }
         
         this.searchLayer = new OpenLayers.Layer.Vector('Searchresult', {
             displayInLayerSwitcher: false,
-            styleMap: this.parseStyle(searchStyle)
+            styleMap: this.parseStyle(config.searchStyle)
         });
         
         var defaultStyles = OpenLayers.Control.DynamicMeasure.styles;

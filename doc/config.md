@@ -39,6 +39,7 @@ Example of a complete config file [testAll.json](testAll.json)
 	"layers": {layerObject}, ' Layers available in map. See details below
 	"tools": {toolsObject}, ' Tools available in map. See details below
 	"search": {searchObject} ' Searches that can be made in app. See details below
+	"searchStyles": {searchStylesObject} ' Open Layers style object applied to search layer (used by tool Identify) 
 }
 ```
 

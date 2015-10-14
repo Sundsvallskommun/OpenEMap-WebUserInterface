@@ -341,7 +341,7 @@
 			"type": "Identify",
 			"iconCls": "action-identify",
 			"tooltip": "Identify objects in map",
-			"useRegisterenhet": false,
+			"useRegisterenhet": true,
 			"tolerance": 5,
 			"activate": true,
 			"onlyVisibleLayers": true
@@ -506,5 +506,44 @@
             "tooltip": "Shows a detailed report for a specified point",
             "iconCls": "action-detailreport"
         }
-	]
+	],
+	"searchStyle": {
+		"default": {
+		    "Point": {
+		        "graphicWidth": 15, 
+		        "graphicOpacity": 1
+		    },
+		    "Line": {
+		        "strokeWidth": 3,
+		        "strokeColor": "#ff0000",
+		        "strokeOpacity": 1
+		    },
+		    "Polygon": {
+		        "strokeWidth": 3,
+		        "strokeOpacity": 1,
+		        "strokeColor": "#ff0000",
+		        "fillOpacity": 0.5,
+		        "fillColor": "#ff0000"
+		    }
+		},
+        "select": {
+		    "Point": {
+		        "graphicWidth": 25, 
+		        "graphicOpacity": 1
+		    },
+		    "Line": {
+		        "strokeWidth": 5,
+		        "strokeColor": "#0000ff",
+		        "strokeOpacity": 1
+		    },
+		    "Polygon": {
+		        "strokeWidth": 5,
+		        "strokeOpacity": 1,
+		        "strokeColor": "#0000ff",
+		        "fillOpacity": 0.5,
+		        "fillColor": "#0000ff"
+		    }
+        }
+	}
+	
 }
