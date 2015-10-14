@@ -169,6 +169,25 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
             var isFromAdd = node.getOwnerTree() instanceof OpenEMap.view.layer.Add;
            
             if (!isFromAdd) {
+            	if (node.get('layer') !== '') {
+		        	node.get('layer').events.register('loadstart', node, function(evt) {
+		        		this.set('cls', 'oep-layerloading');
+		        		this.set('loadstatus', 'loading')
+	        			this.set('qtip', '')
+		    		});
+		        	node.get('layer').events.register('loadend', node, function(evt) {
+		        		if (this.get('loadstatus') === 'loading') { 
+		        			this.set('loadstatus', 'loaded');
+			        		this.set('cls', '');
+			        	}
+		    		});
+		        	node.get('layer').events.register('tileerror', node, function(evt) {
+		        		this.set('cls', 'oep-layererror');
+	        			this.set('loadstatus', 'error');
+	        			this.set('qtip', 'Fel när lagret skulle ritas upp.');
+		    		});
+	    		}
+
                 // use from add internal checked status
                 if (node.raw.checked_) {
                     node.set('checked', node.raw.checked_);

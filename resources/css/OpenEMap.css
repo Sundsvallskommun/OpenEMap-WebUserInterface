@@ -12,8 +12,16 @@ ul, li {
     padding-left: 18px;
 }
 
+.x-grid-cell {
+    background-color: transparent;	
+}
 .x-grid-cell-inner {
     padding: 7px 0px 5px 5px;	
+}
+
+.x-grid-cell-inner .x-action-col-icon {
+	width: 22px;
+	height: 22px;
 }
 
 .x-grid-cell-row-checker .x-grid-cell-inner {
@@ -180,12 +188,6 @@ ul, li {
     border: 0px;
 }
 
-
-.x-grid-cell-inner .x-action-col-icon {
-	width: 22px;
-	height: 22px;
-}
-
 /* custom action icons */
 
 .action-draweldstad {
@@ -245,4 +247,13 @@ ul, li {
 	height: 0px;
 	border: none;
 	overflow: hidden;
+}
+.oep-layerloading {
+	background-image: url('../ext-theme-oep/images/tree/loading.png') !important;
+	background-position: right !important;
+	background-repeat: no-repeat;
+}
+.oep-layererror {
+	background-color: #ffeeee !important;
+	text-color: #999999 !important;
 }

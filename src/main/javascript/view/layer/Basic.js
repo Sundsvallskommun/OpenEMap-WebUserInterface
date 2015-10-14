@@ -17,15 +17,10 @@
 Ext.define('OpenEMap.view.layer.Basic' ,{
     extend: 'OpenEMap.view.layer.Tree',
 
-    rootVisible: false,
+	rootVisible: false,
     width: 300,
 	resizable: true,
 	resizeHandles: 's',
-	listeners: {
-		afterrender: function() {
-	    	this.gui.fireEvent('layerControlLoaded', this);
-		}
-	},
 
     initComponent: function() {
     	this.setLoading(true);

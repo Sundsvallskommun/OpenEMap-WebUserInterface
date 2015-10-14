@@ -42,9 +42,9 @@ Ext.define('OpenEMap.config.Parser', {
             "fallThrough" : true,
             "controls": ["Navigation", "KeyboardDefaults"],
             "projection": "EPSG:3006",
-            "resolutions": [280, 140, 70, 28, 14, 7, 4.2, 2.8, 1.4, 0.56, 0.28, 0.14, 0.112],
+            "resolutions": [560, 280, 140, 70, 28, 14, 7, 4.2, 2.8, 1.4, 0.56, 0.28, 0.14, 0.112, 0.056],
             "extent": [608114, 6910996, 641846, 6932596],
-            "maxExtent": [487000.0, 6887000.0, 749144.0, 7149144.0],
+            "maxExtent": [487000.0, 6855000.0, 749144.0, 7149144.0],
             "units": "m",
             "municipalities": ['Sundvsall', 'Timrå', 'Kramfors', 'Örnsköldsvik', 'Härnösand']
         };

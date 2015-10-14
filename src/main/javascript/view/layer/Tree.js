@@ -23,10 +23,13 @@ Ext.define('OpenEMap.view.layer.Tree' ,{
         'OpenEMap.data.GroupedLayerTree',
         'GeoExt.tree.Column'
     ],
-
-    rootVisible: false,
+    rootVisible: true,
     hideHeaders: true,
-
+	listeners: {
+		afterrender: function() {
+	    	this.gui.fireEvent('layerControlLoaded', this);
+		}
+	},
     initComponent: function() {
         if(!this.store && this.mapPanel) {
             this.store = Ext.create('OpenEMap.data.GroupedLayerTree', {
