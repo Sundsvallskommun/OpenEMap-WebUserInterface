@@ -33,23 +33,6 @@ Ext.define('OpenEMap.form.SearchRegisterenhet', {
     typeAhead: true,
     forceSelection: true,
     msgTarget: 'under',
-    store: new Ext.data.Store({
-        proxy: {
-            type: 'ajax',
-            url : OpenEMap.basePathLM + 'registerenheter',
-            extraParams: {
-                lmuser: OpenEMap.lmUser
-            },
-            reader: {
-                type: 'json',
-                root: 'features'
-            }
-        },
-        fields: [
-             {name: 'id', mapping: 'properties.objid'},
-             {name: 'name', mapping: 'properties.name'}
-         ]
-    }),
     initComponent : function() {
         var registeromrade;
         var zoom;
@@ -84,6 +67,24 @@ Ext.define('OpenEMap.form.SearchRegisterenhet', {
                 scope: this
             });
         }
+        
+        this.store = Ext.create('Ext.data.Store', {
+            proxy: {
+                type: 'ajax',
+                url : OpenEMap.basePathLM + 'registerenheter',
+                extraParams: {
+                    lmuser: OpenEMap.lmUser
+                },
+                reader: {
+                    type: 'json',
+                    root: 'features'
+                }
+            },
+            fields: [
+                 {name: 'id', mapping: 'properties.objid'},
+                 {name: 'name', mapping: 'properties.name'}
+             ]
+        });
         
         this.store.on('beforeload', function(store, operation) {
           store.lastOperation = operation;
