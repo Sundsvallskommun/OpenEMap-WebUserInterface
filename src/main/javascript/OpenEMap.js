@@ -158,7 +158,7 @@ var loadJsScripts = function(files, scriptCallback, scriptCallbackDependencies) 
 			var script = {};
 			script = document.createElement('script');
 			script.type = 'text/javascript';
-		 	script.src = openEMapScriptLocation + "Client.js";
+		 	script.src = devPath + "src/main/javascript/Client.js";
 			var head = document.getElementsByTagName("head")[0];
 			head.appendChild(script);
 		};

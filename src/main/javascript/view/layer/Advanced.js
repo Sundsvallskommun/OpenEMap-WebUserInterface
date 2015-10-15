@@ -125,6 +125,7 @@ Ext.define('OpenEMap.view.layer.Advanced' ,{
 	        collapsible: true,
 	        autoscroll: true,
 	        flex: 4,
+	        legendDelay: this.legendDelay,
     		
     		viewConfig: {
 		        plugins: {

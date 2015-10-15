@@ -22,6 +22,11 @@ Ext.define('OpenEMap.view.layer.Basic' ,{
 	resizable: true,
 	resizeHandles: 's',
 
+	listeners: {
+		afterrender: function() {
+	    	this.gui.fireEvent('layerControlLoaded', this);
+		}
+	},
     initComponent: function() {
     	this.setLoading(true);
         if (!this.renderTo) {

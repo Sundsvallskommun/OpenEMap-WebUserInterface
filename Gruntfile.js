@@ -118,6 +118,7 @@ module.exports = function(grunt) {
         dist: {
             files: [
 	            { expand: true, src: ['index*.html'], dest: '<%= releasePath %>' },
+	            { expand: true, src: ['debug*.js'], dest: '<%= releasePath %>' },
 	            { expand: true, src: ['default.json'], dest: '<%= releasePath %>' },
 	            { expand: true, src: ['proj4_defs.js'], dest: '<%= releasePath %>' },
 	            { expand: true, src: ['resources/**'], dest: '<%= releasePath %>' },
@@ -199,7 +200,7 @@ module.exports = function(grunt) {
             context: '/openemapadmin',
             host: 'localhost',
             https: false,
-            port: 80
+            port: 8080
         }, {
             context: '/openemapadmin-1.6.1',
             host: 'kartatest.e-tjansteportalen.se',
