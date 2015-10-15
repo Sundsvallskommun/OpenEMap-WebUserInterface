@@ -13,10 +13,11 @@ ul, li {
 }
 
 .x-grid-cell {
-    background-color: transparent;	
+    background-color: transparent;
+    vertical-align: middle;	
 }
 .x-grid-cell-inner {
-    padding: 7px 0px 5px 5px;	
+    padding: 7px 0px 5px 5px;
 }
 
 .x-grid-cell-inner .x-action-col-icon {
@@ -252,8 +253,9 @@ ul, li {
 	background-image: url('../ext-theme-oep/images/tree/loading.png') !important;
 	background-position: right !important;
 	background-repeat: no-repeat;
+	color: #cccccc !important; 
 }
 .oep-layererror {
 	background-color: #ffeeee !important;
-	text-color: #999999 !important;
+	color: #cccccc !important;
 }
