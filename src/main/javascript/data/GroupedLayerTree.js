@@ -142,7 +142,7 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
             url = legend.getLegendUrl(node.raw.wms.params.LAYERS || node.raw.wms.params.layers);
         }
         if (url && url.length > 0) {
-            node.set('text', '<div style="display:inline-block;width:20px;height:20px;margin-right:2px;overflow:hidden;"><img class="legendimg" src="' + url + '" style="height:20px;"></div>' + node.get('text')); 
+            node.set('text', '<div style="display:inline-block;width:20px;height:20px;margin-right:2px;overflow:hidden;vertical-align:middle;"><img class="legendimg" src="' + url + '" style="height:20px;"></div>' + node.get('text')); 
         }
         node.set('hasInlineLegend', true);
     },
@@ -170,7 +170,7 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
            
             if (!isFromAdd) {
 
-/*            	if (node.get('layer') !== '') {
+            	if (node.get('layer') !== '') {
 		        	node.get('layer').events.register('loadstart', node, function(evt) {
 		        		if (this.get('loadstatus') !== 'loading') {
 			        		this.set('cls', 'oep-layerloading');
@@ -202,7 +202,7 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
 		    		});
 	    		}
 
-*/                // use from add internal checked status
+                // use from add internal checked status
                 if (node.raw.checked_) {
                     node.set('checked', node.raw.checked_);
                 }

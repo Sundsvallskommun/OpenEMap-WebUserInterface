@@ -332,7 +332,7 @@
             "isGroupLayer": true,
             "queryable": false,
             "clickable": false,
-            "expanded": false,
+            "expanded": true,
             "layers": [
                 {
                     "name": "Fornlämningar",
@@ -665,7 +665,7 @@
             "isGroupLayer": true,
             "queryable": false,
             "clickable": false,
-            "expanded": false,
+            "expanded": true,
             "layers": [
                 {
                     "name": "Järnvägsstation",
