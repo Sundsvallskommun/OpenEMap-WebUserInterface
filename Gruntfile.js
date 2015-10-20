@@ -178,9 +178,9 @@ module.exports = function(grunt) {
             port: 443
         }, {
             context: '/print',
-            host: 'localhost',
-            https: false,
-            port: 8080
+            host: 'kartatest.e-tjansteportalen.se',
+            https: true,
+            port: 443
         }, {
             context: '/openemappermalink',
             host: 'kartatest.e-tjansteportalen.se',
@@ -193,9 +193,9 @@ module.exports = function(grunt) {
             port: 443
         }, {
             context: '/mapfishprint-2.1.1',
-            host: 'localhost',
-            https: false,
-            port: 8080
+            host: 'kartatest.e-tjansteportalen.se',
+            https: true,
+            port: 443
         }, {
             context: '/openemapadmin',
             host: 'localhost',

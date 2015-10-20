@@ -79,15 +79,15 @@ Ext.define('OpenEMap.action.Print', {
                 
                 printProvider.dpis.data.items.forEach(function(d){
                 	var validDpi = false;
-                    if (d.data.name === '56'){
+                    if (d.data.name === '72'){
                         validDpi = true;
                         d.data.name = 'Låg (' +d.data.name + ' dpi)';
                     } 
-                    else if (d.data.name === '127'){
+                    else if (d.data.name === '150'){
                         validDpi = true;
                         d.data.name = 'Medel (' +d.data.name + ' dpi)';
                     }
-                    else if (d.data.name === '254'){
+                    else if (d.data.name === '300'){
                         validDpi = true;
                         d.data.name = 'Hög (' +d.data.name + ' dpi)';
                     } 
