@@ -59,7 +59,7 @@ Ext.define('OpenEMap.action.MetadataInfoColumn', {
             click: function(grid, element, rowIndex, colIndex, event, record) {
                 if(me.metadataWindow) {
                     me.tip.update(null);
-                    me.metadataWindow.showMetadata(me.getUUIDFromMetadataUrl(record.get('urlToMetadata')));
+                    me.metadataWindow.showMetadata(me.getUUIDFromMetadataUrl(record.get('metadataUrl')));
                 }
                 
             }

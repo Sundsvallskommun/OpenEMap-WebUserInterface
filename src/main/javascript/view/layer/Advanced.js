@@ -148,11 +148,11 @@ Ext.define('OpenEMap.view.layer.Advanced' ,{
 	                flex: 1,
 	                dataIndex: 'text'
 	            }, 
-/*	            Ext.create('OpenEMap.action.MetadataInfoColumn', {
+	            Ext.create('OpenEMap.action.MetadataInfoColumn', {
 		 			metadataWindow: this.metadataWindow,
 		 			dataHandler: this.dataHandler
 		 		}),
-*/	            {
+	            {
 	                xtype: 'actioncolumn',
 	                width: 40,
 	                iconCls: 'action-remove',
