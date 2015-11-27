@@ -60,7 +60,14 @@
 				
 				mapClient.zoomToAllPopupLayers();
 				
-				document.getElementById("showfeature1").onclick=function(){mapClient.showPopupFeature(popupLayer, 1, false);};
+				document.getElementById("showfeature1").onclick=function(){
+					mapClient.showPopupFeature(popupLayer, 1, false);
+				};
+				document.getElementById("resizediv").onclick=function(){
+//					document.getElementById("map").style.width = "800px";
+					mapClient.gui.mapPanel.setSize(800, 650);
+					mapClient.gui.mapPanel.map.updateSize();
+				};
 				
 	            // Showing object with id=1
 //	            mapClient.showPopupFeature(popupLayer, 5, true);
@@ -82,7 +89,7 @@
 		function init(name) {
 			var options = {
 				gui : {
-					map : false,
+					map : {renderTo: 'map'},
 					toolbar : {},
 					zoomTools : {},
 					layers : {},
@@ -140,7 +147,8 @@
 	    <title>Open eMap - PopupLayer example</title>
 	</head>
 	<body>
-    <div id="map" style="position: absolute; width: 100%; height: 650px" class="popup"/></div>
-    <div id="showfeature1" style="position: absolute; left: 10px; bottom: 50px;"><input type="button">Feature 1</button></div>
+    <div id="map" style="position: absolute; width: 600px; height: 650px; border: 5px solid red;" /></div>
+    <div id="showfeature1" style="position: absolute; left: 10px; bottom: 50px;"><input type="button" title="Feature 1"></button></div>
+    <div id="resizediv" style="position: absolute; left: 100px; bottom: 50px;"><input type="button" title="resize div"></button></div>
 	</body>
 </html>
