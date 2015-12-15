@@ -152,7 +152,8 @@ Ext.define('OpenEMap.view.layer.Add' ,{
                     'params': {
                         'LAYERS': layer.name,
                         'FORMAT': getFormat(layer.formats),
-                        'TRANSPARENT': true
+                        'TRANSPARENT': true,
+                        'tiled': true
                     },
                     'options': {
                         'isBaseLayer': false,
