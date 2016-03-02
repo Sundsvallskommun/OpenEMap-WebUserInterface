@@ -141,7 +141,7 @@ var loadJsScripts = function(files, scriptCallback, scriptCallbackDependencies) 
 	 		{src: devPath + "bower_components/ext-4.2.1/ext-all-debug.js", dependencies: function() {return true;}},
 	    	{src: devPath + "bower_components/ext-4.2.1/packages/ext-theme-neptune/build/ext-theme-neptune.js", dependencies: function() {return (typeof Ext !== "undefined" && Ext.isReady);}},
 	    	{src: devPath + "bower_components/ext-4.2.1/locale/ext-lang-sv_SE.js", dependencies:  function() {return (typeof Ext !== "undefined" && Ext.isReady);}},
-		    {src: devPath + "proj4js-compressed.js", dependencies: function() {return true;}},
+		    {src: devPath + "bower_components/proj4/dist/proj4-compressed.js", dependencies: function() {return true;}},
 	    	{src: devPath + "bower_components/OpenLayers-2.13.1/OpenLayers.debug.js", dependencies: function() {return true;}},
 	    	{src: devPath + "proj4_defs.js",dependencies: function() {return (typeof Proj4js !== "undefined");}},
 	    	{src: devPath + "bower_components/es5-shim/es5-shim.min.js", dependencies: function() {return true;}}
