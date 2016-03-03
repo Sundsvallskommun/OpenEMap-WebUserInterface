@@ -34,6 +34,7 @@ Ext.define('OpenEMap.view.layer.Add' ,{
     collapseMode: 'header',
     collapseDirection : 'right',
     titleCollapse: true,
+    displayField: 'title',
 
     viewConfig: {
          plugins: {
@@ -78,7 +79,7 @@ Ext.define('OpenEMap.view.layer.Add' ,{
             {
                 xtype: 'treecolumn',
                 flex: 1,
-                dataIndex: 'text'
+                dataIndex: 'title'
             }
 //            , me.metadataColumn
         ];
@@ -101,39 +102,58 @@ Ext.define('OpenEMap.view.layer.Add' ,{
         
         var root = this.store.setRootNode({});
         
-        var stripName = function(name) {
-            var parts = name.split(':');
-            return parts.length > 1 ? parts[1] : name;
+        var stripName = function(name, title) {
+        	if (title !== '') {
+        		return title;
+        	} else {
+	            var parts = name.split(':');
+	            return parts.length > 1 ? parts[1] : name;
+        	}
         };
         
         wms.capability.layers.sort(function(a, b) {
-            if (stripName(a.name) < stripName(b.name)) {
+            if (stripName(a.name, a.title) < stripName(b.name, b.title)) {
                 return -1;
             }
-            if (stripName(a.name) > stripName(b.name)) {
+            if (stripName(a.name, a.title) > stripName(b.name, b.title)) {
                 return 1;
             }
             return 0;
         });
         
+
+
         var children = wms.capability.layers.map(function(layer) {
+        	var getFormat = function(formats) {
+        		if (formats.length <= 0) {
+        			return 'image/png';
+        		} else if (formats.indexOf('image/png') >= 0) {
+        			return 'image/png';
+        		} else if (formats.indexOf('image/jpg') >= 0) {
+        			return 'image/jpg';
+        		} else {
+        			return formats[0];
+        		}
+        	};
+        	
             var layerConfig = {
-                'text': stripName(layer.name),
+                'text': stripName(layer.name, layer.title),
                 'leaf': true,
                 'checked_': true, // internal checked status
                 'title': layer.title,
-                'name': layer.title,
+                'name': stripName(layer.name, layer.title),
                 'queryable': layer.queryable,
                 'clickable': layer.queryable,
                 'isGroupLayer': false,
                 'visibility': true,
                 'metadataURL': layer.metadataURLs.length > 0 ? layer.metadataURLs[0] : null,
-                'wms':{
-                    'url': OpenEMap.wmsURLs.url,
+                'wms': {
+                    'url': wms.capability.request.getmap ? wms.capability.request.getmap.href ? wms.capability.request.getmap.href : OpenEMap.wmsURLs.url : OpenEMap.wmsURLs.url,
                     'params': {
                         'LAYERS': layer.name,
-                        'FORMAT': 'image/png',
-                        'TRANSPARENT': true
+                        'FORMAT': getFormat(layer.formats),
+                        'TRANSPARENT': true,
+                        'tiled': true
                     },
                     'options': {
                         'isBaseLayer': false,

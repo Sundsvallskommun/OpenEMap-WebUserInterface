@@ -67,6 +67,7 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
                 wfs: typeof node.get('wfs') === 'string' ? {} : node.get('wfs'),
                 layer: includeLayerRef ? node.get('layer') : undefined,
                 metadata: typeof node.get('metadata') === 'string' ? {} : node.get('metadata'),
+                title: node.get('title'),
                 layers: []
             };
             
