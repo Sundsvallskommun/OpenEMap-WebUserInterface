@@ -28,6 +28,8 @@ Ext.define('OpenEMap.view.SearchCoordinate', {
     border: false,
     zoom: 5,
     initComponent : function(config) {
+        var layer = this.mapPanel.searchLayer;
+
         this.items = [ {
             itemId: 'e',
             fieldLabel: 'E',
@@ -45,6 +47,12 @@ Ext.define('OpenEMap.view.SearchCoordinate', {
                 var x = this.down('#e').getValue();
                 var y = this.down('#n').getValue();
                 this.mapPanel.map.setCenter([x, y], this.zoom);
+
+                layer.destroyFeatures();
+                var point = new OpenLayers.Geometry.Point(x, y);
+                feature = new OpenLayers.Feature.Vector(point);
+                layer.addFeatures([feature]);
+
                 this.fireEvent('searchcomplete', [x, y]);
             },
             scope: this
