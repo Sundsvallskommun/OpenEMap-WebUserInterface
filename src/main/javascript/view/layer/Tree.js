@@ -38,6 +38,12 @@ Ext.define('OpenEMap.view.layer.Tree' ,{
             });
         }
 
+        this.on('viewready', function(tree, eOpts) {
+            if(tree.$className === 'OpenEMap.view.layer.Tree' && ! tree.view.hasLoadingHeight) {
+                tree.view.hasLoadingHeight = true;
+            }
+        });
+
         this.on('checkchange', function(node, checked, eOpts) {
             // Loop this node and children
             node.cascadeBy(function(n){
