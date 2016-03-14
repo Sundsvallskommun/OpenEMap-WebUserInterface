@@ -38,6 +38,7 @@ Ext.define('OpenEMap.view.layer.Tree' ,{
             });
         }
 
+        // Bug fix preventing layer selector scrolling to top when checking/unchecking/expanding/collapsing tree nodes
         this.on('viewready', function(tree, eOpts) {
             if(tree.$className === 'OpenEMap.view.layer.Tree' && ! tree.view.hasLoadingHeight) {
                 tree.view.hasLoadingHeight = true;
