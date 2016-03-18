@@ -39,8 +39,15 @@ Ext.define('OpenEMap.view.layer.Tree' ,{
         }
 
         this.on('checkchange', function(node, checked, eOpts) {
+            // If group layer visibility toggling is disabled, do not handle this click
+            if(node.data.isGroupLayer && !node.data.toggleGroupEnabled) {
+                node.set('checked', !checked);
+                return;
+            }
+
             // Loop this node and children
             node.cascadeBy(function(n){
+
                 n.set('checked', checked);
                 var olLayerRef = n.get('layer');
                 // Change layer visibility (Layer groups have no layer reference)
@@ -57,6 +64,7 @@ Ext.define('OpenEMap.view.layer.Tree' ,{
            
            	function checkParent(n, checked) {
 	            var parent = n.parentNode;
+
 	            if (parent.get("checked") != n.get("checked")) {
 		           	if (checked) {
 		           	    // check parent if not root
