@@ -30,6 +30,7 @@ Ext.define('OpenEMap.model.GroupedLayerTreeModel' ,{
     	{ name: 'queryable', type: 'boolean' },
     	{ name: 'clickable', type: 'boolean' },
     	{ name: 'isGroupLayer', type: 'boolean' },
+        { name: 'toggleGroupEnabled', type: 'boolean'},
     	{ name: 'expanded', type: 'boolean' },
 
         { name: 'layerId' },

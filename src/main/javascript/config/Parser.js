@@ -351,6 +351,7 @@ Ext.define('OpenEMap.config.Parser', {
         if(layer.layers && (Object.prototype.toString.call(layer.layers) === '[object Array]') && layer.layers.length > 0) {
             layer.isGroupLayer = true;
             layer.expanded = layer.expanded === undefined ? true : layer.expanded;
+            layer.toggleGroupEnabled = layer.toggleGroupEnabled === undefined ? true : layer.toggleGroupEnabled;
             layer.layers.forEach(arguments.callee, this);
         } else {
             // If no sublayers, this is a leaf

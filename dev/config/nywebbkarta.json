@@ -330,6 +330,7 @@
             "wfs": null,
             "metadataUrl": null,
             "isGroupLayer": true,
+            "toggleGroupEnabled": false,
             "queryable": false,
             "clickable": false,
             "expanded": true,
