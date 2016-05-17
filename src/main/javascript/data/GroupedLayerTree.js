@@ -123,6 +123,7 @@ Ext.define('OpenEMap.data.GroupedLayerTree' ,{
     * @param {Ext.data.Model} appendNode
     */
     onBeforeAppend: function(node, appendNode) {
+        if (!appendNode.get('toggleGroupEnabled') && appendNode.get('isGroupLayer')) appendNode.set('cls', 'disabled-opacity');
         return true;
     },
     
