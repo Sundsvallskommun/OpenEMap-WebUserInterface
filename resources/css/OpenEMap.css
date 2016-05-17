@@ -258,3 +258,7 @@ ul, li {
 	background-color: #ffeeee !important;
 	color: #cccccc !important;
 }
+
+.disabled-opacity div input:nth-of-type(1) {
+  opacity: 0.3;
+}
