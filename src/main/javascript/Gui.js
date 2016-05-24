@@ -1,4 +1,4 @@
-﻿/*    
+﻿/*
     Copyright (C) 2014 Härnösands kommun
 
     This program is free software: you can redistribute it and/or modify
@@ -16,7 +16,7 @@
 */
 /**
  * Initializes GUI from configuration
- * Initialize where to place the different GUI components, and if they should be floating components or not 
+ * Initialize where to place the different GUI components, and if they should be floating components or not
  */
 Ext.define('OpenEMap.Gui', {
     activeAction: null,
@@ -37,6 +37,7 @@ Ext.define('OpenEMap.Gui', {
                'OpenEMap.action.Popup',
                'OpenEMap.action.Print',
                'OpenEMap.action.SelectGeometry',
+               'OpenEMap.action.Altitude',
                'OpenEMap.view.BaseLayers',
                'OpenEMap.view.DetailReportResults',
                'OpenEMap.view.IdentifyResults',
@@ -82,7 +83,7 @@ Ext.define('OpenEMap.Gui', {
         if (this.gui.layerControl === undefined) {this.gui.layerControl = {};}
         if (this.gui.addLayerControl === undefined) {this.gui.addLayerControl = {};}
 //        if (this.gui.rightPanel === undefined) {this.gui.rightPanel = {};}
-        
+
         this.mapPanel = Ext.create('OpenEMap.view.Map', {
             map: this.map,
             extent: this.config.extent,
@@ -101,7 +102,7 @@ Ext.define('OpenEMap.Gui', {
                 scope: this
             }
         });
-                
+
         this.createToolbar();
         this.createZoomToolPanel();
         this.createObjectConfigPanel();
@@ -110,7 +111,7 @@ Ext.define('OpenEMap.Gui', {
         this.createSearchCoordinatePanel();
         this.createLayerControl();
         this.createBaseLayersPanel();
-        
+
         var items = [];
         items.push(this.mapPanel);
         if (this.zoomTools && !this.gui.zoomTools.renderTo) items.push(this.zoomTools);
@@ -123,7 +124,7 @@ Ext.define('OpenEMap.Gui', {
 //        if (this.rightPanel && !this.gui.rightPanel.renderTo) items.push(this.rightPanel);
         if (this.baseLayers && !this.gui.baseLayers.renderTo) items.push(this.baseLayers);
         if (this.toolbar && !this.gui.toolbar.renderTo) items.push(this.toolbar);
-        
+
         // NOTE: Generic ES search as a floating centered field
         /*this.search = Ext.create('OpenEMap.form.Search', {
             mapPanel : this.mapPanel,
@@ -134,7 +135,7 @@ Ext.define('OpenEMap.Gui', {
             }
         });
         items.push(this.search);*/
-        
+
         // create map rendered to a target element or as viewport depending on config
         if (this.gui.map) {
             var element = this.gui.map.renderTo ? Ext.get(this.gui.map.renderTo) : undefined;
@@ -178,16 +179,16 @@ Ext.define('OpenEMap.Gui', {
     },
     onToggle: function(button, pressed) {
         var action = button.baseAction;
-        
+
         if (!this.objectConfig) return;
-        
+
         // NOTE: want the effect of unselecting all and hiding object dialog on detoggle, but that is triggered after toggle... so this will have to do
         if (pressed) {
             this.mapPanel.unselectAll();
             this.objectConfig.hide();
             this.activeAction = action;
         }
-        
+
         action.toggle(pressed);
     },
 	/**
@@ -197,18 +198,18 @@ Ext.define('OpenEMap.Gui', {
     createToolbar: function() {
         var basePath = this.config.basePath;
         var layers = this.config.layers;
-        
+
         var createAction = function(type) {
             var cls;
             if((Ext.isObject(type) && Ext.Object.getSize(type) > 0) || (!Ext.isObject(type) && !Ext.isEmpty(type))) {
                 if (type === this.config.tools[this.config.tools.length-1]) cls = 'oep-tools-last';
-                
+
                 var config = {
                     map: this.map,
                     mapPanel: this.mapPanel,
                     cls: cls
                 };
-                
+
                 if (type.constructor === Object) {
                     Ext.apply(config, type);
                     type = config.type;
@@ -234,7 +235,7 @@ Ext.define('OpenEMap.Gui', {
 						config.showOnlyFirstHit = true;
 	                }
 				}
-				
+
                 var action = Ext.create('OpenEMap.action.' + type, config);
                 if (config.activate && action.control) {
                     this.controlToActivate = action.control;
@@ -244,14 +245,14 @@ Ext.define('OpenEMap.Gui', {
                 return button;
             }
         };
-        
+
         if (!this.config.tools) {
             this.config.tools = [];
         }
-        
+
         // TODO: need to apply cls: 'oep-tools-last' to last item...
         var tbar = this.config.tools.map(createAction, this);
-        
+
         // calc width of toolbar
         var width = 0; // padding
         tbar.forEach(function(item) {
@@ -270,7 +271,7 @@ Ext.define('OpenEMap.Gui', {
             }
         });
         //width += 3; // padding
-                
+
         // create toolbar as floating left panel if no renderTo target is configured
         if (this.gui.toolbar && !this.gui.toolbar.renderTo) {
             this.toolbar = Ext.create('Ext.toolbar.Toolbar', Ext.apply({
@@ -289,13 +290,13 @@ Ext.define('OpenEMap.Gui', {
         }
     },
     /**
-     * Create right panel including 
+     * Create right panel including
      * - Layers panel
      * - SearchParcel panel
      * @private
      */
     createLayerControl: function() {
-        
+
         // default position for layerControl and addLayerControl
         if (!this.gui.layerControl.y) {this.gui.layerControl.y = 20;}
         if (!this.gui.layerControl.right) {this.gui.layerControl.right = 20;}
@@ -308,7 +309,7 @@ Ext.define('OpenEMap.Gui', {
         if (!this.gui.addLayerControl.style) {this.gui.addLayerControl.style = 'right: ' + this.gui.addLayerControl.right + 'px';}
         if (!this.gui.addLayerControl.width) {this.gui.addLayerControl.width = 300;}
         if (!this.gui.addLayerControl.maxHeight) {this.gui.addLayerControl.maxHeight = window.innerHeight-this.gui.addLayerControl.y-56;}
-        
+
         // create right panel containing layers and search panels if no renderTo target is configured
         this.layerControl = Ext.create('Ext.panel.Panel', {
         	renderTo: this.gui.layerControl.renderTo,
@@ -327,7 +328,7 @@ Ext.define('OpenEMap.Gui', {
         });
 
 
-	    
+
         if (this.gui.layers) {
 	        // Checks whether the advanced or basic Layer control should be used
 	        if (this.gui.layers && this.gui.layers.type === 'advanced') {
@@ -361,7 +362,7 @@ Ext.define('OpenEMap.Gui', {
 	                flex: 1,
 		            gui: this
 	            }, this.gui.layers));
-	            
+
 	            // Adds the Add layer control
 				this.addLayerControl = Ext.create('OpenEMap.view.layer.Add', {
 				    mapPanel: this.mapPanel,
@@ -380,7 +381,7 @@ Ext.define('OpenEMap.Gui', {
 		            gui: this
 				});
 
-	        } else if (this.gui.layers && this.gui.layers.type === 'listconfigs') { 
+	        } else if (this.gui.layers && this.gui.layers.type === 'listconfigs') {
 	    		this.on({
 	    			layerControlLoaded: function () {
 					    this.layerControlLoading = false;
@@ -408,7 +409,7 @@ Ext.define('OpenEMap.Gui', {
 	                gui: this
 	            }, this.gui.layers));
 	        }
-	        
+
 	        // If the layers panel not should be rendered to div, add it to the right panels items
 	        if (!this.gui.layers.renderTo) {
 				this.layerControl.add(this.mapLayers);
@@ -429,17 +430,17 @@ Ext.define('OpenEMap.Gui', {
 				this.layerControl.add(this.searchFastighet);
             }
         }
-        
+
         if (this.layerControl.items.getCount() <= 0) {
         	this.layerControl.destroy();
         }
-        
+
 	},
-        
-	/** 
+
+	/**
 	 * Create base layers control
 	 * @private
-	 */ 
+	 */
     createBaseLayersPanel: function() {
         // Create BaseLayers control
         if (!this.map.allOverlays && this.gui.baseLayers) {
@@ -464,8 +465,8 @@ Ext.define('OpenEMap.Gui', {
 
 	/**
 	 * Create ZoomTool panel
-	 * @private 
-	 */	
+	 * @private
+	 */
     createZoomToolPanel: function() {
         // Create ZoomTool control
         if (this.gui.zoomTools) {
@@ -485,10 +486,10 @@ Ext.define('OpenEMap.Gui', {
 
 	/**
 	 * Create search coodinates panel
-	 * @private 
-	 */	
+	 * @private
+	 */
     createSearchCoordinatePanel: function() {
-        // Create SearchCoordinate control                
+        // Create SearchCoordinate control
         // only create if renderTo
         if (this.gui.searchCoordinate && this.gui.searchCoordinate.renderTo) {
             this.searchCoordinate = Ext.create('OpenEMap.view.SearchCoordinate', Ext.apply({
@@ -497,11 +498,11 @@ Ext.define('OpenEMap.Gui', {
         }
     },
 
-	/** 
+	/**
 	 * Create object config window
-	 * always created inside map div 
+	 * always created inside map div
 	 * @private
-	 */ 
+	 */
     createObjectConfigPanel: function() {
         // Create Object config
         if (this.gui.objectConfig) {
@@ -524,15 +525,15 @@ Ext.define('OpenEMap.Gui', {
 
 	/**
 	 * Create show coordinate panel
-	 * @private 
-	 */	
+	 * @private
+	 */
     createShowCoordinatePanel: function() {
-        // Create Show Coordinate control 
-        // only create if renderTo 
+        // Create Show Coordinate control
+        // only create if renderTo
         if (this.gui.showCoordinate && this.gui.showCoordinate.renderTo) {
         	if (!this.cls) {
         		this.cls = 'oep-show-coordinate';
-        	} 
+        	}
         	var cfg = {
                 mapPanel : this.mapPanel,
                 cls : this.cls,
@@ -551,8 +552,8 @@ Ext.define('OpenEMap.Gui', {
 
 	/**
 	 * Create scalebar panel
-	 * @private 
-	 */	
+	 * @private
+	 */
     createScalebarPanel: function() {
         // Create scalebar control
        	// Position defined in CSS - defaults to lower left corner of map

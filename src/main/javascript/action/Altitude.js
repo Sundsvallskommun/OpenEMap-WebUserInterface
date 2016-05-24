@@ -54,8 +54,9 @@ Ext.define('OpenEMap.action.Altitude', {
               var lonlat = map.getLonLatFromPixel(evt.xy);
               var x = lonlat.lon;
               var y = lonlat.lat;
-              console.log(x + " : " + y);
-              coordinates = " x:" + x + " : y:" + y;
+              // console.log(x + " : " + y);
+              var height = getHeightFromLM(x,y)
+              coordinates =  "Höjd: " + height + "<br>E: " + x + " <br>N: " + y;
               var lowerLeftImage = {};
       				var upperRightImage = {};
       				upperRightImage.x = evt.xy.x+config.tolerance;
@@ -86,7 +87,7 @@ Ext.define('OpenEMap.action.Altitude', {
           title: 'Höjd',
           location: feature,
           width:200,
-          html: "X och Y;" + coordinates,
+          html: coordinates,
           maximizable: true,
           collapsible: true,
           listeners : {
@@ -118,3 +119,20 @@ Ext.define('OpenEMap.action.Altitude', {
       this.callParent(arguments);
     }
   });
+
+    function getHeightFromLM(x, y) {
+      var xhttp = new XMLHttpRequest()
+      var height = 0;
+      xhttp.onreadystatechange = function() {
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+          obj = JSON.parse(xhttp.responseText);
+          height = Math.round(obj.geometry.coordinates[2] * 100) / 100;
+        } else {
+          height = "Error: Höjdtjänsten fungerar inte"
+        }
+      };
+      configPath = OpenEMap.basePathLM + 'elevation'
+      xhttp.open("GET", configPath + "/3006/" + x + "/" + y , true);
+      xhttp.send();
+      return height;
+    }
