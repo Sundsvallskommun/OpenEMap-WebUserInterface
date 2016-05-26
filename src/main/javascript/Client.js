@@ -120,11 +120,14 @@ Ext.define('OpenEMap.Client', {
         Ext.tip.QuickTipManager.init();
         
         var parser = Ext.create('OpenEMap.config.Parser');
+        
+        var gui = config.gui || {};
+        Ext.merge(gui, options.gui);
 
         this.map = parser.parse(config);
         this.gui = Ext.create('OpenEMap.Gui', {
             config: config,
-            gui: options.gui,
+            gui: gui,
             map: this.map,
             client: this,
             orginalConfig: this.initialConfig
