@@ -103,9 +103,9 @@ Ext.define('OpenEMap.Gui', {
             }
         });
 
+        this.createObjectConfigPanel();
         this.createToolbar();
         this.createZoomToolPanel();
-        this.createObjectConfigPanel();
         this.createScalebarPanel();
         this.createShowCoordinatePanel();
         this.createSearchCoordinatePanel();
@@ -115,7 +115,7 @@ Ext.define('OpenEMap.Gui', {
         var items = [];
         items.push(this.mapPanel);
         if (this.zoomTools && !this.gui.zoomTools.renderTo) items.push(this.zoomTools);
-        if (this.objectConfig && !this.gui.objectConfig.renderTo) items.push(this.objectConfig);
+        // if (this.objectConfig && !this.gui.objectConfig.renderTo) items.push(this.objectConfig);
         if (this.scalebar && !this.gui.scalebar.renderTo) items.push(this.scalebar);
         if (this.showCoordinate && !this.gui.showCoordinate.renderTo) items.push(this.showCoordinate);
         if (this.searchCoordinate && !this.gui.searchCoordinate.renderTo) items.push(this.searchCoordinate);
