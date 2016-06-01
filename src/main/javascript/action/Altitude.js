@@ -132,7 +132,7 @@ Ext.define('OpenEMap.action.Altitude', {
         }
       };
       configPath = OpenEMap.basePathLM + 'elevation'
-      xhttp.open("GET", configPath + "/3006/" + x + "/" + y , true);
+      xhttp.open("GET", configPath + "/3006/" + x + "/" + y + "?lmuser=" + OpenEMap.lmUser, true);
       xhttp.send();
       return height;
     }
