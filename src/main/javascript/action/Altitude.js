@@ -55,7 +55,7 @@ Ext.define('OpenEMap.action.Altitude', {
               var x = lonlat.lon;
               var y = lonlat.lat;
               // console.log(x + " : " + y);
-              var height = getHeightFromLM(x,y)
+              var height = getHeightFromLM(x,y);
               coordinates =  "Höjd: " + height + "<br>E: " + x + " <br>N: " + y;
               var lowerLeftImage = {};
       				var upperRightImage = {};
@@ -121,17 +121,17 @@ Ext.define('OpenEMap.action.Altitude', {
   });
 
     function getHeightFromLM(x, y) {
-      var xhttp = new XMLHttpRequest()
+      var xhttp = new XMLHttpRequest();
       var height = 0;
       xhttp.onreadystatechange = function() {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
           obj = JSON.parse(xhttp.responseText);
           height = Math.round(obj.geometry.coordinates[2] * 100) / 100;
         } else {
-          height = "Error: Höjdtjänsten fungerar inte"
+          height = "Error: Höjdtjänsten fungerar inte";
         }
       };
-      configPath = OpenEMap.basePathLM + 'elevation'
+      configPath = OpenEMap.basePathLM + 'elevation';
       xhttp.open("GET", configPath + "/3006/" + x + "/" + y + "?lmuser=" + OpenEMap.lmUser, true);
       xhttp.send();
       return height;
