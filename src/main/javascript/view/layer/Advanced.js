@@ -40,6 +40,7 @@ Ext.define('OpenEMap.view.layer.Advanced' ,{
 	listeners: {
 		afterrender: function() {
 	    	this.gui.fireEvent('layerControlLoaded', this);
+	    	this.setHeight(this.getHeight());
 		}
 	},
  	initComponent: function(config) {
