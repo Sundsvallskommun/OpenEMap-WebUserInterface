@@ -25,6 +25,7 @@ Ext.define('OpenEMap.view.layer.Basic' ,{
 	listeners: {
 		afterrender: function() {
 	    	this.gui.fireEvent('layerControlLoaded', this);
+	    	this.setHeight(this.getHeight());
 		}
 	},
     initComponent: function() {
